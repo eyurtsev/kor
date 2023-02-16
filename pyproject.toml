@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "kor"
+version = "0.1.0"
+description = ""
+authors = ["Eugene Yurtsev <eyurtsev@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+openai = "^0.26.5"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^3.6.1"
+
+
+[tool.poetry.group.test.dependencies]
+black = "^23.1.0"
+pylint = "^2.16.2"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
