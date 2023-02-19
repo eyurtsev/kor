@@ -7,9 +7,7 @@ authors = ["Eugene Yurtsev <eyurtsev@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 openai = "^0.26.5"
-
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.2.1"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
