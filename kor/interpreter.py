@@ -1,11 +1,11 @@
+import abc
 import dataclasses
-import os
-from typing import Mapping, Any, Callable, Dict, Sequence, Tuple, Self
-
 import openai
+import os
+from typing import Mapping, Any, Sequence, Tuple, Self
 
-from kor import inputs
-from .inputs import Form, Input, Option
+from kor import elements
+from .elements import AbstractInput, Option
 from .llm_utils import parse_llm_response
 
 
@@ -17,40 +17,19 @@ class Action:
     prompt: str
     parameters: Mapping[str, Any]
 
-    def submit(self):
-        """"""
-        pass
+
+# @dataclasses.dataclass(frozen=True)
+# class FormFillingState:
+#     input: Form
+#     requires_confirmation: bool
+#     parameters: Dict[str, Any]
+#     on_success: Callable
+#     on_cancel: Callable
 
 
 @dataclasses.dataclass(frozen=True)
-class FormFillingState:
-    input: Form
-    requires_confirmation: bool
-    parameters: Dict[str, Any]
-    on_success: Callable
-    on_cancel: Callable
-
-
-@dataclasses.dataclass(frozen=True)
-class Intent:
-    pass
-
-
-@dataclasses.dataclass(frozen=True)
-class Update(Intent):
-    location_id: str
-    information: Mapping[str, Any]
-
-
-@dataclasses.dataclass(frozen=True)
-class GoBack(Intent):
-    pass
-
-
-@dataclasses.dataclass(frozen=True)
-class Message:
-    content: str
-    success: bool
+class Intent(abc.ABC):
+    """Abstract intent type from which all intents should be derived."""
 
 
 @dataclasses.dataclass(frozen=True)
@@ -65,8 +44,9 @@ class NoOpIntent(Intent):
 
 
 @dataclasses.dataclass(frozen=True)
-class Confirm(Intent):
-    pass
+class Message:
+    content: str
+    success: bool
 
 
 @dataclasses.dataclass(frozen=True)
@@ -83,19 +63,21 @@ class State:
 
 @dataclasses.dataclass(frozen=True)
 class InputTree:
-    id_to_input: Mapping[str, Input]
+    id_to_input: Mapping[str, AbstractInput]
 
-    def resolve(self, id: str) -> Input:
+    def resolve(self, id: str) -> AbstractInput:
         """Resolve the input tree."""
         return self.id_to_input[id]
 
 
-def create_input_tree(input: Input) -> InputTree:
+def create_input_tree(input: AbstractInput) -> InputTree:
     """Create an input tree."""
     id_stack = [input]
     id_to_input = {}
-    if not isinstance(input, (inputs.Option, inputs.Selection, inputs.Form)):
-        raise AssertionError("not supported")
+
+    if not isinstance(input, (elements.Option, elements.Selection, elements.Form)):
+        raise AssertionError(f"Type {type(input)} is not supported.")
+
     while id_stack:
         input = id_stack.pop(0)
         id_to_input.update({input.id: input})
@@ -110,24 +92,26 @@ def create_input_tree(input: Input) -> InputTree:
 
 
 class Automaton:
-    def __init__(self, input: Input) -> None:
+    def __init__(self, input: AbstractInput) -> None:
         self.input_tree = create_input_tree(input)
         self.state = State(location_id=input.id, information={})
         self.past_states = []
 
-    def current_element(self) -> Input:
+    def current_element(self) -> AbstractInput:
+        """Get the state associated with the current element."""
         return self.input_tree.resolve(self.state.location_id)
 
     @property
     def allowed_transitions(self):
         """Get information about the allowed options from given state."""
         current_element = self.input_tree.resolve(self.state.location_id)
-        if isinstance(current_element, inputs.Selection):
+        if isinstance(current_element, elements.Selection):
             return current_element.allowed_transitions()
         else:
             return []
 
     def update(self, intent: Intent) -> Tuple[State, Message]:
+        """Update the state based on the intent."""
         if isinstance(intent, UpdateIntent):
             new_state = self.state.update(intent.information)
             self.past_states.append(self.state)
@@ -155,7 +139,7 @@ class Interpreter:
         current_state = self.automaton.state
         element = self.automaton.input_tree.resolve(current_state.location_id)
         # We need something to compare required/option vs. known information
-        if isinstance(element, inputs.Selection):
+        if isinstance(element, elements.Selection):
             valid_options = ", ".join(sorted(element.allowed_transitions()))
 
             input_summary = (
@@ -163,7 +147,7 @@ class Interpreter:
                 f"Description: {element.description}\n"
                 f"Valid options: {valid_options}\n"
             )
-        elif isinstance(element, inputs.Form):
+        elif isinstance(element, elements.Form):
             input_summary = "You  are editing a form. TODO(EUGENE): Add stuff"
         else:
             raise AssertionError()
@@ -174,7 +158,7 @@ class Interpreter:
         """Interact with a user."""
         current_state = self.automaton.state
         element = self.automaton.current_element()
-        prompt = inputs.generate_prompt_for_input(user_input, element)
+        prompt = elements.generate_prompt_for_input(user_input, element)
         allowed_transitions = self.automaton.allowed_transitions
         selected_option = self.llm.call(prompt, allowed_transitions)
 
@@ -191,9 +175,10 @@ class Interpreter:
 
 class LLM:
     def __init__(self) -> None:
+        """Initialize the LLM model."""
         openai.api_key = os.environ["OPENAI_API_KEY"]
 
-    def call(self, prompt: str, allowed_options: Sequence[str]) -> str | None:
+    def call(self, prompt: str, allowed_options: Sequence[str]) -> dict[str, str]:
         """Invoke the LLM with the given prompt."""
         print("here is the prompt: ")
         print(prompt)
@@ -209,11 +194,12 @@ class LLM:
         )
         print(response)
         text = response["choices"][0]["text"]
-        choice = parse_llm_response(text, allowed_options=allowed_options)
-        return choice
+        parsed_information = parse_llm_response(text)
+        return parsed_information
 
 
-def run_interpreter(element: Input):
+def run_interpreter(element: AbstractInput) -> None:
+    """Run the interpreter."""
     automaton = Automaton(element)
     interpreter = Interpreter(automaton)
     message = interpreter.generate_state_message()
@@ -228,8 +214,8 @@ def run_interpreter(element: Input):
         print(message.content)
 
 
-if __name__ == "__main__":
-    selection = inputs.Selection(
+def get_test_form() -> elements.Form:
+    selection = elements.Selection(
         id="do",
         description="select what you want to do",
         options=[
@@ -252,7 +238,7 @@ if __name__ == "__main__":
         examples=[],
     )
 
-    selection2 = inputs.Selection(
+    selection2 = elements.Selection(
         id="watch",
         description="select which movie you want to watch",
         options=[
@@ -275,7 +261,7 @@ if __name__ == "__main__":
         examples=[],
     )
 
-    selection3 = inputs.Selection(
+    selection3 = elements.Selection(
         id="sex",
         description="what's your sex",
         options=[
@@ -297,10 +283,19 @@ if __name__ == "__main__":
         ],
         examples=[],
     )
-    form = inputs.Form(
+    form = elements.Form(
         id="stuff",
         description="form to specify what to do and what to watch",
         elements=[selection, selection2, selection3],
         examples=[],
     )
+    return form
+
+
+def main() -> None:
+    form = get_test_form()
     run_interpreter(form)
+
+
+if __name__ == "__main__":
+    main()

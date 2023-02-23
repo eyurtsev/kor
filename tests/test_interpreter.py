@@ -1,13 +1,6 @@
-from kor.interpreter import Interpreter, create_input_tree
-from kor.inputs import Selection, compile_option_examples, Option
-from kor import inputs
-
-
-# def test_interpreter():
-#     state = Selection(id="selection", description="hello", options=[])
-#     interpreter = Interpreter(state=state)
-#     # interpreter.interact()
-
+from kor.elements import Selection, compile_option_examples, Option
+from kor import elements
+from kor.interpreter import create_input_tree
 
 SAMPLE_SELECTION = Selection(
     id="select-1",
@@ -35,7 +28,7 @@ def test_compile_option_example():
 
 
 def test_generate_prompt_for_selection():
-    prompt = inputs._generate_prompt_for_selection("user input", SAMPLE_SELECTION)
+    prompt = elements._generate_prompt_for_selection("user input", SAMPLE_SELECTION)
     assert prompt.startswith("You are interacting")
     assert "1" in prompt
     assert "Input: user input\n" in prompt
@@ -49,6 +42,6 @@ def test_create_input_tree_for_option():
 
 
 def test_generate_prompt_for_form():
-    form = inputs.Form(id="form", description="Form", examples=[], elements=[])
-    prompt = inputs._generate_prompt_for_form("hello", form)
+    form = elements.Form(id="form", description="Form", examples=[], elements=[])
+    prompt = elements._generate_prompt_for_form("hello", form)
     assert isinstance(prompt, str)

@@ -1,4 +1,4 @@
-from kor.inputs import TextInput
+from kor.elements import TextInput
 
 
 def test_text_input_instantiation():

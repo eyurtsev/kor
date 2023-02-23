@@ -1,13 +1,35 @@
 """Parse LLM Response."""
 
-from typing import Sequence
+from html.parser import HTMLParser
 
 
-def parse_llm_response(response: str, allowed_options: Sequence[str]) -> str | None:
+class LLMTagParser(HTMLParser):
+    def __init__(self) -> None:
+        """A heavy-handed solution, but it's fast for prototyping."""
+        super().__init__()
+        self.current_tag = None
+        self.data = {}
+        self.success = True
+
+    def handle_starttag(self, tag, attrs):
+        self.current_tag = tag
+
+    def handle_endtag(self, tag):
+        self.current_tag = None
+
+    def handle_data(self, data):
+        # The only data that's allowed is whitespace or a comma surrounded by whitespace
+        if self.current_tag is None:
+            if data.strip() not in (",", ""):
+                self.success = False
+        else:
+            self.data[self.current_tag] = data
+
+
+def parse_llm_response(response: str) -> dict[str, str]:
     """Parse llm response."""
-    no_whitespace = response.strip()
-    if no_whitespace.startswith("<") and no_whitespace.endswith(">"):
-        option = no_whitespace[1:-1]
-        if option in allowed_options:
-            return option
-    return None
+    tag_parser = LLMTagParser()
+    tag_parser.feed(response)
+    if not tag_parser.success:
+        return {}
+    return tag_parser.data

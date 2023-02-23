@@ -1,16 +1,17 @@
-"""Use to store Input elements."""
+"""Definitions of input elements."""
 import dataclasses
+import abc
 from typing import Sequence
 
 
 @dataclasses.dataclass(frozen=True)
-class Input:
+class AbstractInput(abc.ABC):
     id: str  # Unique ID
     examples: Sequence[str]
 
 
 @dataclasses.dataclass(frozen=True)
-class DateInput(Input):
+class DateInput(AbstractInput):
     description: str
     format: str
 
@@ -29,13 +30,13 @@ class AutocompleteInput:
 
 
 @dataclasses.dataclass(frozen=True)
-class Option(Input):
+class Option(AbstractInput):
     examples: Sequence[str]
     description: str
 
 
 @dataclasses.dataclass(frozen=True)
-class Selection(Input):
+class Selection(AbstractInput):
     description: str
     options: Sequence[Option]
 
@@ -44,7 +45,7 @@ class Selection(Input):
 
 
 @dataclasses.dataclass(frozen=True)
-class Form(Input):
+class Form(AbstractInput):
     description: str
     elements: Sequence[Selection]
 
@@ -144,7 +145,7 @@ def _generate_prompt_for_form(user_input: str, form: Form) -> str:
     )
 
 
-def generate_prompt_for_input(user_input: str, element: Input):
+def generate_prompt_for_input(user_input: str, element: AbstractInput):
     if isinstance(element, Form):
         return _generate_prompt_for_form(user_input, element)
     elif isinstance(element, Selection):
