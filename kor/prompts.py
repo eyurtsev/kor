@@ -45,3 +45,8 @@ want to update a given piece of information or add more missing information.
 
 Input: {input}
 """
+
+
+prompt_for_a_selection = """
+You are an AI assistant and are helping a user to fill out a form. The form requires user to select one option about what they'd like to do next. It has 3 options: eat, drink or sleep. Please present this information to the user politely and ask them what they would like to do.
+"""
