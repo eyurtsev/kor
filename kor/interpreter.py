@@ -2,8 +2,9 @@ import abc
 import dataclasses
 import openai
 import os
-from typing import Mapping, Any, Sequence, Tuple, Self
+from typing import Mapping, Any, Tuple, Self
 
+import kor.prompts
 from kor import elements
 from .elements import AbstractInput, Option
 from .llm_utils import parse_llm_response
@@ -106,7 +107,7 @@ class Automaton:
         """Get information about the allowed options from given state."""
         current_element = self.input_tree.resolve(self.state.location_id)
         if isinstance(current_element, elements.Selection):
-            return current_element.allowed_transitions()
+            return current_element.option_ids()
         else:
             return []
 
@@ -140,7 +141,7 @@ class Interpreter:
         element = self.automaton.input_tree.resolve(current_state.location_id)
         # We need something to compare required/option vs. known information
         if isinstance(element, elements.Selection):
-            valid_options = ", ".join(sorted(element.allowed_transitions()))
+            valid_options = ", ".join(sorted(element.option_ids()))
 
             input_summary = (
                 f"You're currently updating element with ID: {element.id}.\n"
@@ -158,14 +159,14 @@ class Interpreter:
         """Interact with a user."""
         current_state = self.automaton.state
         element = self.automaton.current_element()
-        prompt = elements.generate_prompt_for_input(user_input, element)
-        allowed_transitions = self.automaton.allowed_transitions
-        selected_option = self.llm.call(prompt, allowed_transitions)
+        prompt = kor.prompts.generate_prompt_for_input(user_input, element)
+        # allowed_transitions = self.automaton.allowed_transitions
+        parsed_data = self.llm.call(prompt)
 
-        if selected_option:
+        if parsed_data:
             intent = UpdateIntent(
                 current_state.location_id,
-                information={current_state.location_id: selected_option},
+                information={current_state.location_id: parsed_data},
             )
         else:
             intent = NoOpIntent()
@@ -178,7 +179,7 @@ class LLM:
         """Initialize the LLM model."""
         openai.api_key = os.environ["OPENAI_API_KEY"]
 
-    def call(self, prompt: str, allowed_options: Sequence[str]) -> dict[str, str]:
+    def call(self, prompt: str) -> dict[str, str]:
         """Invoke the LLM with the given prompt."""
         print("here is the prompt: ")
         print(prompt)
@@ -215,6 +216,7 @@ def run_interpreter(element: AbstractInput) -> None:
 
 
 def get_test_form() -> elements.Form:
+    """Get a test form."""
     selection = elements.Selection(
         id="do",
         description="select what you want to do",
@@ -283,17 +285,144 @@ def get_test_form() -> elements.Form:
         ],
         examples=[],
     )
+    movie_date = elements.DateInput(
+        id="watch-when",
+        description="When do you want to watch the movie",
+        examples=[
+            ("I want to watch the movie on 2022-01-03", "2022-01-03"),
+            ("I want to watch a movie after dinner", "after dinner"),
+        ],
+    )
+
+    dentist_date = elements.DateInput(
+        id="dentist-when",
+        description="When will you go to the dentist",
+        examples=[
+            ("I am going to the dentist on 2022-01-03", "2022-01-03"),
+            ("I am going to the dentist after dinner", "after dinner"),
+        ],
+    )
+
+    nationality_input = elements.TextInput(
+        id="nationality",
+        description="What is your nationality. Please only use standard nationalities.",
+        examples=[
+            ("I am an american", "American"),
+            ("je suis french", "French"),
+        ],
+    )
+
     form = elements.Form(
-        id="stuff",
+        id="input-form",
         description="form to specify what to do and what to watch",
-        elements=[selection, selection2, selection3],
+        elements=[
+            selection,
+            selection2,
+            selection3,
+            movie_date,
+            dentist_date,
+            nationality_input,
+        ],
+        examples=[],
+    )
+    return form
+
+
+def get_test_form_2():
+    company_name = elements.TextInput(
+        id="company-name",
+        description="what is the name of the company you want to find",
+        examples=[
+            ("Apple inc", "Apple inc"),
+            ("largest 10 banks in the world", ""),
+            ("microsoft and apple", "microsoft,apple"),
+        ],
+    )
+    selection_block = elements.Selection(
+        multiple=True,
+        id="do",
+        description="select what you want to do",
+        options=[
+            Option(
+                id="eat",
+                description="Specify that you want to eat",
+                examples=["I'm hungry", "I want to eat"],
+            ),
+            Option(
+                id="drink",
+                description="Specify that you want to drink",
+                examples=["I'm thirsty", "I want to drink"],
+            ),
+            Option(
+                id="sleep",
+                description="Specify that you want to sleep",
+                examples=["I'm tired", "I want to go to bed"],
+            ),
+        ],
+        examples=[],
+    )
+    industry_name = elements.TextInput(
+        id="industry-name",
+        description="what is the name of the company's industry",
+        examples=[
+            ("companies in the steel manufacturing industry", "steel manufacturing"),
+            ("large banks", "banking"),
+            ("military companies", "defense"),
+            ("chinese companies", ""),
+        ],
+    )
+
+    geography_name = elements.TextInput(
+        id="geography-name",
+        description="where is the company based? Please use a single country name.",
+        examples=[
+            ("chinese companies", "china"),
+            ("companies based in france", "france"),
+            ("france, italy", ""),
+        ],
+    )
+
+    foundation_date = elements.DateInput(
+        id="foundation-date",
+        description="Foundation date of the company",
+        examples=[("companies founded in 2023", "2023")],
+    )
+
+    revenue = elements.Number(
+        id="revenue",
+        description="What is the revenue of the company?",  # Might want to model the currency
+        examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
+    )
+
+    sales_geography = elements.TextInput(
+        id="geography-sales",
+        description="where is the company doing sales? Please use a single country name.",
+        examples=[
+            ("companies with sales in france", "france"),
+            ("companies that sell their products in germany", "germany"),
+            ("france, italy", ""),
+        ],
+    )
+
+    form = elements.Form(
+        id="search-for-companies",
+        description="Search for companies matching the following criteria.",
+        elements=[
+            company_name,
+            selection_block,
+            geography_name,
+            foundation_date,
+            industry_name,
+            revenue,
+            sales_geography,
+        ],
         examples=[],
     )
     return form
 
 
 def main() -> None:
-    form = get_test_form()
+    form = get_test_form_2()
     run_interpreter(form)
 
 
