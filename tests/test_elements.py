@@ -20,4 +20,4 @@ def test_can_instantiate_with_valid_id() -> None:
 
 def test_extraction_input_cannot_be_instantiated() -> None:
     """ExtractionInput is abstract and should not be instantiated."""
-    elements.ExtractionInput(id="hell", description="description", examples=[])
+    elements.ExtractionInput(id="help", description="description", examples=[])

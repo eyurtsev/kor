@@ -7,7 +7,7 @@ from typing import Mapping, Any, Tuple, Self
 import kor.prompts
 from kor import elements
 from .elements import AbstractInput, Option
-from .llm_utils import parse_llm_response
+from .llm_utils import parse_llm_output
 
 
 # @dataclasses.dataclass(frozen=True)
@@ -195,7 +195,7 @@ class LLM:
         )
         print(response)
         text = response["choices"][0]["text"]
-        parsed_information = parse_llm_response(text)
+        parsed_information = parse_llm_output(text)
         return parsed_information
 
 
