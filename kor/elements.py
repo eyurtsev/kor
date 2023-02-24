@@ -9,7 +9,7 @@ class AbstractInput(abc.ABC):
     """Abstract input element.
 
     Each input is expected to have a unique ID, and should
-    use alpha numeric characters and not start with a number.
+    use alphanumeric characters and not start with a number.
 
     The ID should be unique across all inputs that belong
     to a given form.
@@ -41,51 +41,73 @@ class AbstractInput(abc.ABC):
 class ExtractionInput(AbstractInput, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
-    Examples are a sequence of 2-tuples.
+    An extraction input can be associated with 2 different types of examples:
 
-    Each 2-tuple is of the format (example text, desired extracted output).
+    1) extraction examples (called simply `examples`)
+    2) null examples (called `null_examples`)
 
-    For example, if one created a numeric class
+    ## Extraction examples
+
+    A standard extraction example is a 2-tuple composed of a text segment and the expected
+    extraction.
+
+    For example:
+        [
+            ("I bought this cookie for $10", "$10"),
+            ("Eggs cost twelve dollars", "twelve dollars"),
+        ]
+
+    ## Null examples
+
+    Null examples are segments of text for which nothing should be extracted.
+    Good null examples will likely be challenging, adversarial examples.
+
+    For example:
+        for an extraction input about company names nothing should be extracted
+        from the text: "I eat an apple every day.".
     """
 
     examples: Sequence[Tuple[str, str]]
+    null_examples: Sequence[str] | None = None
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class DateInput(ExtractionInput):
-    pass
+    """Built-in date input."""
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class Number(ExtractionInput):
-    pass
+    """Built-in number input."""
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class NumericRange(ExtractionInput):
-    pass
+    """Built-in numeric range input."""
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class TextInput(ExtractionInput):
-    pass
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class AutocompleteInput(AbstractInput):
-    pass
+    """Built-in text input."""
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class Option(AbstractInput):
+    """Built-in option input must be part of a selection input."""
+
     examples: Sequence[str]
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class Selection(AbstractInput):
+    """Built-in selection input.
+
+    A selection input is composed of one or more options.
+    """
+
     options: Sequence[Option]
     examples: Sequence[str]
-    # If true, allows for multiple options to be selected.
+    # If multiple=true, selection input allows for multiple options to be selected.
     multiple: bool = False
 
     def option_ids(self) -> Sequence[str]:

@@ -1,6 +1,6 @@
 import pytest
 
-from kor.llm_utils import parse_llm_response
+from kor.llm_utils import parse_llm_output
 
 
 @pytest.mark.parametrize(
@@ -15,4 +15,4 @@ from kor.llm_utils import parse_llm_response
 )
 def test_parse_llm_response(test_input, output):
     """Parse LLM response."""
-    assert parse_llm_response(test_input) == output
+    assert parse_llm_output(test_input) == output

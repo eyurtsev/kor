@@ -1,24 +1,43 @@
 """Parse LLM Response."""
 
 from collections import defaultdict
+
 from html.parser import HTMLParser
+from typing import Any
 
 
-class LLMTagParser(HTMLParser):
+class TagParser(HTMLParser):
     def __init__(self) -> None:
-        """A heavy-handed solution, but it's fast for prototyping."""
+        """A heavy-handed solution, but it's fast for prototyping.
+
+        Might be re-implemented later to restrict scope to the limited grammar.
+
+        Uses an HTML parser to parse a limited grammar that allows for syntax of the form:
+
+            INPUT -> JUNK? VALUE*
+            JUNK -> JUNK_CHARACTER+
+            JUNK_CHARACTER -> whitespace | ,
+            VALUE -> <IDENTIFIER>DATA</IDENTIFIER>
+            IDENTIFIER -> [a-Z][a-Z0-9_]*
+            DATA -> .*
+
+        ^ Just another approximately wrong grammar specification.
+        """
         super().__init__()
         self.current_tag = None
         self.data = defaultdict(list)
         self.success = True
 
-    def handle_starttag(self, tag, attrs):
+    def handle_starttag(self, tag: str, attrs: Any) -> None:
+        """Hook when a new tag is encountered."""
         self.current_tag = tag
 
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag: str) -> None:
+        """Hook when a tag is closed."""
         self.current_tag = None
 
-    def handle_data(self, data):
+    def handle_data(self, data: str) -> None:
+        """Hook when handling data."""
         # The only data that's allowed is whitespace or a comma surrounded by whitespace
         if self.current_tag is None:
             if data.strip() not in (",", ""):
@@ -30,7 +49,7 @@ class LLMTagParser(HTMLParser):
 # PUBLIC API
 
 
-def parse_llm_response(llm_output: str) -> dict[str, list[str]]:
+def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     """Parse a response from an LLM.
 
     The format of the response is to enclose the input id in angle brackets and
@@ -55,7 +74,7 @@ def parse_llm_response(llm_output: str) -> dict[str, list[str]]:
         "width": "3",
     }
     """
-    tag_parser = LLMTagParser()
+    tag_parser = TagParser()
     tag_parser.feed(llm_output)
     if not tag_parser.success:
         return {}
