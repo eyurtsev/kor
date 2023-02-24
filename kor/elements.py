@@ -4,8 +4,19 @@ import dataclasses
 from typing import Sequence, Tuple
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class AbstractInput(abc.ABC):
+    """Abstract element Input.
+
+    Each input is expected to have a unique ID, and should
+    use alpha numeric characters and not start with a number.
+
+    The ID should be unique across all inputs that belong
+    to a given form.
+
+    The description should describe what the input is about.
+    """
+
     id: str  # Unique ID
     description: str
 

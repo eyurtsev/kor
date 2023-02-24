@@ -1,8 +1,9 @@
 import abc
 import dataclasses
-import openai
 import os
 from typing import Mapping, Any, Tuple, Self
+
+import openai
 
 import kor.prompts
 from kor import elements
@@ -179,7 +180,7 @@ class LLM:
         """Initialize the LLM model."""
         openai.api_key = os.environ["OPENAI_API_KEY"]
 
-    def call(self, prompt: str) -> dict[str, str]:
+    def call(self, prompt: str) -> dict[str, list[str]]:
         """Invoke the LLM with the given prompt."""
         print("here is the prompt: ")
         print(prompt)
@@ -394,6 +395,16 @@ def get_test_form_2():
         examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
     )
 
+    employee_range = elements.NumericRange(
+        id="employees",
+        description="The number of employees reported potentially as a range. May include either a max, a min or both.",
+        examples=[
+            ("At least 100 employees", "(100, *)"),
+            ("Less than twelve employees", "(*, 12)"),
+            ("Fifty to sixty employees", "(50, 60)"),
+        ],
+    )
+
     sales_geography = elements.TextInput(
         id="geography-sales",
         description="where is the company doing sales? Please use a single country name.",
@@ -415,6 +426,7 @@ def get_test_form_2():
             industry_name,
             revenue,
             sales_geography,
+            employee_range,
         ],
         examples=[],
     )

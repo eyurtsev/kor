@@ -7,6 +7,7 @@ from kor.elements import (
     Form,
     DateInput,
     Number,
+    NumericRange,
     TextInput,
     AbstractInput,
 )
@@ -73,7 +74,6 @@ def _generate_prompt_for_form(user_input: str, form: Form) -> str:
             elements_info.append(
                 f"* <{element.id}>: {formatted_type} # {element.description}"
             )
-            individual_examples.append(_compile_selection_examples(element))
         elif isinstance(element, DateInput):
             elements_info.append(f"* <{element.id}>: Date # {element.description}")
 
@@ -81,8 +81,14 @@ def _generate_prompt_for_form(user_input: str, form: Form) -> str:
                 f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
                 for text, extraction in element.examples
             )
-
-            individual_examples.append(example)
+        elif isinstance(element, NumericRange):
+            elements_info.append(
+                f"* <{element.id}>: Numeric Range # {element.description}"
+            )
+            example = "\n".join(
+                f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
+                for text, extraction in element.examples
+            )
         elif isinstance(element, Number):
             elements_info.append(f"* <{element.id}>: Number # {element.description}")
 
@@ -91,8 +97,6 @@ def _generate_prompt_for_form(user_input: str, form: Form) -> str:
                 for text, extraction in element.examples
             )
 
-            individual_examples.append(example)
-
         elif isinstance(element, TextInput):
             elements_info.append(f"* <{element.id}>: Text # {element.description}")
 
@@ -100,10 +104,10 @@ def _generate_prompt_for_form(user_input: str, form: Form) -> str:
                 f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
                 for text, extraction in element.examples
             )
-
-            individual_examples.append(example)
         else:
             raise NotImplemented()
+
+    individual_examples.append(example)
 
     elements_info = "\n".join(elements_info)
     examples_block = "\n".join(individual_examples).strip()
