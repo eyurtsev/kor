@@ -1,9 +1,8 @@
 import abc
 import dataclasses
+import openai
 import os
 from typing import Mapping, Any, Tuple, Self
-
-import openai
 
 import kor.prompts
 from kor import elements
@@ -11,16 +10,16 @@ from .elements import AbstractInput, Option
 from .llm_utils import parse_llm_response
 
 
-@dataclasses.dataclass(frozen=True)
-class Action:
-    """Intended action."""
-
-    name: str
-    prompt: str
-    parameters: Mapping[str, Any]
-
-
 # @dataclasses.dataclass(frozen=True)
+# hooks for state transitions / input interpretation
+# @dataclasses.dataclass(frozen=True)
+# class Action:
+#     """Intended action."""
+#
+#     name: str
+#     prompt: str
+#     parameters: Mapping[str, Any]
+#
 # class FormFillingState:
 #     input: Form
 #     requires_confirmation: bool
