@@ -18,5 +18,6 @@ def test_can_instantiate_with_valid_id() -> None:
     ToyInput(id="good_id", description="Toy")
 
 
-def test_text_input_instantiation():
-    text_input = TextInput(id="input", description="text", examples=[])
+def test_extraction_input_cannot_be_instantiated() -> None:
+    """ExtractionInput is abstract and should not be instantiated."""
+    elements.ExtractionInput(id="hell", description="description", examples=[])

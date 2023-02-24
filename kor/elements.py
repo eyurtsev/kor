@@ -23,12 +23,19 @@ class AbstractInput(abc.ABC):
     def __post_init__(self) -> None:
         """Post initialization hook."""
         if not self.id.isidentifier():
-            raise ValueError(f"{id} is not a valid identifier.")
+            raise ValueError(f"`{self.id}` is not a valid identifier.")
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class ExtractionInput(AbstractInput):
-    """A"""
+class ExtractionInput(AbstractInput, abc.ABC):
+    """An abstract definition for inputs that involve extraction.
+
+    Examples are a sequence of 2-tuples.
+
+    Each 2-tuple is of the format (example text, desired extracted output).
+
+    For example, if one created a numeric class
+    """
 
     examples: Sequence[Tuple[str, str]]
 

@@ -5,17 +5,17 @@ from kor import elements
 from kor.interpreter import create_input_tree
 
 SAMPLE_SELECTION = Selection(
-    id="select-1",
+    id="select",
     description="select something",
     examples=[],
     options=[
         Option(
-            id="1",
+            id="o1",
             description="first",
             examples=["one", "i prefer the first option"],
         ),
         Option(
-            id="2",
+            id="o2",
             description="second",
             examples=["the second option"],
         ),
