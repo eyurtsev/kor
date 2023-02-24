@@ -19,6 +19,17 @@ class AbstractInput(abc.ABC):
 
     id: str  # Unique ID
     description: str
+    required: bool = False
+
+    @property
+    def input_full_description(self) -> str:
+        """A full description for the input."""
+        return f"<{self.id}>: {self.type_name} # {self.description}"
+
+    @property
+    def type_name(self) -> str:
+        """Default implementation of a type name is just the class name."""
+        return self.__class__.__name__
 
     def __post_init__(self) -> None:
         """Post initialization hook."""
@@ -80,6 +91,15 @@ class Selection(AbstractInput):
     def option_ids(self) -> Sequence[str]:
         """Get a list of the option ids."""
         return [option.id for option in self.options]
+
+    def type_name(self) -> str:
+        """Over-ride type name to provide special behavior."""
+        option_ids = sorted(option.id for option in self.options)
+        if self.multiple:
+            formatted_type = f"Multiple Select[{option_ids}]"
+        else:
+            formatted_type = f"Select[{option_ids}]"
+        return formatted_type
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
