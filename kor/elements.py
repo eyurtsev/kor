@@ -6,7 +6,7 @@ from typing import Sequence, Tuple
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class AbstractInput(abc.ABC):
-    """Abstract element Input.
+    """Abstract input element.
 
     Each input is expected to have a unique ID, and should
     use alpha numeric characters and not start with a number.
@@ -20,43 +20,50 @@ class AbstractInput(abc.ABC):
     id: str  # Unique ID
     description: str
 
+    def __post_init__(self) -> None:
+        """Post initialization hook."""
+        if not self.id.isidentifier():
+            raise ValueError(f"{id} is not a valid identifier.")
 
-@dataclasses.dataclass(frozen=True)
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class ExtractionInput(AbstractInput):
+    """A"""
+
     examples: Sequence[Tuple[str, str]]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class DateInput(ExtractionInput):
     pass
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class Number(ExtractionInput):
     pass
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class NumericRange(ExtractionInput):
     pass
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class TextInput(ExtractionInput):
     pass
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class AutocompleteInput(AbstractInput):
     pass
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class Option(AbstractInput):
     examples: Sequence[str]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class Selection(AbstractInput):
     options: Sequence[Option]
     examples: Sequence[str]
@@ -68,7 +75,12 @@ class Selection(AbstractInput):
         return [option.id for option in self.options]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class Form(AbstractInput):
+    """A form encapsulated a collection of inputs.
+
+    The form should have a good description of the context in which the data is collected.
+    """
+
     elements: Sequence[AbstractInput]
     examples: Sequence[str]
