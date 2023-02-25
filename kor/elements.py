@@ -96,6 +96,25 @@ class ExtractionInput(AbstractInput, abc.ABC):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
+class ComplexExtraction(AbstractInput, abc.ABC):
+    """An abstract definition for an input that involves capturing a complex object."""
+
+    @property
+    def llm_examples(self) -> list[tuple[str, str]]:
+        """List of 2-tuples of input, output.
+
+        Does not include the `Input: ` or `Output: ` prefix
+        """
+        formatted_examples = []
+        for text, extraction in self.examples:
+            formatted_examples.append((text, _write_tag(self.id, extraction)))
+
+        for null_example in self.null_examples:
+            formatted_examples.append((null_example, f""))
+        return formatted_examples
+
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class DateInput(ExtractionInput):
     """Built-in date input."""
 
