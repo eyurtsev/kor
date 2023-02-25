@@ -1,9 +1,8 @@
 """Definitions of input elements."""
 import abc
 import dataclasses
-from typing import Sequence
-
 import re
+from typing import Sequence
 
 VALID_IDENTIFIER_PATTERN = re.compile(r"\w+")
 

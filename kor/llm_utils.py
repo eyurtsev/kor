@@ -1,7 +1,8 @@
 """Parse LLM Response."""
-
+import os
 from collections import defaultdict
 
+import openai
 from html.parser import HTMLParser
 from typing import Any
 
@@ -79,3 +80,31 @@ def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     if not tag_parser.success:
         return {}
     return dict(tag_parser.data)
+
+
+class LLM:
+    def __init__(self, verbose: bool = False) -> None:
+        """Initialize the LLM model."""
+        openai.api_key = os.environ["OPENAI_API_KEY"]
+        self.verbose = verbose
+
+    def __call__(self, prompt: str) -> str:
+        """Invoke the LLM with the given prompt."""
+        if self.verbose:
+            print("-" * 80)
+            print("Prompt: ")
+            print(prompt)
+            print("-" * 80)
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=0,
+            max_tokens=100,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+        print("Model response: ")
+        print(response)
+        text = response["choices"][0]["text"]
+        return text
