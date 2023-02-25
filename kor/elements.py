@@ -12,6 +12,17 @@ def _write_tag(tag_name: str, data: str) -> str:
     return f"<{tag_name}>{data}</{tag_name}>"
 
 
+def _write_complex_tag(tag_name: str, data: dict[str, str]) -> str:
+    """Write a complex tag."""
+    s_data = "".join(
+        [
+            _write_tag(key, value)
+            for key, value in sorted(data.items(), key=lambda item: item[0])
+        ]
+    )
+    return _write_tag(tag_name, s_data)
+
+
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class AbstractInput(abc.ABC):
     """Abstract input element.
@@ -96,8 +107,13 @@ class ExtractionInput(AbstractInput, abc.ABC):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class ComplexExtraction(AbstractInput, abc.ABC):
-    """An abstract definition for an input that involves capturing a complex object."""
+class ObjectInput(AbstractInput, abc.ABC):
+    """An abstract definition for an input that involves capturing a complex object.
+
+    TODO(Eugene): Maybe this should also be a form?
+    """
+
+    examples: Sequence[tuple[str, dict[str, str]]]
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
@@ -107,10 +123,8 @@ class ComplexExtraction(AbstractInput, abc.ABC):
         """
         formatted_examples = []
         for text, extraction in self.examples:
-            formatted_examples.append((text, _write_tag(self.id, extraction)))
+            formatted_examples.append((text, _write_complex_tag(self.id, extraction)))
 
-        for null_example in self.null_examples:
-            formatted_examples.append((null_example, f""))
         return formatted_examples
 
 
@@ -183,7 +197,7 @@ class Selection(AbstractInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class Form(AbstractInput):
+class Form(AbstractInput):  # Maybe this should be an ObjectInput to support recursion?
     """A form encapsulated a collection of inputs.
 
     The form should have a good description of the context in which the data is collected.

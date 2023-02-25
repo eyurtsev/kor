@@ -182,18 +182,18 @@ def get_test_form_2():
         examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
     )
 
-    employee_range = elements.NumericRange(
-        id="employees",
-        description=(
-            "The number of employees reported potentially as a range. May include"
-            " either a max, a min or both."
-        ),
-        examples=[
-            ("At least 100 employees", "(100, *)"),
-            ("Less than twelve employees", "(*, 12)"),
-            ("Fifty to sixty employees", "(50, 60)"),
-        ],
-    )
+    # employee_range = elements.NumericRange(
+    #     id="employees",
+    #     description=(
+    #         "The number of employees reported potentially as a range. May include"
+    #         " either a max, a min or both."
+    #     ),
+    #     examples=[
+    #         ("At least 100 employees", "(100, *)"),
+    #         ("Less than twelve employees", "(*, 12)"),
+    #         ("Fifty to sixty employees", "(50, 60)"),
+    #     ],
+    # )
 
     sales_geography = elements.TextInput(
         id="geography-sales",
@@ -204,6 +204,21 @@ def get_test_form_2():
             ("companies with sales in france", "france"),
             ("companies that sell their products in germany", "germany"),
             ("france, italy", ""),
+        ],
+    )
+
+    attr_filter = elements.ObjectInput(
+        id="attribute-filter",
+        description="A filter on an attribute. Composed of attribute name, an operator and a value.",
+        examples=[
+            (
+                "more than 100 employees",
+                {"attribute": "employees", "operator": ">", "value": "100"},
+            ),
+            (
+                "less than five buildings",
+                {"attribute": "building", "operator": "<", "value": "5"},
+            ),
         ],
     )
 
@@ -218,7 +233,8 @@ def get_test_form_2():
             industry_name,
             revenue,
             sales_geography,
-            employee_range,
+            attr_filter,
+            # employee_range,
         ],
     )
     return form

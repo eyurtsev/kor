@@ -1,17 +1,36 @@
 """Parse LLM Response."""
-from collections import defaultdict
-
-import openai
 import os
+from collections import defaultdict
 from html.parser import HTMLParser
 from typing import Any
+
+import openai
+
+
+def _set_in(d: dict[str, Any], path: tuple[str], value: str):
+    """Mutate d in place to add a value at the given path."""
+    if len(path) == 1:
+        key = path[0]
+        d[key] = value
+    else:
+        key = path[0]
+        rest_path = path[1:]
+        # TODO(Eugene): Verify that we're not mutating str -> dict, or dict -> str
+        if key in d:
+            new_d = d[key]
+        else:
+            new_d = {}
+            d[key] = new_d
+
+        _set_in(new_d, rest_path, value)
 
 
 class TagParser(HTMLParser):
     def __init__(self) -> None:
         """A heavy-handed solution, but it's fast for prototyping.
 
-        Might be re-implemented later to restrict scope to the limited grammar.
+        Might be re-implemented later to restrict scope to the limited grammar, and
+        more efficiency.
 
         Uses an HTML parser to parse a limited grammar that allows for syntax of the form:
 
@@ -26,16 +45,19 @@ class TagParser(HTMLParser):
         """
         super().__init__()
         self.current_tag = None
+        self.stack: list[str] = []
         self.data = defaultdict(list)
         self.success = True
 
     def handle_starttag(self, tag: str, attrs: Any) -> None:
         """Hook when a new tag is encountered."""
         self.current_tag = tag
+        self.stack.append(tag)
 
     def handle_endtag(self, tag: str) -> None:
         """Hook when a tag is closed."""
         self.current_tag = None
+        self.stack.pop(-1)
 
     def handle_data(self, data: str) -> None:
         """Hook when handling data."""
@@ -44,7 +66,9 @@ class TagParser(HTMLParser):
             if data.strip() not in (",", ""):
                 self.success = False
         else:
-            self.data[self.current_tag].append(data)
+            path = tuple(self.stack)
+            # We should update this to use a mutation
+            _set_in(self.data, path, data)
 
 
 # PUBLIC API
