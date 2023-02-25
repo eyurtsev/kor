@@ -5,11 +5,8 @@ from kor.elements import (
     Option,
     Selection,
     Form,
-    DateInput,
-    Number,
-    NumericRange,
-    TextInput,
     AbstractInput,
+    DateInput
 )
 
 
@@ -62,55 +59,16 @@ def _generate_prompt_for_selection(user_input: str, selection: Selection) -> str
 
 def _generate_prompt_for_form(user_input: str, form: Form) -> str:
     """Generate a prompt for a form."""
-    elements_info = []
-    individual_examples = []
+    inputs_description_block = []
+    examples = []
     for element in form.elements:
-        if isinstance(element, Selection):
-            values = ",".join(element.option_ids())
-            if element.multiple:
-                formatted_type = f"Multiple Selection[{values}]"
-            else:
-                formatted_type = f"Selection[{values}]"
-            elements_info.append(
-                f"* <{element.id}>: {formatted_type} # {element.description}"
-            )
-        elif isinstance(element, DateInput):
-            elements_info.append(f"* <{element.id}>: Date # {element.description}")
+        inputs_description_block.append(f"* {element.input_full_description}")
 
-            example = "\n".join(
-                f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
-                for text, extraction in element.examples
-            )
-        elif isinstance(element, NumericRange):
-            elements_info.append(
-                f"* <{element.id}>: Numeric Range # {element.description}"
-            )
-            example = "\n".join(
-                f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
-                for text, extraction in element.examples
-            )
-        elif isinstance(element, Number):
-            elements_info.append(f"* <{element.id}>: Number # {element.description}")
+        for example_input, example_output in element.llm_examples:
+            examples.extend([f"Input: {example_input}", f"Output: {example_output}"])
 
-            example = "\n".join(
-                f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
-                for text, extraction in element.examples
-            )
-
-        elif isinstance(element, TextInput):
-            elements_info.append(f"* <{element.id}>: Text # {element.description}")
-
-            example = "\n".join(
-                f"Input: {text}\nOutput: <{element.id}>{extraction}</{element.id}>"
-                for text, extraction in element.examples
-            )
-        else:
-            raise NotImplemented()
-
-    individual_examples.append(example)
-
-    elements_info = "\n".join(elements_info)
-    examples_block = "\n".join(individual_examples).strip()
+    inputs_description_block = "\n".join(inputs_description_block)
+    examples_block = "\n".join(examples).strip()
 
     return (
         f"You are helping a user fill out a form. The user will type information and your goal will "
@@ -118,7 +76,7 @@ def _generate_prompt_for_form(user_input: str, form: Form) -> str:
         f'The description of the form is: "{form.description}"'
         "Below is a list of the components showing the component ID, its type and "
         "a short description of it.\n\n"
-        f"{elements_info}\n\n"
+        f"{inputs_description_block}\n\n"
         "Your task is to parse the user input and determine to what values the user is attempting "
         "to set each component of the form. "
         "Please enclose the extracted information in HTML style tags with the tag name "

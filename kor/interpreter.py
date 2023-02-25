@@ -237,7 +237,6 @@ def get_test_form() -> elements.Form:
                 examples=["I'm tired", "I want to go to bed"],
             ),
         ],
-        examples=[],
     )
 
     selection2 = elements.Selection(
@@ -260,7 +259,6 @@ def get_test_form() -> elements.Form:
                 examples=["something scary", "i want to watch a scary movie"],
             ),
         ],
-        examples=[],
     )
 
     selection3 = elements.Selection(
@@ -283,7 +281,6 @@ def get_test_form() -> elements.Form:
                 examples=[],
             ),
         ],
-        examples=[],
     )
     movie_date = elements.DateInput(
         id="watch-when",
@@ -359,7 +356,6 @@ def get_test_form_2():
                 examples=["I'm tired", "I want to go to bed"],
             ),
         ],
-        examples=[],
     )
     industry_name = elements.TextInput(
         id="industry-name",
