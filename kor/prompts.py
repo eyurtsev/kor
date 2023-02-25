@@ -1,6 +1,8 @@
 """Code to dynamically generate appropriate LLM prompts."""
 
-from kor.elements import Form, AbstractInput
+from kor.elements import Form
+
+# PUBLIC API
 
 
 def generate_prompt_for_form(user_input: str, form: Form) -> str:
@@ -38,14 +40,3 @@ def generate_prompt_for_form(user_input: str, form: Form) -> str:
         f"Input: {user_input}\n"
         "Output: "
     )
-
-
-# PUBLIC API
-
-
-# def generate_prompt_for_form(user_input: str, element: AbstractInput) -> str:
-#     """Generate extraction prompt to populate the given element from the user's input."""
-#     if isinstance(element, Form):
-#         return _generate_prompt_for_form(user_input, element)
-#     else:
-#         raise NotImplemented(f"No support for element of type {type(element)}.")

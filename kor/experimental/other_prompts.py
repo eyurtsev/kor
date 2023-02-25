@@ -1,3 +1,53 @@
+from kor.elements import Option, Selection
+
+
+def _compile_option_examples(id: str, option: Option) -> str:
+    """Compile examples of an option input."""
+    formatted_examples = []
+
+    if not isinstance(option, Option):
+        raise TypeError(type(option))
+
+    for example in option.examples:
+        formatted_examples.extend(
+            [f"Input: {example}", f"Output: <{id}>{option.id}</{id}>"]
+        )
+
+    return "\n".join(formatted_examples)
+
+
+def _compile_selection_examples(selection: Selection) -> str:
+    if not isinstance(selection, Selection):
+        raise AssertionError()
+    return "\n".join(
+        _compile_option_examples(selection.id, option) for option in selection.options
+    )
+
+
+def _generate_prompt_for_selection(user_input: str, selection: Selection) -> str:
+    """Choice bock with options."""
+    options_block = [
+        f"<{option.id}> - {option.description}" for option in selection.options
+    ]
+
+    options_block = "\n".join(options_block)
+
+    examples_block = _compile_selection_examples(selection)
+
+    return (
+        f"You are interacting with a user. The user has to choose one of options below. "
+        f"Please determine which of the options the user is selecting. The user may select "
+        f"one and only one option. For the output, output the option name without any whitespace, "
+        f"and nothing else. If you're not sure, please output <unsure>. \n"
+        "\n"
+        "Options:\n"
+        f"{options_block}\n\n"
+        f"{examples_block}\n"
+        f"Input: {user_input}\n"
+        f"Output:\n"
+    )
+
+
 #
 # def date_input_block(user_input: str, date_input: DateInput) -> str:
 #     """Get prompt for parsing a date input."""
@@ -135,51 +185,3 @@
 #         examples=["no", "wrong", "bad", "abort", "cancel"],
 #     ),
 # ]
-from kor.elements import Option, Selection
-
-
-def _compile_option_examples(id: str, option: Option) -> str:
-    """Compile examples of an option input."""
-    formatted_examples = []
-
-    if not isinstance(option, Option):
-        raise TypeError(type(option))
-
-    for example in option.examples:
-        formatted_examples.extend(
-            [f"Input: {example}", f"Output: <{id}>{option.id}</{id}>"]
-        )
-
-    return "\n".join(formatted_examples)
-
-
-def _compile_selection_examples(selection: Selection) -> str:
-    if not isinstance(selection, Selection):
-        raise AssertionError()
-    return "\n".join(
-        _compile_option_examples(selection.id, option) for option in selection.options
-    )
-
-
-def _generate_prompt_for_selection(user_input: str, selection: Selection) -> str:
-    """Choice bock with options."""
-    options_block = [
-        f"<{option.id}> - {option.description}" for option in selection.options
-    ]
-
-    options_block = "\n".join(options_block)
-
-    examples_block = _compile_selection_examples(selection)
-
-    return (
-        f"You are interacting with a user. The user has to choose one of options below. "
-        f"Please determine which of the options the user is selecting. The user may select "
-        f"one and only one option. For the output, output the option name without any whitespace, "
-        f"and nothing else. If you're not sure, please output <unsure>. \n"
-        "\n"
-        "Options:\n"
-        f"{options_block}\n\n"
-        f"{examples_block}\n"
-        f"Input: {user_input}\n"
-        f"Output:\n"
-    )

@@ -1,8 +1,8 @@
 """Parse LLM Response."""
-import os
 from collections import defaultdict
 
 import openai
+import os
 from html.parser import HTMLParser
 from typing import Any
 
