@@ -38,6 +38,7 @@ class AbstractInput(abc.ABC):
 
     id: str  # Unique ID
     description: str
+    multiple: bool = False
 
     @property
     def input_full_description(self) -> str:
@@ -48,6 +49,10 @@ class AbstractInput(abc.ABC):
     def type_name(self) -> str:
         """Default implementation of a type name is just the class name."""
         class_name = self.__class__.__name__
+
+        if self.multiple:
+            class_name = f"Multiple {class_name}"
+
         if class_name.endswith("Input"):
             return class_name.removesuffix("Input")
         return class_name
@@ -89,7 +94,6 @@ class ExtractionInput(AbstractInput, abc.ABC):
     """
 
     examples: Sequence[tuple[str, str]]
-    null_examples: Sequence[str] = tuple()
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
@@ -99,10 +103,8 @@ class ExtractionInput(AbstractInput, abc.ABC):
         """
         formatted_examples = []
         for text, extraction in self.examples:
-            formatted_examples.append((text, _write_tag(self.id, extraction)))
-
-        for null_example in self.null_examples:
-            formatted_examples.append((null_example, f""))
+            value = _write_tag(self.id, extraction) if extraction.strip() else ""
+            formatted_examples.append((text, value))
         return formatted_examples
 
 

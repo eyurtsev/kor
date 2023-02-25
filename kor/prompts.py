@@ -32,9 +32,10 @@ def generate_prompt_for_form(user_input: str, form: Form) -> str:
         "tags ('>' and '<'). "
         "Only output tags when you're confident about the information that was extracted "
         "from the user's query. If you can extract several pieces of relevant information "
-        "from the query include use a comma to separate the tags. If the component is a "
-        "Multiple Selection, then please repeat the same tag multiple times once for each "
-        "relevant selected option."
+        'from the query include use a comma to separate the tags. If "Multiple" is part '
+        "of the component's type, then please repeat the same tag multiple times once for "
+        'each relevant extraction. If the type does not contain "Multiple" do not include it '
+        "more than once."
         "\n\n"
         f"{examples_block}\n"
         f"Input: {user_input}\n"

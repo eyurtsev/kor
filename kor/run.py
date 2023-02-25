@@ -176,11 +176,11 @@ def get_test_form_2():
         examples=[("companies founded in 2023", "2023")],
     )
 
-    revenue = elements.Number(
-        id="revenue",
-        description="What is the revenue of the company?",  # Might want to model the currency
-        examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
-    )
+    # revenue = elements.Number(
+    #     id="revenue",
+    #     description="What is the revenue of the company?",  # Might want to model the currency
+    #     examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
+    # )
 
     # employee_range = elements.NumericRange(
     #     id="employees",
@@ -219,6 +219,38 @@ def get_test_form_2():
                 "less than five buildings",
                 {"attribute": "building", "operator": "<", "value": "5"},
             ),
+            # TODO(Eugene): Refactor needed for
+            # Edge-cases -- unable to handle `in` operator`
+            # How to support range operator
+            # ("blue or green car", {"operator": "in", "value": []}),
+        ],
+    )
+
+    attr_question_block = elements.TextInput(
+        id="question",
+        description="Asking about the value of a particular attribute",
+        examples=[
+            ("What is the revenue of tech companies?", "revenue"),
+            ("market cap of apple?", "market cap"),
+            ("number of employees of largest company", "number of employees"),
+        ],
+    )
+
+    sort_by_attribute_block = elements.ObjectInput(
+        id="sort-block",
+        description=(
+            "Use to request to sort the results by a particular attribute. "
+            "Can specify the direction"
+        ),
+        examples=[
+            (
+                "Largest by market-cap tech companies",
+                {"direction": "descending", "attribute": "market-cap"},
+            ),
+            (
+                "sort by companies with smallest revenue ",
+                {"direction": "ascending", "attribute": "revenue"},
+            ),
         ],
     )
 
@@ -231,9 +263,11 @@ def get_test_form_2():
             geography_name,
             foundation_date,
             industry_name,
-            revenue,
+            # revenue,
             sales_geography,
             attr_filter,
+            attr_question_block,
+            sort_by_attribute_block,
             # employee_range,
         ],
     )
@@ -241,10 +275,14 @@ def get_test_form_2():
 
 
 def main() -> None:
-    user_str = input("Please enter text to be parsed: ")
     form = get_test_form_2()
     llm = LLM()
-    print(extract(user_str, form, llm))
+
+    while True:
+        user_str = input("Please enter text to be parsed or Q to exit: ")
+        if user_str in ("q", "Q"):
+            break
+        print(extract(user_str, form, llm))
 
 
 if __name__ == "__main__":

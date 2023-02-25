@@ -1,4 +1,4 @@
-"""Parse LLM Response."""
+"""Utilities to work with LLMs."""
 import os
 from collections import defaultdict
 from html.parser import HTMLParser
@@ -95,8 +95,8 @@ def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
 
     {
         "color": ["red", "blue"],
-        "height": "6.1",
-        "width": "3",
+        "height": ["6.1"],
+        "width": ["3"],
     }
     """
     tag_parser = TagParser()
