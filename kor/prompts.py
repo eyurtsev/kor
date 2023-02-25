@@ -1,13 +1,7 @@
 """Temporary storage for prompts for experimentation."""
 from typing import Sequence
 
-from kor.elements import (
-    Option,
-    Selection,
-    Form,
-    AbstractInput,
-    DateInput
-)
+from kor.elements import Option, Selection, Form, AbstractInput, DateInput
 
 
 def _compile_option_examples(id: str, option: Option) -> str:
@@ -107,16 +101,16 @@ def date_input_block(user_input: str, date_input: DateInput) -> str:
     """Get prompt for parsing a date input."""
 
     prompt = (
-        "The input may or may not contain a date. If it contains a date, please "
-        " include it in the output inside of <date> and </date> tags, and report it"
-        "in ISO-8601 format (YYYY-MM-DD). If it doesn't contain a date, please "
-        "output <null/>. Do not output anything else.\n"
-        "\n"
-        "Input: I went to the store on January 7th, 2023.\n"
-        "Output: <date>2023-01-07</date>\n"
-        "Input: Next \n"
-        "Output: <date>2023-01-07</date>\n"
-        "Input: {user_input}\n"
+            "The input may or may not contain a date. If it contains a date, please "
+            " include it in the output inside of <date> and </date> tags, and report it"
+            "in ISO-8601 format (YYYY-MM-DD). If it doesn't contain a date, please "
+            "output <null/>. Do not output anything else.\n"
+            "\n"
+            "Input: I went to the store on January 7th, 2023.\n"
+            "Output: <date>2023-01-07</date>\n"
+            "Input: Next \n"
+            "Output: <date>2023-01-07</date>\n"
+            "Input: {user_input}\n"
         "Output: ",
     )
     return prompt
@@ -159,7 +153,7 @@ def date_block(user_input: str, options: Sequence[Option]) -> str:
 def generate_proceed_block(user_input: str) -> str:
     """Parse yes/no choice."""
     return (
-        "You are interacting with a human and are trying to determine if the person is "
+        "You are interacting with a human and are trying to determine if the person is"
         "selecting to proceed (<yes/>) or cancel (<no/>). If you don't know say <unsure/>\n"
         "\n"
         "Input: No, I need to make some changes\n"

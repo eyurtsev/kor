@@ -44,9 +44,8 @@ class AbstractInput(abc.ABC):
 
     def __post_init__(self) -> None:
         """Post initialization hook."""
-        if not re.match()
-        # if not self.id.isidentifier():
-        #     raise ValueError(f"`{self.id}` is not a valid identifier.")
+        if not VALID_IDENTIFIER_PATTERN.match(self.id):
+            raise ValueError(f"`{self.id}` is not a valid identifier.")
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)

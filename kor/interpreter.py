@@ -320,7 +320,6 @@ def get_test_form() -> elements.Form:
             dentist_date,
             nationality_input,
         ],
-        examples=[],
     )
     return form
 
@@ -392,7 +391,10 @@ def get_test_form_2():
 
     employee_range = elements.NumericRange(
         id="employees",
-        description="The number of employees reported potentially as a range. May include either a max, a min or both.",
+        description=(
+            "The number of employees reported potentially as a range. May include"
+            " either a max, a min or both."
+        ),
         examples=[
             ("At least 100 employees", "(100, *)"),
             ("Less than twelve employees", "(*, 12)"),
@@ -402,7 +404,9 @@ def get_test_form_2():
 
     sales_geography = elements.TextInput(
         id="geography-sales",
-        description="where is the company doing sales? Please use a single country name.",
+        description=(
+            "where is the company doing sales? Please use a single country name."
+        ),
         examples=[
             ("companies with sales in france", "france"),
             ("companies that sell their products in germany", "germany"),
@@ -423,7 +427,6 @@ def get_test_form_2():
             sales_geography,
             employee_range,
         ],
-        examples=[],
     )
     return form
 
