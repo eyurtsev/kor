@@ -1,28 +1,10 @@
-"""Utilities to work with LLMs."""
-import os
+"""Parse LLM Response."""
 from collections import defaultdict
-from html.parser import HTMLParser
-from typing import Any
 
 import openai
-
-
-def _set_in(d: dict[str, Any], path: tuple[str], value: str):
-    """Mutate d in place to add a value at the given path."""
-    if len(path) == 1:
-        key = path[0]
-        d[key] = value
-    else:
-        key = path[0]
-        rest_path = path[1:]
-        # TODO(Eugene): Verify that we're not mutating str -> dict, or dict -> str
-        if key in d:
-            new_d = d[key]
-        else:
-            new_d = {}
-            d[key] = new_d
-
-        _set_in(new_d, rest_path, value)
+import os
+from html.parser import HTMLParser
+from typing import Any, DefaultDict
 
 
 class TagParser(HTMLParser):
@@ -37,44 +19,50 @@ class TagParser(HTMLParser):
             INPUT -> JUNK? VALUE*
             JUNK -> JUNK_CHARACTER+
             JUNK_CHARACTER -> whitespace | ,
-            VALUE -> <IDENTIFIER>DATA</IDENTIFIER>
+            VALUE -> <IDENTIFIER>DATA</IDENTIFIER> | OBJECT
+            OBJECT -> <IDENTIFIER>VALUE+</IDENTIFIER>
             IDENTIFIER -> [a-Z][a-Z0-9_]*
             DATA -> .*
 
-        ^ Approximate grammar specification, probably has some error
+        Interprets the data to allow repetition of tags and recursion to support representation
+        of complex types.
+
+        ^ Just another approximately wrong grammar specification.
         """
         super().__init__()
-        # self.stack: list[str] = []
-        self.depth = 0
-        self.stack: list[defaultdict[list]] = [defaultdict(list)]
-        self.all_data = []
-        self.current_data = None
+
+        self.parse_data = defaultdict(list)
+        self.stack: list[DefaultDict[str, list]] = [self.parse_data]
         self.success = True
+        self.depth = 0
+        self.data = None
 
     def handle_starttag(self, tag: str, attrs: Any) -> None:
         """Hook when a new tag is encountered."""
         self.depth += 1
+        self.stack.append(defaultdict(list))
+        self.data = None
 
     def handle_endtag(self, tag: str) -> None:
         """Hook when a tag is closed."""
         self.depth -= 1
-        self.stack.pop(-1)
+        d = dict(self.stack.pop(-1))  # Pop the dictionary we don't need it
+
+        # If a lead node
+        is_leaf = self.data is not None
+        value = self.data if is_leaf else d
+        self.stack[-1][tag].append(value)
+        # Reset the data so we if we encounter a sequence of end tags, we
+        # don't confuse an outer end tag for belonging to a leaf node.
+        self.data = None
 
     def handle_data(self, data: str) -> None:
         """Hook when handling data."""
         # The only data that's allowed is whitespace or a comma surrounded by whitespace
-        if not self.stack:
-            if data.strip() not in (",", ""):
-                self.success = False
-        else:
-            self.current_data = data
-            # self.all_data.append((tuple(self.stack), data))
-
-    def finalized_data(self):
-        """Get interpreted data.
-
-        Super clunky -- only top level namespace allows for repetition.
-        """
+        if self.depth == 0 and data.strip() not in (",", ""):
+            # If this is triggered the parse should be considered invalid.
+            self.success = False
+        self.data = data
 
 
 # PUBLIC API
@@ -107,14 +95,9 @@ def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     """
     tag_parser = TagParser()
     tag_parser.feed(llm_output)
-    return tag_parser.all_data
-
-    return all_data
-    return dict(all_data)
-
     if not tag_parser.success:
         return {}
-    return dict(tag_parser.data)
+    return dict(tag_parser.parse_data)
 
 
 class LLM:

@@ -6,13 +6,19 @@ from kor.llm_utils import parse_llm_output
 @pytest.mark.parametrize(
     "test_input,output",
     [
-        # ("", {}),
-        # ("<123>", {}),
-        # ("<d>blah</d>", {"d": ["blah"]}),
-        # ("<a>meow</a>,<b>woof</b>", {"a": ["meow"], "b": ["woof"]}),
-        # ("   <a>meow</a>,<b>woof</b>\n", {"a": ["meow"], "b": ["woof"]}),
-        # ("<a><b>b</b><c>c</c></a>", {}),
-        ("<a><b>b</b><c>c</c></a><a><b>b2</b></a>", {}),
+        ("", {}),
+        ("<123>", {}),
+        ("<d>blah</d>", {"d": ["blah"]}),
+        ("<a>1</a><a>2</a>", {"a": ["1", "2"]}),
+        ("<a>1</a><b>2</b>", {"a": ["1"], "b": ["2"]}),
+        (
+            "<a><a1>1</a1><a2>2</a2></a><b>2</b>",
+            {"a": [{"a1": ["1"], "a2": ["2"]}], "b": ["2"]},
+        ),
+        (
+            "<a><a1>1</a1><a2>2</a2></a><b>2</b><a><a1>1</a1></a>",
+            {"a": [{"a1": ["1"], "a2": ["2"]}, {"a1": ["1"]}], "b": ["2"]},
+        ),
     ],
 )
 def test_parse_llm_response(test_input, output):
