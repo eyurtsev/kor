@@ -9,13 +9,13 @@ Kor introduces an inputs API (to resemble HTML form inputs) as building blocks �
 At the moment, Kor supports a single input form and does one pass interaction. 
 
 
-## 💡 What could one do?
+## 💡 Ideas
 
-* Build a virtual assistant: define what information needs to be collected from a user. 
+Ideas of some things that could be done with Kor.
+
 * Extract data from text: Define what information should be extracted from a segment.
-* Convert an HTML form into a Kor form 
-* Read an HTML page online, and convert a form input on it into a Kor form, allowing a user to fill out an online form using natural language.
-* Add an automaton that has multiple states, each state with its own form and an ability to execute forms, and transition between states based on user input. If the number of states grows to be large,  a filtering step will be required first followed by dynamically constructing an appropriate prompt.
+* Improve an AI assistant by defining what information should be collected from a user? (maybe not useful)
+* Convert an HTML form into a Kor form and allow the user to fill it out using natural language. (May allow converting HTML forms into APIs.)
 
 ## 🚧 Prototype
 
@@ -31,10 +31,12 @@ as it hasn't been used against enough real world examples.
 
 ## Expected changes
 
-* Improve type information for Object inputs.
-* 
-
+* Improve type information for Object inputs
+* Add built-in validators
+* Add router that allows one to route a user input between different possible
+  forms -- This may be sufficient to re-implement a full virtual assistant with
+  skills
 
 ## 🎶 Why the name?
 
-Fast to type and sufficiently unique
+Fast to type and sufficiently unique.
