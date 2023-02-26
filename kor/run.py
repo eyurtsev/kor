@@ -157,6 +157,7 @@ def get_test_form_2():
             ("large banks", "banking"),
             ("military companies", "defense"),
             ("chinese companies", ""),
+            ("companies that cell cigars", "cigars"),
         ],
     )
 
@@ -180,6 +181,48 @@ def get_test_form_2():
         id="revenue",
         description="What is the revenue of the company?",  # Might want to model the currency
         examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
+    )
+
+    attribute_filter = elements.ObjectInput(
+        id="attribute-filter",
+        description=(
+            "Filter by a value of an attribute using a binary expression. Specify the attribute's name, "
+            "an operator (>, <, =, !=, >=, <=, in, not in) and a value."
+        ),
+        examples=[
+            (
+                "Companies with revenue > 100",
+                {
+                    "attribute": "revenue",
+                    "op": ">",
+                    "value": "100",
+                },
+            ),
+            (
+                "number of employees between 50 and 1000",
+                {
+                    "attribute": "employees",
+                    "op": "in",
+                    "value": "(50, 1000)",
+                },
+            ),
+            (
+                "blue or green color",
+                {
+                    "attribute": "color",
+                    "op": "in",
+                    "value": "(blue, green)",
+                },
+            ),
+            (
+                "companies that do not sell in california",
+                {
+                    "attribute": "geography-sales",
+                    "op": "not in",
+                    "value": "(california)",
+                },
+            ),
+        ],
     )
 
     # employee_range = elements.NumericRange(
@@ -207,20 +250,20 @@ def get_test_form_2():
         ],
     )
 
-    attr_filter = elements.ObjectInput(
-        id="attribute-filter",
-        description="A filter on an attribute. Composed of attribute name, an operator and a value.",
-        examples=[
-            (
-                "more than 100 employees",
-                {"attribute": "employees", "operator": ">", "value": "100"},
-            ),
-            (
-                "less than five buildings",
-                {"attribute": "building", "operator": "<", "value": "5"},
-            ),
-        ],
-    )
+    # attr_filter = elements.ObjectInput(
+    #     id="attribute-filter",
+    #     description="A filter on an attribute. Composed of attribute name, an operator and a value.",
+    #     examples=[
+    #         (
+    #             "more than 100 employees",
+    #             {"attribute": "employees", "operator": ">", "value": "100"},
+    #         ),
+    #         (
+    #             "less than five buildings",
+    #             {"attribute": "building", "operator": "<", "value": "5"},
+    #         ),
+    #     ],
+    # )
 
     form = elements.Form(
         id="search-for-companies",
@@ -233,7 +276,8 @@ def get_test_form_2():
             industry_name,
             revenue,
             sales_geography,
-            attr_filter,
+            attribute_filter,
+            # attr_filter,
             # employee_range,
         ],
     )
@@ -241,10 +285,13 @@ def get_test_form_2():
 
 
 def main() -> None:
-    user_str = input("Please enter text to be parsed: ")
     form = get_test_form_2()
     llm = LLM()
-    print(extract(user_str, form, llm))
+    while True:
+        user_str = input("Please enter text to be parsed: ")
+        if user_str in {"q", "Q"}:
+            break
+        print(extract(user_str, form, llm))
 
 
 if __name__ == "__main__":
