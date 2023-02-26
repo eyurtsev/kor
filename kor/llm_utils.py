@@ -41,34 +41,40 @@ class TagParser(HTMLParser):
             IDENTIFIER -> [a-Z][a-Z0-9_]*
             DATA -> .*
 
-        ^ Just another approximately wrong grammar specification.
+        ^ Approximate grammar specification, probably has some error
         """
         super().__init__()
-        self.current_tag = None
-        self.stack: list[str] = []
-        self.data = defaultdict(list)
+        # self.stack: list[str] = []
+        self.depth = 0
+        self.stack: list[defaultdict[list]] = [defaultdict(list)]
+        self.all_data = []
+        self.current_data = None
         self.success = True
 
     def handle_starttag(self, tag: str, attrs: Any) -> None:
         """Hook when a new tag is encountered."""
-        self.current_tag = tag
-        self.stack.append(tag)
+        self.depth += 1
 
     def handle_endtag(self, tag: str) -> None:
         """Hook when a tag is closed."""
-        self.current_tag = None
+        self.depth -= 1
         self.stack.pop(-1)
 
     def handle_data(self, data: str) -> None:
         """Hook when handling data."""
         # The only data that's allowed is whitespace or a comma surrounded by whitespace
-        if self.current_tag is None:
+        if not self.stack:
             if data.strip() not in (",", ""):
                 self.success = False
         else:
-            path = tuple(self.stack)
-            # We should update this to use a mutation
-            _set_in(self.data, path, data)
+            self.current_data = data
+            # self.all_data.append((tuple(self.stack), data))
+
+    def finalized_data(self):
+        """Get interpreted data.
+
+        Super clunky -- only top level namespace allows for repetition.
+        """
 
 
 # PUBLIC API
@@ -101,6 +107,11 @@ def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     """
     tag_parser = TagParser()
     tag_parser.feed(llm_output)
+    return tag_parser.all_data
+
+    return all_data
+    return dict(all_data)
+
     if not tag_parser.success:
         return {}
     return dict(tag_parser.data)
