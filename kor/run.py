@@ -2,6 +2,8 @@
 
 This file will likely be deleted to be replaced with notebook demos.
 """
+import pprint
+
 from kor import elements
 from kor.elements import Option
 from kor.extraction import extract
@@ -180,7 +182,10 @@ def get_test_form_2():
     revenue = elements.Number(
         id="revenue",
         description="What is the revenue of the company?",  # Might want to model the currency
-        examples=[("Revenue of $1,000,000", "$1,000,000"), ("No revenue", 0)],
+        examples=[
+            ("Revenue of $1,000,000", "$1,000,000"),
+            ("this company makes no revenue", "0"),
+        ],
     )
 
     attribute_filter = elements.ObjectInput(
@@ -200,18 +205,14 @@ def get_test_form_2():
             ),
             (
                 "number of employees between 50 and 1000",
-                {
-                    "attribute": "employees",
-                    "op": "in",
-                    "value": "(50, 1000)",
-                },
+                {"attribute": "employees", "op": "in", "value": ["50", "1000"]},
             ),
             (
                 "blue or green color",
                 {
                     "attribute": "color",
                     "op": "in",
-                    "value": "(blue, green)",
+                    "value": ["blue", "green"],
                 },
             ),
             (
@@ -219,7 +220,7 @@ def get_test_form_2():
                 {
                     "attribute": "geography-sales",
                     "op": "not in",
-                    "value": "(california)",
+                    "value": "california",
                 },
             ),
         ],
@@ -250,24 +251,24 @@ def get_test_form_2():
         ],
     )
 
-    attr_filter = elements.ObjectInput(
-        id="attribute-filter",
-        description="A filter on an attribute. Composed of attribute name, an operator and a value.",
-        examples=[
-            (
-                "more than 100 employees",
-                {"attribute": "employees", "operator": ">", "value": "100"},
-            ),
-            (
-                "less than five buildings",
-                {"attribute": "building", "operator": "<", "value": "5"},
-            ),
-            # TODO(Eugene): Refactor needed for
-            # Edge-cases -- unable to handle `in` operator`
-            # How to support range operator
-            # ("blue or green car", {"operator": "in", "value": []}),
-        ],
-    )
+    # attr_filter = elements.ObjectInput(
+    #     id="attribute-filter",
+    #     description="A filter on an attribute. Composed of attribute name, an operator and a value.",
+    #     examples=[
+    #         (
+    #             "more than 100 employees",
+    #             {"attribute": "employees", "operator": ">", "value": "100"},
+    #         ),
+    #         (
+    #             "less than five buildings",
+    #             {"attribute": "building", "operator": "<", "value": "5"},
+    #         ),
+    #         # TODO(Eugene): Refactor needed for
+    #         # Edge-cases -- unable to handle `in` operator`
+    #         # How to support range operator
+    #         # ("blue or green car", {"operator": "in", "value": []}),
+    #     ],
+    # )
 
     attr_question_block = elements.TextInput(
         id="question",
@@ -308,7 +309,7 @@ def get_test_form_2():
             industry_name,
             revenue,
             sales_geography,
-            attr_filter,
+            attribute_filter,
             attr_question_block,
             sort_by_attribute_block,
             # employee_range,
@@ -319,13 +320,14 @@ def get_test_form_2():
 
 def main() -> None:
     form = get_test_form_2()
-    llm = LLM()
+    llm = LLM(verbose=True)
 
     while True:
         user_str = input("Please enter text to be parsed: ")
         if user_str in {"q", "Q"}:
             break
-        print(extract(user_str, form, llm))
+        parse = extract(user_str, form, llm)
+        pprint.pprint(parse, indent=2, sort_dicts=True)
 
 
 if __name__ == "__main__":

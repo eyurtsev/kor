@@ -7,9 +7,17 @@ from typing import Sequence
 VALID_IDENTIFIER_PATTERN = re.compile(r"\w+")
 
 
-def _write_tag(tag_name: str, data: str) -> str:
+def _write_single_tag(tag_name: str, data: str) -> str:
     """Write a tag."""
     return f"<{tag_name}>{data}</{tag_name}>"
+
+
+def _write_tag(tag_name: str, data_values: str | Sequence[str]) -> str:
+    """Write a tag."""
+    if isinstance(data_values, str):
+        data_values = [data_values]
+
+    return "".join(_write_single_tag(tag_name, value) for value in data_values)
 
 
 def _write_complex_tag(tag_name: str, data: dict[str, str]) -> str:
@@ -93,7 +101,7 @@ class ExtractionInput(AbstractInput, abc.ABC):
         from the text: "I eat an apple every day.".
     """
 
-    examples: Sequence[tuple[str, str]]
+    examples: Sequence[tuple[str, str | list[str]]]
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
@@ -103,7 +111,10 @@ class ExtractionInput(AbstractInput, abc.ABC):
         """
         formatted_examples = []
         for text, extraction in self.examples:
-            value = _write_tag(self.id, extraction) if extraction.strip() else ""
+            if isinstance(extraction, str) and not extraction.strip():
+                value = ""
+            else:
+                value = _write_tag(self.id, extraction)
             formatted_examples.append((text, value))
         return formatted_examples
 
@@ -115,7 +126,7 @@ class ObjectInput(AbstractInput, abc.ABC):
     TODO(Eugene): Maybe this should also be a form?
     """
 
-    examples: Sequence[tuple[str, dict[str, str]]]
+    examples: Sequence[tuple[str, dict[str, str | list[str]]]]
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
@@ -171,7 +182,7 @@ class Selection(AbstractInput):
 
     options: Sequence[Option]
     # If multiple=true, selection input allows for multiple options to be selected.
-    multiple: bool = False
+    multiple: bool = True
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
