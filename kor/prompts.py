@@ -26,7 +26,10 @@ def generate_prompt_for_form(user_input: str, form: Form) -> str:
         "a short description of it.\n\n"
         f"{inputs_description_block}\n\n"
         "Your task is to parse the user input and determine to what values the user is attempting "
-        "to set each component of the form. "
+        "to set each component of the form.\n"
+        "When the type of the input is a Selection, only output one of the options specified in the square brackets "
+        "as arguments to the Selection type of this input. "
+        
         "Please enclose the extracted information in HTML style tags with the tag name "
         "corresponding to the corresponding component ID. Use angle style brackets for the "
         "tags ('>' and '<'). "

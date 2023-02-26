@@ -182,7 +182,8 @@ class Selection(AbstractInput):
 
     options: Sequence[Option]
     # If multiple=true, selection input allows for multiple options to be selected.
-    multiple: bool = True
+    null_examples: Sequence[str] = tuple()
+    multiple: bool = False
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
@@ -191,6 +192,10 @@ class Selection(AbstractInput):
         for option in self.options:
             for example in option.examples:
                 formatted_examples.append((example, _write_tag(self.id, option.id)))
+
+        for null_example in self.null_examples:
+            formatted_examples.append((null_example, ""))
+
         return formatted_examples
 
     @property

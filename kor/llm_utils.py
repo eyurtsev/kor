@@ -122,7 +122,8 @@ class LLM:
             frequency_penalty=0.0,
             presence_penalty=0.0,
         )
-        print("Model response: ")
-        print(response)
+        if self.verbose:
+            print("Model response: ")
+            print(response)
         text = response["choices"][0]["text"]
         return text
