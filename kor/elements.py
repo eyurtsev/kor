@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Sequence
+from typing import Sequence, Optional
 
 VALID_IDENTIFIER_PATTERN = re.compile(r"\w+")
 
@@ -47,19 +47,20 @@ class AbstractInput(abc.ABC):
     id: str  # Unique ID
     description: str
     multiple: bool = False
+    type_name: Optional[str] = None
 
     @property
     def input_full_description(self) -> str:
         """A full description for the input."""
-        return f"<{self.id}>: {self.type_name} # {self.description}"
+        return f"<{self.id}>: {self.finalized_type_name} # {self.description}"
 
     @property
-    def type_name(self) -> str:
+    def finalized_type_name(self) -> str:
         """Default implementation of a type name is just the class name."""
         class_name = self.__class__.__name__
 
         if self.multiple:
-            class_name = f"Multiple {class_name}"
+            class_name = f"{class_name}[]"
 
         if class_name.endswith("Input"):
             return class_name.removesuffix("Input")
@@ -204,7 +205,7 @@ class Selection(AbstractInput):
         return sorted(option.id for option in self.options)
 
     @property
-    def type_name(self) -> str:
+    def finalized_type_name(self) -> str:
         """Over-ride type name to provide special behavior."""
         options_string = ",".join(self.option_ids)
         if self.multiple:

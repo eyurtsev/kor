@@ -1,10 +1,10 @@
 """Parse LLM Response."""
-from collections import defaultdict
-
-import openai
 import os
+from collections import defaultdict
 from html.parser import HTMLParser
 from typing import Any, DefaultDict
+
+import openai
 
 
 class TagParser(HTMLParser):
@@ -114,7 +114,8 @@ class LLM:
             print(prompt)
             print("-" * 80)
         response = openai.Completion.create(
-            model="text-davinci-003",
+            # model="text-davinci-003",
+            model="gpt-3.5-turbo",
             prompt=prompt,
             temperature=0,
             max_tokens=100,
@@ -126,4 +127,62 @@ class LLM:
             print("Model response: ")
             print(response)
         text = response["choices"][0]["text"]
+        return text
+
+
+class ChatLLM:
+    def __init__(self, verbose: bool = False) -> None:
+        """Initialize the LLM model."""
+        openai.api_key = os.environ["OPENAI_API_KEY"]
+        self.verbose = verbose
+
+    def __call__(self, prompt: str) -> str:
+        """Invoke the LLM with the given prompt."""
+        if self.verbose:
+            print("-" * 80)
+            print("Prompt: ")
+            print(prompt)
+            print("-" * 80)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "system", "content": prompt}],
+            temperature=0,
+            max_tokens=100,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+        if self.verbose:
+            print("Model response: ")
+            print(response)
+        text = response["choices"][0]["message"]["content"]
+        return text
+
+
+class ChatLLMWithChatInvoke:
+    def __init__(self, verbose: bool = False) -> None:
+        """Initialize the LLM model."""
+        openai.api_key = os.environ["OPENAI_API_KEY"]
+        self.verbose = verbose
+
+    def __call__(self, messages: list[dict]) -> str:
+        """Invoke the LLM with the given prompt."""
+        if self.verbose:
+            print("-" * 80)
+            print("Prompt: ")
+            print(messages)
+            print("-" * 80)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            temperature=0,
+            max_tokens=1000,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+        if self.verbose:
+            print("Model response: ")
+            print(response)
+        text = response["choices"][0]["message"]["content"]
         return text
