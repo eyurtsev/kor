@@ -60,7 +60,7 @@ class AbstractInput(abc.ABC):
         class_name = self.__class__.__name__
 
         if self.multiple:
-            class_name = f"{class_name}[]"
+            class_name = f"Multiple {class_name}"
 
         if class_name.endswith("Input"):
             return class_name.removesuffix("Input")
@@ -216,7 +216,7 @@ class Selection(AbstractInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class Form(AbstractInput):  # Maybe this should be an ObjectInput to support recursion?
+class Form(ExtractionInput):
     """A form encapsulated a collection of inputs.
 
     The form should have a good description of the context in which the data is collected.
