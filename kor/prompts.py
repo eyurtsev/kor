@@ -1,6 +1,6 @@
 """Code to dynamically generate appropriate LLM prompts."""
 
-from kor.elements import Form, Selection
+from kor.elements import Form, Selection, TextInput
 
 
 def _traverse_form(form: Form, depth: int = 0) -> list[tuple[int, str, str, str]]:
@@ -17,33 +17,58 @@ def _traverse_form(form: Form, depth: int = 0) -> list[tuple[int, str, str, str]
     return descriptions
 
 
-def _traverse_form_obj(form: Form, depth: int = 0) -> dict:
+def _traverse_form_obj(form: Form) -> dict:
     """Traverse a form to generate a type description of its contents."""
     obj = {}
     for element in form.elements:
         if isinstance(element, Form):
-            obj.update({element.id: _traverse_form(element)})
+            obj.update({element.id: _traverse_form_obj(element)})
         else:
-            type_name = element.type_name
-            type_name = "String" if type_name == "Text" else type_name
             if isinstance(element, Selection):
-                type_name = " | ".join("'" + s.id + "'" for s in element.options)
-            obj.update({element.id: type_name})
+                finalized_type = (
+                    "(" + " | ".join('"' + s.id + '"' for s in element.options) + ")"
+                )
+            elif isinstance(element, TextInput):
+                finalized_type = "string"
+            else:
+                finalized_type = element.type_name.lower()
+            obj.update({element.id: finalized_type})
     return {form.id: obj}
 
 
-def to_type_script_string(obj, depth: int = 0):
+def to_type_script_string(obj, depth: int = 0) -> str:
+    """Object re-written in type-script format."""
     delimiter = " "
     outer_space = delimiter * depth
     inner_space = delimiter * (depth + 1)
-    formatted = [f"{outer_space}" + "{"]
+    if depth == 0:
+        formatted = ["type Response =  {"]
+    else:
+        formatted = [f"{outer_space}" + "{"]
     for key, value in obj.items():
-        formatted.append(f"{inner_space}'{key}': {value},")
-    formatted.append(f"{outer_space}" + "}")
-    return "\n".join(formatted)
+        if isinstance(value, dict):
+            value = to_type_script_string(value, depth=depth + 1)
+        else:
+            value = value + "[]"
+        formatted.append(f"{inner_space}{key}: {value};")
+    formatted.append(f"{outer_space}" + "}[]")
+    result = "\n".join(formatted)
+    if depth == 0:
+        result += ";"
+    return result
 
 
-def form_to_typestring_type(form: Form) -> str:
+class PromptGenerator:
+    def __init__(self) -> None:
+        """Generate."""
+
+    def generate_type_description(self, form: Form) -> str:
+        """Generate a description of the type."""
+        return form_as_typescript(form)
+
+
+def form_as_typescript(form: Form) -> str:
+    """Generate a description of the form type in TypeScript syntax."""
     obj = _traverse_form_obj(form)
     return to_type_script_string(obj)
 
@@ -69,13 +94,16 @@ def generate_prompt_for_form(user_input: str, form: Form) -> str:
     inputs_description_block = "\n".join(inputs_description_block)
     examples_block = "\n".join(examples).strip()
 
+    form_description_block = form_as_typescript(form)
     return (
-        f"You are helping a user fill out a form. The user will type information and your goal "
-        f"will be to parse the user's input.\n"
-        f'The description of the form is: "{form.description}"'
-        "Below is a list of the components showing the component ID, its type and "
-        "a short description of it.\n\n"
-        f"{inputs_description_block}\n\n"
+        "Your goal is to extract structured information from the user's input that matches "
+        f"the form described below. "
+        f"When extracting information please make sure it matches the type information exactly. "
+        f"IMPORATNT: For Union types the output must EXACTLY match one of the members of the Union type. "
+        f"\n\n"
+        f"```Typescript\n"
+        f"{form_description_block}\n\n"
+        f"```\n\n"
         "Your task is to parse the user input and determine to what values the user is attempting "
         "to set each component of the form.\n"
         "When the type of the input is a Selection, only output one of the options "
@@ -99,9 +127,8 @@ def generate_prompt_for_form(user_input: str, form: Form) -> str:
 
 def generate_chat_prompt_for_form(user_input: str, form: Form) -> list[dict]:
     """Generate a prompt for a form."""
-
     # Generate system message which contains instructions.
-    descriptions = _traverse_form(form)
+    # descriptions = _traverse_form(form)
     # form_description_block = "\n".join(
     #     [
     #         "{space}* <{id}>: {type} ({description})".format(
@@ -110,15 +137,18 @@ def generate_chat_prompt_for_form(user_input: str, form: Form) -> list[dict]:
     #         for depth, id, type, description in descriptions
     #     ]
     # )
-    form_description_block = form_to_typestring_type(form)
+    form_description_block = form_as_typescript(form)
     system_message = {
         "role": "system",
         "content": (
             "Your goal is to extract structured information from the user's input that matches "
-            f"the form described below. The form description is specified in type string "
-            f"for each component. The description is hierarchical starting with the form itself."
+            f"the form described below. "
+            f"When extracting information please make sure it matches the type information exactly. "
+            f"IMPORATNT: For Union types the output must EXACTLY match one of the members of the Union type. "
             f"\n\n"
+            f"```Typescript"
             f"{form_description_block}\n\n"
+            f"```"
             "Please enclose the extracted information in HTML style tags with the tag name "
             "corresponding to the corresponding component ID. Use angle style brackets for the "
             "tags ('>' and '<'). "

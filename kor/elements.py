@@ -68,8 +68,11 @@ class AbstractInput(abc.ABC):
 
     def __post_init__(self) -> None:
         """Post initialization hook."""
-        if not VALID_IDENTIFIER_PATTERN.match(self.id):
-            raise ValueError(f"`{self.id}` is not a valid identifier.")
+        if not VALID_IDENTIFIER_PATTERN.match(self.id) or not self.id.islower():
+            raise ValueError(
+                f"`{self.id}` is not a valid identifier. "
+                f"Please only use lower cased a-z or the digits 0-9"
+            )
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
