@@ -3,15 +3,13 @@ from typing import Callable, Mapping, Sequence
 from kor import elements, prompts
 from kor.llm_utils import parse_llm_output
 
-DEFAULT_PROMPT_GENERATOR = prompts.ExtractionTemplate()
-
 
 def extract(
     user_input: str,
     form: elements.Form,
     model: Callable[[str], str] | Callable[[Sequence[Mapping[str, str]]], str],
-    prompt_generator: prompts.PromptGenerator = DEFAULT_PROMPT_GENERATOR,
-    prompt_format: prompts.prompt_format = "string",
+    prompt_generator: prompts.PromptGenerator = prompts.STANDARD_EXTRACTION_TEMPLATE,
+    prompt_format: prompts.PROMPT_FORMAT = "string",
 ) -> dict[str, list[str]]:
     """Extract information from the user input using the given form."""
     if prompt_format == "string":
