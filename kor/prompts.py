@@ -99,19 +99,17 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
         "Your goal is to extract structured information from the user's input that matches "
         "the form described below. "
         "When extracting information please make sure it matches the type information exactly. "
-        "IMPORTANT: For Union types the output must EXACTLY match one of the members "
-        "of the Union type. "
     ),
     type_descriptor="TypeScript",
     suffix=(
+        "For Union types the output must EXACTLY match one of the members "
+        "of the Union type.\n\n"
         "Please enclose the extracted information in HTML style tags with the tag name "
         "corresponding to the corresponding component ID. Use angle style brackets for the "
         "tags ('>' and '<'). "
         "Only output tags when you're confident about the information that was extracted "
         "from the user's query. If you can extract several pieces of relevant information "
-        'from the query, then include all of them. If "Multiple" is part '
-        "of the component's type, please repeat the same tag multiple times once for "
-        'each relevant extraction. If the type does not contain "Multiple" do not include it '
-        "more than once."
+        "from the query, then include all of them. If the type is an array, please "
+        "repeat the corresponding tag name multiple times once for each relevant extraction. "
     ),
 )

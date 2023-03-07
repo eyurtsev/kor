@@ -4,7 +4,12 @@ import dataclasses
 import re
 from typing import Sequence, Optional
 
-VALID_IDENTIFIER_PATTERN = re.compile(r"\w+")
+# For now, limit what's allowed for identifiers.
+# The main constraints
+# 1) Relying on HTML parser to parse output
+# 2) One of the type descriptors is TypeScript, so we want to produce valid TypeScript identifiers.
+# We can lift the constraints later if it becomes important, not worth the effort for a v0.
+VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
 
 def _write_single_tag(tag_name: str, data: str) -> str:
@@ -48,15 +53,18 @@ class AbstractInput(abc.ABC):
     description: str
     multiple: bool = False
     custom_type_name: Optional[str] = None
-
-    @property
-    def input_full_description(self) -> str:
-        """A full description for the input."""
-        return f"<{self.id}>: {self.type_name} # {self.description}"
+    #
+    # @property
+    # def input_full_description(self) -> str:
+    #     """A full description for the input."""
+    #     return f"<{self.id}>: {self.type_name} # {self.description}"
 
     @property
     def type_name(self) -> str:
-        """Default implementation of a type name is just the class name."""
+        """Default implementation of a type name is just the class name with the `Input` removed.
+
+        Please note that this behavior will likely change.
+        """
         class_name = self.__class__.__name__
 
         if self.multiple:
@@ -68,10 +76,10 @@ class AbstractInput(abc.ABC):
 
     def __post_init__(self) -> None:
         """Post initialization hook."""
-        if not VALID_IDENTIFIER_PATTERN.match(self.id) or not self.id.islower():
+        if not VALID_IDENTIFIER_PATTERN.match(self.id):
             raise ValueError(
                 f"`{self.id}` is not a valid identifier. "
-                f"Please only use lower cased a-z or the digits 0-9"
+                f"Please only use lower cased a-z, _ or the digits 0-9"
             )
 
 
