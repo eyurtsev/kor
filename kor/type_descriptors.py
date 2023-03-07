@@ -48,7 +48,7 @@ def _stringify_obj_to_typescript(obj: dict, depth: int = 0) -> str:
     outer_space = delimiter * depth
     inner_space = delimiter * (depth + 1)
     if depth == 0:
-        formatted = ["type Response =  {"]
+        formatted = ["type Response = {"]
     else:
         formatted = [f"{outer_space}" + "{"]
     for key, value in obj.items():

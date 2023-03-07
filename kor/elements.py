@@ -234,3 +234,10 @@ class Form(ExtractionInput):
     """
 
     elements: Sequence[ExtractionInput]
+    as_object: bool = True
+
+    @property
+    def llm_examples(self) -> list[tuple[str, str]]:
+        """LLM"""
+        examples = super().llm_examples
+        return examples

@@ -1,10 +1,14 @@
 """Parse LLM Response."""
+import json
+import logging
 import os
 from collections import defaultdict
 from html.parser import HTMLParser
 from typing import Any, DefaultDict
 
 import openai
+
+logger = logging.getLogger(__name__)
 
 
 class TagParser(HTMLParser):
@@ -109,10 +113,7 @@ class LLM:
     def __call__(self, prompt: str) -> str:
         """Invoke the LLM with the given prompt."""
         if self.verbose:
-            print("-" * 80)
-            print("Prompt: ")
-            print(prompt)
-            print("-" * 80)
+            logger.debug(prompt)
         response = openai.Completion.create(
             model="text-davinci-002",
             prompt=prompt,
@@ -123,8 +124,7 @@ class LLM:
             presence_penalty=0.0,
         )
         if self.verbose:
-            print("Model response: ")
-            print(response)
+            logger.debug(json.dumps(response))
         text = response["choices"][0]["text"]
         return text
 
@@ -135,42 +135,10 @@ class ChatLLM:
         openai.api_key = os.environ["OPENAI_API_KEY"]
         self.verbose = verbose
 
-    def __call__(self, prompt: str) -> str:
+    def __call__(self, messages: list[dict[str, str]]) -> str:
         """Invoke the LLM with the given prompt."""
         if self.verbose:
-            print("-" * 80)
-            print("Prompt: ")
-            print(prompt)
-            print("-" * 80)
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": prompt}],
-            temperature=0,
-            max_tokens=100,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0,
-        )
-        if self.verbose:
-            print("Model response: ")
-            print(response)
-        text = response["choices"][0]["message"]["content"]
-        return text
-
-
-class ChatLLMWithChatInvoke:
-    def __init__(self, verbose: bool = False) -> None:
-        """Initialize the LLM model."""
-        openai.api_key = os.environ["OPENAI_API_KEY"]
-        self.verbose = verbose
-
-    def __call__(self, messages: list[dict]) -> str:
-        """Invoke the LLM with the given prompt."""
-        if self.verbose:
-            print("-" * 80)
-            print("Prompt: ")
-            print(messages)
-            print("-" * 80)
+            logger.debug(json.dumps(messages))
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages,
@@ -181,7 +149,6 @@ class ChatLLMWithChatInvoke:
             presence_penalty=0.0,
         )
         if self.verbose:
-            print("Model response: ")
-            print(response)
+            logger.debug(json.dumps(response))
         text = response["choices"][0]["message"]["content"]
         return text
