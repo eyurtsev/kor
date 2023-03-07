@@ -68,12 +68,14 @@ def _stringify_obj_to_typescript(obj: dict, depth: int = 0) -> str:
 
 
 def generate_bullet_point_description(form: Form) -> str:
-    """Generate form."""
-    inputs_description_block = []
+    """Generate type description of the form in a custom bullet point format."""
+    bullet_points = []
     for element in form.elements:
-        inputs_description_block.append(f"* {element.input_full_description}")
-    inputs_description_block = "\n".join(inputs_description_block)
-    return inputs_description_block
+        bull_point_description = (
+            f"* {element.id}: {element.type_name} # {element.description}"
+        )
+        bullet_points.append(bull_point_description)
+    return "\n".join(bullet_points)  # Combine into a single block.
 
 
 def generate_typescript_description(form: Form) -> str:

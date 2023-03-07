@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Sequence, Optional
+from typing import Optional, Sequence
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -50,7 +50,7 @@ class AbstractInput(abc.ABC):
     """
 
     id: str  # Unique ID
-    description: str
+    description: str = ""
     multiple: bool = False
     custom_type_name: Optional[str] = None
     #
