@@ -1,22 +1,24 @@
-from typing import Callable
+from typing import Callable, Mapping, Sequence
 
 from kor import elements, prompts
 from kor.llm_utils import parse_llm_output
 
+DEFAULT_PROMPT_GENERATOR = prompts.ExtractionTemplate()
+
 
 def extract(
-    user_input: str, form: elements.Form, model: Callable[[str], str]
+    user_input: str,
+    form: elements.Form,
+    model: Callable[[str], str] | Callable[[Sequence[Mapping[str, str]]], str],
+    prompt_generator: prompts.PromptGenerator = DEFAULT_PROMPT_GENERATOR,
+    prompt_format: prompts.prompt_format = "string",
 ) -> dict[str, list[str]]:
     """Extract information from the user input using the given form."""
-    prompt = prompts.generate_prompt_for_form(user_input, form)
-    model_output = model(prompt)
-    return parse_llm_output(model_output)
-
-
-def chat_extract(
-    user_input: str, form: elements.Form, model: Callable[[dict], str]
-) -> dict[str, list[str]]:
-    """Extract information from the user input using the given form."""
-    chat_prompt = prompts.generate_chat_prompt_for_form(user_input, form)
+    if prompt_format == "string":
+        chat_prompt = prompt_generator.format_chat(user_input, form)
+    elif prompt_format == "chat":
+        chat_prompt = prompt_generator.format_chat(user_input, form)
+    else:
+        raise NotImplementedError(f"Unknown prompt format {prompt_format}")
     model_output = model(chat_prompt)
     return parse_llm_output(model_output)
