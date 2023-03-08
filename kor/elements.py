@@ -12,30 +12,6 @@ from typing import Optional, Sequence
 VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
 
-def _write_single_tag(tag_name: str, data: str) -> str:
-    """Write a tag."""
-    return f"<{tag_name}>{data}</{tag_name}>"
-
-
-def _write_tag(tag_name: str, data_values: str | Sequence[str]) -> str:
-    """Write a tag."""
-    if isinstance(data_values, str):
-        data_values = [data_values]
-
-    return "".join(_write_single_tag(tag_name, value) for value in data_values)
-
-
-def _write_complex_tag(tag_name: str, data: dict[str, str]) -> str:
-    """Write a complex tag."""
-    s_data = "".join(
-        [
-            _write_tag(key, value)
-            for key, value in sorted(data.items(), key=lambda item: item[0])
-        ]
-    )
-    return _write_tag(tag_name, s_data)
-
-
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class AbstractInput(abc.ABC):
     """Abstract input element.
@@ -106,21 +82,6 @@ class ExtractionInput(AbstractInput, abc.ABC):
 
     examples: Sequence[tuple[str, str | list[str]]]
 
-    @property
-    def llm_examples(self) -> list[tuple[str, str]]:
-        """List of 2-tuples of input, output.
-
-        Does not include the `Input: ` or `Output: ` prefix
-        """
-        formatted_examples = []
-        for text, extraction in self.examples:
-            if isinstance(extraction, str) and not extraction.strip():
-                value = ""
-            else:
-                value = _write_tag(self.id, extraction)
-            formatted_examples.append((text, value))
-        return formatted_examples
-
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class ObjectInput(AbstractInput, abc.ABC):
@@ -131,17 +92,18 @@ class ObjectInput(AbstractInput, abc.ABC):
 
     examples: Sequence[tuple[str, dict[str, str | list[str]]]]
 
-    @property
-    def llm_examples(self) -> list[tuple[str, str]]:
-        """List of 2-tuples of input, output.
-
-        Does not include the `Input: ` or `Output: ` prefix
-        """
-        formatted_examples = []
-        for text, extraction in self.examples:
-            formatted_examples.append((text, _write_complex_tag(self.id, extraction)))
-
-        return formatted_examples
+    # @property
+    # def llm_examples(self) -> list[tuple[str, str]]:
+    #     """List of 2-tuples of input, output.
+    #
+    #     Does not include the `Input: ` or `Output: ` prefix
+    #     """
+    #     formatted_examples = []
+    #     for text, extraction in self.examples:
+    #         formatted_examples.append((text, _write_complex_tag(self.id, extraction)))
+    #
+    #     return formatted_examples
+    #
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
@@ -184,21 +146,7 @@ class Selection(AbstractInput):
     """
 
     options: Sequence[Option]
-    # If multiple=true, selection input allows for multiple options to be selected.
     null_examples: Sequence[str] = tuple()
-
-    @property
-    def llm_examples(self) -> list[tuple[str, str]]:
-        """Examples ready for llm-consumption."""
-        formatted_examples = []
-        for option in self.options:
-            for example in option.examples:
-                formatted_examples.append((example, _write_tag(self.id, option.id)))
-
-        for null_example in self.null_examples:
-            formatted_examples.append((null_example, ""))
-
-        return formatted_examples
 
     @property
     def option_ids(self) -> list[str]:
@@ -225,9 +173,3 @@ class Form(ExtractionInput):
 
     elements: Sequence[ExtractionInput]
     as_object: bool = True
-
-    @property
-    def llm_examples(self) -> list[tuple[str, str]]:
-        """LLM"""
-        examples = super().llm_examples
-        return examples

@@ -81,4 +81,5 @@ def generate_bullet_point_description(form: Form) -> str:
 def generate_typescript_description(form: Form) -> str:
     """Generate a description of the form type in TypeScript syntax."""
     obj = _traverse_form_obj(form)
-    return _stringify_obj_to_typescript(obj)
+    type_script = _stringify_obj_to_typescript(obj)
+    return f"```TypeScript\n{type_script}\n```\n"

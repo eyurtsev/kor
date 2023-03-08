@@ -138,6 +138,8 @@ class ChatLLM:
     def __call__(self, messages: list[dict[str, str]]) -> str:
         """Invoke the LLM with the given prompt."""
         if self.verbose:
+            for message in messages:
+                print(message)
             logger.debug(json.dumps(messages))
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -149,6 +151,7 @@ class ChatLLM:
             presence_penalty=0.0,
         )
         if self.verbose:
+            print(response)
             logger.debug(json.dumps(response))
         text = response["choices"][0]["message"]["content"]
         return text

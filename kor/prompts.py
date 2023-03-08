@@ -17,12 +17,12 @@ class PromptGenerator(abc.ABC):
     """Define abstract interface for a prompt."""
 
     @abc.abstractmethod
-    def format_standard(self, user_input: str, form: Form) -> str:
+    def format_as_string(self, user_input: str, form: Form) -> str:
         """Format as a prompt to a standard LLM."""
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def format_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
+    def format_as_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
         """Format as a prompt to a chat model."""
         raise NotImplementedError()
 
@@ -51,7 +51,7 @@ class ExtractionTemplate(PromptGenerator):
         type_description = generate_typescript_description(form)
         return f"{self.prefix}\n\n{type_description}\n\n{self.suffix}"
 
-    def format_standard(self, user_input: str, form: Form) -> str:
+    def format_as_string(self, user_input: str, form: Form) -> str:
         """Format the template for a `standard` LLM model."""
         instruction_segment = self.generate_instruction_segment(form)
         examples = self.example_generator(form)
@@ -69,7 +69,7 @@ class ExtractionTemplate(PromptGenerator):
         input_output_block = "\n".join(input_output_block)
         return f"{instruction_segment}\n\n{input_output_block}"
 
-    def format_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
+    def format_as_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
         """Format the template for a `chat` LLM model."""
         instruction_segment = self.generate_instruction_segment(form)
 
@@ -90,6 +90,8 @@ class ExtractionTemplate(PromptGenerator):
                     },
                 ]
             )
+
+        messages.append({"role": "user", "content": user_input})
 
         return messages
 
