@@ -8,7 +8,7 @@ The code uses a default encoding of XML. This encoding should match the parser.
 """
 from typing import List, Sequence, Any, Union
 
-from kor.elements import Form, Selection, ExtractionInput, AbstractInput
+from kor.elements import Form, Selection, ExtractionInput, AbstractInput, ObjectInput
 
 LITERAL_TYPE = Union[str, int, float]
 
@@ -82,32 +82,34 @@ def _generate_extraction_input_examples(
     return formatted_examples
 
 
-def _generate_examples_form(form: Form) -> List[tuple[str, str]]:
+def _generate_examples_object(obj: Union[Form]) -> List[tuple[str, str]]:
     """Generate examples form."""
     examples = []
-    for element in form.elements:
+    for element in obj.elements:
         element_examples = generate_examples(element)
         # If the form is to be interpreted as a coherent object, then
         # we do a trick and wrap all the outputs in the form ID.
-        if form.as_object:  # Wrap all examples in a parent tag
+        if isinstance(obj, Form) and obj.as_object:  # Wrap all examples in a parent tag
             element_examples = [
-                (example_input, _write_tag(form.id, example_output))
+                (example_input, _write_tag(obj.id, example_output))
                 for example_input, example_output in element_examples
             ]
 
         examples.extend(element_examples)
 
-    form_examples = form.examples
-    if form.as_object:
-        form_examples = [
-            (example_input, _write_tag(form.id, example_output))
-            for example_input, example_output in form_examples
-        ]
-    else:
-        if form_examples:
-            raise NotImplementedError(
-                f"No support form examples if form is not an object."
-            )
+    form_examples = obj.examples
+
+    if isinstance(obj, Form):
+        if obj.as_object:
+            form_examples = [
+                (example_input, _write_tag(obj.id, example_output))
+                for example_input, example_output in form_examples
+            ]
+        else:
+            if form_examples:
+                raise NotImplementedError(
+                    f"No support form examples if form is not an object."
+                )
 
     examples.extend(form_examples)
 
@@ -141,8 +143,8 @@ def generate_examples(
     if encoding != "XML":
         raise NotImplementedError("Only XML encoding is supported right now.")
     # Dispatch based on element type.
-    if isinstance(element, Form):
-        return _generate_examples_form(element)
+    if isinstance(element, ObjectInput):
+        return _generate_examples_object(element)
     elif isinstance(element, Selection):
         return _generate_selection_examples(element)
     elif isinstance(element, ExtractionInput):  # Catch all

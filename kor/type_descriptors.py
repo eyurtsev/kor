@@ -6,7 +6,7 @@ on details such as the format of the schema.
 As a result, creating a dedicated module to allow experimenting with different
 ways of describing the schema.
 """
-from kor.elements import Form, Selection, Text
+from kor.elements import Form, Selection, TextInput
 
 
 def _traverse_form_for_bullet_point(
@@ -36,7 +36,7 @@ def _traverse_form_obj(form: Form, is_root: bool = False) -> dict:
                 finalized_type = (
                     "(" + " | ".join('"' + s.id + '"' for s in element.options) + ")"
                 )
-            elif isinstance(element, Text):
+            elif isinstance(element, TextInput):
                 finalized_type = "string"
             else:
                 finalized_type = element.type_name.lower()

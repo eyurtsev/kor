@@ -75,39 +75,6 @@ class ExtractionInput(AbstractInput, abc.ABC):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class AbstractObjectInput(AbstractInput, abc.ABC):
-    """An abstract definition for an object extraction.
-
-    An extraction input can be associated with 2 different types of examples:
-
-    1) extraction examples (called simply `examples`)
-    2) null examples (called `null_examples`)
-
-    ## Extraction examples
-
-    A standard extraction example is a 2-tuple composed of a text segment and the expected
-    extraction.
-
-    For example:
-        [
-            ("I bought this cookie for $10", "$10"),
-            ("Eggs cost twelve dollars", "twelve dollars"),
-        ]
-
-    ## Null examples
-
-    Null examples are segments of text for which nothing should be extracted.
-    Good null examples will likely be challenging, adversarial examples.
-
-    For example:
-        for an extraction input about company names nothing should be extracted
-        from the text: "I eat an apple every day.".
-    """
-
-    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Date(ExtractionInput):
     """Built-in date input."""
 
@@ -118,7 +85,7 @@ class Number(ExtractionInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class Text(ExtractionInput):
+class TextInput(ExtractionInput):
     """Built-in text input."""
 
 
@@ -165,15 +132,34 @@ class Selection(AbstractInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class UntypedObjectInput(AbstractInput):
-    """An untyped object."""
+class ObjectInput(AbstractInput):
+    """A definition for an object extraction.
 
-    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
+    An extraction input can be associated with 2 different types of examples:
 
+    1) extraction examples (called simply `examples`)
+    2) null examples (called `null_examples`)
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class ObjectInput(AbstractObjectInput):
-    """A typed object."""
+    ## Extraction examples
+
+    A standard extraction example is a 2-tuple composed of a text segment and the expected
+    extraction.
+
+    For example:
+        [
+            ("I bought this cookie for $10", "$10"),
+            ("Eggs cost twelve dollars", "twelve dollars"),
+        ]
+
+    ## Null examples
+
+    Null examples are segments of text for which nothing should be extracted.
+    Good null examples will likely be challenging, adversarial examples.
+
+    For example:
+        for an extraction input about company names nothing should be extracted
+        from the text: "I eat an apple every day.".
+    """
 
     elements: Sequence[ExtractionInput]
     examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()

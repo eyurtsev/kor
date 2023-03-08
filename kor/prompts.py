@@ -4,7 +4,7 @@ import dataclasses
 from typing import Union, Literal, Callable, List, Tuple
 
 from kor.elements import Form
-from kor.example_generation import generate_examples
+from kor.examples import generate_examples
 from kor.type_descriptors import (
     generate_typescript_description, generate_bullet_point_description,
 )
