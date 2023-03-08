@@ -7,7 +7,7 @@ import pprint
 from kor import elements
 from kor.elements import Option
 from kor.extraction import extract
-from kor.llm_utils import LLM
+from kor.llms import OpenAICompletion
 
 
 def get_test_form() -> elements.Form:
@@ -77,7 +77,7 @@ def get_test_form() -> elements.Form:
             ),
         ],
     )
-    movie_date = elements.DateInput(
+    movie_date = elements.Date(
         id="watch-when",
         description="When do you want to watch the movie",
         examples=[
@@ -86,7 +86,7 @@ def get_test_form() -> elements.Form:
         ],
     )
 
-    dentist_date = elements.DateInput(
+    dentist_date = elements.Date(
         id="dentist-when",
         description="When will you go to the dentist",
         examples=[
@@ -95,7 +95,7 @@ def get_test_form() -> elements.Form:
         ],
     )
 
-    nationality_input = elements.TextInput(
+    nationality_input = elements.Text(
         id="nationality",
         description="What is your nationality. Please only use standard nationalities.",
         examples=[
@@ -120,7 +120,7 @@ def get_test_form() -> elements.Form:
 
 
 def get_test_form_2():
-    company_name = elements.TextInput(
+    company_name = elements.Text(
         id="company-name",
         description="what is the name of the company you want to find",
         examples=[
@@ -151,7 +151,7 @@ def get_test_form_2():
             ),
         ],
     )
-    industry_name = elements.TextInput(
+    industry_name = elements.Text(
         id="industry-name",
         description="what is the name of the company's industry",
         examples=[
@@ -163,7 +163,7 @@ def get_test_form_2():
         ],
     )
 
-    geography_name = elements.TextInput(
+    geography_name = elements.Text(
         id="geography-name",
         description="where is the company based? Please use a single country name.",
         examples=[
@@ -173,7 +173,7 @@ def get_test_form_2():
         ],
     )
 
-    foundation_date = elements.DateInput(
+    foundation_date = elements.Date(
         id="foundation-date",
         description="Foundation date of the company",
         examples=[("companies founded in 2023", "2023")],
@@ -188,7 +188,7 @@ def get_test_form_2():
         ],
     )
 
-    attribute_filter = elements.ObjectInput(
+    attribute_filter = elements.AbstractObjectInput(
         id="attribute-filter",
         description=(
             "Filter by a value of an attribute using a binary expression. Specify the attribute's name, "
@@ -239,7 +239,7 @@ def get_test_form_2():
     #     ],
     # )
 
-    sales_geography = elements.TextInput(
+    sales_geography = elements.Text(
         id="geography-sales",
         description=(
             "where is the company doing sales? Please use a single country name."
@@ -270,7 +270,7 @@ def get_test_form_2():
     #     ],
     # )
 
-    attr_question_block = elements.TextInput(
+    attr_question_block = elements.Text(
         id="question",
         description="Asking about the value of a particular attribute",
         examples=[
@@ -280,7 +280,7 @@ def get_test_form_2():
         ],
     )
 
-    sort_by_attribute_block = elements.ObjectInput(
+    sort_by_attribute_block = elements.AbstractObjectInput(
         id="sort-block",
         description=(
             "Use to request to sort the results by a particular attribute. "
@@ -320,7 +320,7 @@ def get_test_form_2():
 
 def main() -> None:
     form = get_test_form_2()
-    llm = LLM(verbose=True)
+    llm = OpenAICompletion(verbose=True)
 
     while True:
         user_str = input("Please enter text to be parsed: ")

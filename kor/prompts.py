@@ -1,35 +1,142 @@
 """Code to dynamically generate appropriate LLM prompts."""
+import abc
+import dataclasses
+from typing import Union, Literal, Callable, List, Tuple
 
 from kor.elements import Form
+from kor.example_generation import generate_examples
+from kor.type_descriptors import (
+    generate_typescript_description, generate_bullet_point_description,
+)
 
-# PUBLIC API
+PROMPT_FORMAT = Union[Literal["openai-chat"], Literal["string"]]
 
 
-def generate_prompt_for_form(user_input: str, form: Form) -> str:
-    """Generate a prompt for a form."""
-    inputs_description_block = []
-    examples = []
-    for element in form.elements:
-        inputs_description_block.append(f"* {element.input_full_description}")
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class PromptGenerator(abc.ABC):
+    """Define abstract interface for a prompt."""
 
-        for example_input, example_output in element.llm_examples:
-            examples.extend([f"Input: {example_input}", f"Output: {example_output}"])
+    @abc.abstractmethod
+    def format_as_string(self, user_input: str, form: Form) -> str:
+        """Format as a prompt to a standard LLM."""
+        raise NotImplementedError()
 
-    inputs_description_block = "\n".join(inputs_description_block)
-    examples_block = "\n".join(examples).strip()
+    @abc.abstractmethod
+    def format_as_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
+        """Format as a prompt to a chat model."""
+        raise NotImplementedError()
 
-    return (
-        f"You are helping a user fill out a form. The user will type information and your goal "
-        f"will be to parse the user's input.\n"
-        f'The description of the form is: "{form.description}"'
-        "Below is a list of the components showing the component ID, its type and "
-        "a short description of it.\n\n"
-        f"{inputs_description_block}\n\n"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class ExtractionTemplate(PromptGenerator):
+    """Prompt generator for extraction purposes."""
+
+    prefix: str
+    type_descriptor: str
+    suffix: str
+    example_generator: Callable[[Form], List[Tuple[str, str]]] = generate_examples
+
+    def __post_init__(self) -> None:
+        """Validate the template."""
+        if self.prefix.endswith("\n"):
+            
+            raise ValueError("Please do not end the prefix with new lines.")
+
+        if self.suffix.endswith("\n"):
+            raise ValueError("Please do not end the suffix with new lines.")
+
+    def replace(self, **kwargs) -> "ExtractionTemplate":
+        """Bind to replace function for convenience."""
+        return dataclasses.replace(self, **kwargs)
+
+    def generate_instruction_segment(self, form: Form) -> str:
+        """Generate the instruction segment of the extraction."""
+        if self.type_descriptor == "TypeScript":
+            type_description = generate_typescript_description(form)
+        elif self.type_descriptor == "BulletPoint":
+            type_description = generate_bullet_point_description(form)
+        else:
+            raise NotImplementedError()
+        return f"{self.prefix}\n\n{type_description}\n\n{self.suffix}"
+
+    def format_as_string(self, user_input: str, form: Form) -> str:
+        """Format the template for a `standard` LLM model."""
+        instruction_segment = self.generate_instruction_segment(form)
+        examples = self.example_generator(form)
+        input_output_block = []
+
+        for in_example, output in examples:
+            input_output_block.extend(
+                [
+                    f"Input: {in_example}",
+                    f"Output: {output}",
+                ]
+            )
+
+        input_output_block.append(f"Input: {user_input}\nOutput:")
+        input_output_block = "\n".join(input_output_block)
+        return f"{instruction_segment}\n\n{input_output_block}"
+
+    def format_as_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
+        """Format the template for a `chat` LLM model."""
+        instruction_segment = self.generate_instruction_segment(form)
+
+        messages = [
+            {
+                "role": "system",
+                "content": instruction_segment,
+            }
+        ]
+
+        for example_input, example_output in self.example_generator(form):
+            messages.extend(
+                [
+                    {"role": "user", "content": example_input},
+                    {
+                        "role": "assistant",
+                        "content": f"{example_output}",
+                    },
+                ]
+            )
+
+        messages.append({"role": "user", "content": user_input})
+
+        return messages
+
+
+STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
+    prefix=(
+        "Your goal is to extract structured information from the user's input that matches "
+        "the form described below. "
+        "When extracting information please make sure it matches the type information exactly. "
+    ),
+    type_descriptor="TypeScript",
+    suffix=(
+        "For Union types the output must EXACTLY match one of the members "
+        "of the Union type.\n\n"
+        "Please enclose the extracted information in HTML style tags with the tag name "
+        "corresponding to the corresponding component ID. Use angle style brackets for the "
+        "tags ('>' and '<'). "
+        "Only output tags when you're confident about the information that was extracted "
+        "from the user's query. If you can extract several pieces of relevant information "
+        "from the query, then include all of them. If the type is an array, please "
+        "repeat the corresponding tag name multiple times once for each relevant extraction. "
+    ),
+)
+
+
+BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
+    prefix=(
+        "Your goal is to extract structured information from the user's input that matches "
+        "the form described below. "
+        "When extracting information please make sure it matches the type information exactly. "
+    ),
+    type_descriptor="BulletPoint",
+    suffix=(
         "Your task is to parse the user input and determine to what values the user is attempting "
         "to set each component of the form.\n"
-        "When the type of the input is a Selection, only output one of the options specified in the square brackets "
-        "as arguments to the Selection type of this input. "
-        
+        "When the type of the input is a Selection, only output one of the options specified in "
+        "the square brackets as arguments to the Selection type of this input. "
         "Please enclose the extracted information in HTML style tags with the tag name "
         "corresponding to the corresponding component ID. Use angle style brackets for the "
         "tags ('>' and '<'). "
@@ -39,8 +146,5 @@ def generate_prompt_for_form(user_input: str, form: Form) -> str:
         "of the component's type, then please repeat the same tag multiple times once for "
         'each relevant extraction. If the type does not contain "Multiple" do not include it '
         "more than once."
-        "\n\n"
-        f"{examples_block}\n"
-        f"Input: {user_input}\n"
-        "Output: "
-    )
+    ),
+)

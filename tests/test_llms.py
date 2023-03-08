@@ -1,6 +1,6 @@
 import pytest
 
-from kor.llm_utils import parse_llm_output
+from kor.parsing import parse_llm_output
 
 
 @pytest.mark.parametrize(
