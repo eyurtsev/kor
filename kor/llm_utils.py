@@ -1,4 +1,5 @@
 """Parse LLM Response."""
+import dataclasses
 import json
 import logging
 import os
@@ -104,28 +105,36 @@ def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     return dict(tag_parser.parse_data)
 
 
-class LLM:
-    def __init__(self, verbose: bool = False) -> None:
+@dataclasses.dataclass(kw_only=True)
+class LLMOpenAI:
+    model: str = "text-davinci-001"
+    verbose: bool = False
+    temperature: float = 0
+    max_tokens: int = 1000
+
+    def __post_init__(self) -> None:
         """Initialize the LLM model."""
         openai.api_key = os.environ["OPENAI_API_KEY"]
-        self.verbose = verbose
 
     def __call__(self, prompt: str) -> str:
         """Invoke the LLM with the given prompt."""
         if self.verbose:
+            print(prompt)
             logger.debug(prompt)
         response = openai.Completion.create(
-            model="text-davinci-002",
+            model=self.model,
             prompt=prompt,
-            temperature=0,
-            max_tokens=400,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0,
         )
         if self.verbose:
+            print(response)
             logger.debug(json.dumps(response))
         text = response["choices"][0]["text"]
+        print(text)
         return text
 
 

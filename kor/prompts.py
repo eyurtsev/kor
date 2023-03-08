@@ -6,7 +6,7 @@ from typing import Union, Literal, Callable, List, Tuple
 from kor.elements import Form
 from kor.example_generation import simple_example_generator
 from kor.type_descriptors import (
-    generate_typescript_description,
+    generate_typescript_description, generate_bullet_point_description
 )
 
 PROMPT_FORMAT = Union[Literal["openai-chat"], Literal["string"]]
@@ -48,7 +48,12 @@ class ExtractionTemplate(PromptGenerator):
 
     def generate_instruction_segment(self, form: Form) -> str:
         """Generate the instruction segment of the extraction."""
-        type_description = generate_typescript_description(form)
+        if self.type_descriptor == "TypeScript":
+            type_description = generate_typescript_description(form)
+        elif self.type_descriptor == "Simple":
+            type_description = generate_bullet_point_description(form)
+        else:
+            raise NotImplementedError()
         return f"{self.prefix}\n\n{type_description}\n\n{self.suffix}"
 
     def format_as_string(self, user_input: str, form: Form) -> str:
@@ -113,5 +118,30 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
         "from the user's query. If you can extract several pieces of relevant information "
         "from the query, then include all of them. If the type is an array, please "
         "repeat the corresponding tag name multiple times once for each relevant extraction. "
+    ),
+)
+
+
+SIMPLE_EXTRACTION_TEMPLATE = ExtractionTemplate(
+    prefix=(
+        "Your goal is to extract structured information from the user's input that matches "
+        "the form described below. "
+        "When extracting information please make sure it matches the type information exactly. "
+    ),
+    type_descriptor="Simple",
+    suffix=(
+        "Your task is to parse the user input and determine to what values the user is attempting "
+        "to set each component of the form.\n"
+        "When the type of the input is a Selection, only output one of the options specified in "
+        "the square brackets as arguments to the Selection type of this input. "
+        "Please enclose the extracted information in HTML style tags with the tag name "
+        "corresponding to the corresponding component ID. Use angle style brackets for the "
+        "tags ('>' and '<'). "
+        "Only output tags when you're confident about the information that was extracted "
+        "from the user's query. If you can extract several pieces of relevant information "
+        'from the query include use a comma to separate the tags. If "Multiple" is part '
+        "of the component's type, then please repeat the same tag multiple times once for "
+        'each relevant extraction. If the type does not contain "Multiple" do not include it '
+        "more than once."
     ),
 )

@@ -6,7 +6,7 @@ from typing import Mapping, Any, Tuple, Self
 from kor import elements
 from kor.elements import AbstractInput
 from kor.extraction import extract
-from kor.llm_utils import LLM
+from kor.llm_utils import LLMOpenAI
 
 
 # @dataclasses.dataclass(frozen=True)
@@ -133,7 +133,7 @@ class Interpreter:
     def __init__(self, automaton: Automaton) -> None:
         """Existing bot interpreter."""
         self.automaton = automaton
-        self.llm = LLM()
+        self.llm = LLMOpenAI()
 
     def generate_state_message(self) -> Message:
         current_state = self.automaton.state

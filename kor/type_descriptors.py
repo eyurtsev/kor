@@ -69,7 +69,10 @@ def _stringify_obj_to_typescript(obj: dict, depth: int = 0) -> str:
 
 def generate_bullet_point_description(form: Form) -> str:
     """Generate type description of the form in a custom bullet point format."""
-    bullet_points = []
+    bullet_points = [
+        f"The form ID is {form.id} and the description is {form.description}"
+    ]
+
     for element in form.elements:
         bull_point_description = (
             f"* {element.id}: {element.type_name} # {element.description}"

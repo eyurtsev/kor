@@ -4,22 +4,19 @@ At the moment, this code only has a simple implementation that concatenates all 
 examples, but one may want to select or generate examples in a smarter way, or take
 into account the finite size of the context window and limit the number of examples.
 """
-from typing import List, Sequence
+from typing import List, Sequence, Any
 
 from kor.elements import Form, Selection, ExtractionInput, AbstractInput
 
 
-def _write_single_tag(tag_name: str, data: str) -> str:
+def _write_single_tag(tag_name: str, value: str) -> str:
     """Write a tag."""
-    return f"<{tag_name}>{data}</{tag_name}>"
+    return f"<{tag_name}>{value}</{tag_name}>"
 
 
-def _write_tag(tag_name: str, data_values: str | Sequence[str]) -> str:
-    """Write a tag."""
-    if isinstance(data_values, str):
-        data_values = [data_values]
-
-    return "".join(_write_single_tag(tag_name, value) for value in data_values)
+def _write_list(tag_name: str, values: Sequence[str]) -> str:
+    """Write list."""
+    return "".join(_write_tag(tag_name, value) for value in values)
 
 
 def _write_complex_tag(tag_name: str, data: dict[str, str]) -> str:
@@ -33,10 +30,22 @@ def _write_complex_tag(tag_name: str, data: dict[str, str]) -> str:
     return _write_tag(tag_name, s_data)
 
 
+def _write_tag(tag_name: str, data: str | Sequence[str] | dict[str, Any]) -> str:
+    """Write a tag."""
+    if isinstance(data, (str, int, float, complex)):
+        return _write_single_tag(tag_name, data)
+    elif isinstance(data, list):
+        return _write_list(tag_name, data)
+    elif isinstance(data, dict):
+        return _write_complex_tag(tag_name, data)
+    else:
+        raise NotImplementedError(f"No support for {tag_name}")
+
+
 # PUBLIC API
 
 
-def _generate_selection_examples(selection: Selection) -> list[tuple[str, str]]:
+def _generate_selection_examples(selection: Selection, encoding: str) -> list[tuple[str, str]]:
     """Generate examples for a given selection input."""
     formatted_examples = []
     for option in selection.options:
@@ -50,7 +59,7 @@ def _generate_selection_examples(selection: Selection) -> list[tuple[str, str]]:
 
 
 def _generate_extraction_input_examples(
-    extraction_input: ExtractionInput,
+    extraction_input: ExtractionInput, encoding: str
 ) -> list[tuple[str, str]]:
     """List of 2-tuples of input, output.
 
@@ -66,32 +75,43 @@ def _generate_extraction_input_examples(
     return formatted_examples
 
 
-def _generate_examples_form(form: Form) -> List[tuple[str, str]]:
+def _generate_examples_form(form: Form, encoding: str) -> List[tuple[str, str]]:
     """Generate examples form."""
     examples = []
     for element in form.elements:
-        element_examples = generate_examples(element)
+        element_examples = generate_examples(element, encoding=encoding)
         # If the form is to be interpreted as a coherent object, then
         # we do a trick and wrap all the outputs in the form ID.
         if form.as_object:  # Wrap all examples in a parent tag
             element_examples = [
-                (example_input, _write_single_tag(form.id, example_output))
+                (example_input, _write_tag(form.id, example_output))
                 for example_input, example_output in element_examples
             ]
 
         examples.extend(element_examples)
 
+    form_examples = form.examples
+    if form.as_object:
+        form_examples = [
+            (example_input, _write_tag(form.id, example_output))
+            for example_input, example_output in form_examples
+        ]
+    else:
+        raise NotImplementedError(f"No support form examples if form is not an object.")
+
+    examples.extend(form_examples)
+
     return examples
 
 
-def generate_examples(element: AbstractInput) -> List[tuple[str, str]]:
+def generate_examples(element: AbstractInput, encoding: str = 'XML') -> List[tuple[str, str]]:
     """Dispatch based on element type."""
     if isinstance(element, Form):
-        return _generate_examples_form(element)
+        return _generate_examples_form(element, encoding=encoding)
     elif isinstance(element, Selection):
-        return _generate_selection_examples(element)
+        return _generate_selection_examples(element, encoding=encoding)
     elif isinstance(element, ExtractionInput):  # Catch all
-        return _generate_extraction_input_examples(element)
+        return _generate_extraction_input_examples(element, encoding=encoding)
     else:
         raise NotImplementedError(f"No support for {type(element)}")
 
