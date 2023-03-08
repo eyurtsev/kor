@@ -51,13 +51,8 @@ class AbstractInput(abc.ABC):
 
     id: str  # Unique ID
     description: str = ""
-    multiple: bool = False
+    multiple: bool = True
     custom_type_name: Optional[str] = None
-    #
-    # @property
-    # def input_full_description(self) -> str:
-    #     """A full description for the input."""
-    #     return f"<{self.id}>: {self.type_name} # {self.description}"
 
     @property
     def type_name(self) -> str:
@@ -66,10 +61,6 @@ class AbstractInput(abc.ABC):
         Please note that this behavior will likely change.
         """
         class_name = self.__class__.__name__
-
-        if self.multiple:
-            class_name = f"Multiple {class_name}"
-
         if class_name.endswith("Input"):
             return class_name.removesuffix("Input")
         return class_name
@@ -195,7 +186,6 @@ class Selection(AbstractInput):
     options: Sequence[Option]
     # If multiple=true, selection input allows for multiple options to be selected.
     null_examples: Sequence[str] = tuple()
-    multiple: bool = False
 
     @property
     def llm_examples(self) -> list[tuple[str, str]]:
