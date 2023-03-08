@@ -1,15 +1,6 @@
-"""Parse LLM Response."""
-import dataclasses
-import json
-import logging
-import os
 from collections import defaultdict
 from html.parser import HTMLParser
-from typing import Any, DefaultDict
-
-import openai
-
-logger = logging.getLogger(__name__)
+from typing import DefaultDict, Any
 
 
 class TagParser(HTMLParser):
@@ -70,9 +61,6 @@ class TagParser(HTMLParser):
         self.data = data
 
 
-# PUBLIC API
-
-
 def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     """Parse a response from an LLM.
 
@@ -103,64 +91,3 @@ def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
     if not tag_parser.success:
         return {}
     return dict(tag_parser.parse_data)
-
-
-@dataclasses.dataclass(kw_only=True)
-class LLMOpenAI:
-    model: str = "text-davinci-001"
-    verbose: bool = False
-    temperature: float = 0
-    max_tokens: int = 1000
-
-    def __post_init__(self) -> None:
-        """Initialize the LLM model."""
-        openai.api_key = os.environ["OPENAI_API_KEY"]
-
-    def __call__(self, prompt: str) -> str:
-        """Invoke the LLM with the given prompt."""
-        if self.verbose:
-            print(prompt)
-            logger.debug(prompt)
-        response = openai.Completion.create(
-            model=self.model,
-            prompt=prompt,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0,
-        )
-        if self.verbose:
-            print(response)
-            logger.debug(json.dumps(response))
-        text = response["choices"][0]["text"]
-        print(text)
-        return text
-
-
-class ChatLLM:
-    def __init__(self, verbose: bool = False) -> None:
-        """Initialize the LLM model."""
-        openai.api_key = os.environ["OPENAI_API_KEY"]
-        self.verbose = verbose
-
-    def __call__(self, messages: list[dict[str, str]]) -> str:
-        """Invoke the LLM with the given prompt."""
-        if self.verbose:
-            for message in messages:
-                print(message)
-            logger.debug(json.dumps(messages))
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            temperature=0,
-            max_tokens=1000,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0,
-        )
-        if self.verbose:
-            print(response)
-            logger.debug(json.dumps(response))
-        text = response["choices"][0]["message"]["content"]
-        return text

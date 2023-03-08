@@ -1,7 +1,7 @@
 from typing import Callable, Mapping, Sequence
 
 from kor import elements, prompts
-from kor.llm_utils import parse_llm_output
+from kor.parsing import parse_llm_output
 
 
 def extract(

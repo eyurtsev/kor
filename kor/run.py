@@ -7,7 +7,7 @@ import pprint
 from kor import elements
 from kor.elements import Option
 from kor.extraction import extract
-from kor.llm_utils import LLMOpenAI
+from kor.llms import OpenAICompletion
 
 
 def get_test_form() -> elements.Form:
@@ -320,7 +320,7 @@ def get_test_form_2():
 
 def main() -> None:
     form = get_test_form_2()
-    llm = LLMOpenAI(verbose=True)
+    llm = OpenAICompletion(verbose=True)
 
     while True:
         user_str = input("Please enter text to be parsed: ")

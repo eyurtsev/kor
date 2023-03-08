@@ -49,6 +49,11 @@ class AbstractInput(abc.ABC):
                 f"Please only use lower cased a-z, _ or the digits 0-9"
             )
 
+        if not self.multiple:
+            raise ValueError(
+                "Reserved parameter. At the moment, multiple has to be True."
+            )
+
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class ExtractionInput(AbstractInput, abc.ABC):
@@ -91,19 +96,6 @@ class ObjectInput(AbstractInput, abc.ABC):
     """
 
     examples: Sequence[tuple[str, dict[str, str | list[str]]]]
-
-    # @property
-    # def llm_examples(self) -> list[tuple[str, str]]:
-    #     """List of 2-tuples of input, output.
-    #
-    #     Does not include the `Input: ` or `Output: ` prefix
-    #     """
-    #     formatted_examples = []
-    #     for text, extraction in self.examples:
-    #         formatted_examples.append((text, _write_complex_tag(self.id, extraction)))
-    #
-    #     return formatted_examples
-    #
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)

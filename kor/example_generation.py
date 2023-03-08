@@ -3,6 +3,8 @@
 At the moment, this code only has a simple implementation that concatenates all the
 examples, but one may want to select or generate examples in a smarter way, or take
 into account the finite size of the context window and limit the number of examples.
+
+The code uses a default encoding of XML. This encoding should match the parser.
 """
 from typing import List, Sequence, Any, Union
 
