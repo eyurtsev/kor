@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Mapping
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -59,6 +59,25 @@ class AbstractInput(abc.ABC):
 class ExtractionInput(AbstractInput, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
+    An extraction input can be associated with extraction examples.
+
+    An extraction example is a 2-tuple composed of a text segment and the expected
+    extraction.
+
+    For example:
+        [
+            ("I bought this cookie for $10", "$10"),
+            ("Eggs cost twelve dollars", "twelve dollars"),
+        ]
+    """
+
+    examples: Sequence[tuple[str, str | Sequence[str]]] = tuple()
+
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class AbstractObjectInput(AbstractInput, abc.ABC):
+    """An abstract definition for an object extraction.
+
     An extraction input can be associated with 2 different types of examples:
 
     1) extraction examples (called simply `examples`)
@@ -85,21 +104,11 @@ class ExtractionInput(AbstractInput, abc.ABC):
         from the text: "I eat an apple every day.".
     """
 
-    examples: Sequence[tuple[str, str | list[str]]]
+    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class ObjectInput(AbstractInput, abc.ABC):
-    """An abstract definition for an input that involves capturing a complex object.
-
-    TODO(Eugene): Maybe this should also be a form?
-    """
-
-    examples: Sequence[tuple[str, dict[str, str | list[str]]]]
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class DateInput(ExtractionInput):
+class Date(ExtractionInput):
     """Built-in date input."""
 
 
@@ -109,17 +118,7 @@ class Number(ExtractionInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class TimePeriod(ExtractionInput):
-    """Built-in for more general time-periods; e.g., 'after dinner', 'next year'"""
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class NumericRange(ExtractionInput):
-    """Built-in numeric range input."""
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class TextInput(ExtractionInput):
+class Text(ExtractionInput):
     """Built-in text input."""
 
 
@@ -127,7 +126,7 @@ class TextInput(ExtractionInput):
 class Option(AbstractInput):
     """Built-in option input must be part of a selection input."""
 
-    examples: Sequence[str]
+    examples: Sequence[str] = tuple()
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
@@ -135,6 +134,15 @@ class Selection(AbstractInput):
     """Built-in selection input.
 
     A selection input is composed of one or more options.
+
+    ## Null examples
+
+    Null examples are segments of text for which nothing should be extracted.
+    Good null examples will likely be challenging, adversarial examples.
+
+    For example:
+        for an extraction input about company names nothing should be extracted
+        from the text: "I eat an apple every day.".
     """
 
     options: Sequence[Option]
@@ -157,11 +165,25 @@ class Selection(AbstractInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class Form(ExtractionInput):
-    """A form encapsulated a collection of inputs.
+class UntypedObjectInput(AbstractInput):
+    """An untyped object."""
 
-    The form should have a good description of the context in which the data is collected.
-    """
+    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
+
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class ObjectInput(AbstractObjectInput):
+    """A typed object."""
 
     elements: Sequence[ExtractionInput]
+    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
+
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class Form(ObjectInput):
+    """A form is an object input."""
+
+    # A boolean that allows collecting data across the form inputs independently
+    # Usually one would want to think of the form as corresponding to an object
+    # rather than to a collection of independent inputs.
     as_object: bool = True

@@ -28,9 +28,6 @@ class ChatCompletionModel(abc.ABC):
         raise NotImplementedError()
 
 
-# PUBLIC API
-
-
 @dataclasses.dataclass(kw_only=True)
 class OpenAICompletion(CompletionModel):
     model: str = "text-davinci-001"

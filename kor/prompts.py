@@ -4,9 +4,9 @@ import dataclasses
 from typing import Union, Literal, Callable, List, Tuple
 
 from kor.elements import Form
-from kor.example_generation import simple_example_generator
+from kor.example_generation import generate_examples
 from kor.type_descriptors import (
-    generate_typescript_description, generate_bullet_point_description
+    generate_typescript_description, generate_bullet_point_description,
 )
 
 PROMPT_FORMAT = Union[Literal["openai-chat"], Literal["string"]]
@@ -34,23 +34,26 @@ class ExtractionTemplate(PromptGenerator):
     prefix: str
     type_descriptor: str
     suffix: str
-    example_generator: Callable[
-        [Form], List[Tuple[str, str]]
-    ] = simple_example_generator
+    example_generator: Callable[[Form], List[Tuple[str, str]]] = generate_examples
 
     def __post_init__(self) -> None:
         """Validate the template."""
         if self.prefix.endswith("\n"):
+            
             raise ValueError("Please do not end the prefix with new lines.")
 
         if self.suffix.endswith("\n"):
             raise ValueError("Please do not end the suffix with new lines.")
 
+    def replace(self, **kwargs) -> "ExtractionTemplate":
+        """Bind to replace function for convenience."""
+        return dataclasses.replace(self, **kwargs)
+
     def generate_instruction_segment(self, form: Form) -> str:
         """Generate the instruction segment of the extraction."""
         if self.type_descriptor == "TypeScript":
             type_description = generate_typescript_description(form)
-        elif self.type_descriptor == "Simple":
+        elif self.type_descriptor == "BulletPoint":
             type_description = generate_bullet_point_description(form)
         else:
             raise NotImplementedError()
@@ -122,13 +125,13 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
 )
 
 
-SIMPLE_EXTRACTION_TEMPLATE = ExtractionTemplate(
+BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
     prefix=(
         "Your goal is to extract structured information from the user's input that matches "
         "the form described below. "
         "When extracting information please make sure it matches the type information exactly. "
     ),
-    type_descriptor="Simple",
+    type_descriptor="BulletPoint",
     suffix=(
         "Your task is to parse the user input and determine to what values the user is attempting "
         "to set each component of the form.\n"

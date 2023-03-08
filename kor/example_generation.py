@@ -104,7 +104,10 @@ def _generate_examples_form(form: Form) -> List[tuple[str, str]]:
             for example_input, example_output in form_examples
         ]
     else:
-        raise NotImplementedError(f"No support form examples if form is not an object.")
+        if form_examples:
+            raise NotImplementedError(
+                f"No support form examples if form is not an object."
+            )
 
     examples.extend(form_examples)
 
