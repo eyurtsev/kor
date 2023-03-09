@@ -145,11 +145,6 @@ class Selection(AbstractInput):
     options: Sequence[Option]
     null_examples: Sequence[str] = tuple()
 
-    # @property
-    # def option_ids(self) -> list[str]:
-    #     """Get a list of the option ids."""
-    #     return sorted(option.id for option in self.options)
-    #
     def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""
         return visitor.visit_selection(self)
