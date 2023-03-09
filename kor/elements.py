@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Optional, Sequence, Mapping
+from typing import Sequence, Mapping
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -28,18 +28,6 @@ class AbstractInput(abc.ABC):
     id: str  # Unique ID
     description: str = ""
     multiple: bool = True
-    custom_type_name: Optional[str] = None
-
-    @property
-    def type_name(self) -> str:
-        """Default implementation of a type name is just the class name with the `Input` removed.
-
-        Please note that this behavior will likely change.
-        """
-        class_name = self.__class__.__name__
-        if class_name.endswith("Input"):
-            return class_name.removesuffix("Input")
-        return class_name
 
     def __post_init__(self) -> None:
         """Post initialization hook."""
@@ -120,16 +108,6 @@ class Selection(AbstractInput):
         """Get a list of the option ids."""
         return sorted(option.id for option in self.options)
 
-    @property
-    def type_name(self) -> str:
-        """Over-ride type name to provide special behavior."""
-        options_string = ",".join(self.option_ids)
-        if self.multiple:
-            formatted_type = f"Multiple Select[{options_string}]"
-        else:
-            formatted_type = f"Select[{options_string}]"
-        return formatted_type
-
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class ObjectInput(AbstractInput):
@@ -166,10 +144,5 @@ class ObjectInput(AbstractInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class Form(ObjectInput):
+class FlatForm(ObjectInput):
     """A form is an object input."""
-
-    # A boolean that allows collecting data across the form inputs independently
-    # Usually one would want to think of the form as corresponding to an object
-    # rather than to a collection of independent inputs.
-    as_object: bool = True

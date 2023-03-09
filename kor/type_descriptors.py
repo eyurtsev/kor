@@ -6,30 +6,35 @@ on details such as the format of the schema.
 As a result, creating a dedicated module to allow experimenting with different
 ways of describing the schema.
 """
-from kor.elements import Form, Selection, TextInput
+from kor.elements import FlatForm, Selection, TextInput, AbstractInput
+
+
+def _auto_type_name(element: AbstractInput) -> str:
+    """Automatically assign a type name."""
+    return element.__class__.__name__.removesuffix("Input").lower()
 
 
 def _traverse_form_for_bullet_point(
-    form: Form, depth: int = 0
+    form: FlatForm, depth: int = 0
 ) -> list[tuple[int, str, str, str]]:
     """Traverse a form to generate a type description of its contents."""
     descriptions = [(depth, form.id, "Form", form.description)]
     depth += 1
     for element in form.elements:
-        if isinstance(element, Form):
+        if isinstance(element, FlatForm):
             descriptions.extend(_traverse_form_for_bullet_point(element, depth + 1))
         else:
             descriptions.append(
-                (depth, element.id, element.type_name, element.description)
+                (depth, element.id, _auto_type_name(element), element.description)
             )
     return descriptions
 
 
-def _traverse_form_obj(form: Form, is_root: bool = False) -> dict:
+def _traverse_form_obj(form: FlatForm, is_root: bool = False) -> dict:
     """Traverse a form to generate a type description of its contents."""
     obj = {}
     for element in form.elements:
-        if isinstance(element, Form):
+        if isinstance(element, FlatForm):
             obj.update({element.id: _traverse_form_obj(element)})
         else:
             if isinstance(element, Selection):
@@ -39,7 +44,7 @@ def _traverse_form_obj(form: Form, is_root: bool = False) -> dict:
             elif isinstance(element, TextInput):
                 finalized_type = "string"
             else:
-                finalized_type = element.type_name.lower()
+                finalized_type = _auto_type_name(element)
             obj.update({element.id: finalized_type})
 
     if is_root:
@@ -73,7 +78,7 @@ def _stringify_obj_to_typescript(obj: dict, depth: int = 0) -> str:
 # PUBLIC API
 
 
-def generate_bullet_point_description(form: Form) -> str:
+def generate_bullet_point_description(form: FlatForm) -> str:
     """Generate type description of the form in a custom bullet point format."""
     bullet_points = []
     summaries = _traverse_form_for_bullet_point(form, depth=0)
@@ -83,7 +88,7 @@ def generate_bullet_point_description(form: Form) -> str:
     return "\n".join(bullet_points)  # Combine into a single block.
 
 
-def generate_typescript_description(form: Form) -> str:
+def generate_typescript_description(form: FlatForm) -> str:
     """Generate a description of the form type in TypeScript syntax."""
     obj = _traverse_form_obj(form, is_root=True)
     type_script = _stringify_obj_to_typescript(obj)

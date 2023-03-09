@@ -3,10 +3,11 @@ import abc
 import dataclasses
 from typing import Union, Literal, Callable, List, Tuple
 
-from kor.elements import Form
+from kor.elements import FlatForm
 from kor.examples import generate_examples
 from kor.type_descriptors import (
-    generate_typescript_description, generate_bullet_point_description,
+    generate_typescript_description,
+    generate_bullet_point_description,
 )
 
 PROMPT_FORMAT = Union[Literal["openai-chat"], Literal["string"]]
@@ -17,12 +18,12 @@ class PromptGenerator(abc.ABC):
     """Define abstract interface for a prompt."""
 
     @abc.abstractmethod
-    def format_as_string(self, user_input: str, form: Form) -> str:
+    def format_as_string(self, user_input: str, form: FlatForm) -> str:
         """Format as a prompt to a standard LLM."""
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def format_as_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
+    def format_as_chat(self, user_input: str, form: FlatForm) -> list[dict[str, str]]:
         """Format as a prompt to a chat model."""
         raise NotImplementedError()
 
@@ -34,12 +35,11 @@ class ExtractionTemplate(PromptGenerator):
     prefix: str
     type_descriptor: str
     suffix: str
-    example_generator: Callable[[Form], List[Tuple[str, str]]] = generate_examples
+    example_generator: Callable[[FlatForm], List[Tuple[str, str]]] = generate_examples
 
     def __post_init__(self) -> None:
         """Validate the template."""
         if self.prefix.endswith("\n"):
-            
             raise ValueError("Please do not end the prefix with new lines.")
 
         if self.suffix.endswith("\n"):
@@ -49,7 +49,7 @@ class ExtractionTemplate(PromptGenerator):
         """Bind to replace function for convenience."""
         return dataclasses.replace(self, **kwargs)
 
-    def generate_instruction_segment(self, form: Form) -> str:
+    def generate_instruction_segment(self, form: FlatForm) -> str:
         """Generate the instruction segment of the extraction."""
         if self.type_descriptor == "TypeScript":
             type_description = generate_typescript_description(form)
@@ -59,7 +59,7 @@ class ExtractionTemplate(PromptGenerator):
             raise NotImplementedError()
         return f"{self.prefix}\n\n{type_description}\n\n{self.suffix}"
 
-    def format_as_string(self, user_input: str, form: Form) -> str:
+    def format_as_string(self, user_input: str, form: FlatForm) -> str:
         """Format the template for a `standard` LLM model."""
         instruction_segment = self.generate_instruction_segment(form)
         examples = self.example_generator(form)
@@ -77,7 +77,7 @@ class ExtractionTemplate(PromptGenerator):
         input_output_block = "\n".join(input_output_block)
         return f"{instruction_segment}\n\n{input_output_block}"
 
-    def format_as_chat(self, user_input: str, form: Form) -> list[dict[str, str]]:
+    def format_as_chat(self, user_input: str, form: FlatForm) -> list[dict[str, str]]:
         """Format the template for a `chat` LLM model."""
         instruction_segment = self.generate_instruction_segment(form)
 
@@ -142,9 +142,6 @@ BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
         "tags ('>' and '<'). "
         "Only output tags when you're confident about the information that was extracted "
         "from the user's query. If you can extract several pieces of relevant information "
-        'from the query include use a comma to separate the tags. If "Multiple" is part '
-        "of the component's type, then please repeat the same tag multiple times once for "
-        'each relevant extraction. If the type does not contain "Multiple" do not include it '
-        "more than once."
+        "from the query include use a comma to separate the tags."
     ),
 )

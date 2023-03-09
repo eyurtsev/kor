@@ -46,6 +46,6 @@ def test_create_input_tree_for_option():
 
 
 def test_generate_prompt_for_form():
-    form = elements.Form(id="form", description="Form", elements=[])
+    form = elements.FlatForm(id="form", description="Form", elements=[])
     prompt = kor.prompts.generate_prompt_for_form("hello", form)
     assert isinstance(prompt, str)

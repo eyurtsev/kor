@@ -6,7 +6,7 @@ from kor.parsing import parse_llm_output
 
 def extract(
     user_input: str,
-    form: elements.Form,
+    form: elements.FlatForm,
     model: Callable[[str], str] | Callable[[Sequence[Mapping[str, str]]], str],
     prompt_generator: prompts.PromptGenerator = prompts.STANDARD_EXTRACTION_TEMPLATE,
     prompt_format: prompts.PROMPT_FORMAT = "string",

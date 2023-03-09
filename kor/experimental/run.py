@@ -10,7 +10,7 @@ from kor.extraction import extract
 from kor.llms import OpenAICompletion
 
 
-def get_test_form() -> elements.Form:
+def get_test_form() -> elements.FlatForm:
     """Get a test form."""
     selection = elements.Selection(
         id="do",
@@ -104,7 +104,7 @@ def get_test_form() -> elements.Form:
         ],
     )
 
-    form = elements.Form(
+    form = elements.FlatForm(
         id="input-form",
         description="form to specify what to do and what to watch",
         elements=[
@@ -298,7 +298,7 @@ def get_test_form_2():
         ],
     )
 
-    form = elements.Form(
+    form = elements.FlatForm(
         id="search-for-companies",
         description="Search for companies matching the following criteria.",
         elements=[
