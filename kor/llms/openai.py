@@ -1,31 +1,32 @@
-"""Provide standard interface on tops of LLMs."""
-import abc
 import dataclasses
 import json
 import logging
 import os
 
-import openai
+from .typedefs import CompletionModel, ChatCompletionModel
+
+try:
+    import openai
+except ImportError:
+    openai = None
+
 
 logger = logging.getLogger(__name__)
 
 
-@dataclasses.dataclass(kw_only=True)
-class CompletionModel(abc.ABC):
-    """Abstract completion model interface."""
+def _set_openai_api_key_if_needed() -> None:
+    """Set the openai api key if needed."""
+    if not openai:
+        raise ImportError("Missing `openai` dependency.")
 
-    def __call__(self, prompt: str) -> str:
-        """Call the model."""
-        raise NotImplementedError()
-
-
-@dataclasses.dataclass(kw_only=True)
-class ChatCompletionModel(abc.ABC):
-    """Abstract chat completion model interface."""
-
-    def __call__(self, messages: list[dict[str, str]]) -> str:
-        """Call the model."""
-        raise NotImplementedError()
+    if not openai.api_key:
+        api_key = os.environ.get("OPENAI_API_KEY")
+        if not api_key:
+            if "OPENAI_API_KEY" not in os.environ:
+                raise ValueError(
+                    "Please include OPENAI_API_KEY in the environment or set the openai.api_key."
+                )
+        openai.api_key = api_key
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -41,8 +42,8 @@ class OpenAICompletion(CompletionModel):
     top_p: float = 1.0
 
     def __post_init__(self) -> None:
-        """Initialize the LLM model."""
-        openai.api_key = os.environ["OPENAI_API_KEY"]
+        """Set credentials if needed."""
+        _set_openai_api_key_if_needed()
 
     def __call__(self, prompt: str) -> str:
         """Invoke the LLM with the given prompt."""
@@ -76,8 +77,8 @@ class OpenAIChatCompletion(ChatCompletionModel):
     top_p: float = 1.0
 
     def __post_init__(self) -> None:
-        """Initialize the LLM model."""
-        openai.api_key = os.environ["OPENAI_API_KEY"]
+        """Set credentials if needed."""
+        _set_openai_api_key_if_needed()
 
     def __call__(self, messages: list[dict[str, str]]) -> str:
         """Invoke the LLM with the given prompt."""
