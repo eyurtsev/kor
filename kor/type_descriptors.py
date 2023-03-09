@@ -1,12 +1,10 @@
 """Code that takes a object_input and outputs a string that describes its schema.
 
 Without fine-tuning the LLM, the quality of the response may end up depending
-on details such as the object_inputat of the schema.
+on details such as the schema description in the prompt.
 
-As a result, creating a dedicated module to allow experimenting with different
-ways of describing the schema.
-
-REWRITE in terms of visitors.
+Designing the code here to make it easier to experiment with different ways
+of describing the schema.
 """
 from kor.nodes import (
     Selection,
