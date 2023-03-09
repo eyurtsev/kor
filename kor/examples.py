@@ -6,13 +6,14 @@ into account the finite size of the context window and limit the number of examp
 
 The code uses a default encoding of XML. This encoding should match the parser.
 """
-from typing import List, Sequence, Any, Union
+from typing import Any, List, Sequence, Tuple, Union
 
 from kor.elements import (
-    Selection,
-    ExtractionInput,
     AbstractInput,
+    AbstractVisitor,
+    ExtractionInput,
     ObjectInput,
+    Selection,
 )
 
 LITERAL_TYPE = Union[str, int, float]
@@ -54,70 +55,62 @@ def _write_tag(
         raise NotImplementedError(f"No support for {tag_name}")
 
 
-# PUBLIC API
+class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
+    def __init__(self) -> None:
+        self.namespace_stack = []
 
+    def visit_option(self, node: "Option") -> List[Tuple[str, str]]:
+        raise AssertionError("Should never visit an Option node.")
 
-def _generate_selection_examples(selection: Selection) -> list[tuple[str, str]]:
-    """Generate examples for a given selection input."""
-    formatted_examples = []
-    for option in selection.options:
-        for example in option.examples:
-            formatted_examples.append((example, _write_tag(selection.id, option.id)))
+    def visit_object(self, node: "ObjectInput") -> List[Tuple[str, str]]:
+        object_examples = node.examples
 
-    for null_example in selection.null_examples:
-        formatted_examples.append((null_example, ""))
-
-    return formatted_examples
-
-
-def _generate_extraction_input_examples(
-    extraction_input: ExtractionInput,
-) -> list[tuple[str, str]]:
-    """List of 2-tuples of input, output.
-
-    Does not include the `Input: ` or `Output: ` prefix
-    """
-    formatted_examples = []
-    for text, extraction in extraction_input.examples:
-        if isinstance(extraction, str) and not extraction.strip():
-            value = ""
-        else:
-            value = _write_tag(extraction_input.id, extraction)
-        formatted_examples.append((text, value))
-    return formatted_examples
-
-
-def _generate_examples_object(obj: ObjectInput) -> List[tuple[str, str]]:
-    """Generate examples form."""
-    examples = []
-    for element in obj.elements:
-        element_examples = generate_examples(element)
-        # If the form is to be interpreted as a coherent object, then
-        # we do a trick and wrap all the outputs in the form ID.
-        if (
-            isinstance(obj, ObjectInput) and obj.group_as_object
-        ):  # Wrap all examples in a parent tag
-            element_examples = [
-                (example_input, _write_tag(obj.id, example_output))
-                for example_input, example_output in element_examples
-            ]
-
-        examples.extend(element_examples)
-
-    object_examples = obj.examples
-
-    if isinstance(obj, ObjectInput):
-        if obj.group_as_object:
+        if node.group_as_object:
             object_examples = [
-                (example_input, _write_tag(obj.id, example_output))
+                (example_input, _write_tag(node.id, example_output))
                 for example_input, example_output in object_examples
             ]
         else:
             raise NotImplementedError("Not implemented yet")
 
-    examples.extend(object_examples)
+        examples = object_examples
 
-    return examples
+        # Collect examples from children
+        for child in node.elements:
+            child_examples = child.accept(self)
+            if node.group_as_object:  # Take care of namespaces
+                child_examples = [
+                    (example_input, _write_tag(node.id, example_output))
+                    for example_input, example_output in child_examples
+                ]
+
+            examples.extend(child_examples)
+
+        return examples
+
+    def visit_selection(self, node: "Selection") -> List[Tuple[str, str]]:
+        examples = []
+        for option in node.options:
+            for example in option.examples:
+                examples.append((example, _write_tag(node.id, option.id)))
+
+        for null_example in node.null_examples:
+            examples.append((null_example, ""))
+        return examples
+
+    def visit_default(self, node: "AbstractInput") -> List[Tuple[str, str]]:
+        """Default visitor implementation."""
+        if not isinstance(node, ExtractionInput):
+            raise AssertionError()
+        examples = []
+
+        for text, extraction in node.examples:
+            if isinstance(extraction, str) and not extraction.strip():
+                value = ""
+            else:
+                value = _write_tag(node.id, extraction)
+            examples.append((text, value))
+        return examples
 
 
 # PUBLIC API
@@ -146,12 +139,7 @@ def generate_examples(
     """
     if encoding != "XML":
         raise NotImplementedError("Only XML encoding is supported right now.")
-    # Dispatch based on element type.
-    if isinstance(element, ObjectInput):
-        return _generate_examples_object(element)
-    elif isinstance(element, Selection):
-        return _generate_selection_examples(element)
-    elif isinstance(element, ExtractionInput):  # Catch all
-        return _generate_extraction_input_examples(element)
-    else:
-        raise NotImplementedError(f"No support for {type(element)}")
+
+    example_generator = SimpleExampleGenerator()
+    examples = element.accept(example_generator)
+    return examples
