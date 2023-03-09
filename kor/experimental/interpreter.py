@@ -75,7 +75,7 @@ def create_input_tree(input: AbstractInput) -> InputTree:
     id_stack = [input]
     id_to_input = {}
 
-    if not isinstance(input, (elements.Option, elements.Selection, elements.FlatForm)):
+    if not isinstance(input, (elements.Option, elements.Selection, elements.InputBag)):
         raise AssertionError(f"Type {type(input)} is not supported.")
 
     while id_stack:
@@ -147,7 +147,7 @@ class Interpreter:
                 f"Description: {element.description}\n"
                 f"Valid options: {valid_options}\n"
             )
-        elif isinstance(element, elements.FlatForm):
+        elif isinstance(element, elements.InputBag):
             input_summary = "You  are editing a form. TODO(EUGENE): Add stuff"
         else:
             raise AssertionError()
@@ -158,7 +158,7 @@ class Interpreter:
         """Interact with a user."""
         current_state = self.automaton.state
         element = self.automaton.current_element()
-        if not isinstance(element, elements.FlatForm):
+        if not isinstance(element, elements.InputBag):
             raise NotImplementedError()
         parsed_data = extract(user_input, element, self.llm)
 

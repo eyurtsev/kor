@@ -141,8 +141,7 @@ class ObjectInput(AbstractInput):
 
     elements: Sequence[ExtractionInput]
     examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class FlatForm(ObjectInput):
-    """A form is an object input."""
+    # If false, will treat the inputs independent.
+    # Is there a better name for this?! I want it to be True by default
+    # which rules out as_input_bag
+    group_as_object: bool = True

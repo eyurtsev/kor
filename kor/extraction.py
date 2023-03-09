@@ -6,16 +6,16 @@ from kor.parsing import parse_llm_output
 
 def extract(
     user_input: str,
-    form: elements.FlatForm,
+    element: elements.AbstractInput,
     model: Callable[[str], str] | Callable[[Sequence[Mapping[str, str]]], str],
     prompt_generator: prompts.PromptGenerator = prompts.STANDARD_EXTRACTION_TEMPLATE,
     prompt_format: prompts.PROMPT_FORMAT = "string",
 ) -> dict[str, list[str]]:
     """Extract information from the user input using the given form."""
     if prompt_format == "string":
-        chat_prompt = prompt_generator.format_as_string(user_input, form)
+        chat_prompt = prompt_generator.format_as_string(user_input, element)
     elif prompt_format == "openai-chat":
-        chat_prompt = prompt_generator.format_as_chat(user_input, form)
+        chat_prompt = prompt_generator.format_as_chat(user_input, element)
     else:
         raise NotImplementedError(f"Unknown prompt format {prompt_format}")
     model_output = model(chat_prompt)
