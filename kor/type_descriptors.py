@@ -8,7 +8,7 @@ ways of describing the schema.
 
 REWRITE in terms of visitors.
 """
-from kor.elements import Selection, TextInput, AbstractInput, ObjectInput
+from kor.elements import Selection, Text, AbstractInput, ObjectInput
 
 
 def _auto_type_name(element: AbstractInput) -> str:
@@ -47,7 +47,7 @@ def _traverse_object_input_obj(
                 finalized_type = (
                     "(" + " | ".join('"' + s.id + '"' for s in element.options) + ")"
                 )
-            elif isinstance(element, TextInput):
+            elif isinstance(element, Text):
                 finalized_type = "string"
             else:
                 finalized_type = _auto_type_name(element)
