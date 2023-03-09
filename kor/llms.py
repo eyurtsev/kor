@@ -30,6 +30,8 @@ class ChatCompletionModel(abc.ABC):
 
 @dataclasses.dataclass(kw_only=True)
 class OpenAICompletion(CompletionModel):
+    """Wrapper around OpenAI Completion endpoint."""
+
     model: str = "text-davinci-001"
     verbose: bool = False
     temperature: float = 0
@@ -66,6 +68,8 @@ class OpenAICompletion(CompletionModel):
 
 @dataclasses.dataclass(kw_only=True)
 class OpenAIChatCompletion(ChatCompletionModel):
+    """Wrapper around OpenAI Chat Completion endpoint."""
+
     model: str = "gpt-3.5-turbo"
     verbose: bool = False
     temperature: float = 0

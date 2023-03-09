@@ -10,7 +10,7 @@ from kor.extraction import extract
 from kor.llms import OpenAICompletion
 
 
-def get_test_form() -> elements.Form:
+def get_test_form() -> elements.InputBag:
     """Get a test form."""
     selection = elements.Selection(
         id="do",
@@ -95,7 +95,7 @@ def get_test_form() -> elements.Form:
         ],
     )
 
-    nationality_input = elements.Text(
+    nationality_input = elements.TextInput(
         id="nationality",
         description="What is your nationality. Please only use standard nationalities.",
         examples=[
@@ -104,7 +104,7 @@ def get_test_form() -> elements.Form:
         ],
     )
 
-    form = elements.Form(
+    form = elements.InputBag(
         id="input-form",
         description="form to specify what to do and what to watch",
         elements=[
@@ -120,7 +120,7 @@ def get_test_form() -> elements.Form:
 
 
 def get_test_form_2():
-    company_name = elements.Text(
+    company_name = elements.TextInput(
         id="company-name",
         description="what is the name of the company you want to find",
         examples=[
@@ -151,7 +151,7 @@ def get_test_form_2():
             ),
         ],
     )
-    industry_name = elements.Text(
+    industry_name = elements.TextInput(
         id="industry-name",
         description="what is the name of the company's industry",
         examples=[
@@ -163,7 +163,7 @@ def get_test_form_2():
         ],
     )
 
-    geography_name = elements.Text(
+    geography_name = elements.TextInput(
         id="geography-name",
         description="where is the company based? Please use a single country name.",
         examples=[
@@ -239,7 +239,7 @@ def get_test_form_2():
     #     ],
     # )
 
-    sales_geography = elements.Text(
+    sales_geography = elements.TextInput(
         id="geography-sales",
         description=(
             "where is the company doing sales? Please use a single country name."
@@ -270,7 +270,7 @@ def get_test_form_2():
     #     ],
     # )
 
-    attr_question_block = elements.Text(
+    attr_question_block = elements.TextInput(
         id="question",
         description="Asking about the value of a particular attribute",
         examples=[
@@ -298,7 +298,7 @@ def get_test_form_2():
         ],
     )
 
-    form = elements.Form(
+    form = elements.InputBag(
         id="search-for-companies",
         description="Search for companies matching the following criteria.",
         elements=[

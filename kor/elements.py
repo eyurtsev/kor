@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Optional, Sequence, Mapping
+from typing import Sequence, Mapping
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -28,18 +28,6 @@ class AbstractInput(abc.ABC):
     id: str  # Unique ID
     description: str = ""
     multiple: bool = True
-    custom_type_name: Optional[str] = None
-
-    @property
-    def type_name(self) -> str:
-        """Default implementation of a type name is just the class name with the `Input` removed.
-
-        Please note that this behavior will likely change.
-        """
-        class_name = self.__class__.__name__
-        if class_name.endswith("Input"):
-            return class_name.removesuffix("Input")
-        return class_name
 
     def __post_init__(self) -> None:
         """Post initialization hook."""
@@ -75,39 +63,6 @@ class ExtractionInput(AbstractInput, abc.ABC):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class AbstractObjectInput(AbstractInput, abc.ABC):
-    """An abstract definition for an object extraction.
-
-    An extraction input can be associated with 2 different types of examples:
-
-    1) extraction examples (called simply `examples`)
-    2) null examples (called `null_examples`)
-
-    ## Extraction examples
-
-    A standard extraction example is a 2-tuple composed of a text segment and the expected
-    extraction.
-
-    For example:
-        [
-            ("I bought this cookie for $10", "$10"),
-            ("Eggs cost twelve dollars", "twelve dollars"),
-        ]
-
-    ## Null examples
-
-    Null examples are segments of text for which nothing should be extracted.
-    Good null examples will likely be challenging, adversarial examples.
-
-    For example:
-        for an extraction input about company names nothing should be extracted
-        from the text: "I eat an apple every day.".
-    """
-
-    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Date(ExtractionInput):
     """Built-in date input."""
 
@@ -118,7 +73,7 @@ class Number(ExtractionInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class Text(ExtractionInput):
+class TextInput(ExtractionInput):
     """Built-in text input."""
 
 
@@ -153,37 +108,40 @@ class Selection(AbstractInput):
         """Get a list of the option ids."""
         return sorted(option.id for option in self.options)
 
-    @property
-    def type_name(self) -> str:
-        """Over-ride type name to provide special behavior."""
-        options_string = ",".join(self.option_ids)
-        if self.multiple:
-            formatted_type = f"Multiple Select[{options_string}]"
-        else:
-            formatted_type = f"Select[{options_string}]"
-        return formatted_type
-
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class UntypedObjectInput(AbstractInput):
-    """An untyped object."""
+class ObjectInput(AbstractInput):
+    """A definition for an object extraction.
 
-    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
+    An extraction input can be associated with 2 different types of examples:
 
+    1) extraction examples (called simply `examples`)
+    2) null examples (called `null_examples`)
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class ObjectInput(AbstractObjectInput):
-    """A typed object."""
+    ## Extraction examples
+
+    A standard extraction example is a 2-tuple composed of a text segment and the expected
+    extraction.
+
+    For example:
+        [
+            ("I bought this cookie for $10", "$10"),
+            ("Eggs cost twelve dollars", "twelve dollars"),
+        ]
+
+    ## Null examples
+
+    Null examples are segments of text for which nothing should be extracted.
+    Good null examples will likely be challenging, adversarial examples.
+
+    For example:
+        for an extraction input about company names nothing should be extracted
+        from the text: "I eat an apple every day.".
+    """
 
     elements: Sequence[ExtractionInput]
     examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
-
-
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class Form(ObjectInput):
-    """A form is an object input."""
-
-    # A boolean that allows collecting data across the form inputs independently
-    # Usually one would want to think of the form as corresponding to an object
-    # rather than to a collection of independent inputs.
-    as_object: bool = True
+    # If false, will treat the inputs independent.
+    # Is there a better name for this?! I want it to be True by default
+    # which rules out as_input_bag
+    group_as_object: bool = True
