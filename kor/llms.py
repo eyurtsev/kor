@@ -47,7 +47,6 @@ class OpenAICompletion(CompletionModel):
     def __call__(self, prompt: str) -> str:
         """Invoke the LLM with the given prompt."""
         if self.verbose:
-            print(prompt)
             logger.debug(prompt)
         response = openai.Completion.create(
             model=self.model,
@@ -59,10 +58,8 @@ class OpenAICompletion(CompletionModel):
             presence_penalty=self.presence_penalty,
         )
         if self.verbose:
-            print(response)
             logger.debug(json.dumps(response))
         text = response["choices"][0]["text"]
-        print(text)
         return text
 
 

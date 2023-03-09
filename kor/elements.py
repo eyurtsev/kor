@@ -18,18 +18,27 @@ class AbstractVisitor(Generic[T], abc.ABC):
     """An abstract visitor. Define here to avoid cyclical imports for now."""
 
     def visit_text(self, node: "Text") -> T:
+        """Visit text node."""
+        return self.visit_default(node)
+
+    def visit_number(self, node: "Number") -> T:
+        """Visit text node."""
         return self.visit_default(node)
 
     def visit_object(self, node: "ObjectInput") -> T:
+        """Visit object node."""
         return self.visit_default(node)
 
     def visit_selection(self, node: "Selection") -> T:
+        """Visit selection node."""
         return self.visit_default(node)
 
     def visit_option(self, node: "Option") -> T:
+        """Visit option node."""
         return self.visit_default(node)
 
     def visit_default(self, node: "AbstractInput") -> T:
+        """Default node implementation."""
         raise NotImplementedError()
 
 
@@ -65,6 +74,7 @@ class AbstractInput(abc.ABC):
 
     @abc.abstractmethod
     def accept(self, visitor: AbstractVisitor) -> Any:
+        """Accept a visitor."""
         raise NotImplementedError()
 
 
@@ -87,22 +97,13 @@ class ExtractionInput(AbstractInput, abc.ABC):
     examples: Sequence[tuple[str, str | Sequence[str]]] = tuple()
 
 
-# @dataclasses.dataclass(frozen=True, kw_only=True)
-# class Date(ExtractionInput):
-#     """Built-in date input."""
-#
-#     def accept(self, visitor: AbstractVisitor[T]) -> T:
-#         """Accept a visitor."""
-#         return visitor.visit_date(self)
-#
-#
-# @dataclasses.dataclass(frozen=True, kw_only=True)
-# class Number(ExtractionInput):
-#     """Built-in number input."""
-#
-#     def accept(self, visitor: AbstractVisitor[T]) -> T:
-#         """Accept a visitor."""
-#         return visitor.visit_number(self)
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class Number(ExtractionInput):
+    """Built-in number input."""
+
+    def accept(self, visitor: AbstractVisitor[T]) -> T:
+        """Accept a visitor."""
+        return visitor.visit_number(self)
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)

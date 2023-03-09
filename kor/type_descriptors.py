@@ -8,7 +8,7 @@ ways of describing the schema.
 
 REWRITE in terms of visitors.
 """
-from kor.elements import Selection, Text, AbstractInput, ObjectInput
+from kor.elements import Selection, Text, AbstractInput, ObjectInput, AbstractVisitor
 
 
 def _auto_type_name(element: AbstractInput) -> str:
@@ -16,86 +16,81 @@ def _auto_type_name(element: AbstractInput) -> str:
     return element.__class__.__name__.removesuffix("Input").lower()
 
 
-def _traverse_object_input_for_bullet_point(
-    object_input: ObjectInput, depth: int = 0
-) -> list[tuple[int, str, str, str]]:
-    """Traverse a object_input to generate a type description of its contents."""
-    descriptions = [(depth, object_input.id, "Form", object_input.description)]
-    depth += 1
-    for element in object_input.elements:
-        if isinstance(element, ObjectInput):
-            descriptions.extend(
-                _traverse_object_input_for_bullet_point(element, depth + 1)
+class BulletPointTypeGenerator(AbstractVisitor[None]):
+    def __init__(self) -> None:
+        """Use to print the type."""
+        self.depth = 0
+        self.type_str_messages = []
+
+    def visit_default(self, node: "AbstractInput") -> None:
+        space = "* " + self.depth * " "
+        self.type_str_messages.append(
+            f"{space}{node.id}: {node.__class__.__name__} # {node.description}"
+        )
+
+    def visit_object(self, node: ObjectInput) -> None:
+        self.visit_default(node)
+        self.depth += 1
+        for child in node.elements:
+            child.accept(self)
+        self.depth -= 1
+
+    def get_type_description(self) -> str:
+        """Get the type."""
+        return "\n".join(self.type_str_messages)
+
+
+class TypeScriptTypeGenerator(AbstractVisitor[None]):
+    def __init__(self) -> None:
+        self.depth = 0
+        self.code_lines = []
+
+    def visit_default(self, node: "AbstractInput") -> None:
+        space = self.depth * " "
+
+        if isinstance(node, Selection):
+            finalized_type = (
+                "(" + " | ".join('"' + s.id + '"' for s in node.options) + ")"
             )
+        elif isinstance(node, Text):
+            finalized_type = "string"
         else:
-            descriptions.append(
-                (depth, element.id, _auto_type_name(element), element.description)
-            )
-    return descriptions
+            finalized_type = _auto_type_name(node)
 
+        self.code_lines.append(
+            f"{space}{node.id}: {finalized_type} // {node.description}"
+        )
 
-def _traverse_object_input_obj(
-    object_input: ObjectInput, is_root: bool = False
-) -> dict:
-    """Traverse a object_input to generate a type description of its contents."""
-    obj = {}
-    for element in object_input.elements:
-        if isinstance(element, ObjectInput):
-            obj.update({element.id: _traverse_object_input_obj(element)})
-        else:
-            if isinstance(element, Selection):
-                finalized_type = (
-                    "(" + " | ".join('"' + s.id + '"' for s in element.options) + ")"
-                )
-            elif isinstance(element, Text):
-                finalized_type = "string"
-            else:
-                finalized_type = _auto_type_name(element)
-            obj.update({element.id: finalized_type})
+    def visit_object(self, node: ObjectInput) -> None:
+        space = self.depth * " "
 
-    if is_root:
-        return {object_input.id: obj}
-    else:
-        return obj
+        self.code_lines.append(f"{space}{node.id}: {{")
 
+        self.depth += 1
+        for child in node.elements:
+            child.accept(self)
+        self.depth -= 1
 
-def _stringify_obj_to_typescript(obj: dict, depth: int = 0) -> str:
-    """Object re-written in type-script object_inputat."""
-    delimiter = " "
-    outer_space = delimiter * depth
-    inner_space = delimiter * (depth + 1)
-    if depth == 0:
-        object_inputatted = ["type Response = {"]
-    else:
-        object_inputatted = [f"{outer_space}" + "{"]
-    for key, value in obj.items():
-        if isinstance(value, dict):
-            value = _stringify_obj_to_typescript(value, depth=depth + 1)
-        else:
-            value = value + "[]"
-        object_inputatted.append(f"{inner_space}{key}: {value};")
-    object_inputatted.append(f"{outer_space}" + "}[]")
-    result = "\n".join(object_inputatted)
-    if depth == 0:
-        result += ";"
-    return result
+        self.code_lines.append(f"{space}}}")
+
+    def get_type_description(self) -> str:
+        """Get the type."""
+        return "\n".join(self.code_lines)
 
 
 # PUBLIC API
 
 
-def generate_bullet_point_description(object_input: ObjectInput) -> str:
-    """Generate type description of the object_input in a custom bullet point object_inputat."""
-    bullet_points = []
-    summaries = _traverse_object_input_for_bullet_point(object_input, depth=0)
-    for depth, uid, type_name, description in summaries:
-        space = " " * depth
-        bullet_points.append(f"{space}* {uid}: {type_name} # {description}")
-    return "\n".join(bullet_points)  # Combine into a single block.
+def generate_bullet_point_description(node: AbstractInput) -> str:
+    """Generate type description for the node in a custom bullet point format."""
+    code_generator = BulletPointTypeGenerator()
+    node.accept(code_generator)
+    return code_generator.get_type_description()
 
 
-def generate_typescript_description(extraction_input: ObjectInput) -> str:
+def generate_typescript_description(node: AbstractInput) -> str:
     """Generate a description of the object_input type in TypeScript syntax."""
-    obj = _traverse_object_input_obj(extraction_input, is_root=True)
-    type_script = _stringify_obj_to_typescript(obj)
-    return f"```TypeScript\n{type_script}\n```\n"
+    code_generator = TypeScriptTypeGenerator()
+    node.accept(code_generator)
+    type_script_code = code_generator.get_type_description()
+    return f"```TypeScript\n{type_script_code}\n```\n"
