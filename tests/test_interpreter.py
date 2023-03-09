@@ -1,8 +1,8 @@
 import kor.experimental.other_prompts
 import kor.prompts
-from kor.elements import Selection, Option
+from kor.nodes import Selection, Option
 from kor.experimental.other_prompts import _compile_option_examples
-from kor import elements
+from kor import nodes
 from kor.experimental.interpreter import create_input_tree
 
 SAMPLE_SELECTION = Selection(

@@ -3,8 +3,8 @@ import abc
 import dataclasses
 from typing import Mapping, Any, Tuple, Self
 
-from kor import elements
-from kor.elements import AbstractInput
+from kor import nodes
+from kor.nodes import AbstractInput
 from kor.extraction import extract
 from kor.llms import OpenAICompletion
 

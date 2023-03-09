@@ -8,11 +8,11 @@ The code uses a default encoding of XML. This encoding should match the parser.
 """
 from typing import Any, List, Sequence, Tuple, Union
 
-from kor.elements import (
+from kor.nodes import (
     AbstractInput,
     AbstractVisitor,
     ExtractionInput,
-    ObjectInput,
+    Object,
     Selection,
 )
 
@@ -62,7 +62,7 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
     def visit_option(self, node: "Option") -> List[Tuple[str, str]]:
         raise AssertionError("Should never visit an Option node.")
 
-    def visit_object(self, node: "ObjectInput") -> List[Tuple[str, str]]:
+    def visit_object(self, node: "Object") -> List[Tuple[str, str]]:
         object_examples = node.examples
 
         if node.group_as_object:
@@ -76,7 +76,7 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
         examples = object_examples
 
         # Collect examples from children
-        for child in node.elements:
+        for child in node.attributes:
             child_examples = child.accept(self)
             if node.group_as_object:  # Take care of namespaces
                 child_examples = [

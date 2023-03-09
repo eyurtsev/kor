@@ -1,4 +1,4 @@
-from kor.elements import Option, Selection
+from kor.nodes import Option, Selection
 
 
 def _compile_option_examples(id: str, option: Option) -> str:
