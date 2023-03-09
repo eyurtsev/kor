@@ -4,8 +4,8 @@ This file will likely be deleted to be replaced with notebook demos.
 """
 import pprint
 
-from kor import elements
-from kor.elements import Option
+from kor import nodes
+from kor.nodes import Option
 from kor.extraction import extract
 from kor.llms import OpenAICompletion
 

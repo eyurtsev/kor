@@ -8,7 +8,14 @@ ways of describing the schema.
 
 REWRITE in terms of visitors.
 """
-from kor.elements import Selection, Text, AbstractInput, ObjectInput, AbstractVisitor
+from kor.nodes import (
+    Selection,
+    Text,
+    AbstractInput,
+    Object,
+    AbstractVisitor,
+    Number,
+)
 
 
 def _auto_type_name(element: AbstractInput) -> str:
@@ -28,10 +35,10 @@ class BulletPointTypeGenerator(AbstractVisitor[None]):
             f"{space}{node.id}: {node.__class__.__name__} # {node.description}"
         )
 
-    def visit_object(self, node: ObjectInput) -> None:
+    def visit_object(self, node: Object) -> None:
         self.visit_default(node)
         self.depth += 1
-        for child in node.elements:
+        for child in node.attributes:
             child.accept(self)
         self.depth -= 1
 
@@ -54,20 +61,22 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
             )
         elif isinstance(node, Text):
             finalized_type = "string"
+        elif isinstance(node, Number):
+            finalized_type = "number"
         else:
-            finalized_type = _auto_type_name(node)
+            raise NotImplementedError()
 
         self.code_lines.append(
             f"{space}{node.id}: {finalized_type} // {node.description}"
         )
 
-    def visit_object(self, node: ObjectInput) -> None:
+    def visit_object(self, node: Object) -> None:
         space = self.depth * " "
 
         self.code_lines.append(f"{space}{node.id}: {{")
 
         self.depth += 1
-        for child in node.elements:
+        for child in node.attributes:
             child.accept(self)
         self.depth -= 1
 

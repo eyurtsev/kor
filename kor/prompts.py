@@ -4,7 +4,7 @@ import dataclasses
 from typing import Union, Literal, Callable, List, Tuple
 
 from kor.examples import generate_examples
-from kor.elements import AbstractInput
+from kor.nodes import AbstractInput
 from kor.type_descriptors import (
     generate_typescript_description,
     generate_bullet_point_description,
@@ -18,13 +18,13 @@ class PromptGenerator(abc.ABC):
     """Define abstract interface for a prompt."""
 
     @abc.abstractmethod
-    def format_as_string(self, user_input: str, abstract_input: AbstractInput) -> str:
+    def format_as_string(self, user_input: str, node: AbstractInput) -> str:
         """Format as a prompt to a standard LLM."""
         raise NotImplementedError()
 
     @abc.abstractmethod
     def format_as_chat(
-        self, user_input: str, abstract_input: AbstractInput
+        self, user_input: str, node: AbstractInput
     ) -> list[dict[str, str]]:
         """Format as a prompt to a chat model."""
         raise NotImplementedError()
@@ -53,20 +53,20 @@ class ExtractionTemplate(PromptGenerator):
         """Bind to replace function for convenience."""
         return dataclasses.replace(self, **kwargs)
 
-    def generate_instruction_segment(self, abstract_input: AbstractInput) -> str:
+    def generate_instruction_segment(self, node: AbstractInput) -> str:
         """Generate the instruction segment of the extraction."""
         if self.type_descriptor == "TypeScript":
-            type_description = generate_typescript_description(abstract_input)
+            type_description = generate_typescript_description(node)
         elif self.type_descriptor == "BulletPoint":
-            type_description = generate_bullet_point_description(abstract_input)
+            type_description = generate_bullet_point_description(node)
         else:
             raise NotImplementedError()
         return f"{self.prefix}\n\n{type_description}\n\n{self.suffix}"
 
-    def format_as_string(self, user_input: str, abstract_input: AbstractInput) -> str:
+    def format_as_string(self, user_input: str, node: AbstractInput) -> str:
         """Format the template for a `standard` LLM model."""
-        instruction_segment = self.generate_instruction_segment(abstract_input)
-        examples = self.example_generator(abstract_input)
+        instruction_segment = self.generate_instruction_segment(node)
+        examples = self.example_generator(node)
         input_output_block = []
 
         for in_example, output in examples:

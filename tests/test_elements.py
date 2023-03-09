@@ -1,6 +1,6 @@
 import pytest
 
-from kor import elements
+from kor import nodes
 
 
 class ToyInput(elements.AbstractInput):

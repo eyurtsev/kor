@@ -25,7 +25,7 @@ class AbstractVisitor(Generic[T], abc.ABC):
         """Visit text node."""
         return self.visit_default(node)
 
-    def visit_object(self, node: "ObjectInput") -> T:
+    def visit_object(self, node: "Object") -> T:
         """Visit object node."""
         return self.visit_default(node)
 
@@ -44,7 +44,7 @@ class AbstractVisitor(Generic[T], abc.ABC):
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class AbstractInput(abc.ABC):
-    """Abstract input element.
+    """Abstract input node.
 
     Each input is expected to have a unique ID, and should
     only use alphanumeric characters.
@@ -151,7 +151,7 @@ class Selection(AbstractInput):
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class ObjectInput(AbstractInput):
+class Object(AbstractInput):
     """A definition for an object extraction.
 
     An extraction input can be associated with 2 different types of examples:
@@ -180,7 +180,7 @@ class ObjectInput(AbstractInput):
         from the text: "I eat an apple every day.".
     """
 
-    elements: Sequence[ExtractionInput]
+    attributes: Sequence[ExtractionInput]
     examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
     # If false, will treat the inputs independent.
     # Is there a better name for this?! I want it to be True by default
@@ -191,11 +191,11 @@ class ObjectInput(AbstractInput):
         """Accept a visitor."""
         return visitor.visit_object(self)
 
-    def merge(self, other_object: "ObjectInput") -> "ObjectInput":
-        all_elements = list(self.elements) + list(other_object.elements)
+    def merge(self, other_object: "Object") -> "Object":
+        all_attributes = list(self.attributes) + list(other_object.attributes)
         all_examples = list(self.examples) + list(other_object.examples)
         return dataclasses.replace(
             self,
-            elements=all_elements,
+            attributes=all_attributes,
             examples=all_examples,
         )

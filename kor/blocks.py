@@ -1,10 +1,10 @@
 """Extraction building blocks."""
-from kor.elements import ObjectInput, Text, Number
+from kor.nodes import Object, Text, Number
 
 
-ADDRESS_INPUT = ObjectInput(
+ADDRESS_INPUT = Object(
     id="address",
-    elements=[
+    attributes=[
         Text(id="street"),
         Text(id="city"),
         Text(id="state"),
@@ -57,10 +57,10 @@ PRODUCT_NAME = Text(
     ],
 )
 
-PRICE = ObjectInput(
+PRICE = Object(
     id="price",
     description="The price of the item, including currency",
-    elements=[
+    children=[
         Number(id="amount", description="The amount in digit format."),
         Text(id="currency", description="The currency."),
     ],
