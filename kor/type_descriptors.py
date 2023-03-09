@@ -6,19 +6,7 @@ on details such as the schema description in the prompt.
 Designing the code here to make it easier to experiment with different ways
 of describing the schema.
 """
-from kor.nodes import (
-    Selection,
-    Text,
-    AbstractInput,
-    Object,
-    AbstractVisitor,
-    Number,
-)
-
-
-def _auto_type_name(element: AbstractInput) -> str:
-    """Automatically assign a type name."""
-    return element.__class__.__name__.removesuffix("Input").lower()
+from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection, Text
 
 
 class BulletPointTypeGenerator(AbstractVisitor[None]):
