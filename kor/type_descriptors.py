@@ -53,7 +53,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
             raise NotImplementedError()
 
         self.code_lines.append(
-            f"{space}{node.id}: {finalized_type} // {node.description}"
+            f"{space}{node.id}: {finalized_type}[] // {node.description}"
         )
 
     def visit_object(self, node: Object) -> None:
@@ -75,7 +75,13 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
     def describe(self, node: "AbstractInput") -> str:
         self.depth = 0
         self.code_lines = []
+
         node.accept(self)
+
+        # Add curly brackets if top level node is not an object.
+        if not isinstance(node, Object):
+            self.code_lines.insert(0, "{\n")
+            self.code_lines.append("}\n")
         return self.get_type_description()
 
 
@@ -93,4 +99,4 @@ def generate_typescript_description(node: AbstractInput) -> str:
     """Generate a description of the object_input type in TypeScript syntax."""
     code_generator = TypeScriptTypeGenerator()
     type_script_code = code_generator.describe(node)
-    return f"```TypeScript\n{type_script_code}\n```\n"
+    return f"```TypeScript\n\n{type_script_code}\n```\n"

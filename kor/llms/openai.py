@@ -29,14 +29,14 @@ def _set_openai_api_key_if_needed() -> None:
         openai.api_key = api_key
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass(kw_only=True, frozen=True)
 class OpenAICompletion(CompletionModel):
     """Wrapper around OpenAI Completion endpoint."""
 
-    model: str = "text-davinci-001"
+    model: str
     verbose: bool = False
     temperature: float = 0
-    max_tokens: int = 1000
+    max_tokens: int = 2000
     frequency_penalty: float = 0
     presence_penalty: float = 0
     top_p: float = 1.0
@@ -64,11 +64,11 @@ class OpenAICompletion(CompletionModel):
         return text
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass(kw_only=True, frozen=True)
 class OpenAIChatCompletion(ChatCompletionModel):
     """Wrapper around OpenAI Chat Completion endpoint."""
 
-    model: str = "gpt-3.5-turbo"
+    model: str
     verbose: bool = False
     temperature: float = 0
     max_tokens: int = 1000
