@@ -2,40 +2,40 @@
 
 # Kor
 
-Kor helps developers leverage LLMs for structured data extraction.
+This is a half baked prototype that "helps" you extract structured data from text using
+LLMs 🧩.
 
-Kor introduces an inputs API (to resemble HTML form inputs) as building blocks 🧩.
-
-At the moment, Kor supports a single input form and does one pass interaction. 
+Just specify the schema of what should be extracted and provide some examples.
+Kor will generate a prompt, send it to the specified LLM and parse out the
+output. And you might even get some nice results back.
 
 
 ## 💡 Ideas
 
 Ideas of some things that could be done with Kor.
 
-* Extract data from text: Define what information should be extracted from a segment.
-* Improve an AI assistant by defining what information should be collected from a user? (maybe not useful)
-* Convert an HTML form into a Kor form and allow the user to fill it out using natural language. (May allow converting HTML forms into APIs.)
+* Extract data from text: Define what information should be extracted from a segment
+* Convert an HTML form into a Kor form and allow the user to fill it out using natural language. (Convert HTML forms -> API? Or not.)
+* Add some skills to an AI assistant
 
 ## 🚧 Prototype
 
-A prototype created in less than 20 hours, the API is not expected to be stable
-as it hasn't been used against enough real world examples.
+This a prototype and the API is not expected to be stable as it hasn't been
+tested against real world examples.
 
-## 🦺 Limitations 
+## 🦺 What does Kor excel at?
 
-* Extraction is not perfect. Quality depends on the language model and the quality of the prompt.
-* May be slow if underlying language model is slow (i.e., a few seconds).
-* Length context window could become limiting when working with large forms or long text inputs.
+* It's makes mistakes! Probably plenty of them. Quality varies with the underlying language model, the quality of the prompt, and the number of bugs in the adapter code.
+* Slow! It uses large prompts with examples, and works best with the larger slower LLMs.
+* Great for short pieces of text! Length context window could become limiting when working with large forms or long text inputs.
 
 
-## Expected changes
+## Potential Changes
 
-* Improve type information for Object inputs
-* Add built-in validators
-* Add router that allows one to route a user input between different possible
-  forms -- This may be sufficient to re-implement a full virtual assistant with
-  skills
+* Validators
+* Built-in components to quickly assemble schema with examples
+* Add routing layer to select appropriate extraction schema for a use case when
+  many schema exist
 
 ## 🎶 Why the name?
 
