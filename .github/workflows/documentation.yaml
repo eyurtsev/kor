@@ -23,6 +23,9 @@ jobs:
       - name: Sphinx build
         run: |
           poetry run sphinx-build docs/source _build
+      - name: list
+        run: |
+          ls -lsh _build/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
