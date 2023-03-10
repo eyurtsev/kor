@@ -11,18 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install poetry
-        run: pipx install poetry==$POETRY_VERSION
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: "poetry"
-      - name: Install dependencies
-        run: poetry install --with=doc
-      - name: Sphinx build
+      - name: list
         run: |
-          poetry run sphinx-build docs/source _build
+          ls -lah
+        #- name: Install poetry
+        #  run: pipx install poetry==$POETRY_VERSION
+        #- name: Set up Python ${{ matrix.python-version }}
+        #  uses: actions/setup-python@v4
+        #  with:
+        #    python-version: ${{ matrix.python-version }}
+        #    cache: "poetry"
+        #- name: Install dependencies
+        #  run: poetry install --with=doc
+        #- name: Sphinx build
+        #  run: |
+        #    poetry run sphinx-build docs/source _build
           #      - name: Deploy
           #        uses: peaceiris/actions-gh-pages@v3
           #        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
