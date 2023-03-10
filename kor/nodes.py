@@ -190,12 +190,3 @@ class Object(AbstractInput):
     def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""
         return visitor.visit_object(self)
-
-    def merge(self, other_object: "Object") -> "Object":
-        all_attributes = list(self.attributes) + list(other_object.attributes)
-        all_examples = list(self.examples) + list(other_object.examples)
-        return dataclasses.replace(
-            self,
-            attributes=all_attributes,
-            examples=all_examples,
-        )
