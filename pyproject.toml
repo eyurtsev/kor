@@ -28,6 +28,7 @@ sphinx-typlog-theme = "^0.8.0"
 sphinx-panels = "^0.6.0"
 myst-nb = "^0.17.1"
 linkchecker = "^10.2.1"
+toml = "^0.10.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
