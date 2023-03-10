@@ -11,12 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: pwd
-        run: |
-          pwd
-      - name: list
-        run: |
-          ls -lah
       - name: Install poetry
         run: pipx install poetry==$POETRY_VERSION
       - name: Set up Python ${{ matrix.python-version }}
