@@ -60,7 +60,7 @@ PRODUCT_NAME = Text(
 PRICE = Object(
     id="price",
     description="The price of the item, including currency",
-    children=[
+    attributes=[
         Number(id="amount", description="The amount in digit format."),
         Text(id="currency", description="The currency."),
     ],

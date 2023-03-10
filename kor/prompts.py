@@ -113,7 +113,8 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
     prefix=(
         "Your goal is to extract structured information from the user's input that matches "
         "the form described below. "
-        "When extracting information please make sure it matches the type information exactly. "
+        "When extracting information please make sure it matches the type information exactly. Do "
+        "not add any attributes that do not appear in the schema shown below."
     ),
     type_descriptor="TypeScript",
     suffix=(
