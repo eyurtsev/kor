@@ -2,23 +2,32 @@ name: Docs
 on: [push, pull_request, workflow_dispatch]
 permissions:
     contents: write
+
+env: 
+  POETRY_VERSION: "1.3.1"
+
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - name: Install poetry
+        run: pipx install poetry==$POETRY_VERSION
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
       - name: Install dependencies
-        run: |
-          pip install sphinx sphinx_rtd_theme
+        run: poetry install --with=doc
       - name: Sphinx build
         run: |
           sphinx-build doc _build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
-          force_orphan: true
+          #      - name: Deploy
+          #        uses: peaceiris/actions-gh-pages@v3
+          #        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          #        with:
+          #          publish_branch: gh-pages
+          #          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #          publish_dir: _build/
+          #          force_orphan: true
