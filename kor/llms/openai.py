@@ -29,7 +29,7 @@ def _set_openai_api_key_if_needed() -> None:
         openai.api_key = api_key
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass(kw_only=True)
 class OpenAICompletion(CompletionModel):
     """Wrapper around OpenAI Completion endpoint."""
 
@@ -64,7 +64,7 @@ class OpenAICompletion(CompletionModel):
         return text
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass(kw_only=True)
 class OpenAIChatCompletion(ChatCompletionModel):
     """Wrapper around OpenAI Chat Completion endpoint."""
 

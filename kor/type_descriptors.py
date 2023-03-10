@@ -10,18 +10,21 @@ from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection,
 
 
 class BulletPointTypeGenerator(AbstractVisitor[None]):
+    """Mutable visitor used to generate a bullet point style schema description."""
+
     def __init__(self) -> None:
-        """Use to print the type."""
         self.depth = 0
         self.type_str_messages = []
 
     def visit_default(self, node: "AbstractInput") -> None:
+        """Default action for a node."""
         space = "* " + self.depth * " "
         self.type_str_messages.append(
             f"{space}{node.id}: {node.__class__.__name__} # {node.description}"
         )
 
     def visit_object(self, node: Object) -> None:
+        """Visit an object node."""
         self.visit_default(node)
         self.depth += 1
         for child in node.attributes:
@@ -34,11 +37,14 @@ class BulletPointTypeGenerator(AbstractVisitor[None]):
 
 
 class TypeScriptTypeGenerator(AbstractVisitor[None]):
+    """A mutable visitor (not thread safe) that helps generate TypeScript schema."""
+
     def __init__(self) -> None:
         self.depth = 0
         self.code_lines = []
 
     def visit_default(self, node: "AbstractInput") -> None:
+        """Default action for a node."""
         space = self.depth * " "
 
         if isinstance(node, Selection):
@@ -57,6 +63,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         )
 
     def visit_object(self, node: Object) -> None:
+        """Visit an object node."""
         space = self.depth * " "
 
         self.code_lines.append(f"{space}{node.id}: {{")
@@ -73,6 +80,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         return "\n".join(self.code_lines)
 
     def describe(self, node: "AbstractInput") -> str:
+        """Describe the node type in TypeScript notation."""
         self.depth = 0
         self.code_lines = []
 
