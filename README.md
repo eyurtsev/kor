@@ -25,7 +25,7 @@ tested against real world examples.
 
 ## 🦺 What does Kor excel at?
 
-* It's makes mistakes! Probably plenty of them. Quality varies with the underlying language model, the quality of the prompt, and the number of bugs in the adapter code.
+* It's great at making mistakes! plenty of them. Quality varies with the underlying language model, the quality of the prompt, and the number of bugs in the adapter code.
 * Slow! It uses large prompts with examples, and works best with the larger slower LLMs.
 * Great for short pieces of text! Length context window could become limiting when working with large forms or long text inputs.
 
