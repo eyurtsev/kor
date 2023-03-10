@@ -7,14 +7,14 @@ authors = ["Eugene Yurtsev <eyurtsev@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 openai = "^0.27.0"
-pytest = "^7.2.1"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
 
 
 [tool.poetry.group.test.dependencies]
-black = "^23.1.0"
+pytest = "^7.2.1"
+black = { version="^23.1.0", extras=["black"] }
 pylint = "^2.16.2"
 isort = "^5.12.0"
 
