@@ -2,12 +2,12 @@
 
 # Kor
 
-This is a half baked prototype that "helps" you extract structured data from text using
-LLMs 🧩.
+This is a half-baked prototype that "helps" you extract structured data from text using LLMs 🧩.
 
-Just specify the schema of what should be extracted and provide some examples.
+Specify the schema of what should be extracted and provide some examples.
+
 Kor will generate a prompt, send it to the specified LLM and parse out the
-output. And you might even get some nice results back.
+output. You might even get results back.
 
 ## 💡 Ideas
 
@@ -22,7 +22,7 @@ Ideas of some things that could be done with Kor.
 This a prototype and the API is not expected to be stable as it hasn't been
 tested against real world examples.
 
-##  ✨ What does Kor excel at?  🌟 ✨
+##  ✨ does Kor excel at?  🌟 
 
 * Making mistakes! Plenty of them. Quality varies with the underlying language model, the quality of the prompt, and the number of bugs in the adapter code.
 * Slow! It uses large prompts with examples, and works best with the larger slower LLMs.
