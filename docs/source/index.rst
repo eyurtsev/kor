@@ -16,4 +16,4 @@ output. You might even get results back.
    tutorial
    prompt_examples 
    objects
-   demos
+   apis
