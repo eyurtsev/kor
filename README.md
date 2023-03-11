@@ -9,6 +9,8 @@ Specify the schema of what should be extracted and provide some examples.
 Kor will generate a prompt, send it to the specified LLM and parse out the
 output. You might even get results back.
 
+See [documentation](https://eyurtsev.github.io/kor/).
+
 ## 💡 Ideas
 
 Ideas of some things that could be done with Kor.
@@ -28,6 +30,7 @@ tested against real world examples.
 * Slow! It uses large prompts with examples, and works best with the larger slower LLMs.
 * Crashing for long enough pieces of text! Context length window could become
   limiting when working with large forms or long text inputs.
+* Incorrectly grouping results (see documentation section on objects).
 
 
 ## Potential Changes
