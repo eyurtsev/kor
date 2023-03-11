@@ -11,6 +11,12 @@ output. You might even get results back.
 
 See [documentation](https://eyurtsev.github.io/kor/).
 
+## Installaton 
+
+```sh
+pip install kor
+```
+
 ## 💡 Ideas
 
 Ideas of some things that could be done with Kor.
@@ -24,7 +30,7 @@ Ideas of some things that could be done with Kor.
 This a prototype and the API is not expected to be stable as it hasn't been
 tested against real world examples.
 
-##  ✨ does Kor excel at?  🌟 
+##  ✨ Where does Kor excel?  🌟 
 
 * Making mistakes! Plenty of them. Quality varies with the underlying language model, the quality of the prompt, and the number of bugs in the adapter code.
 * Slow! It uses large prompts with examples, and works best with the larger slower LLMs.
