@@ -9,7 +9,7 @@ repository = "https://www.github.com/eyurtsev/kor"
 
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
 openai = "^0.27"
 
 [tool.poetry.group.dev.dependencies]

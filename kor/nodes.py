@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Sequence, Mapping, Any, Generic, TypeVar, Optional, Self
+from typing import Sequence, Mapping, Any, Generic, TypeVar, Optional
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -77,9 +77,10 @@ class AbstractInput(abc.ABC):
         """Accept a visitor."""
         raise NotImplementedError()
 
+    # Update return type to `Self` when bumping python version.
     def replace(
         self, id: Optional[str] = None, description: Optional[str] = None
-    ) -> Self:
+    ) -> "AbstractInput":
         """Wrapper around data-classes replace."""
         attributes = {}
         if id:
