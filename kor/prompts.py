@@ -127,6 +127,9 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
         "from the user's query. If you can extract several pieces of relevant information "
         "from the query, then include all of them. If the type is an array, please "
         "repeat the corresponding tag name multiple times once for each relevant extraction. "
+        "Do NOT output anything except for the extracted information. "
+        "Only output information inside the HTML style tags. Do not include any notes "
+        "or any clarifications. "
     ),
 )
 
@@ -148,6 +151,9 @@ BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
         "tags ('>' and '<'). "
         "Only output tags when you're confident about the information that was extracted "
         "from the user's query. If you can extract several pieces of relevant information "
-        "from the query include use a comma to separate the tags."
+        "from the query include use a comma to separate the tags. "
+        "Do NOT output anything except for the extracted information. "
+        "Only output information inside the HTML style tags. Do not include any notes "
+        "or any clarifications. "
     ),
 )
