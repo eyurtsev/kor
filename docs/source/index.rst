@@ -5,11 +5,8 @@ Welcome to Kor's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   extraction/kor_01
-
-
-
-
+   tutorial
+   prompt_examples 
 
 Indices and tables
 ==================
