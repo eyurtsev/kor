@@ -44,6 +44,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "myst_nb",
     "sphinx_panels",
+    "sphinx_copybutton",
     "IPython.sphinxext.ipython_console_highlighting",
 ]
 source_suffix = [".ipynb", ".html", ".md", ".rst"]
