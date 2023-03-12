@@ -13,6 +13,10 @@ output. You might even get results back.
 
 See [documentation](https://eyurtsev.github.io/kor/).
 
+## Compatibility
+
+At the moment, `Kor` only works with python 3.10+.
+
 ## Installaton 
 
 ```sh
@@ -51,3 +55,12 @@ tested against real world examples.
 ## 🎶 Why the name?
 
 Fast to type and sufficiently unique.
+
+## Other packages
+
+Probabilistically speaking this package is unlikely to work for your use case.
+
+So here are some great alternatives:
+
+* [Promptify](https://github.com/promptslab/Promptify)
+* [MiniChain](https://srush.github.io/MiniChain/examples/stats/)
