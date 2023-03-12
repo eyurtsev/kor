@@ -11,6 +11,49 @@ Specify the schema of what should be extracted and provide some examples.
 Kor will generate a prompt, send it to the specified LLM and parse out the
 output. You might even get results back.
 
+
+```python
+
+from kor.extraction import Extractor
+from kor.nodes import Object, Text
+from kor.llms import OpenAIChatCompletion
+
+llm = OpenAIChatCompletion(model="gpt-3.5-turbo")
+model = Extractor(llm)
+
+schema = Object(
+    id="player",
+    description=(
+        "User is controling a music player to select songs, pause or start them or play"
+        " music by a particular artist."
+    ),
+    attributes=[
+        Text(id="song", description="User wants to play this song", examples=[]),
+        Text(id="album", description="User wants to play this album", examples=[]),
+        Text(
+            id="artist",
+            description="Music by the given artist",
+            examples=[("Songs by paul simon", "paul simon")],
+        ),
+        Text(
+            id="action",
+            description="Action to take one of: `play`, `stop`, `next`, `previous`.",
+            examples=[
+                ("Please stop the music", "stop"),
+                ("play something", "play"),
+                ("next song", "next"),
+            ],
+        ),
+    ],
+)
+
+model("can you play all the songs from paul simon and led zepplin", schema)
+```
+
+```python
+{'player': [{'artist': ['paul simon', 'led zepplin']}]}
+```
+
 See [documentation](https://eyurtsev.github.io/kor/).
 
 ## Compatibility
