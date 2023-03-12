@@ -1,5 +1,7 @@
 **⚠ WARNING: Prototype with unstable API. 🚧**  
 
+[![test](https://github.com/eyurtsev/kor/actions/workflows/test.yml/badge.svg)](https://github.com/eyurtsev/kor/actions/workflows/test.yml)
+
 # Kor
 
 This is a half-baked prototype that "helps" you extract structured data from text using LLMs 🧩.
