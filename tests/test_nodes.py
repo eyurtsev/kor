@@ -29,3 +29,9 @@ def test_extraction_input_cannot_be_instantiated() -> None:
     """ExtractionInput is abstract and should not be instantiated."""
     with pytest.raises(TypeError):
         nodes.ExtractionInput(id="help", description="description", examples=[])
+
+
+def test_multiple_option_force_enabled() -> None:
+    """Verifying that multiple option is force enabled for now."""
+    with pytest.raises(ValueError):
+        ToyInput(id="name", description="Toy", multiple=False)
