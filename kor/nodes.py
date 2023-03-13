@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Sequence, Mapping, Any, Generic, TypeVar, Optional
+from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar
 
 # For now, limit what's allowed for identifiers.
 # The main constraints

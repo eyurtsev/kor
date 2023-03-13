@@ -1,8 +1,8 @@
 import abc
-from typing import Union, Any
+from typing import Any, Union
 
 from kor import nodes, prompts
-from kor.llms import CompletionModel, ChatCompletionModel
+from kor.llms import ChatCompletionModel, CompletionModel
 from kor.parsing import parse_llm_output
 
 

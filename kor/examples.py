@@ -8,13 +8,7 @@ The code uses a default encoding of XML. This encoding should match the parser.
 """
 from typing import Any, List, Sequence, Tuple, Union
 
-from kor.nodes import (
-    AbstractInput,
-    AbstractVisitor,
-    ExtractionInput,
-    Object,
-    Selection,
-)
+from kor.nodes import AbstractInput, AbstractVisitor, ExtractionInput, Object, Selection
 
 LITERAL_TYPE = Union[str, int, float]
 

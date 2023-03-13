@@ -1,6 +1,5 @@
 """Extraction building blocks."""
-from kor.nodes import Object, Text, Number
-
+from kor.nodes import Number, Object, Text
 
 ADDRESS_INPUT = Object(
     id="address",

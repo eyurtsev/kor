@@ -18,9 +18,11 @@ jupyterlab = "^3.6.1"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.1"
-black = { version="^23.1.0", extras=["black"] }
+black = { version="^23.1.0", extras=["jupyter"] }
 pylint = "^2.16.2"
 isort = "^5.12.0"
+poethepoet = "^0.18.1"
+autoflake = "^2.0.2"
 
 [tool.poetry.group.docs.dependencies]
 nbsphinx = "^0.8.9"
@@ -34,6 +36,21 @@ myst-nb = "^0.17.1"
 linkchecker = "^10.2.1"
 toml = "^0.10.2"
 sphinx-copybutton = "^0.5.1"
+
+[tool.poetry.group.typing.dependencies]
+mypy = "^0.991"
+
+[tool.isort]
+profile = "black"
+
+[tool.poe.tasks]
+black = "black ."
+isort = "isort ."
+pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning"
+mypy = "mypy . --pretty --show-error-codes"
+autoflake = "python -m autoflake --remove-all-unused-imports --remove-duplicate-keys --quiet --in-place --recursive ."
+autoformat = { shell = "poe black && poe isort && poe autoflake && poe pylint && poe mypy" }
+test = { shell = "poe black --check --diff && poe autoflake --check-diff && poe isort --check-only && poe pylint && poe mypy && poe pytest" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -1,13 +1,11 @@
 import pytest
 
-from kor import Object, Number, Text
-from kor.nodes import Selection, Option, AbstractInput
-
+from kor import Number, Object, Text
+from kor.nodes import AbstractInput, Option, Selection
 from kor.type_descriptors import (
-    generate_typescript_description,
     generate_bullet_point_description,
+    generate_typescript_description,
 )
-
 
 OPTION = Option(id="option", description="Option Description", examples=["selection"])
 NUMBER = Number(
