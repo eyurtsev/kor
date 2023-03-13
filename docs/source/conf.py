@@ -21,9 +21,9 @@ import toml
 with open("../../pyproject.toml") as f:
     data = toml.load(f)
 
-project = '😼 Kor'
-copyright = '2023, Eugene Yurtsev'
-author = 'Eugene Yurtsev'
+project = "😼 Kor"
+copyright = "2023, Eugene Yurtsev"
+author = "Eugene Yurtsev"
 
 version = data["tool"]["poetry"]["version"]
 release = version
@@ -50,7 +50,7 @@ extensions = [
 source_suffix = [".ipynb", ".html", ".md", ".rst"]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -82,7 +82,7 @@ html_context = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # These paths are either relative to html_static_path
 # or fully qualified paths (eg. https://...)
