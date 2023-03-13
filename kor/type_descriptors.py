@@ -6,20 +6,34 @@ on details such as the schema description in the prompt.
 Designing the code here to make it easier to experiment with different ways
 of describing the schema.
 """
+import abc
+from typing import TypeVar
+
 from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection, Text
 
+T = TypeVar("T")
 
-class BulletPointTypeGenerator(AbstractVisitor[None]):
+
+class TypeDescriptor(AbstractVisitor[T], abc.ABC):
+    """Interface for type descriptors."""
+
+    @abc.abstractmethod
+    def describe(self, node: AbstractInput) -> str:
+        """Take in node and describe its type as a string."""
+        raise NotImplementedError()
+
+
+class BulletPointTypeGenerator(TypeDescriptor[None]):
     """Mutable visitor used to generate a bullet point style schema description."""
 
     def __init__(self) -> None:
         self.depth = 0
-        self.type_str_messages = []
+        self.code_lines = []
 
     def visit_default(self, node: "AbstractInput") -> None:
         """Default action for a node."""
         space = "* " + self.depth * " "
-        self.type_str_messages.append(
+        self.code_lines.append(
             f"{space}{node.id}: {node.__class__.__name__} # {node.description}"
         )
 
@@ -33,7 +47,13 @@ class BulletPointTypeGenerator(AbstractVisitor[None]):
 
     def get_type_description(self) -> str:
         """Get the type."""
-        return "\n".join(self.type_str_messages)
+        return "\n".join(self.code_lines)
+
+    def describe(self, node: AbstractInput) -> str:
+        """Describe the type of the given node."""
+        self.code_lines = []
+        node.accept(self)
+        return self.get_type_description()
 
 
 class TypeScriptTypeGenerator(AbstractVisitor[None]):
@@ -66,7 +86,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         """Visit an object node."""
         space = self.depth * " "
 
-        self.code_lines.append(f"{space}{node.id}: {{")
+        self.code_lines.append(f"{space}{node.id}: {{ // {node.description}")
 
         self.depth += 1
         for child in node.attributes:
@@ -101,13 +121,10 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
 
 def generate_bullet_point_description(node: AbstractInput) -> str:
     """Generate type description for the node in a custom bullet point format."""
-    code_generator = BulletPointTypeGenerator()
-    node.accept(code_generator)
-    return code_generator.get_type_description()
+    return BulletPointTypeGenerator().describe(node)
 
 
 def generate_typescript_description(node: AbstractInput) -> str:
     """Generate a description of the object_input type in TypeScript syntax."""
-    code_generator = TypeScriptTypeGenerator()
-    type_script_code = code_generator.describe(node)
+    type_script_code = TypeScriptTypeGenerator().describe(node)
     return f"```TypeScript\n\n{type_script_code}\n```\n"
