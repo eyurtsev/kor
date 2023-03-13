@@ -1,6 +1,6 @@
 from collections import defaultdict
 from html.parser import HTMLParser
-from typing import DefaultDict, Any
+from typing import Any, DefaultDict
 
 
 class TagParser(HTMLParser):

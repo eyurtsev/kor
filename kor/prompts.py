@@ -1,13 +1,13 @@
 """Code to dynamically generate appropriate LLM prompts."""
 import abc
 import dataclasses
-from typing import Union, Literal, Callable, List, Tuple
+from typing import Callable, List, Literal, Tuple, Union
 
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput
 from kor.type_descriptors import (
-    generate_typescript_description,
     generate_bullet_point_description,
+    generate_typescript_description,
 )
 
 PROMPT_FORMAT = Union[Literal["openai-chat"], Literal["string"]]

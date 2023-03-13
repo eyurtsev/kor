@@ -3,7 +3,7 @@ import json
 import logging
 import os
 
-from .typedefs import CompletionModel, ChatCompletionModel
+from .typedefs import ChatCompletionModel, CompletionModel
 
 try:
     import openai

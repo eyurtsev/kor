@@ -1,13 +1,13 @@
 import pytest
 
 from kor.nodes import (
-    AbstractVisitor,
     AbstractInput,
+    AbstractVisitor,
     Number,
-    Text,
+    Object,
     Option,
     Selection,
-    Object,
+    Text,
 )
 
 

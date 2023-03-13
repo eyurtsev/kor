@@ -40,6 +40,9 @@ sphinx-copybutton = "^0.5.1"
 [tool.poetry.group.typing.dependencies]
 mypy = "^0.991"
 
+[tool.isort]
+profile = "black"
+
 [tool.poe.tasks]
 black = "black ."
 isort = "isort ."
