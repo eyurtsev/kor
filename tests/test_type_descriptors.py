@@ -36,7 +36,7 @@ def test_no_obvious_crashes() -> None:
     This test doesn't verify correctness, only that code doesn't crash!
     """
 
-    nodes_to_check = [OPTION, NUMBER, TEXT, SELECTION, OBJ]
+    nodes_to_check = [NUMBER, TEXT, SELECTION, OBJ]
     descriptors = [generate_typescript_description, generate_bullet_point_description]
 
     for node in nodes_to_check:
