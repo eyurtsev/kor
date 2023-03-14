@@ -1,6 +1,6 @@
 **⚠ WARNING: Prototype with unstable API. 🚧**  
 
-[![test](https://github.com/eyurtsev/kor/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/eyurtsev/kor/actions/workflows/test.yml)
+[![test](https://github.com/eyurtsev/kor/actions/workflows/test.yml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/test.yml)
 
 # Kor
 
