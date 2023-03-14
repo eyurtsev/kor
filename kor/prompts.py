@@ -1,7 +1,18 @@
 """Code to dynamically generate appropriate LLM prompts."""
+from __future__ import annotations
+
 import abc
 import dataclasses
-from typing import Any, Callable, Dict, List, Literal, Tuple, Union
+from typing import Any, Callable, List, Literal, Tuple, Union
+from pydantic import Extra
+
+from langchain.schema import (
+    AIMessage,
+    BaseMessage,
+    HumanMessage,
+    PromptValue,
+    SystemMessage,
+)
 
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput
@@ -23,9 +34,7 @@ class PromptGenerator(abc.ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def format_as_chat(
-        self, user_input: str, node: AbstractInput
-    ) -> List[Dict[str, str]]:
+    def format_as_chat(self, user_input: str, node: AbstractInput) -> List[BaseMessage]:
         """Format as a prompt to a chat model."""
         raise NotImplementedError()
 
@@ -81,32 +90,39 @@ class ExtractionTemplate(PromptGenerator):
         input_output_block = "\n".join(formatted_examples)
         return f"{instruction_segment}\n\n{input_output_block}"
 
-    def format_as_chat(
-        self, user_input: str, node: AbstractInput
-    ) -> list[dict[str, str]]:
+    def format_as_chat(self, user_input: str, node: AbstractInput) -> List[BaseMessage]:
         """Format the template for a `chat` LLM model."""
         instruction_segment = self.generate_instruction_segment(node)
 
-        messages = [
-            {
-                "role": "system",
-                "content": instruction_segment,
-            }
-        ]
+        messages: List[BaseMessage] = [SystemMessage(content=instruction_segment)]
 
         for example_input, example_output in self.example_generator(node):
             messages.extend(
                 [
-                    {"role": "user", "content": example_input},
-                    {
-                        "role": "assistant",
-                        "content": f"{example_output}",
-                    },
+                    HumanMessage(content=example_input),
+                    AIMessage(content=f"{example_output}"),
                 ]
             )
 
-        messages.append({"role": "user", "content": user_input})
+        messages.append(HumanMessage(content=user_input))
         return messages
+
+class ExtractionPromptValue(PromptValue):
+    template: ExtractionTemplate
+    user_input: str
+    node: AbstractInput
+
+    class Config:
+        """Configuration for this pydantic object."""
+
+        extra = Extra.forbid
+        arbitrary_types_allowed = True
+
+    def to_string(self) -> str:
+        return self.template.format_as_string(self.user_input, self.node)
+
+    def to_messages(self) -> List[BaseMessage]:
+        return self.template.format_as_chat(self.user_input, self.node)
 
 
 STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
