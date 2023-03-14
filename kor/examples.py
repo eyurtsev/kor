@@ -61,20 +61,21 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
         raise AssertionError("Should never visit an Option node.")
 
     def visit_object(self, node: "Object") -> List[Tuple[str, str]]:
-        if node.group_as_object and node.examples:
-            object_examples = [
-                # Looks like false positive from mypy
-                # Can investigate how to simplify at a later point.
-                (
-                    example_input,
-                    _write_tag(node.id, example_output),  # type: ignore[arg-type]
-                )
-                for example_input, example_output in node.examples
-            ]
-        else:
-            raise NotImplementedError("Not implemented yet")
-
-        examples = object_examples
+        examples = []
+        if node.examples:
+            if node.group_as_object:
+                object_examples = [
+                    # Looks like false positive from mypy
+                    # Can investigate how to simplify at a later point.
+                    (
+                        example_input,
+                        _write_tag(node.id, example_output),  # type: ignore[arg-type]
+                    )
+                    for example_input, example_output in node.examples
+                ]
+            else:
+                raise NotImplementedError("Not implemented yet")
+            examples.extend(object_examples)
 
         # Collect examples from children
         for child in node.attributes:
