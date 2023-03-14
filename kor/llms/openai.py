@@ -2,13 +2,15 @@ import dataclasses
 import json
 import logging
 import os
+from typing import Dict, List
 
 from .typedefs import ChatCompletionModel, CompletionModel
 
 try:
     import openai
 except ImportError:
-    openai = None
+    # Is there a way to type an optional package?
+    openai = None  # type: ignore[assignment]
 
 
 logger = logging.getLogger(__name__)
@@ -80,7 +82,7 @@ class OpenAIChatCompletion(ChatCompletionModel):
         """Set credentials if needed."""
         _set_openai_api_key_if_needed()
 
-    def __call__(self, messages: list[dict[str, str]]) -> str:
+    def __call__(self, messages: List[Dict[str, str]]) -> str:
         """Invoke the LLM with the given prompt."""
         if self.verbose:
             for message in messages:

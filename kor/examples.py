@@ -8,7 +8,14 @@ The code uses a default encoding of XML. This encoding should match the parser.
 """
 from typing import Any, List, Sequence, Tuple, Union
 
-from kor.nodes import AbstractInput, AbstractVisitor, ExtractionInput, Object, Selection
+from kor.nodes import (
+    AbstractInput,
+    AbstractVisitor,
+    ExtractionInput,
+    Object,
+    Option,
+    Selection,
+)
 
 LiteralType = Union[str, int, float]
 
@@ -50,19 +57,16 @@ def _write_tag(
 
 
 class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
-    def __init__(self) -> None:
-        self.namespace_stack = []
-
     def visit_option(self, node: "Option") -> List[Tuple[str, str]]:
         raise AssertionError("Should never visit an Option node.")
 
     def visit_object(self, node: "Object") -> List[Tuple[str, str]]:
-        object_examples = node.examples
-
-        if node.group_as_object:
+        if node.group_as_object and node.examples:
             object_examples = [
-                (example_input, _write_tag(node.id, example_output))
-                for example_input, example_output in object_examples
+                # Looks like false positive from mypy
+                # Can investigate how to simplify at a later point.
+                (example_input, _write_tag(node.id, example_output))  # type: ignore[arg-type]
+                for example_input, example_output in node.examples
             ]
         else:
             raise NotImplementedError("Not implemented yet")
