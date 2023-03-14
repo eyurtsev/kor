@@ -13,7 +13,7 @@ from kor.type_descriptors import (
 PromptFormat = Union[Literal["openai-chat"], Literal["string"]]
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
+@dataclasses.dataclass(frozen=True)
 class PromptGenerator(abc.ABC):
     """Define abstract interface for a prompt."""
 
@@ -30,7 +30,7 @@ class PromptGenerator(abc.ABC):
         raise NotImplementedError()
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
+@dataclasses.dataclass(frozen=True)
 class ExtractionTemplate(PromptGenerator):
     """Prompt generator for extraction purposes."""
 
@@ -83,7 +83,7 @@ class ExtractionTemplate(PromptGenerator):
 
     def format_as_chat(
         self, user_input: str, node: AbstractInput
-    ) -> list[dict[str, str]]:
+    ) -> List[Dict[str, str]]:
         """Format the template for a `chat` LLM model."""
         instruction_segment = self.generate_instruction_segment(node)
 

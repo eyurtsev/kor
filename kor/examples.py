@@ -6,7 +6,7 @@ into account the finite size of the context window and limit the number of examp
 
 The code uses a default encoding of XML. This encoding should match the parser.
 """
-from typing import Any, List, Sequence, Tuple, Union
+from typing import Any, List, Mapping, Sequence, Tuple, Union
 
 from kor.nodes import (
     AbstractInput,
@@ -30,7 +30,7 @@ def _write_list(tag_name: str, values: Sequence[LiteralType]) -> str:
     return "".join(_write_tag(tag_name, value) for value in values)
 
 
-def _write_dict(tag_name: str, data: dict[str, Any]) -> str:
+def _write_dict(tag_name: str, data: Mapping[str, Any]) -> str:
     """Write a dict."""
     s_data = "".join(
         [
@@ -42,7 +42,7 @@ def _write_dict(tag_name: str, data: dict[str, Any]) -> str:
 
 
 def _write_tag(
-    tag_name: str, data: LiteralType | Sequence[LiteralType] | dict[str, Any]
+    tag_name: str, data: Union[LiteralType, Sequence[LiteralType], Mapping[str, Any]]
 ) -> str:
     """Write a tag."""
     # Dispatch based on type.
@@ -119,7 +119,7 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
 
 def generate_examples(
     element: AbstractInput, encoding: str = "XML"
-) -> List[tuple[str, str]]:
+) -> List[Tuple[str, str]]:
     """Generate examples for a given element.
 
     A rudimentary implementation that simply concatenates all available examples

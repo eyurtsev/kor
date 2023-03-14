@@ -2,7 +2,7 @@
 import abc
 import copy
 import re
-from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar, Union
+from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Union
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -119,7 +119,7 @@ class ExtractionInput(AbstractInput, abc.ABC):
         id: str,
         description: str = "",
         multiple: bool = True,
-        examples: Sequence[tuple[str, str | Sequence[str]]] = tuple(),
+        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
         super().__init__(id=id, description=description, multiple=multiple)
@@ -238,7 +238,9 @@ class Object(AbstractInput):
         description: str = "",
         multiple: bool = True,
         attributes: Sequence[Union[ExtractionInput, Selection]],
-        examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple(),
+        examples: Sequence[
+            Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
+        ] = tuple(),
         # If false, will treat the inputs independent.
         # Is there a better name for this?! I want it to be True by default
         # which rules out as_input_bag
