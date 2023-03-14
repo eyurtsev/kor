@@ -1,6 +1,6 @@
 from collections import defaultdict
 from html.parser import HTMLParser
-from typing import Any, DefaultDict, Dict, List, Optional, Union
+from typing import Any, DefaultDict, Dict, List, Optional
 
 
 class TagParser(HTMLParser):
@@ -27,7 +27,7 @@ class TagParser(HTMLParser):
         """
         super().__init__()
 
-        self.parse_data: DefaultDict[str, List[str]] = defaultdict(list)
+        self.parse_data: DefaultDict[str, List[Any]] = defaultdict(list)
         self.stack: List[DefaultDict[str, List[str]]] = [self.parse_data]
         self.success = True
         self.depth = 0
@@ -46,8 +46,11 @@ class TagParser(HTMLParser):
 
         # If a lead node
         is_leaf = self.data is not None
-        value: Union[dict, str] = self.data if is_leaf else top_of_stack
-        self.stack[-1][tag].append(value)
+        # Annoying to type here, code is tested, hopefully OK
+        value = self.data if is_leaf else top_of_stack
+        # Difficult to type this correctly with mypy (maybe impossible?)
+        # Can be nested indefinitely, so requires self referencing type
+        self.stack[-1][tag].append(value)  # type: ignore
         # Reset the data so we if we encounter a sequence of end tags, we
         # don't confuse an outer end tag for belonging to a leaf node.
         self.data = None
