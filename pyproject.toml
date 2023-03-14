@@ -11,6 +11,7 @@ repository = "https://www.github.com/eyurtsev/kor"
 [tool.poetry.dependencies]
 python = "^3.10"
 openai = "^0.27"
+pydantic = "^1.9.6"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
