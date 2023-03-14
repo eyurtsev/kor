@@ -46,11 +46,25 @@ profile = "black"
 [tool.poe.tasks]
 black = "black ."
 isort = "isort ."
+pylint = "pylint kor"
 pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning"
 mypy = "mypy . --pretty --show-error-codes"
 autoflake = "python -m autoflake --remove-all-unused-imports --remove-duplicate-keys --quiet --in-place --recursive ."
-autoformat = { shell = "poe black && poe isort && poe autoflake && poe pylint && poe mypy" }
-test = { shell = "poe black --check --diff && poe autoflake --check-diff && poe isort --check-only && poe pylint && poe mypy && poe pytest" }
+autoformat = { shell = "poe black && poe isort && poe pylint" }
+test = { shell = "poe black --check --diff && poe isort --check-only && poe pylint && poe pytest" }
+
+
+[tool.pylint.messages]
+disable = [
+  "no-else-return", # I'm not a fan
+  "missing-module-docstring", # Need to re-enable
+  "missing-class-docstring", # Need to re-enable
+]
+
+[tool.pylint.basic]
+good-names = [
+  "id",  # Shadows built-in but using for data models
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

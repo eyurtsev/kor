@@ -10,15 +10,15 @@ from typing import Any, List, Sequence, Tuple, Union
 
 from kor.nodes import AbstractInput, AbstractVisitor, ExtractionInput, Object, Selection
 
-LITERAL_TYPE = Union[str, int, float]
+LiteralType = Union[str, int, float]
 
 
-def _write_literal(tag_name: str, value: LITERAL_TYPE) -> str:
+def _write_literal(tag_name: str, value: LiteralType) -> str:
     """Write literal."""
     return f"<{tag_name}>{value}</{tag_name}>"
 
 
-def _write_list(tag_name: str, values: Sequence[LITERAL_TYPE]) -> str:
+def _write_list(tag_name: str, values: Sequence[LiteralType]) -> str:
     """Write list."""
     return "".join(_write_tag(tag_name, value) for value in values)
 
@@ -35,7 +35,7 @@ def _write_dict(tag_name: str, data: dict[str, Any]) -> str:
 
 
 def _write_tag(
-    tag_name: str, data: LITERAL_TYPE | Sequence[LITERAL_TYPE] | dict[str, Any]
+    tag_name: str, data: LiteralType | Sequence[LiteralType] | dict[str, Any]
 ) -> str:
     """Write a tag."""
     # Dispatch based on type.

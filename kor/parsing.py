@@ -42,11 +42,11 @@ class TagParser(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         """Hook when a tag is closed."""
         self.depth -= 1
-        d = dict(self.stack.pop(-1))  # Pop the dictionary we don't need it
+        top_of_stack = dict(self.stack.pop(-1))  # Pop the dictionary we don't need it
 
         # If a lead node
         is_leaf = self.data is not None
-        value = self.data if is_leaf else d
+        value = self.data if is_leaf else top_of_stack
         self.stack[-1][tag].append(value)
         # Reset the data so we if we encounter a sequence of end tags, we
         # don't confuse an outer end tag for belonging to a leaf node.
