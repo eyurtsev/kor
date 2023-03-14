@@ -99,6 +99,12 @@ tested against real world examples.
 
 Fast to type and sufficiently unique.
 
+## Contributing
+
+If you have any ideas or feature requests, please open an issue and share!
+
+See [CONTRIBUTING.md](https://github.com/eyurtsev/kor/blob/main/CONTRIBUTING.md) for more information.
+
 ## Other packages
 
 Probabilistically speaking this package is unlikely to work for your use case.
