@@ -40,6 +40,10 @@ sphinx-copybutton = "^0.5.1"
 [tool.poetry.group.typing.dependencies]
 mypy = "^0.991"
 
+
+[tool.poetry.group.types.dependencies]
+types-toml = "^0.10.8.5"
+
 [tool.isort]
 profile = "black"
 
@@ -51,7 +55,7 @@ pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning"
 mypy = "mypy . --pretty --show-error-codes"
 autoflake = "python -m autoflake --remove-all-unused-imports --remove-duplicate-keys --quiet --in-place --recursive ."
 autoformat = { shell = "poe black && poe isort && poe pylint" }
-test = { shell = "poe black --check --diff && poe isort --check-only && poe pylint && poe pytest" }
+test = { shell = "poe black --check --diff && poe isort --check-only && poe pylint && poe pytest && poe mypy" }
 
 
 [tool.pylint.messages]
