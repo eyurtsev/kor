@@ -79,7 +79,9 @@ class AbstractInput(abc.ABC):
 
     # Update return type to `Self` when bumping python version.
     def replace(
-        self, id: Optional[str] = None, description: Optional[str] = None
+        self,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        description: Optional[str] = None,
     ) -> "AbstractInput":
         """Wrapper around data-classes replace."""
         attributes = {}

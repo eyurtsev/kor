@@ -10,7 +10,7 @@ from kor.type_descriptors import (
     generate_typescript_description,
 )
 
-PROMPT_FORMAT = Union[Literal["openai-chat"], Literal["string"]]
+PromptFormat = Union[Literal["openai-chat"], Literal["string"]]
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
@@ -82,10 +82,10 @@ class ExtractionTemplate(PromptGenerator):
         return f"{instruction_segment}\n\n{input_output_block}"
 
     def format_as_chat(
-        self, user_input: str, form: AbstractInput
+        self, user_input: str, node: AbstractInput
     ) -> list[dict[str, str]]:
         """Format the template for a `chat` LLM model."""
-        instruction_segment = self.generate_instruction_segment(form)
+        instruction_segment = self.generate_instruction_segment(node)
 
         messages = [
             {
@@ -94,7 +94,7 @@ class ExtractionTemplate(PromptGenerator):
             }
         ]
 
-        for example_input, example_output in self.example_generator(form):
+        for example_input, example_output in self.example_generator(node):
             messages.extend(
                 [
                     {"role": "user", "content": example_input},
