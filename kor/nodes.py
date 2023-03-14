@@ -1,8 +1,10 @@
 """Definitions of input elements."""
 import abc
-import dataclasses
 import re
-from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar
+from abc import ABC
+from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar, Union
+
+from pydantic import BaseModel, validator
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -42,8 +44,7 @@ class AbstractVisitor(Generic[T], abc.ABC):
         raise NotImplementedError()
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class AbstractInput(abc.ABC):
+class AbstractInput(BaseModel, abc.ABC):
     """Abstract input node.
 
     Each input is expected to have a unique ID, and should
@@ -59,21 +60,26 @@ class AbstractInput(abc.ABC):
     description: str = ""
     multiple: bool = True
 
-    def __post_init__(self) -> None:
-        """Post initialization hook."""
-        if not VALID_IDENTIFIER_PATTERN.match(self.id):
+    @validator("id")
+    def ensure_valuid_uid(cls, uid: str) -> None:
+        """Validate that using a valid identifier."""
+        if not VALID_IDENTIFIER_PATTERN.match(uid):
             raise ValueError(
-                f"`{self.id}` is not a valid identifier. "
+                f"`{uid}` is not a valid identifier. "
                 f"Please only use lower cased a-z, _ or the digits 0-9"
             )
 
+    @validator("multiple")
+    def multiple_must_be_enabled(self):
         if not self.multiple:
-            raise ValueError(
-                "Reserved parameter. At the moment, multiple has to be True."
+            raise NotImplementedError(
+                f"For now all fields are interpreted as lists of the type."
             )
 
+    # attributes=[NUMBER, TEXT, SELECTION],
+
     @abc.abstractmethod
-    def accept(self, visitor: AbstractVisitor) -> Any:
+    def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""
         raise NotImplementedError()
 
@@ -84,16 +90,16 @@ class AbstractInput(abc.ABC):
         description: Optional[str] = None,
     ) -> "AbstractInput":
         """Wrapper around data-classes replace."""
-        attributes = {}
-        if id:
-            attributes["id"] = id
-        if description:
-            attributes["description"] = description
-        return dataclasses.replace(self, **attributes)
+        raise NotImplementedError()
+        # attributes = {}
+        # if id:
+        #     attributes["id"] = id
+        # if description:
+        #     attributes["description"] = description
+        # return dataclasses.replace(self, **attributes)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class ExtractionInput(AbstractInput, abc.ABC):
+class ExtractionInput(AbstractInput, BaseModel, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
     An extraction input can be associated with extraction examples.
@@ -110,9 +116,14 @@ class ExtractionInput(AbstractInput, abc.ABC):
 
     examples: Sequence[tuple[str, str | Sequence[str]]] = tuple()
 
+    @abc.abstractmethod
+    def accept(self, visitor: AbstractVisitor[T]) -> T:
+        print("method of extraction input. ")
+        raise NotImplementedError(str(self.id))
+        pass
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class Number(ExtractionInput):
+
+class Number(ExtractionInput, BaseModel):
     """Built-in number input."""
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
@@ -120,8 +131,7 @@ class Number(ExtractionInput):
         return visitor.visit_number(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class Text(ExtractionInput):
+class Text(ExtractionInput, BaseModel):
     """Built-in text input."""
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
@@ -129,8 +139,7 @@ class Text(ExtractionInput):
         return visitor.visit_text(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class Option(AbstractInput):
+class Option(AbstractInput, BaseModel):
     """Built-in option input must be part of a selection input."""
 
     examples: Sequence[str] = tuple()
@@ -140,8 +149,7 @@ class Option(AbstractInput):
         return visitor.visit_option(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class Selection(AbstractInput):
+class Selection(AbstractInput, BaseModel):
     """Built-in selection input.
 
     A selection input is composed of one or more options.
@@ -164,8 +172,7 @@ class Selection(AbstractInput):
         return visitor.visit_selection(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
-class Object(AbstractInput):
+class Object(AbstractInput, BaseModel):
     """A definition for an object extraction.
 
     An extraction input can be associated with 2 different types of examples:
@@ -194,7 +201,7 @@ class Object(AbstractInput):
         from the text: "I eat an apple every day.".
     """
 
-    attributes: Sequence[ExtractionInput]
+    attributes: Sequence[Union[ExtractionInput, Selection]] = tuple()
     examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
     # If false, will treat the inputs independent.
     # Is there a better name for this?! I want it to be True by default
