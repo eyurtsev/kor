@@ -158,18 +158,6 @@ tests = ["attrs[tests-no-zope]", "zope.interface"]
 tests-no-zope = ["cloudpickle", "cloudpickle", "hypothesis", "hypothesis", "mypy (>=0.971,<0.990)", "mypy (>=0.971,<0.990)", "pympler", "pympler", "pytest (>=4.3.0)", "pytest (>=4.3.0)", "pytest-mypy-plugins", "pytest-mypy-plugins", "pytest-xdist[psutil]", "pytest-xdist[psutil]"]
 
 [[package]]
-name = "autoflake"
-version = "2.0.2"
-description = "Removes unused imports and unused variables"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-pyflakes = ">=3.0.0"
-tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
-
-[[package]]
 name = "babel"
 version = "2.12.1"
 description = "Internationalization utilities"
@@ -1403,14 +1391,6 @@ doc = ["jupyter_sphinx", "myst-parser", "numpy", "numpydoc", "pandas", "plotly",
 test = ["pydata-sphinx-theme[doc]", "pytest"]
 
 [[package]]
-name = "pyflakes"
-version = "3.0.1"
-description = "passive checker of Python programs"
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "pygments"
 version = "2.14.0"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -2108,7 +2088,7 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f74fd29f175dc9950dd75d497c8fa17bf0c6ef769c3f85bdecb4e62a03a9910b"
+content-hash = "0422d35dab3da5fbd17c7130371fbfaf59e169a88f83fff5017d6a9e0f438eed"
 
 [metadata.files]
 aiofiles = [
@@ -2266,10 +2246,6 @@ async-timeout = [
 attrs = [
     {file = "attrs-22.2.0-py3-none-any.whl", hash = "sha256:29e95c7f6778868dbd49170f98f8818f78f3dc5e0e37c0b1f474e3561b240836"},
     {file = "attrs-22.2.0.tar.gz", hash = "sha256:c9227bfc2f01993c03f68db37d1d15c9690188323c067c641f1a35ca58185f99"},
-]
-autoflake = [
-    {file = "autoflake-2.0.2-py3-none-any.whl", hash = "sha256:a82d8efdcbbb7129a8a23238c529fb9d9919c562e26bb7963ea6890fbfff7d02"},
-    {file = "autoflake-2.0.2.tar.gz", hash = "sha256:e0164421ff13f805f08a023e249d84200bd00463d213b490906bfefa67e83830"},
 ]
 babel = [
     {file = "Babel-2.12.1-py3-none-any.whl", hash = "sha256:b4246fb7677d3b98f501a39d43396d3cafdc8eadb045f4a31be01863f655c610"},
@@ -3143,10 +3119,6 @@ pycparser = [
 pydata-sphinx-theme = [
     {file = "pydata_sphinx_theme-0.8.1-py3-none-any.whl", hash = "sha256:af2c99cb0b43d95247b1563860942ba75d7f1596360594fce510caaf8c4fcc16"},
     {file = "pydata_sphinx_theme-0.8.1.tar.gz", hash = "sha256:96165702253917ece13dd895e23b96ee6dce422dcc144d560806067852fe1fed"},
-]
-pyflakes = [
-    {file = "pyflakes-3.0.1-py2.py3-none-any.whl", hash = "sha256:ec55bf7fe21fff7f1ad2f7da62363d749e2a470500eab1b555334b67aa1ef8cf"},
-    {file = "pyflakes-3.0.1.tar.gz", hash = "sha256:ec8b276a6b60bd80defed25add7e439881c19e64850afd9b346283d4165fd0fd"},
 ]
 pygments = [
     {file = "Pygments-2.14.0-py3-none-any.whl", hash = "sha256:fa7bd7bd2771287c0de303af8bfdfc731f51bd2c6a47ab69d117138893b82717"},

@@ -20,7 +20,6 @@ jupyterlab = "^3.6.1"
 pytest = "^7.2.1"
 black = { version="^23.1.0", extras=["jupyter"] }
 poethepoet = "^0.18.1"
-autoflake = "^2.0.2"
 ruff = "^0.0.255"
 pytest-cov = "^4.0.0"
 
@@ -48,7 +47,7 @@ black = "black"
 ruff = "ruff"
 pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=.coveragerc --cov-report xml --cov-report term-missing:skip-covered"
 mypy = "mypy . --pretty --show-error-codes"
-autoformat = { shell = "poe black . && poe ruff --fix ." }
+fix = { shell = "poe black . && poe ruff --fix ." }
 test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
 
 [tool.ruff]
