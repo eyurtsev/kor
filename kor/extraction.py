@@ -1,16 +1,17 @@
 import abc
 from typing import Dict, List, Union
 
-from kor import nodes, prompts
+from kor import nodes
 from kor.llms import ChatCompletionModel, CompletionModel
 from kor.parsing import parse_llm_output
+from kor.prompts import STANDARD_EXTRACTION_TEMPLATE, PromptGenerator
 
 
 class Extractor(abc.ABC):  # pylint: disable=too-few-public-methods
     def __init__(
         self,
         model: Union[CompletionModel, ChatCompletionModel],
-        prompt_generator: prompts.PromptGenerator = prompts.STANDARD_EXTRACTION_TEMPLATE,
+        prompt_generator: PromptGenerator = STANDARD_EXTRACTION_TEMPLATE,
     ) -> None:
         """Initialize an extractor with a model and a prompt generator."""
         self.model = model

@@ -33,6 +33,6 @@ class TestVisitor(AbstractVisitor[str]):
         Option(id="uid"),
     ],
 )
-def test_visit_default_is_invoked(node: AbstractInput):
+def test_visit_default_is_invoked(node: AbstractInput) -> None:
     visitor = TestVisitor()
     assert visitor.visit(node) == "uid"

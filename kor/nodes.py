@@ -7,8 +7,10 @@ from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar, Union
 # For now, limit what's allowed for identifiers.
 # The main constraints
 # 1) Relying on HTML parser to parse output
-# 2) One of the type descriptors is TypeScript, so we want to produce valid TypeScript identifiers.
-# We can lift the constraints later if it becomes important, not worth the effort for a v0.
+# 2) One of the type descriptors is TypeScript, so we want
+#    to produce valid TypeScript identifiers.
+# We can lift the constraints later if it becomes important,
+# not worth the effort for a v0.
 VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
 T = TypeVar("T")
@@ -64,7 +66,7 @@ class AbstractInput(abc.ABC):
         if not VALID_IDENTIFIER_PATTERN.match(self.id):
             raise ValueError(
                 f"`{self.id}` is not a valid identifier. "
-                f"Please only use lower cased a-z, _ or the digits 0-9"
+                "Please only use lower cased a-z, _ or the digits 0-9"
             )
 
         if not self.multiple:
@@ -175,8 +177,8 @@ class Object(AbstractInput):
 
     ## Extraction examples
 
-    A standard extraction example is a 2-tuple composed of a text segment and the expected
-    extraction.
+    A standard extraction example is a 2-tuple composed of a text segment
+    and the expected extraction.
 
     For example:
         [

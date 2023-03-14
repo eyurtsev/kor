@@ -1,7 +1,7 @@
 """Code to dynamically generate appropriate LLM prompts."""
 import abc
 import dataclasses
-from typing import Callable, Dict, List, Literal, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Tuple, Union
 
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput
@@ -49,7 +49,7 @@ class ExtractionTemplate(PromptGenerator):
         if self.suffix.endswith("\n"):
             raise ValueError("Please do not end the suffix with new lines.")
 
-    def replace(self, **kwargs) -> "ExtractionTemplate":
+    def replace(self, **kwargs: Any) -> "ExtractionTemplate":
         """Bind to replace function for convenience."""
         return dataclasses.replace(self, **kwargs)
 
@@ -111,49 +111,46 @@ class ExtractionTemplate(PromptGenerator):
 
 STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
     prefix=(
-        "Your goal is to extract structured information from the user's input that matches "
-        "the form described below. "
-        "When extracting information please make sure it matches the type information exactly. Do "
-        "not add any attributes that do not appear in the schema shown below."
+        "Your goal is to extract structured information from the user's input that"
+        " matches the form described below. When extracting information please make"
+        " sure it matches the type information exactly. Do not add any attributes that"
+        " do not appear in the schema shown below."
     ),
     type_descriptor="TypeScript",
     suffix=(
-        "For Union types the output must EXACTLY match one of the members "
-        "of the Union type.\n\n"
-        "Please enclose the extracted information in HTML style tags with the tag name "
-        "corresponding to the corresponding component ID. Use angle style brackets for the "
-        "tags ('>' and '<'). "
-        "Only output tags when you're confident about the information that was extracted "
-        "from the user's query. If you can extract several pieces of relevant information "
-        "from the query, then include all of them. If the type is an array, please "
-        "repeat the corresponding tag name multiple times once for each relevant extraction. "
-        "Do NOT output anything except for the extracted information. "
-        "Only output information inside the HTML style tags. Do not include any notes "
-        "or any clarifications. "
+        "For Union types the output must EXACTLY match one of the members of the Union"
+        " type.\n\nPlease enclose the extracted information in HTML style tags with the"
+        " tag name corresponding to the corresponding component ID. Use angle style"
+        " brackets for the tags ('>' and '<'). Only output tags when you're confident"
+        " about the information that was extracted from the user's query. If you can"
+        " extract several pieces of relevant information from the query, then include"
+        " all of them. If the type is an array, please repeat the corresponding tag"
+        " name multiple times once for each relevant extraction. Do NOT output anything"
+        " except for the extracted information. Only output information inside the HTML"
+        " style tags. Do not include any notes or any clarifications. "
     ),
 )
 
 
 BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
     prefix=(
-        "Your goal is to extract structured information from the user's input that matches "
-        "the form described below. "
-        "When extracting information please make sure it matches the type information exactly. "
+        "Your goal is to extract structured information from the user's input that"
+        " matches the form described below. When extracting information please make"
+        " sure it matches the type information exactly. "
     ),
     type_descriptor="BulletPoint",
     suffix=(
-        "Your task is to parse the user input and determine to what values the user is attempting "
-        "to set each component of the form.\n"
-        "When the type of the input is a Selection, only output one of the options specified in "
-        "the square brackets as arguments to the Selection type of this input. "
-        "Please enclose the extracted information in HTML style tags with the tag name "
-        "corresponding to the corresponding component ID. Use angle style brackets for the "
-        "tags ('>' and '<'). "
-        "Only output tags when you're confident about the information that was extracted "
-        "from the user's query. If you can extract several pieces of relevant information "
-        "from the query include use a comma to separate the tags. "
-        "Do NOT output anything except for the extracted information. "
-        "Only output information inside the HTML style tags. Do not include any notes "
-        "or any clarifications. "
+        "Your task is to parse the user input and determine to what values the user is"
+        " attempting to set each component of the form.\nWhen the type of the input is"
+        " a Selection, only output one of the options specified in the square brackets"
+        " as arguments to the Selection type of this input. Please enclose the"
+        " extracted information in HTML style tags with the tag name corresponding to"
+        " the corresponding component ID. Use angle style brackets for the tags ('>'"
+        " and '<'). Only output tags when you're confident about the information that"
+        " was extracted from the user's query. If you can extract several pieces of"
+        " relevant information from the query include use a comma to separate the tags."
+        " Do NOT output anything except for the extracted information. Only output"
+        " information inside the HTML style tags. Do not include any notes or any"
+        " clarifications. "
     ),
 )

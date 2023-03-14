@@ -28,7 +28,11 @@ def test_can_instantiate_with_valid_id(valid_id: str) -> None:
 def test_extraction_input_cannot_be_instantiated() -> None:
     """ExtractionInput is abstract and should not be instantiated."""
     with pytest.raises(TypeError):
-        nodes.ExtractionInput(id="help", description="description", examples=[])  # type: ignore[abstract]
+        nodes.ExtractionInput(  # type: ignore[abstract]
+            id="help",
+            description="description",
+            examples=[],
+        )
 
 
 def test_multiple_option_force_enabled() -> None:

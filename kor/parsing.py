@@ -10,7 +10,8 @@ class TagParser(HTMLParser):
         Might be re-implemented later to restrict scope to the limited grammar, and
         more efficiency.
 
-        Uses an HTML parser to parse a limited grammar that allows for syntax of the form:
+        Uses an HTML parser to parse a limited grammar that allows
+        for syntax of the form:
 
             INPUT -> JUNK? VALUE*
             JUNK -> JUNK_CHARACTER+
@@ -20,8 +21,8 @@ class TagParser(HTMLParser):
             IDENTIFIER -> [a-Z][a-Z0-9_]*
             DATA -> .*
 
-        Interprets the data to allow repetition of tags and recursion to support representation
-        of complex types.
+        Interprets the data to allow repetition of tags and recursion
+        to support representation of complex types.
 
         ^ Just another approximately wrong grammar specification.
         """

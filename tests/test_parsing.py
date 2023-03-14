@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from kor.parsing import parse_llm_output
@@ -21,6 +23,6 @@ from kor.parsing import parse_llm_output
         ),
     ],
 )
-def test_parse_llm_response(test_input, output):
+def test_parse_llm_response(test_input: str, output: Any) -> None:
     """Parse LLM response."""
     assert parse_llm_output(test_input) == output
