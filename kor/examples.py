@@ -6,7 +6,7 @@ into account the finite size of the context window and limit the number of examp
 
 The code uses a default encoding of XML. This encoding should match the parser.
 """
-from typing import Any, List, Sequence, Tuple, Union, Mapping
+from typing import Any, List, Mapping, Sequence, Tuple, Union
 
 from kor.nodes import (
     AbstractInput,
