@@ -83,7 +83,7 @@ class ExtractionTemplate(PromptGenerator):
 
     def format_as_chat(
         self, user_input: str, node: AbstractInput
-    ) -> list[dict[str, str]]:
+    ) -> List[Dict[str, str]]:
         """Format the template for a `chat` LLM model."""
         instruction_segment = self.generate_instruction_segment(node)
 
