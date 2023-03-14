@@ -24,6 +24,7 @@ isort = "^5.12.0"
 poethepoet = "^0.18.1"
 autoflake = "^2.0.2"
 ruff = "^0.0.255"
+pytest-cov = "^4.0.0"
 
 [tool.poetry.group.docs.dependencies]
 nbsphinx = "^0.8.9"
@@ -45,27 +46,24 @@ mypy = "^0.991"
 [tool.poetry.group.types.dependencies]
 types-toml = "^0.10.8.5"
 
-[tool.isort]
-profile = "black"
+#[tool.isort]
+#profile = "black"
 
 [tool.poe.tasks]
-black = "black ."
-isort = "isort ."
+black = "black"
 ruff = "ruff"
-pylint = "pylint kor"
 pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=.coveragerc --cov-report xml --cov-report term-missing:skip-covered"
 mypy = "mypy . --pretty --show-error-codes"
-autoflake = "python -m autoflake --remove-all-unused-imports --remove-duplicate-keys --quiet --in-place --recursive ."
-autoformat = { shell = "poe black && poe isort && poe pylint" }
-test = { shell = "poe black --check --diff && poe isort --check-only && poe pylint && poe pytest && poe mypy" }
+autoformat = { shell = "poe black . && poe ruff --fix ." }
+test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
 
 
-[tool.pylint.messages]
-disable = [
-  "no-else-return", # I'm not a fan
-  "missing-module-docstring", # Need to re-enable
-  "missing-class-docstring", # Need to re-enable
-]
+#[tool.pylint.messages]
+#disable = [
+#  "no-else-return", # I'm not a fan
+#  "missing-module-docstring", # Need to re-enable
+#  "missing-class-docstring", # Need to re-enable
+#]
 
 
 [tool.ruff]
@@ -78,10 +76,10 @@ select = [
 # Same as Black.
 line-length = 88
 
-[tool.pylint.basic]
-good-names = [
-  "id",  # Shadows built-in but using for data models
-]
+#[tool.pylint.basic]
+#good-names = [
+#  "id",  # Shadows built-in but using for data models
+#]
 
 [tool.mypy]
 disallow_untyped_defs = "True"
@@ -90,7 +88,6 @@ disallow_untyped_defs = "True"
 omit = [
     "tests/*",
 ]
-
 
 
 [build-system]
