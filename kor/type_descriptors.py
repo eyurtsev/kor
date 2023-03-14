@@ -7,7 +7,7 @@ Designing the code here to make it easier to experiment with different ways
 of describing the schema.
 """
 import abc
-from typing import TypeVar
+from typing import List, TypeVar
 
 from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection, Text
 
@@ -28,7 +28,7 @@ class BulletPointTypeGenerator(TypeDescriptor[None]):
 
     def __init__(self) -> None:
         self.depth = 0
-        self.code_lines = []
+        self.code_lines: List[str] = []
 
     def visit_default(self, node: "AbstractInput") -> None:
         """Default action for a node."""
@@ -61,7 +61,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
 
     def __init__(self) -> None:
         self.depth = 0
-        self.code_lines = []
+        self.code_lines: List[str] = []
 
     def visit_default(self, node: "AbstractInput") -> None:
         """Default action for a node."""

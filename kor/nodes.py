@@ -2,7 +2,7 @@
 import abc
 import dataclasses
 import re
-from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar
+from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar, Union
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -194,7 +194,7 @@ class Object(AbstractInput):
         from the text: "I eat an apple every day.".
     """
 
-    attributes: Sequence[ExtractionInput]
+    attributes: Sequence[Union[ExtractionInput, Selection]]
     examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
     # If false, will treat the inputs independent.
     # Is there a better name for this?! I want it to be True by default

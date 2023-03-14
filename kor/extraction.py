@@ -1,5 +1,5 @@
 import abc
-from typing import Any, Union
+from typing import Dict, List, Union
 
 from kor import nodes, prompts
 from kor.llms import ChatCompletionModel, CompletionModel
@@ -16,8 +16,11 @@ class Extractor(abc.ABC):  # pylint: disable=too-few-public-methods
         self.model = model
         self.prompt_generator = prompt_generator
 
-    def __call__(self, user_input: str, node: nodes.AbstractInput) -> Any:
+    def __call__(
+        self, user_input: str, node: nodes.AbstractInput
+    ) -> Dict[str, List[str]]:
         """Invoke the extractor with a user input and a schema node."""
+        prompt: Union[str, List[Dict[str, str]]]
         if isinstance(self.model, CompletionModel):
             prompt = self.prompt_generator.format_as_string(user_input, node)
         elif isinstance(self.model, ChatCompletionModel):
@@ -26,5 +29,6 @@ class Extractor(abc.ABC):  # pylint: disable=too-few-public-methods
             raise NotImplementedError(
                 f"Unsupported model interface for type {type(self.model)}."
             )
-        model_output = self.model(prompt)
+        # Looks like a false positive from mypy, but I'm not sure why.
+        model_output = self.model(prompt)  # type: ignore[arg-type]
         return parse_llm_output(model_output)

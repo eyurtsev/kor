@@ -1,6 +1,6 @@
 from collections import defaultdict
 from html.parser import HTMLParser
-from typing import Any, DefaultDict
+from typing import Any, DefaultDict, Dict, List, Optional
 
 
 class TagParser(HTMLParser):
@@ -27,11 +27,11 @@ class TagParser(HTMLParser):
         """
         super().__init__()
 
-        self.parse_data = defaultdict(list)
-        self.stack: list[DefaultDict[str, list]] = [self.parse_data]
+        self.parse_data: DefaultDict[str, List[Any]] = defaultdict(list)
+        self.stack: List[DefaultDict[str, List[str]]] = [self.parse_data]
         self.success = True
         self.depth = 0
-        self.data = None
+        self.data: Optional[str] = None
 
     def handle_starttag(self, tag: str, attrs: Any) -> None:
         """Hook when a new tag is encountered."""
@@ -46,8 +46,11 @@ class TagParser(HTMLParser):
 
         # If a lead node
         is_leaf = self.data is not None
+        # Annoying to type here, code is tested, hopefully OK
         value = self.data if is_leaf else top_of_stack
-        self.stack[-1][tag].append(value)
+        # Difficult to type this correctly with mypy (maybe impossible?)
+        # Can be nested indefinitely, so requires self referencing type
+        self.stack[-1][tag].append(value)  # type: ignore
         # Reset the data so we if we encounter a sequence of end tags, we
         # don't confuse an outer end tag for belonging to a leaf node.
         self.data = None
@@ -61,7 +64,7 @@ class TagParser(HTMLParser):
         self.data = data
 
 
-def parse_llm_output(llm_output: str) -> dict[str, list[str]]:
+def parse_llm_output(llm_output: str) -> Dict[str, List[str]]:
     """Parse a response from an LLM.
 
     The format of the response is to enclose the input id in angle brackets and

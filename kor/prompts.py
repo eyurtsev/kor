@@ -1,7 +1,7 @@
 """Code to dynamically generate appropriate LLM prompts."""
 import abc
 import dataclasses
-from typing import Callable, List, Literal, Tuple, Union
+from typing import Callable, Dict, List, Literal, Tuple, Union
 
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput
@@ -25,7 +25,7 @@ class PromptGenerator(abc.ABC):
     @abc.abstractmethod
     def format_as_chat(
         self, user_input: str, node: AbstractInput
-    ) -> list[dict[str, str]]:
+    ) -> List[Dict[str, str]]:
         """Format as a prompt to a chat model."""
         raise NotImplementedError()
 
@@ -67,18 +67,18 @@ class ExtractionTemplate(PromptGenerator):
         """Format the template for a `standard` LLM model."""
         instruction_segment = self.generate_instruction_segment(node)
         examples = self.example_generator(node)
-        input_output_block = []
+        formatted_examples: List[str] = []
 
         for in_example, output in examples:
-            input_output_block.extend(
+            formatted_examples.extend(
                 [
                     f"Input: {in_example}",
                     f"Output: {output}",
                 ]
             )
 
-        input_output_block.append(f"Input: {user_input}\nOutput:")
-        input_output_block = "\n".join(input_output_block)
+        formatted_examples.append(f"Input: {user_input}\nOutput:")
+        input_output_block = "\n".join(formatted_examples)
         return f"{instruction_segment}\n\n{input_output_block}"
 
     def format_as_chat(
