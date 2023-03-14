@@ -4,7 +4,6 @@ from __future__ import annotations
 import abc
 import dataclasses
 from typing import Any, Callable, List, Literal, Tuple, Union
-from pydantic import Extra
 
 from langchain.schema import (
     AIMessage,
@@ -13,6 +12,7 @@ from langchain.schema import (
     PromptValue,
     SystemMessage,
 )
+from pydantic import Extra
 
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput
@@ -24,7 +24,7 @@ from kor.type_descriptors import (
 PromptFormat = Union[Literal["openai-chat"], Literal["string"]]
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
+@dataclasses.dataclass(frozen=True)
 class PromptGenerator(abc.ABC):
     """Define abstract interface for a prompt."""
 
@@ -39,7 +39,7 @@ class PromptGenerator(abc.ABC):
         raise NotImplementedError()
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
+@dataclasses.dataclass(frozen=True)
 class ExtractionTemplate(PromptGenerator):
     """Prompt generator for extraction purposes."""
 
@@ -106,6 +106,7 @@ class ExtractionTemplate(PromptGenerator):
 
         messages.append(HumanMessage(content=user_input))
         return messages
+
 
 class ExtractionPromptValue(PromptValue):
     template: ExtractionTemplate
