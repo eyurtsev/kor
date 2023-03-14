@@ -26,7 +26,8 @@ def _set_openai_api_key_if_needed() -> None:
         if not api_key:
             if "OPENAI_API_KEY" not in os.environ:
                 raise ValueError(
-                    "Please include OPENAI_API_KEY in the environment or set the openai.api_key."
+                    "Please include OPENAI_API_KEY in the environment or set the"
+                    " openai.api_key."
                 )
         openai.api_key = api_key
 

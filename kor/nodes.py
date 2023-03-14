@@ -64,7 +64,7 @@ class AbstractInput(abc.ABC):
         if not VALID_IDENTIFIER_PATTERN.match(self.id):
             raise ValueError(
                 f"`{self.id}` is not a valid identifier. "
-                f"Please only use lower cased a-z, _ or the digits 0-9"
+                "Please only use lower cased a-z, _ or the digits 0-9"
             )
 
         if not self.multiple:

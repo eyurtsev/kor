@@ -57,10 +57,12 @@ def test_no_obvious_crashes() -> None:
         (SELECTION, "* selection: Selection # Selection Description"),
         (
             OBJ,
-            "* object: Object # Object Description\n"
-            "*  number: Number # Number Description\n"
-            "*  text: Text # Text Description\n"
-            "*  selection: Selection # Selection Description",
+            (
+                "* object: Object # Object Description\n"
+                "*  number: Number # Number Description\n"
+                "*  text: Text # Text Description\n"
+                "*  selection: Selection # Selection Description"
+            ),
         ),
     ],
 )
