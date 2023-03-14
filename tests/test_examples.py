@@ -2,7 +2,7 @@ from kor.examples import _write_tag, generate_examples
 from kor.nodes import Number, Object, Option, Selection, Text
 
 
-def test_write_tag():
+def test_write_tag() -> None:
     """Verify XML encoding works as expected."""
     assert _write_tag("tag", "data") == "<tag>data</tag>"
     assert _write_tag("tag", ["data1", "data2"]) == "<tag>data1</tag><tag>data2</tag>"

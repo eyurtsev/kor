@@ -1,7 +1,7 @@
 """Code to dynamically generate appropriate LLM prompts."""
 import abc
 import dataclasses
-from typing import Callable, Dict, List, Literal, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Tuple, Union
 
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput
@@ -49,7 +49,7 @@ class ExtractionTemplate(PromptGenerator):
         if self.suffix.endswith("\n"):
             raise ValueError("Please do not end the suffix with new lines.")
 
-    def replace(self, **kwargs) -> "ExtractionTemplate":
+    def replace(self, **kwargs: Any) -> "ExtractionTemplate":
         """Bind to replace function for convenience."""
         return dataclasses.replace(self, **kwargs)
 
