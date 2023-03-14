@@ -19,8 +19,6 @@ jupyterlab = "^3.6.1"
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.1"
 black = { version="^23.1.0", extras=["jupyter"] }
-pylint = "^2.16.2"
-isort = "^5.12.0"
 poethepoet = "^0.18.1"
 autoflake = "^2.0.2"
 ruff = "^0.0.255"
@@ -42,12 +40,8 @@ sphinx-copybutton = "^0.5.1"
 [tool.poetry.group.typing.dependencies]
 mypy = "^0.991"
 
-
 [tool.poetry.group.types.dependencies]
 types-toml = "^0.10.8.5"
-
-#[tool.isort]
-#profile = "black"
 
 [tool.poe.tasks]
 black = "black"
@@ -56,15 +50,6 @@ pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=
 mypy = "mypy . --pretty --show-error-codes"
 autoformat = { shell = "poe black . && poe ruff --fix ." }
 test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
-
-
-#[tool.pylint.messages]
-#disable = [
-#  "no-else-return", # I'm not a fan
-#  "missing-module-docstring", # Need to re-enable
-#  "missing-class-docstring", # Need to re-enable
-#]
-
 
 [tool.ruff]
 select = [
@@ -75,11 +60,6 @@ select = [
 
 # Same as Black.
 line-length = 88
-
-#[tool.pylint.basic]
-#good-names = [
-#  "id",  # Shadows built-in but using for data models
-#]
 
 [tool.mypy]
 disallow_untyped_defs = "True"
