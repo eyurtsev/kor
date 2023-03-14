@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kor"
-version = "0.2.0"
+version = "0.3.0"
 description = "Extract information with LLMs from text"
 authors = ["Eugene Yurtsev <eyurtsev@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ repository = "https://www.github.com/eyurtsev/kor"
 
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 openai = "^0.27"
 
 [tool.poetry.group.dev.dependencies]
