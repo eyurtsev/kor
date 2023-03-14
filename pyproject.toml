@@ -23,6 +23,7 @@ pylint = "^2.16.2"
 isort = "^5.12.0"
 poethepoet = "^0.18.1"
 autoflake = "^2.0.2"
+ruff = "^0.0.255"
 
 [tool.poetry.group.docs.dependencies]
 nbsphinx = "^0.8.9"
@@ -50,8 +51,9 @@ profile = "black"
 [tool.poe.tasks]
 black = "black ."
 isort = "isort ."
+ruff = "ruff"
 pylint = "pylint kor"
-pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning"
+pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=.coveragerc --cov-report xml --cov-report term-missing:skip-covered"
 mypy = "mypy . --pretty --show-error-codes"
 autoflake = "python -m autoflake --remove-all-unused-imports --remove-duplicate-keys --quiet --in-place --recursive ."
 autoformat = { shell = "poe black && poe isort && poe pylint" }
@@ -65,10 +67,31 @@ disable = [
   "missing-class-docstring", # Need to re-enable
 ]
 
+
+[tool.ruff]
+select = [
+  "E",  # pycodestyle
+  "F",  # pyflakes
+  "I",  # isort
+]
+
+# Same as Black.
+line-length = 88
+
 [tool.pylint.basic]
 good-names = [
   "id",  # Shadows built-in but using for data models
 ]
+
+[tool.mypy]
+disallow_untyped_defs = "True"
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+]
+
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -65,7 +65,10 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
             object_examples = [
                 # Looks like false positive from mypy
                 # Can investigate how to simplify at a later point.
-                (example_input, _write_tag(node.id, example_output))  # type: ignore[arg-type]
+                (
+                    example_input,
+                    _write_tag(node.id, example_output),  # type: ignore[arg-type]
+                )
                 for example_input, example_output in node.examples
             ]
         else:
