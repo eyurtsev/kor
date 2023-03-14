@@ -42,7 +42,7 @@ def _write_dict(tag_name: str, data: dict[str, Any]) -> str:
 
 
 def _write_tag(
-    tag_name: str, data: LiteralType | Sequence[LiteralType] | dict[str, Any]
+    tag_name: str, data: Union[LiteralType, Sequence[LiteralType], dict[str, Any]]
 ) -> str:
     """Write a tag."""
     # Dispatch based on type.
