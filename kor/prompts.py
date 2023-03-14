@@ -100,7 +100,7 @@ class ExtractionTemplate(PromptGenerator):
             messages.extend(
                 [
                     HumanMessage(content=example_input),
-                    AIMessage(content=f"{example_output}"),
+                    AIMessage(content=example_output),
                 ]
             )
 
