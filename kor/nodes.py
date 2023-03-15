@@ -3,6 +3,7 @@ import abc
 import copy
 import re
 from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Union
+from langchain.llms import OpenAI
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
