@@ -95,20 +95,21 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
 
     def visit_object(self, node: "Object") -> List[Tuple[str, str]]:
         """Implementation of an object visitor."""
-        if node.group_as_object and node.examples:
-            object_examples = [
-                # Looks like false positive from mypy
-                # Can investigate how to simplify at a later point.
-                (
-                    example_input,
-                    self._encode(node, example_output),  # type: ignore[arg-type]
-                )
-                for example_input, example_output in node.examples
-            ]
-        else:
-            raise NotImplementedError("Not implemented yet")
-
-        examples = object_examples
+        examples = []
+        if node.examples:
+            if node.group_as_object:
+                object_examples = [
+                    # Looks like false positive from mypy
+                    # Can investigate how to simplify at a later point.
+                    (
+                        example_input,
+                        self._encode(node, example_output),  # type: ignore[arg-type]
+                    )
+                    for example_input, example_output in node.examples
+                ]
+                examples.extend(object_examples)
+            else:
+                raise NotImplementedError("Not implemented yet")
 
         # Collect examples from children
         for child in node.attributes:
