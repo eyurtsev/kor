@@ -70,7 +70,7 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
         """Should not visit Options directly."""
         raise AssertionError("Should never visit an Option node.")
 
-    def _xml_encoder(self, node: AbstractInput, data) -> str:
+    def _xml_encoder(self, node: AbstractInput, data: Any) -> str:
         """Encode the data into XML format."""
         if isinstance(data, str) and not data.strip():
             return _write_tag(node.id, "")
@@ -84,7 +84,7 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
             data = [data]
         return {node.id: data}
 
-    def _encode(self, node: AbstractInput, data) -> Any:
+    def _encode(self, node: AbstractInput, data: Any) -> Any:
         """Apply an encoder."""
         if self.encoding == "XML":
             return self._xml_encoder(node, data)
