@@ -109,6 +109,8 @@ class ExtractionTemplate(PromptGenerator):
 
 
 class ExtractionPromptValue(PromptValue):
+    """Integration with langchain prompt format."""
+
     template: ExtractionTemplate
     user_input: str
     node: AbstractInput
@@ -120,9 +122,11 @@ class ExtractionPromptValue(PromptValue):
         arbitrary_types_allowed = True
 
     def to_string(self) -> str:
+        """Format the template to a string."""
         return self.template.format_as_string(self.user_input, self.node)
 
     def to_messages(self) -> List[BaseMessage]:
+        """Format the template to chat messages."""
         return self.template.format_as_chat(self.user_input, self.node)
 
 
