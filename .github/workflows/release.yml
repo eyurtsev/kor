@@ -38,13 +38,3 @@ jobs:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
        run: | 
           poetry publish
-
-          #- name: Create Release
-          #  uses: ncipollo/release-action@v1
-          #  with:
-          #    artifacts: "dist/*"
-          #    token: ${{ secrets.GITHUB_TOKEN }}
-          #    draft: false
-          #    generateReleaseNotes: true
-          #    tag: v${{ steps.check-version.outputs.version }}
-          #    commit: master
