@@ -4,7 +4,7 @@ import dataclasses
 from typing import Dict, List
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass()
 class CompletionModel(abc.ABC):
     """Abstract completion model interface."""
 
@@ -13,7 +13,7 @@ class CompletionModel(abc.ABC):
         raise NotImplementedError()
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass()
 class ChatCompletionModel(abc.ABC):
     """Abstract chat completion model interface."""
 

@@ -1,8 +1,8 @@
 """Definitions of input elements."""
 import abc
-import dataclasses
+import copy
 import re
-from typing import Any, Generic, Mapping, Optional, Sequence, TypeVar, Union
+from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Union
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -44,7 +44,6 @@ class AbstractVisitor(Generic[T], abc.ABC):
         raise NotImplementedError()
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class AbstractInput(abc.ABC):
     """Abstract input node.
 
@@ -57,12 +56,15 @@ class AbstractInput(abc.ABC):
     The description should describe what the input is about.
     """
 
-    id: str  # Unique ID
-    description: str = ""
-    multiple: bool = True
+    __slots__ = "id", "description", "multiple"
 
-    def __post_init__(self) -> None:
-        """Post initialization hook."""
+    def __init__(
+        self, *, id: str, description: str = "", multiple: bool = True
+    ) -> None:
+        self.id = id
+        self.description = description
+        self.multiple = multiple
+
         if not VALID_IDENTIFIER_PATTERN.match(self.id):
             raise ValueError(
                 f"`{self.id}` is not a valid identifier. "
@@ -86,15 +88,14 @@ class AbstractInput(abc.ABC):
         description: Optional[str] = None,
     ) -> "AbstractInput":
         """Wrapper around data-classes replace."""
-        attributes = {}
+        new_object = copy.copy(self)
         if id:
-            attributes["id"] = id
+            new_object.id = id
         if description:
-            attributes["description"] = description
-        return dataclasses.replace(self, **attributes)
+            new_object.description = description
+        return new_object
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class ExtractionInput(AbstractInput, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
@@ -110,10 +111,21 @@ class ExtractionInput(AbstractInput, abc.ABC):
         ]
     """
 
-    examples: Sequence[tuple[str, str | Sequence[str]]] = tuple()
+    __slots__ = ("examples",)
+
+    def __init__(
+        self,
+        *,
+        id: str,
+        description: str = "",
+        multiple: bool = True,
+        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
+    ) -> None:
+        """Initialize for extraction input."""
+        super().__init__(id=id, description=description, multiple=multiple)
+        self.examples = examples
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Number(ExtractionInput):
     """Built-in number input."""
 
@@ -122,7 +134,6 @@ class Number(ExtractionInput):
         return visitor.visit_number(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Text(ExtractionInput):
     """Built-in text input."""
 
@@ -131,18 +142,28 @@ class Text(ExtractionInput):
         return visitor.visit_text(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Option(AbstractInput):
     """Built-in option input must be part of a selection input."""
 
-    examples: Sequence[str] = tuple()
+    __slots__ = ("examples",)
+
+    def __init__(
+        self,
+        *,
+        id: str,
+        description: str = "",
+        multiple: bool = True,
+        examples: Sequence[str] = tuple(),
+    ) -> None:
+        """Initialize for extraction input."""
+        super().__init__(id=id, description=description, multiple=multiple)
+        self.examples = examples
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""
         return visitor.visit_option(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Selection(AbstractInput):
     """Built-in selection input.
 
@@ -158,15 +179,27 @@ class Selection(AbstractInput):
         from the text: "I eat an apple every day.".
     """
 
-    options: Sequence[Option]
-    null_examples: Sequence[str] = tuple()
+    __slots__ = "options", "null_examples"
+
+    def __init__(
+        self,
+        *,
+        id: str,
+        description: str = "",
+        multiple: bool = True,
+        options: Sequence[Option],
+        null_examples: Sequence[str] = tuple(),
+    ) -> None:
+        """Initialize for extraction input."""
+        super().__init__(id=id, description=description, multiple=multiple)
+        self.options = options
+        self.null_examples = null_examples
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""
         return visitor.visit_selection(self)
 
 
-@dataclasses.dataclass(frozen=True, kw_only=True)
 class Object(AbstractInput):
     """A definition for an object extraction.
 
@@ -196,12 +229,28 @@ class Object(AbstractInput):
         from the text: "I eat an apple every day.".
     """
 
-    attributes: Sequence[Union[ExtractionInput, Selection]]
-    examples: Sequence[tuple[str, Mapping[str, str | Sequence[str]]]] = tuple()
-    # If false, will treat the inputs independent.
-    # Is there a better name for this?! I want it to be True by default
-    # which rules out as_input_bag
-    group_as_object: bool = True
+    __slots__ = ("attributes", "examples", "group_as_object")
+
+    def __init__(
+        self,
+        *,
+        id: str,
+        description: str = "",
+        multiple: bool = True,
+        attributes: Sequence[Union[ExtractionInput, Selection]],
+        examples: Sequence[
+            Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
+        ] = tuple(),
+        # If false, will treat the inputs independent.
+        # Is there a better name for this?! I want it to be True by default
+        # which rules out as_input_bag
+        group_as_object: bool = True,
+    ) -> None:
+        """Initialize for extraction input."""
+        super().__init__(id=id, description=description, multiple=multiple)
+        self.attributes = attributes
+        self.examples = examples
+        self.group_as_object = group_as_object
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""

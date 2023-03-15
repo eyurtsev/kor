@@ -58,7 +58,7 @@ See [documentation](https://eyurtsev.github.io/kor/).
 
 ## Compatibility
 
-At the moment, `Kor` only works with python 3.10+.
+`Kor` is tested against python 3.8, 3.9, 3.10, 3.11.
 
 ## Installaton 
 
@@ -87,6 +87,10 @@ tested against real world examples.
   limiting when working with large forms or long text inputs.
 * Incorrectly grouping results (see documentation section on objects).
 
+## Limtations
+
+This package has no limitations; however, look at the section directly above as
+well as at compatibility.
 
 ## Potential Changes
 
