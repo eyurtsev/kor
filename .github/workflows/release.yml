@@ -33,19 +33,18 @@ jobs:
         id: check-version
         run: |
           echo version=$(poetry version --short) >> $GITHUB_OUTPUT
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/*"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: false
-          generateReleaseNotes: true
-          tag: v${{ steps.check-version.outputs.version }}
-          commit: master
       - name: Publish to PyPI
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
-        run: | 
-          echo "fake release"
-          #poetry publish
+       run: | 
+          poetry publish
 
+          #- name: Create Release
+          #  uses: ncipollo/release-action@v1
+          #  with:
+          #    artifacts: "dist/*"
+          #    token: ${{ secrets.GITHUB_TOKEN }}
+          #    draft: false
+          #    generateReleaseNotes: true
+          #    tag: v${{ steps.check-version.outputs.version }}
+          #    commit: master
