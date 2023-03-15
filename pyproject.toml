@@ -9,8 +9,9 @@ repository = "https://www.github.com/eyurtsev/kor"
 
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.8.1"
 openai = "^0.27"
+langchain = "^0.0.110"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
@@ -48,6 +49,7 @@ ruff = "ruff"
 pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=.coveragerc --cov-report xml --cov-report term-missing:skip-covered"
 mypy = "mypy . --pretty --show-error-codes"
 fix = { shell = "poe black . && poe ruff --fix ." }
+fix_docs = "black docs"
 test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
 
 [tool.ruff]

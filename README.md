@@ -16,9 +16,16 @@ output. You might even get results back.
 
 from kor.extraction import Extractor
 from kor.nodes import Object, Text
-from kor.llms import OpenAIChatCompletion
+from langchain import ChatOpenAI
 
-llm = OpenAIChatCompletion(model="gpt-3.5-turbo")
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", 
+    temperature = 0,
+    max_tokens = 2000,
+    frequency_penalty = 0,
+    presence_penalty = 0,
+    top_p = 1.0,
+)
+
 model = Extractor(llm)
 
 schema = Object(

@@ -28,7 +28,9 @@ jobs:
           ls -lsh _build/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        if: |
+            ${{ github.event.pull_request.merged == true }}
+            && ${{ contains(github.event.pull_request.labels.*.name, 'doc-publish') }}
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
