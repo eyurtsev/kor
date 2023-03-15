@@ -1,5 +1,6 @@
 import pytest
 
+import json
 from kor.examples import _write_tag, generate_examples
 from typing import List
 from kor.nodes import Number, Object, Option, Selection, Text
@@ -62,7 +63,7 @@ def test_example_generation() -> None:
                 ("number", {"object": [{"number": ["2"]}]}),
                 ("text", {"object": [{"text": ["3"]}]}),
                 ("selection", {"object": [{"selection": ["option"]}]}),
-                ("foo", {"object": [""]}),  # TODO(Eugene): This is a bug
+                ("foo", {}),
                 ("1 2", {"object": [{"age": ["1", "2"]}]}),
             ],
         ),
@@ -73,7 +74,7 @@ def test_example_generation() -> None:
                 ("number", '{"object": [{"number": ["2"]}]}'),
                 ("text", '{"object": [{"text": ["3"]}]}'),
                 ("selection", '{"object": [{"selection": ["option"]}]}'),
-                ("foo", '{"object": [""]}'),  # TODO(Eugene): This is a bug
+                ("foo", '{}'),
                 ("1 2", '{"object": [{"age": ["1", "2"]}]}'),
             ],
         ),

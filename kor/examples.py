@@ -7,6 +7,7 @@ into account the finite size of the context window and limit the number of examp
 The code uses a default encoding of XML. This encoding should match the parser.
 """
 from typing import Any, List, Mapping, Sequence, Tuple, Union
+import json
 
 from kor.nodes import (
     AbstractInput,
@@ -15,6 +16,7 @@ from kor.nodes import (
     Object,
     Option,
     Selection,
+    TypeVar,
 )
 
 LiteralType = Union[str, int, float]
@@ -78,6 +80,8 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
         if self.encoding == "XML":
             return self._xml_encoder(node.id, data)
         elif self.encoding in {"plain", "JSON"}:
+            if not data:
+                return {}
             if node.multiple and not isinstance(data, (tuple, list)):
                 data = [data]
             return {node.id: data}
