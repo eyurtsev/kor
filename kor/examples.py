@@ -7,7 +7,7 @@ into account the finite size of the context window and limit the number of examp
 The code uses a default encoding of XML. This encoding should match the parser.
 """
 import json
-from typing import Any, List, Mapping, Sequence, Tuple, Union
+from typing import Any, Dict, List, Mapping, Sequence, Tuple, Union
 
 from kor.nodes import (
     AbstractInput,
@@ -70,12 +70,14 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
         """Should not visit Options directly."""
         raise AssertionError("Should never visit an Option node.")
 
-    def _xml_encoder(self, key: str, data):
+    def _xml_encoder(self, node: AbstractInput, data) -> str:
+        """Encode the data into XML format."""
         if isinstance(data, str) and not data.strip():
-            return _write_tag(key, "")
-        return _write_tag(key, data)
+            return _write_tag(node.id, "")
+        return _write_tag(node.id, data)
 
-    def _plain_encoder(self, node: AbstractInput, data: Any) -> Any:
+    def _plain_encoder(self, node: AbstractInput, data: Any) -> Dict[str, Any]:
+        """Encode maintaining the data as a plain python object."""
         if not data:
             return {}
         if node.multiple and not isinstance(data, (tuple, list)):
@@ -87,7 +89,7 @@ class SimpleExampleGenerator(AbstractVisitor[List[Tuple[str, str]]]):
         if self.encoding == "XML":
             return self._xml_encoder(node, data)
         elif self.encoding in {"plain", "JSON"}:
-            return self._plain_encoder(node.id, data)
+            return self._plain_encoder(node, data)
         else:
             raise NotImplementedError()
 
