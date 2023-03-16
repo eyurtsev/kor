@@ -1,6 +1,44 @@
 from collections import defaultdict
 from html.parser import HTMLParser
-from typing import Any, DefaultDict, Dict, List, Optional
+from typing import Any, DefaultDict, Dict, List, Mapping, Optional, Sequence, Union
+
+LiteralType = Union[str, int, float]
+
+
+def _write_literal(tag_name: str, value: LiteralType) -> str:
+    """Write literal."""
+    return f"<{tag_name}>{value}</{tag_name}>"
+
+
+def _write_list(tag_name: str, values: Sequence[LiteralType]) -> str:
+    """Write list."""
+    return "".join(_write_tag(tag_name, value) for value in values)
+
+
+def _write_dict(tag_name: str, data: Mapping[str, Any]) -> str:
+    """Write a dict."""
+    s_data = "".join(
+        [
+            _write_tag(key, value)
+            for key, value in sorted(data.items(), key=lambda item: item[0])
+        ]
+    )
+    return _write_tag(tag_name, s_data)
+
+
+def _write_tag(
+    tag_name: str, data: Union[LiteralType, Sequence[LiteralType], Mapping[str, Any]]
+) -> str:
+    """Write a tag."""
+    # Dispatch based on type.
+    if isinstance(data, (str, int, float)):
+        return _write_literal(tag_name, data)
+    elif isinstance(data, list):
+        return _write_list(tag_name, data)
+    elif isinstance(data, dict):
+        return _write_dict(tag_name, data)
+    else:
+        raise NotImplementedError(f"No support for {tag_name}")
 
 
 class TagParser(HTMLParser):
@@ -65,7 +103,17 @@ class TagParser(HTMLParser):
         self.data = data
 
 
-def parse_llm_output(llm_output: str) -> Dict[str, List[str]]:
+# PUBLIC API
+
+
+def encode(obj: Mapping[str, Any]) -> str:
+    """Encode the object as XML."""
+    if not isinstance(obj, dict):
+        raise TypeError(f"Expected {obj} to be of type dict, got {type(obj)}")
+    return "".join(_write_tag(key, value) for key, value in obj.items())
+
+
+def decode(llm_output: str) -> Dict[str, List[str]]:
     """Parse a response from an LLM.
 
     The format of the response is to enclose the input id in angle brackets and
