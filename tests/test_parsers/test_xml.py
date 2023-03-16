@@ -2,7 +2,7 @@ from typing import Any, Type, Union
 
 import pytest
 
-from kor.encoders.xml import _write_tag, decode, encode
+from kor.encoders.xml import _write_tag, XMLEncoder
 
 
 @pytest.mark.parametrize(
@@ -25,7 +25,8 @@ from kor.encoders.xml import _write_tag, decode, encode
 )
 def test_xml_decode(xml_string: str, output: Any) -> None:
     """Decode XML."""
-    assert decode(xml_string) == output
+    encoder = XMLEncoder()
+    assert encoder.decode(xml_string) == output
 
 
 @pytest.mark.parametrize(
@@ -52,11 +53,12 @@ def test_xml_decode(xml_string: str, output: Any) -> None:
 )
 def test_xml_encode(obj: Any, output: Union[Type[Exception], str]) -> None:
     """Test XML encoding."""
+    encoder = XMLEncoder()
     if isinstance(output, str):
-        assert encode(obj) == output
+        assert encoder.encode(obj) == output
     else:
         with pytest.raises(output):
-            encode(obj)
+            encoder.encode(obj)
 
 
 def test_write_tag() -> None:

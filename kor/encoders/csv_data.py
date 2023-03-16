@@ -8,8 +8,9 @@ import csv
 from io import StringIO
 from typing import Any, Dict, List, Mapping, Sequence, cast
 
-from kor.encoders.typedefs import Encoder
 from kor.nodes import AbstractInput, Object
+
+from .typedefs import Encoder
 
 
 def _encode(fieldnames: Sequence[str], data: Sequence[Mapping[str, Any]]) -> str:

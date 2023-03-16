@@ -1,6 +1,6 @@
 from typing import List, Optional, Sequence, Tuple
 
-from kor.encoders import Encoder
+from .typedefs import Encoder
 
 # PUBLIC API
 

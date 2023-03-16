@@ -4,7 +4,6 @@ from typing import Dict, List
 from langchain.schema import BaseLanguageModel
 
 from kor import nodes
-from kor.encoders import xml
 from kor.prompts import (
     STANDARD_EXTRACTION_TEMPLATE,
     ExtractionPromptValue,
@@ -31,4 +30,5 @@ class Extractor(abc.ABC):  # pylint: disable=too-few-public-methods
         )
         model_output = self.model.generate_prompt([prompt])
         text = model_output.generations[0][0].text
-        return xml.decode(text)
+        encoder = self.prompt_generator._generate_encoder(node)
+        return encoder.decode(text)
