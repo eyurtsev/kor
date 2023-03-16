@@ -97,6 +97,8 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         return node.accept(self)
 
 
+
+
 def _encode_examples(
     examples: Sequence[Tuple[str, str]], encoding: str
 ) -> List[Tuple[str, str]]:
@@ -107,6 +109,9 @@ def _encode_examples(
         encoder: Callable[[Any], str] = json.dumps
     elif encoding == "XML":
         encoder = xml_encoder
+    elif encoding == "CSV":
+        raise NotImplementedError()
+        # encoder =
     else:
         raise NotImplementedError(f"No support for encoding {encoding}")
 
