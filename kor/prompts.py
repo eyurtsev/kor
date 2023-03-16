@@ -49,6 +49,7 @@ class ExtractionTemplate(PromptGenerator):
     example_generator: Callable[
         [AbstractInput], List[Tuple[str, str]]
     ] = generate_examples
+    encoder: Calla
 
     def __post_init__(self) -> None:
         """Validate the template."""
