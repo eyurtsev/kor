@@ -18,7 +18,7 @@ from kor.nodes import (
     Selection,
     TypeVar,
 )
-from kor.parsers.xml import encode as xml_encoder
+from kor.parsers import csv_data, xml
 
 T = TypeVar("T")
 
@@ -97,10 +97,8 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         return node.accept(self)
 
 
-
-
 def _encode_examples(
-    examples: Sequence[Tuple[str, str]], encoding: str
+    node: AbstractInput, examples: Sequence[Tuple[str, str]], encoding: str
 ) -> List[Tuple[str, str]]:
     """Encode the output using the given encoder."""
     if encoding == "none":
@@ -108,10 +106,10 @@ def _encode_examples(
     elif encoding == "JSON":
         encoder: Callable[[Any], str] = json.dumps
     elif encoding == "XML":
-        encoder = xml_encoder
+        encoder = xml.encode
     elif encoding == "CSV":
-        raise NotImplementedError()
-        # encoder =
+        fieldnames = _extract_top_level_fieldnames(node)
+        encoder = csv_data.CSVEncoder(fieldnames=fieldnames).encode
     else:
         raise NotImplementedError(f"No support for encoding {encoding}")
 
@@ -121,11 +119,19 @@ def _encode_examples(
     ]
 
 
+def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
+    """Temporary schema description for CSV extraction."""
+    if isinstance(node, Object):
+        return [attributes.id for attributes in node.attributes]
+    else:
+        return [node.id]
+
+
 # PUBLIC API
 
 
 def generate_examples(
-    element: AbstractInput, encoding: str = "XML"
+    node: AbstractInput, encoding: str = "XML"
 ) -> List[Tuple[str, str]]:
     """Generate examples for a given element.
 
@@ -136,7 +142,7 @@ def generate_examples(
     to meet a constraint on the overall number of tokens.)
 
     Args:
-        element: AbstractInput
+        node: AbstractInput
         encoding: Reserved parameter, refers to the encoding of the output, it's unclear
                   whether or how different encodings affect the ability of LLMs to match
                   a given schema
@@ -145,6 +151,6 @@ def generate_examples(
     Returns:
         list of 2-tuples containing input, output pairs
     """
-    examples = SimpleExampleAggregator().visit(element)
-    encoded_examples = _encode_examples(examples, encoding)
+    examples = SimpleExampleAggregator().visit(node)
+    encoded_examples = _encode_examples(node, examples, encoding)
     return encoded_examples
