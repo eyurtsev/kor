@@ -5,6 +5,8 @@ import abc
 import dataclasses
 from typing import Any, Callable, List, Literal, Tuple, Union
 import json
+from json import JSONDecodeError
+
 
 from langchain.schema import (
     AIMessage,
@@ -42,9 +44,6 @@ class PromptGenerator(abc.ABC):
 
     def parser(self) -> Callable[[str], Any]:
         raise NotImplementedError()
-
-
-from json import JSONDecodeError
 
 
 def load_json_or_dict(s: str):

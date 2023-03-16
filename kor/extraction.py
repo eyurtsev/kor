@@ -1,18 +1,33 @@
 import abc
-from typing import Dict, List, Callable, Any, cast
+from typing import Dict, Callable, Any, cast
 
-
+from langchain.prompts import FewShotPromptTemplate
 from langchain.schema import BaseLanguageModel
 
 from kor import nodes
 from kor.parsing import parse_llm_output
 from kor.prompts import (
-    STANDARD_EXTRACTION_TEMPLATE,
-    ExtractionPromptValue,
-    PromptGenerator,
-    JSON_ENCODING,
+    ExtractionPromptValue, PromptGenerator, JSON_ENCODING,
 )
 
+# # Finally, we create the `FewShotPromptTemplate` object.
+# few_shot_prompt = FewShotPromptTemplate(
+#     # These are the examples we want to insert into the prompt.
+#     examples=examples,
+#     # This is how we want to format the examples when we insert them into the prompt.
+#     example_prompt=example_prompt,
+#     # The prefix is some text that goes before the examples in the prompt.
+#     # Usually, this consists of intructions.
+#     prefix="Give the antonym of every input.",
+#     # The suffix is some text that goes after the examples in the prompt.
+#     # Usually, this is where the user input will go
+#     suffix="Word: {input}\nAntonym:",
+#     # The input variables are the variables that the overall prompt expects.
+#     input_variables=["input"],
+#     # The example_separator is the string we will use to join the prefix, examples, and suffix together with.
+#     example_separator="\n",
+# )
+#
 
 class Extractor(abc.ABC):  # pylint: disable=too-few-public-methods
     def __init__(

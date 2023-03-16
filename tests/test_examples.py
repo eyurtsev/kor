@@ -2,7 +2,8 @@ from typing import List
 
 import pytest
 
-from kor.examples import _write_tag, generate_examples
+from kor.examples import generate_examples
+from kor.xml_encoder import _write_tag
 from kor.nodes import Number, Object, Option, Selection, Text
 
 
@@ -76,6 +77,17 @@ def test_example_generation() -> None:
                 ("selection", '{"object": [{"selection": ["option"]}]}'),
                 ("foo", "{}"),
                 ("1 2", '{"object": [{"age": ["1", "2"]}]}'),
+            ],
+        ),
+        (
+            "XML",
+            [
+                ("another number", "<object><number>1</number></object>"),
+                ("number", "<object><number>2</number></object>"),
+                ("text", "<object><text>3</text></object>"),
+                ("selection", "<object><selection>option</selection></object>"),
+                ("foo", ""),
+                ("1 2", "<object><age>1</age><age>2</age></object>"),
             ],
         ),
     ],

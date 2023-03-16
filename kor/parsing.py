@@ -1,3 +1,4 @@
+"""TODO MOVE TO XML ENCODING SECTION"""
 from collections import defaultdict
 from html.parser import HTMLParser
 from typing import Any, DefaultDict, Dict, List, Optional
