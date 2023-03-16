@@ -7,16 +7,16 @@ This file only contains the interface for encoders.
   there are many ways of phrasing the format instructions.
 """
 import abc
-from typing import List, Sequence, Tuple
+from typing import Any
 
 
 class Encoder(abc.ABC):
     @abc.abstractmethod
-    def encode(self, examples: Sequence[Tuple[str, str]]) -> str:
+    def encode(self, examples: Any) -> str:
         """Encode the examples."""
 
     @abc.abstractmethod
-    def decode(self, text: str) -> List[Tuple[str, str]]:
+    def decode(self, text: str) -> Any:
         """Decode the examples."""
 
     @abc.abstractmethod

@@ -8,9 +8,8 @@ import csv
 from io import StringIO
 from typing import Any, Dict, List, Mapping, Sequence, cast
 
-from kor import Object
 from kor.encoders.typedefs import Encoder
-from kor.nodes import AbstractInput
+from kor.nodes import AbstractInput, Object
 
 
 def _encode(fieldnames: Sequence[str], data: Sequence[Mapping[str, Any]]) -> str:
@@ -49,6 +48,8 @@ def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
 
 
 class CSVEncoder(Encoder):
+    """CSV encoder."""
+
     def __init__(self, fieldnames: Sequence[str]) -> None:
         """Initialize a CSV encoder with fieldnames."""
         super().__init__()

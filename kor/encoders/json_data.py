@@ -1,15 +1,15 @@
 import json
-from typing import List, Sequence, Tuple
+from typing import List, Sequence, Tuple, Any
 
 from kor.encoders.typedefs import Encoder
 
 
 class JSONEncoder(Encoder):
-    def encode(self, examples: Sequence[Tuple[str, str]]) -> str:
+    def encode(self, data: Any) -> str:
         """Encode."""
-        return json.dumps(examples)
+        return json.dumps(data)
 
-    def decode(self, text: str) -> List[Tuple[str, str]]:
+    def decode(self, text: str) -> Any:
         """Decode."""
         return json.loads(text)
 
