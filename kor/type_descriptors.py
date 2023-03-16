@@ -104,15 +104,13 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         self.depth = 0
         self.code_lines = []
 
-        if not isinstance(node, Object):
-            self.depth += 1  # We'll add curly brackets below at depth 0.
+        self.depth += 1  # We'll add curly brackets below at depth 0.
 
         node.accept(self)
 
         # Add curly brackets if top level node is not an object.
-        if not isinstance(node, Object):
-            self.code_lines.insert(0, "{")
-            self.code_lines.append("}")
+        self.code_lines.insert(0, "{")
+        self.code_lines.append("}")
         return self.get_type_description()
 
 

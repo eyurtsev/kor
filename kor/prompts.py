@@ -4,6 +4,7 @@ from __future__ import annotations
 import abc
 import dataclasses
 from typing import Any, Callable, List, Literal, Tuple, Union
+import json
 
 from langchain.schema import (
     AIMessage,
@@ -20,6 +21,7 @@ from kor.type_descriptors import (
     generate_bullet_point_description,
     generate_typescript_description,
 )
+from kor.parsing import parse_llm_output
 
 PromptFormat = Union[Literal["openai-chat"], Literal["string"]]
 
@@ -38,6 +40,19 @@ class PromptGenerator(abc.ABC):
         """Format as a prompt to a chat model."""
         raise NotImplementedError()
 
+    def parser(self) -> Callable[[str], Any]:
+        raise NotImplementedError()
+
+
+from json import JSONDecodeError
+
+
+def load_json_or_dict(s: str):
+    try:
+        return json.loads(s)
+    except JSONDecodeError:
+        return {}
+
 
 @dataclasses.dataclass(frozen=True)
 class ExtractionTemplate(PromptGenerator):
@@ -46,6 +61,7 @@ class ExtractionTemplate(PromptGenerator):
     prefix: str
     type_descriptor: str
     suffix: str
+    encoding: str
     example_generator: Callable[
         [AbstractInput], List[Tuple[str, str]]
     ] = generate_examples
@@ -61,6 +77,14 @@ class ExtractionTemplate(PromptGenerator):
     def replace(self, **kwargs: Any) -> "ExtractionTemplate":
         """Bind to replace function for convenience."""
         return dataclasses.replace(self, **kwargs)
+
+    def parser(self):
+        if self.encoding == "JSON":
+            return load_json_or_dict
+        elif self.encoding == "XML":
+            return parse_llm_output
+        else:
+            raise NotImplementedError()
 
     def generate_instruction_segment(self, node: AbstractInput) -> str:
         """Generate the instruction segment of the extraction."""
@@ -96,7 +120,9 @@ class ExtractionTemplate(PromptGenerator):
 
         messages: List[BaseMessage] = [SystemMessage(content=instruction_segment)]
 
-        for example_input, example_output in self.example_generator(node):
+        for example_input, example_output in self.example_generator(
+            node, encoding=self.encoding
+        ):
             messages.extend(
                 [
                     HumanMessage(content=example_input),
@@ -130,13 +156,15 @@ class ExtractionPromptValue(PromptValue):
         return self.template.format_as_chat(self.user_input, self.node)
 
 
+PREFIX = (
+    "Your goal is to extract structured information from a given segment of text. "
+    "The extracted information must exactly match the schema provided below. If the attribute or "
+    "object does not appear in the schema do not add it."
+)
+
+
 STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
-    prefix=(
-        "Your goal is to extract structured information from the user's input that"
-        " matches the form described below. When extracting information please make"
-        " sure it matches the type information exactly. Do not add any attributes that"
-        " do not appear in the schema shown below."
-    ),
+    prefix=PREFIX,
     type_descriptor="TypeScript",
     suffix=(
         "For Union types the output must EXACTLY match one of the members of the Union"
@@ -150,15 +178,12 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
         " except for the extracted information. Only output information inside the HTML"
         " style tags. Do not include any notes or any clarifications. "
     ),
+    encoding="XML",
 )
 
 
 BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
-    prefix=(
-        "Your goal is to extract structured information from the user's input that"
-        " matches the form described below. When extracting information please make"
-        " sure it matches the type information exactly. "
-    ),
+    prefix=PREFIX,
     type_descriptor="BulletPoint",
     suffix=(
         "Your task is to parse the user input and determine to what values the user is"
@@ -174,4 +199,22 @@ BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
         " information inside the HTML style tags. Do not include any notes or any"
         " clarifications. "
     ),
+    encoding="XML",
+)
+
+
+JSON_ENCODING = ExtractionTemplate(
+    prefix=(
+        "Your goal is to extract structured information from the user's input that"
+        " matches the form described below. When extracting information please make"
+        " sure it matches the type information exactly. "
+    ),
+    type_descriptor="TypeScript",
+    suffix=(
+        "Please output your results in a JSON format that matches the type information "
+        "provided above. Do not NOT explain your results, do NOT provide clarifications. "
+        "If no relevant information can be extracted from the segment of text, please output "
+        "an empty object encoded in JSON format, and nothing else."
+    ),
+    encoding="JSON",
 )
