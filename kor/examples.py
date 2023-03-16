@@ -7,7 +7,7 @@ into account the finite size of the context window and limit the number of examp
 The code uses a default encoding of XML. This encoding should match the parser.
 """
 import json
-from typing import Any, List, Sequence, Tuple
+from typing import Any, Callable, List, Sequence, Tuple
 
 from kor.nodes import (
     AbstractInput,
@@ -49,7 +49,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
                     # Can investigate how to simplify at a later point.
                     (
                         example_input,
-                        self._assemble_output(node, example_output),  # type: ignore[arg-type]
+                        self._assemble_output(node, example_output),
                     )
                     for example_input, example_output in node.examples
                 ]
@@ -104,7 +104,7 @@ def _encode_examples(
     if encoding == "none":
         return list(examples)
     elif encoding == "JSON":
-        encoder = json.dumps
+        encoder: Callable[[Any], str] = json.dumps
     elif encoding == "XML":
         encoder = xml_encoder
     else:
