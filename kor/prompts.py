@@ -14,7 +14,7 @@ from langchain.schema import (
 )
 from pydantic import Extra
 
-from kor.encoders import CSVEncoder, Encoder, XMLEncoder
+from kor.encoders import CSVEncoder, Encoder, XMLEncoder, JSONEncoder
 from kor.encoders.encode import encode_examples
 from kor.examples import generate_examples
 from kor.nodes import AbstractInput, Object
@@ -169,6 +169,17 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
     encoder_class=XMLEncoder,
 )
 
+JSON_EXTRACTION_TEMPLATE = ExtractionTemplate(
+    prefix=(
+        "Your goal is to extract structured information from the user's input that"
+        " matches the form described below. When extracting information please make"
+        " sure it matches the type information exactly. Do not add any attributes that"
+        " do not appear in the schema shown below."
+    ),
+    type_descriptor="TypeScript",
+    encoder_class=JSONEncoder,
+)
+
 
 BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
     prefix=(
@@ -178,4 +189,15 @@ BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
     ),
     type_descriptor="BulletPoint",
     encoder_class=XMLEncoder,
+)
+
+CSV_EXTRACTION_TEMPLATE = ExtractionTemplate(
+    prefix=(
+        "Your goal is to extract structured information from the user's input that"
+        " matches the form described below. When extracting information please make"
+        " sure it matches the type information exactly. Do not add any attributes that"
+        " do not appear in the schema shown below."
+    ),
+    type_descriptor="TypeScript",
+    encoder_class=CSVEncoder,
 )

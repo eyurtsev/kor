@@ -33,7 +33,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         """Assemble the output data according to the type of the node."""
         if not data:
             return {}
-        if node.multiple and not isinstance(data, (tuple, list)):
+        if node.many and not isinstance(data, (tuple, list)):
             data = [data]
         return {node.id: data}
 

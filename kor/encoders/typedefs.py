@@ -12,7 +12,7 @@ from typing import Any
 
 class Encoder(abc.ABC):
     @abc.abstractmethod
-    def encode(self, examples: Any) -> str:
+    def encode(self, data: Any) -> str:
         """Encode the examples."""
 
     @abc.abstractmethod

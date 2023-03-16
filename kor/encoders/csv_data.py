@@ -9,7 +9,6 @@ from io import StringIO
 from typing import Any, Dict, List, Mapping, Sequence, cast
 
 from kor.nodes import AbstractInput, Object
-
 from .typedefs import Encoder
 
 
@@ -56,8 +55,16 @@ class CSVEncoder(Encoder):
         super().__init__()
         self.fieldnames = fieldnames
 
-    def encode(self, data: Sequence[Mapping[str, Any]]) -> str:
+    def encode(self, data: Any) -> str:
         """Encode the data."""
+        # May need information about the schema to be able to use a CSV encoder?
+        raise NotImplementedError()
+        if isinstance(data, dict):
+            # How to take care of this correctly?
+            data = [data]
+
+        if not isinstance(data, list):
+            data = [data]
         return _encode(self.fieldnames, data)
 
     def decode(self, text: str) -> List[Dict[str, Any]]:
