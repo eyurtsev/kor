@@ -2,7 +2,7 @@ from typing import Any, Type, Union
 
 import pytest
 
-from kor.parsers.xml import _write_tag, decode, encode
+from kor.encoders.xml import _write_tag, decode, encode
 
 
 @pytest.mark.parametrize(

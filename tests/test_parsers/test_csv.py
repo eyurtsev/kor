@@ -2,7 +2,7 @@ from typing import Any, Mapping, Sequence
 
 import pytest
 
-from kor.parsers import csv_data
+from kor.encoders import csv_data
 
 
 @pytest.mark.parametrize(

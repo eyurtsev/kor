@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import abc
 import dataclasses
-from typing import Any, Callable, List, Literal, Tuple, Union
+from typing import Any, Callable, List, Literal, Tuple, Type, Union
 
 from langchain.schema import (
     AIMessage,
@@ -14,8 +14,10 @@ from langchain.schema import (
 )
 from pydantic import Extra
 
+from kor.encoders import CSVEncoder, Encoder, XMLEncoder
+from kor.encoders.encode import encode_examples
 from kor.examples import generate_examples
-from kor.nodes import AbstractInput
+from kor.nodes import AbstractInput, Object
 from kor.type_descriptors import (
     generate_bullet_point_description,
     generate_typescript_description,
@@ -39,29 +41,51 @@ class PromptGenerator(abc.ABC):
         raise NotImplementedError()
 
 
+# TODO(Eugene): Figure out the best place to do this.
+def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
+    """Temporary schema description for CSV extraction."""
+    if isinstance(node, Object):
+        return [attributes.id for attributes in node.attributes]
+    else:
+        return [node.id]
+
+
 @dataclasses.dataclass(frozen=True)
 class ExtractionTemplate(PromptGenerator):
     """Prompt generator for extraction purposes."""
 
     prefix: str
     type_descriptor: str
-    suffix: str
-    example_generator: Callable[
-        [AbstractInput], List[Tuple[str, str]]
-    ] = generate_examples
-    encoder: Calla
+    example_generator: Callable[[AbstractInput], List[Tuple[str, str]]] = (
+        generate_examples
+    )
+    encoder_class: Type[Encoder]
 
     def __post_init__(self) -> None:
         """Validate the template."""
         if self.prefix.endswith("\n"):
             raise ValueError("Please do not end the prefix with new lines.")
 
-        if self.suffix.endswith("\n"):
-            raise ValueError("Please do not end the suffix with new lines.")
-
     def replace(self, **kwargs: Any) -> "ExtractionTemplate":
         """Bind to replace function for convenience."""
         return dataclasses.replace(self, **kwargs)
+
+    def _generate_encoder(self, node: AbstractInput) -> Encoder:
+        """TODO(Eugene): This doesn't look good here."""
+        if (
+            self.encoder_class == CSVEncoder
+        ):  # TODO(Eugene): Figure out how to best do this.
+            fieldnames = _extract_top_level_fieldnames(node)
+            encoder = self.encoder_class(fieldnames)
+        else:
+            encoder = self.encoder_class()
+        return encoder
+
+    def generate_encoded_examples(self, node: AbstractInput) -> List[Tuple[str, str]]:
+        """Generate encoded examples."""
+        encoder = self._generate_encoder(node)
+        examples = self.example_generator(node)
+        return encode_examples(examples, encoder)
 
     def generate_instruction_segment(self, node: AbstractInput) -> str:
         """Generate the instruction segment of the extraction."""
@@ -70,16 +94,18 @@ class ExtractionTemplate(PromptGenerator):
         elif self.type_descriptor == "BulletPoint":
             type_description = generate_bullet_point_description(node)
         else:
-            raise NotImplementedError()
-        return f"{self.prefix}\n\n{type_description}\n\n{self.suffix}"
+            raise NotImplementedError("Unsupported type descriptor")
+        encoder = self._generate_encoder(node)
+        instruction_segment = encoder.get_instruction_segment()
+        return f"{self.prefix}\n\n{type_description}\n\n{instruction_segment}"
 
     def format_as_string(self, user_input: str, node: AbstractInput) -> str:
         """Format the template for a `standard` LLM model."""
         instruction_segment = self.generate_instruction_segment(node)
-        examples = self.example_generator(node)
+        encoded_examples = self.generate_encoded_examples(node)
         formatted_examples: List[str] = []
 
-        for in_example, output in examples:
+        for in_example, output in encoded_examples:
             formatted_examples.extend(
                 [
                     f"Input: {in_example}",
@@ -96,8 +122,9 @@ class ExtractionTemplate(PromptGenerator):
         instruction_segment = self.generate_instruction_segment(node)
 
         messages: List[BaseMessage] = [SystemMessage(content=instruction_segment)]
+        encoded_examples = self.generate_encoded_examples(node)
 
-        for example_input, example_output in self.example_generator(node):
+        for example_input, example_output in encoded_examples:
             messages.extend(
                 [
                     HumanMessage(content=example_input),
@@ -139,40 +166,16 @@ STANDARD_EXTRACTION_TEMPLATE = ExtractionTemplate(
         " do not appear in the schema shown below."
     ),
     type_descriptor="TypeScript",
-    suffix=(
-        "For Union types the output must EXACTLY match one of the members of the Union"
-        " type.\n\nPlease enclose the extracted information in HTML style tags with the"
-        " tag name corresponding to the corresponding component ID. Use angle style"
-        " brackets for the tags ('>' and '<'). Only output tags when you're confident"
-        " about the information that was extracted from the user's query. If you can"
-        " extract several pieces of relevant information from the query, then include"
-        " all of them. If the type is an array, please repeat the corresponding tag"
-        " name multiple times once for each relevant extraction. Do NOT output anything"
-        " except for the extracted information. Only output information inside the HTML"
-        " style tags. Do not include any notes or any clarifications. "
-    ),
+    encoder_class=XMLEncoder,
 )
 
 
 BULLET_POINT_EXTRACTION_TEMPLATE = ExtractionTemplate(
     prefix=(
         "Your goal is to extract structured information from the user's input that"
-        " matches the form described below. When extracting information please make"
+        " matches the schema shown below. When extracting information please make"
         " sure it matches the type information exactly. "
     ),
     type_descriptor="BulletPoint",
-    suffix=(
-        "Your task is to parse the user input and determine to what values the user is"
-        " attempting to set each component of the form.\nWhen the type of the input is"
-        " a Selection, only output one of the options specified in the square brackets"
-        " as arguments to the Selection type of this input. Please enclose the"
-        " extracted information in HTML style tags with the tag name corresponding to"
-        " the corresponding component ID. Use angle style brackets for the tags ('>'"
-        " and '<'). Only output tags when you're confident about the information that"
-        " was extracted from the user's query. If you can extract several pieces of"
-        " relevant information from the query include use a comma to separate the tags."
-        " Do NOT output anything except for the extracted information. Only output"
-        " information inside the HTML style tags. Do not include any notes or any"
-        " clarifications. "
-    ),
+    encoder_class=XMLEncoder,
 )

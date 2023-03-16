@@ -113,5 +113,4 @@ def generate_examples(node: AbstractInput) -> List[Tuple[str, str]]:
     Returns:
         list of 2-tuples containing input, output pairs
     """
-    examples = SimpleExampleAggregator().visit(node)
-    return examples
+    return SimpleExampleAggregator().visit(node)

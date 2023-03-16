@@ -4,7 +4,7 @@ from typing import Dict, List
 from langchain.schema import BaseLanguageModel
 
 from kor import nodes
-from kor.parsers import xml
+from kor.encoders import xml
 from kor.prompts import (
     STANDARD_EXTRACTION_TEMPLATE,
     ExtractionPromptValue,
