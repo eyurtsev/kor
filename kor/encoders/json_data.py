@@ -1,5 +1,5 @@
 import json
-from typing import List, Sequence, Tuple, Any
+from typing import Any
 
 from kor.encoders.typedefs import Encoder
 

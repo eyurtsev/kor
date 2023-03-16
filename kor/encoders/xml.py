@@ -123,8 +123,8 @@ class XMLEncoder(Encoder):
 
         <input_id>selected value</input_id>
 
-        The input_id can be repeated multiple times to support the use case of a selection
-        that allows for multiple options to be selected.
+        The input_id can be repeated multiple times to support the use case
+        of a selection that allows for multiple options to be selected.
 
         The response can contain selections for multiple different inputs.
 

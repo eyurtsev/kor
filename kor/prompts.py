@@ -56,9 +56,9 @@ class ExtractionTemplate(PromptGenerator):
 
     prefix: str
     type_descriptor: str
-    example_generator: Callable[[AbstractInput], List[Tuple[str, str]]] = (
-        generate_examples
-    )
+    example_generator: Callable[
+        [AbstractInput], List[Tuple[str, str]]
+    ] = generate_examples
     encoder_class: Type[Encoder]
 
     def __post_init__(self) -> None:
