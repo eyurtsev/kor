@@ -4,22 +4,6 @@ import pytest
 
 from kor.examples import generate_examples
 from kor.nodes import Number, Object, Option, Selection, Text
-from kor.parsers.xml import _write_tag
-
-
-def test_write_tag() -> None:
-    """Verify XML encoding works as expected."""
-    assert _write_tag("tag", "data") == "<tag>data</tag>"
-    assert _write_tag("tag", ["data1", "data2"]) == "<tag>data1</tag><tag>data2</tag>"
-    assert _write_tag("tag", {"key1": "value1"}) == "<tag><key1>value1</key1></tag>"
-    assert (
-        _write_tag("tag", {"key1": "value1", "key2": "value2"})
-        == "<tag><key1>value1</key1><key2>value2</key2></tag>"
-    )
-    assert (
-        _write_tag("tag", {"key1": "value1", "key2": ["a", "b"]})
-        == "<tag><key1>value1</key1><key2>a</key2><key2>b</key2></tag>"
-    )
 
 
 def test_example_generation() -> None:

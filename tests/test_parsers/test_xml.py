@@ -2,7 +2,7 @@ from typing import Any, Type, Union
 
 import pytest
 
-from kor.parsers.xml import decode, encode
+from kor.parsers.xml import _write_tag, decode, encode
 
 
 @pytest.mark.parametrize(
@@ -57,3 +57,18 @@ def test_xml_encode(obj: Any, output: Union[Type[Exception], str]) -> None:
     else:
         with pytest.raises(output):
             encode(obj)
+
+
+def test_write_tag() -> None:
+    """Verify XML encoding works as expected."""
+    assert _write_tag("tag", "data") == "<tag>data</tag>"
+    assert _write_tag("tag", ["data1", "data2"]) == "<tag>data1</tag><tag>data2</tag>"
+    assert _write_tag("tag", {"key1": "value1"}) == "<tag><key1>value1</key1></tag>"
+    assert (
+        _write_tag("tag", {"key1": "value1", "key2": "value2"})
+        == "<tag><key1>value1</key1><key2>value2</key2></tag>"
+    )
+    assert (
+        _write_tag("tag", {"key1": "value1", "key2": ["a", "b"]})
+        == "<tag><key1>value1</key1><key2>a</key2><key2>b</key2></tag>"
+    )
