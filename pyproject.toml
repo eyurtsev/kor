@@ -50,6 +50,8 @@ pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=
 mypy = "mypy . --pretty --show-error-codes"
 fix = { shell = "poe black . && poe ruff --fix ." }
 fix_docs = "black docs"
+# Using a --preview feature. Commit your code prior to use this fix.
+fix_strings = "black kor --preview"
 test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
 
 [tool.ruff]
