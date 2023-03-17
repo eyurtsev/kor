@@ -58,7 +58,7 @@ class AbstractInput(abc.ABC):
 
     __slots__ = "id", "description", "many"
 
-    def __init__(self, *, id: str, description: str = "", many: bool = False) -> None:
+    def __init__(self, *, id: str, description: str = "", many: bool = True) -> None:
         self.id = id
         self.description = description
         self.many = many
@@ -111,7 +111,7 @@ class ExtractionInput(AbstractInput, abc.ABC):
         *,
         id: str,
         description: str = "",
-        many: bool = False,
+        many: bool = True,
         examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
@@ -145,7 +145,7 @@ class Option(AbstractInput):
         *,
         id: str,
         description: str = "",
-        many: bool = False,
+        many: bool = True,
         examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
@@ -179,7 +179,7 @@ class Selection(AbstractInput):
         *,
         id: str,
         description: str = "",
-        many: bool = False,
+        many: bool = True,
         options: Sequence[Option],
         null_examples: Sequence[str] = tuple(),
     ) -> None:
@@ -229,7 +229,7 @@ class Object(AbstractInput):
         *,
         id: str,
         description: str = "",
-        many: bool = False,
+        many: bool = True,
         attributes: Sequence[Union[ExtractionInput, Selection]],
         examples: Sequence[
             Tuple[str, Mapping[str, Union[str, Sequence[str]]]]

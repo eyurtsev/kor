@@ -121,4 +121,4 @@ class TypeScriptTypeGenerator(TypeDescriptor[None]):
             self.code_lines.insert(0, "{")
             self.code_lines.append("}")
 
-        return f"```TypeScript\n\n{self.get_type_description()}```\n"
+        return f"```TypeScript\n\n{self.get_type_description()}\n```\n"
