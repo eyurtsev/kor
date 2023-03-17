@@ -1,7 +1,8 @@
 """Code to dynamically generate appropriate LLM prompts."""
 from __future__ import annotations
 
-from typing import Any, List, Literal, Tuple, Union
+from typing import Any, List, Literal, Tuple, Union, Optional
+from pydantic import BaseModel
 
 from langchain import BasePromptTemplate
 from langchain.output_parsers import BaseOutputParser
@@ -27,7 +28,6 @@ class ExtractionPromptValue(PromptValue):
     """Integration with langchain prompt format."""
 
     text: str
-    node: AbstractInput
     encoder: Encoder
     type_descriptor: TypeDescriptor
     prefix: str = (
@@ -45,8 +45,9 @@ class ExtractionPromptValue(PromptValue):
 
     def to_string(self) -> str:
         """Format the template to a string."""
-        instruction_segment = self.generate_instruction_segment(self.node)
-        encoded_examples = self.generate_encoded_examples(self.node)
+        node = self.encoder.node
+        instruction_segment = self.generate_instruction_segment(node)
+        encoded_examples = self.generate_encoded_examples(node)
         formatted_examples: List[str] = []
 
         for in_example, output in encoded_examples:
@@ -63,10 +64,11 @@ class ExtractionPromptValue(PromptValue):
 
     def to_messages(self) -> List[BaseMessage]:
         """Format the template to chat messages."""
-        instruction_segment = self.generate_instruction_segment(self.node)
+        node = self.encoder.node
+        instruction_segment = self.generate_instruction_segment(node)
 
         messages: List[BaseMessage] = [SystemMessage(content=instruction_segment)]
-        encoded_examples = self.generate_encoded_examples(self.node)
+        encoded_examples = self.generate_encoded_examples(node)
 
         for example_input, example_output in encoded_examples:
             messages.extend(
@@ -94,16 +96,21 @@ class ExtractionPromptValue(PromptValue):
 class ExtractionPromptTemplate(BasePromptTemplate):
     """Extraction prompt template."""
 
-    node: AbstractInput
     encoder: Encoder
     type_descriptor: TypeDescriptor
+
+    class Config:
+        """Configuration for this pydantic object."""
+
+        extra = Extra.forbid
+        arbitrary_types_allowed = True
 
     def format_prompt(self, text: str) -> PromptValue:
         """Format the prompt."""
         return ExtractionPromptValue(
             text=text,
-            node=self.node,
             encoder=self.encoder,
+            type_descriptor=self.type_descriptor,
         )
 
     def format(self, **kwargs: Any) -> str:
@@ -144,10 +151,13 @@ class KorParser(BaseOutputParser):
 # PUBLIC API
 
 
-def create_langchain_prompt(encoder: Encoder) -> ExtractionPromptTemplate:
+def create_langchain_prompt(
+    encoder: Encoder, type_descriptor: TypeDescriptor
+) -> ExtractionPromptTemplate:
     """Create a langchain style prompt with specified encoder."""
     return ExtractionPromptTemplate(
         input_variables=["text"],
-        node=encoder.node,
         output_parser=KorParser(encoder=encoder),
+        encoder=encoder,
+        type_descriptor=type_descriptor,
     )

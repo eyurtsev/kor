@@ -58,7 +58,7 @@ class BulletPointTypeGenerator(TypeDescriptor[None]):
         return self.get_type_description()
 
 
-class TypeScriptTypeGenerator(AbstractVisitor[None]):
+class TypeScriptTypeGenerator(TypeDescriptor[None]):
     """A mutable visitor (not thread safe) that helps generate TypeScript schema."""
 
     def __init__(self) -> None:
