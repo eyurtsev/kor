@@ -12,6 +12,7 @@ repository = "https://www.github.com/eyurtsev/kor"
 python = "^3.8.1"
 openai = "^0.27"
 langchain = "^0.0.110"
+pandas = "^1.5.3"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
