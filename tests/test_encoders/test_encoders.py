@@ -2,8 +2,8 @@ from typing import Any
 
 import pytest
 
-from kor.encoders import XMLEncoder, JSONEncoder, CSVEncoder
-from kor.nodes import Number, Object, Option, Selection, Text, AbstractInput
+from kor.encoders import JSONEncoder, XMLEncoder
+from kor.nodes import AbstractInput, Number, Object, Option, Selection, Text
 
 
 def _get_schema() -> AbstractInput:

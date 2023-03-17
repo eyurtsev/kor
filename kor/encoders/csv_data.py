@@ -13,7 +13,7 @@ import pandas as pd
 from kor.encoders.typedefs import Encoder
 from kor.nodes import AbstractInput, Object
 
-DELIMITER = ","
+DELIMITER = "|"
 
 
 def _encode(fieldnames: Sequence[str], data: Sequence[Mapping[str, Any]]) -> str:
@@ -48,44 +48,81 @@ def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
         return [node.id]
 
 
+def _assert_object_is_supported(node: AbstractInput) -> None:
+    """Assert that the node is an object and that it has only flat attributes."""
+    if not isinstance(node, Object):
+        return
+
+    for attribute in node.attributes:
+        if attribute.many or isinstance(attribute, Object):
+            raise AssertionError(
+                f"CSV Encoder does not yet support embedded lists or "
+                f"objects (attribute `{attribute.id}`)."
+            )
+
+
 # PUBLIC API
 
 
 class CSVEncoder(Encoder):
     """CSV encoder."""
 
+    def __init__(self, node: AbstractInput) -> None:
+        """Attach node to the encoder to allow the encoder to understand schema."""
+        super().__init__(node)
+        _assert_object_is_supported(self.node)
+
     def encode(self, data: Any) -> str:
         """Encode the data."""
-        if isinstance(data, dict):
-            data = data["personal_info"]
+        if not isinstance(data, dict):
+            raise TypeError(f"Was expecting a dictionary got {type(data)}")
 
-        if not isinstance(self.node, Object):
-            raise AssertionError()
+        expected_key = self.node.id
 
-        # new_records = []
-        #
-        # for attribute in self.node.attributes:
-        #     attribute.id
-        #
-        # for record in data:
-        #
-        #
-        #
-        #
-        # fieldnames = _extract_top_level_fieldnames(self.node)
-        return pd.DataFrame(data, columns=fieldnames).to_csv(index=False)
+        if expected_key not in data:
+            raise AssertionError(f"Expected a key: `{expected_key} to appear in data.")
 
-    def decode(self, text: str) -> List[Dict[str, Any]]:
+        if isinstance(self.node, Object):
+            field_names = _extract_top_level_fieldnames(self.node)
+        else:
+            field_names = [self.node.id]
+
+        data_to_output = data[expected_key]
+
+        if not isinstance(data_to_output, list):
+            # Should always output records for pd.Dataframe
+            data_to_output = [data_to_output]
+        return (
+            "<table>\n"
+            + pd.DataFrame(data_to_output, columns=field_names).to_csv(
+                index=False,
+                sep=DELIMITER,
+            )
+            + "</table>"
+        )
+
+    def decode(self, text: str) -> Dict[str, List[Dict[str, Any]]]:
         """Decode the text."""
-        with StringIO(text) as s:
-            return pd.read_csv(s).to_dict(orient="records")
+        text = (
+            text.strip().removeprefix("<table>").removesuffix("</table>").lstrip("\n")
+        )
+        with StringIO(text) as buffer:
+            records = pd.read_csv(
+                buffer, dtype=str, keep_default_na=False, sep=DELIMITER
+            ).to_dict(orient="records")
+
+        namespace = self.node.id
+        return {namespace: records}
 
     def get_instruction_segment(self) -> str:
         """Format instructions."""
         return (
             "Please output the extracted information in CSV format in Excel dialect. "
-            "Do not output anything except for the extracted information. "
+            "Only output the table. "
+            "Precede the table with a <table> tag and use a closing tag </table> after the table."
+            "Do not output anything except for the table. "
             "Do not add any clarifying information. "
-            "All output must be in CSV format and follow the schema specified above."
+            "All output must be in CSV format and follow the schema specified above. "
+            "Do not add any additional columns that do not appear in the schema. "
             "If the attribute is an array or an object, please JSON encode it."
         )

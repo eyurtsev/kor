@@ -8,9 +8,9 @@ from kor.encoders import csv_data
 @pytest.mark.parametrize(
     "data,output",
     [
-        ([{"a": 1}, {"b": 0}, {"a": 5}], "a,b\r\n1,\r\n,0\r\n5,\r\n"),
-        ([], "a,b\r\n"),
-        ([{"a": ",", "b": 5}], 'a,b\r\n",",5\r\n'),
+        ([{"a": 1}, {"b": 0}, {"a": 5}], "a|b\r\n1|\r\n|0\r\n5|\r\n"),
+        ([], "a|b\r\n"),
+        ([{"a": ",", "b": 5}], "a|b\r\n,|5\r\n"),
     ],
 )
 def test_encoding(data: Sequence[Mapping[str, Any]], output: str) -> None:
@@ -34,7 +34,7 @@ def test_raise_error_on_extra_fields() -> None:
     "data,output",
     [
         (
-            "a,b\n1,\n,0\n5,\n",
+            "a|b\n1|\n|0\n5|\n",
             [
                 {"a": "1", "b": ""},
                 {"a": "", "b": "0"},
@@ -42,7 +42,7 @@ def test_raise_error_on_extra_fields() -> None:
             ],
         ),
         (
-            "a,b\n",
+            "a|b\n",
             [],
         ),
     ],
@@ -50,9 +50,3 @@ def test_raise_error_on_extra_fields() -> None:
 def test_decoding(data: str, output: Sequence[Mapping[str, Any]]) -> None:
     """Test CSV decoding."""
     assert csv_data._decode(["a", "b"], data) == output
-
-
-def test_csv_encoder_class() -> None:
-    """Test the CSV encoding/decoding interface."""
-    encoder = csv_data.CSVEncoder(["a"])
-    assert encoder.encode([{"a": 5}]) == "a\r\n5\r\n"

@@ -2,7 +2,7 @@ import pytest
 
 from kor import Number, Object, Text
 from kor.nodes import AbstractInput, Option, Selection
-from kor.type_descriptors import TypeScriptTypeGenerator, BulletPointTypeGenerator
+from kor.type_descriptors import BulletPointTypeGenerator, TypeScriptTypeGenerator
 
 OPTION = Option(id="option", description="Option Description", examples=["selection"])
 NUMBER = Number(
