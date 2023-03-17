@@ -1,31 +1,32 @@
-import abc
-from typing import Dict, List, Any
+from typing import Any
 
+from langchain import BasePromptTemplate
+from langchain.chains import LLMChain
+from langchain.output_parsers import BaseOutputParser
+from langchain.schema import BaseLanguageModel, PromptValue
 from pydantic import Extra
 
-from kor import nodes
 from kor.encoders import Encoder
 from kor.nodes import AbstractInput
 from kor.prompts import (
     STANDARD_EXTRACTION_TEMPLATE,
     ExtractionPromptValue,
-    PromptGenerator,
 )
-from langchain import BasePromptTemplate
-from langchain.output_parsers import BaseOutputParser
-from langchain.schema import BaseLanguageModel, PromptValue
 
 
 class ExtractionPromptTemplate(BasePromptTemplate):
+    """Extraction prompt template."""
+
     node: AbstractInput
 
-    def format_prompt(self, user_input: str, **kwargs: Any) -> PromptValue:
+    def format_prompt(self, text: str) -> PromptValue:
         """Format the prompt."""
         return ExtractionPromptValue(
-            template=STANDARD_EXTRACTION_TEMPLATE, user_input=user_input, node=self.node
+            template=STANDARD_EXTRACTION_TEMPLATE, user_input=text, node=self.node
         )
 
     def format(self, **kwargs: Any) -> str:
+        """Implementation of deprecated format method."""
         raise NotImplementedError()
 
     @property
@@ -34,15 +35,22 @@ class ExtractionPromptTemplate(BasePromptTemplate):
         return "ExtractionPromptTemplate"
 
 
-class KorEncoder(BaseOutputParser):
-    """A langchain parser """
+class KorParser(BaseOutputParser):
+    """A Kor langchain parser integration.
+
+    This parser can use any of Kor's encoders to support encoding/decoding
+    different data formats.
+    """
+
     encoder: Encoder
 
     @property
     def _type(self) -> str:
-        return 'KOREn'
+        """Declare the type property."""
+        return "KorEncoder"
 
-    def parse(self, text: str):
+    def parse(self, text: str) -> Any:
+        """Parse the text."""
         return self.encoder.decode(text)
 
     class Config:
@@ -52,24 +60,18 @@ class KorEncoder(BaseOutputParser):
         arbitrary_types_allowed = True
 
 
-class Extractor(abc.ABC):  # pylint: disable=too-few-public-methods
-    def __init__(
-        self,
-        model: BaseLanguageModel,
-        prompt_generator: PromptGenerator = STANDARD_EXTRACTION_TEMPLATE,
-    ) -> None:
-        """Initialize an extractor with a model and a prompt generator."""
-        self.model = model
-        self.prompt_generator = prompt_generator
+# PUBLIC API
 
-    def __call__(
-        self, user_input: str, node: nodes.AbstractInput
-    ) -> Dict[str, List[str]]:
-        """Invoke the extractor with a user input and a schema node."""
-        prompt = ExtractionPromptValue(
-            template=self.prompt_generator, user_input=user_input, node=node
-        )
-        model_output = self.model.generate_prompt([prompt])
-        text = model_output.generations[0][0].text
-        encoder = self.prompt_generator._generate_encoder(node)
-        return encoder.decode(text)
+
+def create_langchain_prompt(encoder: Encoder) -> ExtractionPromptTemplate:
+    """Create a langchain style prompt with specified encoder."""
+    return ExtractionPromptTemplate(
+        input_variables=["text"],
+        node=encoder.node,
+        output_parser=KorParser(encoder=encoder),
+    )
+
+
+def create_extraction_chain(llm: BaseLanguageModel, encoder: Encoder) -> LLMChain:
+    """Creat an extraction chain."""
+    return LLMChain(llm=llm, prompt=create_langchain_prompt(encoder))

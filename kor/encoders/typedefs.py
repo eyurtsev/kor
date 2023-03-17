@@ -8,9 +8,14 @@ This file only contains the interface for encoders.
 """
 import abc
 from typing import Any
+from kor.nodes import AbstractInput
 
 
 class Encoder(abc.ABC):
+    def __init__(self, node: AbstractInput) -> None:
+        """Attach node to the encoder to allow the encoder to understand schema."""
+        self.node = node
+
     @abc.abstractmethod
     def encode(self, data: Any) -> str:
         """Encode the examples."""

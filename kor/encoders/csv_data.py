@@ -9,7 +9,7 @@ from io import StringIO
 from typing import Any, Dict, List, Mapping, Sequence, cast
 
 from kor.nodes import AbstractInput, Object
-from .typedefs import Encoder
+from kor.encoders.typedefs import Encoder
 
 
 def _encode(fieldnames: Sequence[str], data: Sequence[Mapping[str, Any]]) -> str:
@@ -50,14 +50,12 @@ def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
 class CSVEncoder(Encoder):
     """CSV encoder."""
 
-    def __init__(self, fieldnames: Sequence[str]) -> None:
-        """Initialize a CSV encoder with fieldnames."""
-        super().__init__()
-        self.fieldnames = fieldnames
+    def __init__(self, node: AbstractInput) -> None:
+        super().__init__(node)
+        self.fieldnames = _extract_top_level_fieldnames(node)
 
     def encode(self, data: Any) -> str:
         """Encode the data."""
-        # May need information about the schema to be able to use a CSV encoder?
         raise NotImplementedError()
         if isinstance(data, dict):
             # How to take care of this correctly?
