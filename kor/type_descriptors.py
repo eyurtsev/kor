@@ -13,6 +13,8 @@ from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection,
 
 T = TypeVar("T")
 
+# PUBLIC API
+
 
 class TypeDescriptor(AbstractVisitor[T], abc.ABC):
     """Interface for type descriptors."""
@@ -97,7 +99,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         for child in node.attributes:
             child.accept(self)
         self.depth -= 1
-        
+
         self.code_lines.append(f"{space}}}")
 
     def get_type_description(self) -> str:
@@ -118,18 +120,5 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         if not isinstance(node, Object):
             self.code_lines.insert(0, "{")
             self.code_lines.append("}")
-        return self.get_type_description()
 
-
-# PUBLIC API
-
-
-def generate_bullet_point_description(node: AbstractInput) -> str:
-    """Generate type description for the node in a custom bullet point format."""
-    return BulletPointTypeGenerator().describe(node)
-
-
-def generate_typescript_description(node: AbstractInput) -> str:
-    """Generate a description of the object_input type in TypeScript syntax."""
-    type_script_code = TypeScriptTypeGenerator().describe(node)
-    return f"```TypeScript\n\n{type_script_code}\n```\n"
+        return f"```TypeScript\n\n{self.get_type_description()}```\n"

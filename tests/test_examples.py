@@ -1,6 +1,4 @@
-from typing import List
 
-import pytest
 
 from kor.examples import generate_examples
 from kor.nodes import Number, Object, Option, Selection, Text

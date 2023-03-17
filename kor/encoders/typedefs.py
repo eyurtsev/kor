@@ -8,6 +8,7 @@ This file only contains the interface for encoders.
 """
 import abc
 from typing import Any
+
 from kor.nodes import AbstractInput
 
 

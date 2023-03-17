@@ -2,7 +2,7 @@ from typing import Any, Type, Union
 
 import pytest
 
-from kor.encoders.xml import _write_tag, XMLEncoder
+from kor.encoders.xml import XMLEncoder, _write_tag
 
 
 @pytest.mark.parametrize(
