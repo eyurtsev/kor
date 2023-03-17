@@ -78,8 +78,13 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         else:
             raise NotImplementedError()
 
+        if node.many:
+            many_formatter = "[]"
+        else:
+            many_formatter = ""
+
         self.code_lines.append(
-            f"{space}{node.id}: {finalized_type}[] // {node.description}"
+            f"{space}{node.id}: {finalized_type}{many_formatter} // {node.description}"
         )
 
     def visit_object(self, node: Object) -> None:
@@ -92,7 +97,7 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         for child in node.attributes:
             child.accept(self)
         self.depth -= 1
-
+        
         self.code_lines.append(f"{space}}}")
 
     def get_type_description(self) -> str:
