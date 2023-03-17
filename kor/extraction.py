@@ -5,7 +5,6 @@ from kor.encoders import Encoder
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor
 
-
 # PUBLIC API
 
 

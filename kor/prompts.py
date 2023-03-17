@@ -1,8 +1,7 @@
 """Code to dynamically generate appropriate LLM prompts."""
 from __future__ import annotations
 
-from typing import Any, List, Literal, Tuple, Union, Optional
-from pydantic import BaseModel
+from typing import Any, List, Literal, Tuple, Union
 
 from langchain import BasePromptTemplate
 from langchain.output_parsers import BaseOutputParser
