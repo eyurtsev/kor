@@ -56,7 +56,7 @@ def _assert_object_is_supported(node: AbstractInput) -> None:
     for attribute in node.attributes:
         if attribute.many or isinstance(attribute, Object):
             raise AssertionError(
-                f"CSV Encoder does not yet support embedded lists or "
+                "CSV Encoder does not yet support embedded lists or "
                 f"objects (attribute `{attribute.id}`)."
             )
 
@@ -117,7 +117,7 @@ class CSVEncoder(Encoder):
     def get_instruction_segment(self) -> str:
         """Format instructions."""
         return (
-            "Please output the extracted information in CSV format in Excel dialect. "
+            "Please output the extracted information in CSV format in Excel dialect."
             "Only output the table. "
             "Precede the table with a <table> tag and use a closing tag </table> after the table."
             "Do not output anything except for the table. "
