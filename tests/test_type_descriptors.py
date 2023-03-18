@@ -2,10 +2,7 @@ import pytest
 
 from kor import Number, Object, Text
 from kor.nodes import AbstractInput, Option, Selection
-from kor.type_descriptors import (
-    generate_bullet_point_description,
-    generate_typescript_description,
-)
+from kor.type_descriptors import BulletPointTypeGenerator, TypeScriptTypeGenerator
 
 OPTION = Option(id="option", description="Option Description", examples=["selection"])
 NUMBER = Number(
@@ -35,12 +32,12 @@ def test_no_obvious_crashes() -> None:
     """
 
     nodes_to_check = [NUMBER, TEXT, SELECTION, OBJ]
-    descriptors = [generate_typescript_description, generate_bullet_point_description]
+    descriptors = [TypeScriptTypeGenerator(), BulletPointTypeGenerator()]
 
     for node in nodes_to_check:
         # Verify that we can generate description
         for descriptor in descriptors:
-            assert isinstance(descriptor(node), str)
+            assert isinstance(descriptor.describe(node), str)
 
 
 @pytest.mark.parametrize(
@@ -68,7 +65,7 @@ def test_no_obvious_crashes() -> None:
 )
 def test_bullet_point_descriptions(node: AbstractInput, description: str) -> None:
     """Verify bullet point descriptions."""
-    assert generate_bullet_point_description(node) == description
+    assert BulletPointTypeGenerator().describe(node) == description
 
 
 @pytest.mark.parametrize(
@@ -107,4 +104,4 @@ def test_bullet_point_descriptions(node: AbstractInput, description: str) -> Non
 )
 def test_typescript_description(node: AbstractInput, description: str) -> None:
     """Verify typescript descriptions."""
-    assert generate_typescript_description(node) == description
+    assert TypeScriptTypeGenerator().describe(node) == description

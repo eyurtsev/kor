@@ -6,8 +6,7 @@ into account the finite size of the context window and limit the number of examp
 
 The code uses a default encoding of XML. This encoding should match the parser.
 """
-import json
-from typing import Any, Callable, List, Sequence, Tuple
+from typing import Any, List, Tuple
 
 from kor.nodes import (
     AbstractInput,
@@ -18,7 +17,6 @@ from kor.nodes import (
     Selection,
     TypeVar,
 )
-from kor.parsers import csv_data, xml
 
 T = TypeVar("T")
 
@@ -35,7 +33,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         """Assemble the output data according to the type of the node."""
         if not data:
             return {}
-        if node.multiple and not isinstance(data, (tuple, list)):
+        if node.many and not isinstance(data, (tuple, list)):
             data = [data]
         return {node.id: data}
 
@@ -97,42 +95,10 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         return node.accept(self)
 
 
-def _encode_examples(
-    node: AbstractInput, examples: Sequence[Tuple[str, str]], encoding: str
-) -> List[Tuple[str, str]]:
-    """Encode the output using the given encoder."""
-    if encoding == "none":
-        return list(examples)
-    elif encoding == "JSON":
-        encoder: Callable[[Any], str] = json.dumps
-    elif encoding == "XML":
-        encoder = xml.encode
-    elif encoding == "CSV":
-        fieldnames = _extract_top_level_fieldnames(node)
-        encoder = csv_data.CSVEncoder(fieldnames=fieldnames).encode
-    else:
-        raise NotImplementedError(f"No support for encoding {encoding}")
-
-    return [
-        (input_example, encoder(output_example))
-        for input_example, output_example in examples
-    ]
-
-
-def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
-    """Temporary schema description for CSV extraction."""
-    if isinstance(node, Object):
-        return [attributes.id for attributes in node.attributes]
-    else:
-        return [node.id]
-
-
 # PUBLIC API
 
 
-def generate_examples(
-    node: AbstractInput, encoding: str = "XML"
-) -> List[Tuple[str, str]]:
+def generate_examples(node: AbstractInput) -> List[Tuple[str, str]]:
     """Generate examples for a given element.
 
     A rudimentary implementation that simply concatenates all available examples
@@ -143,14 +109,8 @@ def generate_examples(
 
     Args:
         node: AbstractInput
-        encoding: Reserved parameter, refers to the encoding of the output, it's unclear
-                  whether or how different encodings affect the ability of LLMs to match
-                  a given schema
-
 
     Returns:
         list of 2-tuples containing input, output pairs
     """
-    examples = SimpleExampleAggregator().visit(node)
-    encoded_examples = _encode_examples(node, examples, encoding)
-    return encoded_examples
+    return SimpleExampleAggregator().visit(node)

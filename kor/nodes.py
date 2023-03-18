@@ -56,24 +56,17 @@ class AbstractInput(abc.ABC):
     The description should describe what the input is about.
     """
 
-    __slots__ = "id", "description", "multiple"
+    __slots__ = "id", "description", "many"
 
-    def __init__(
-        self, *, id: str, description: str = "", multiple: bool = True
-    ) -> None:
+    def __init__(self, *, id: str, description: str = "", many: bool = True) -> None:
         self.id = id
         self.description = description
-        self.multiple = multiple
+        self.many = many
 
         if not VALID_IDENTIFIER_PATTERN.match(self.id):
             raise ValueError(
                 f"`{self.id}` is not a valid identifier. "
                 "Please only use lower cased a-z, _ or the digits 0-9"
-            )
-
-        if not self.multiple:
-            raise ValueError(
-                "Reserved parameter. At the moment, multiple has to be True."
             )
 
     @abc.abstractmethod
@@ -118,11 +111,11 @@ class ExtractionInput(AbstractInput, abc.ABC):
         *,
         id: str,
         description: str = "",
-        multiple: bool = True,
+        many: bool = True,
         examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
-        super().__init__(id=id, description=description, multiple=multiple)
+        super().__init__(id=id, description=description, many=many)
         self.examples = examples
 
 
@@ -152,11 +145,11 @@ class Option(AbstractInput):
         *,
         id: str,
         description: str = "",
-        multiple: bool = True,
+        many: bool = True,
         examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
-        super().__init__(id=id, description=description, multiple=multiple)
+        super().__init__(id=id, description=description, many=many)
         self.examples = examples
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
@@ -186,12 +179,12 @@ class Selection(AbstractInput):
         *,
         id: str,
         description: str = "",
-        multiple: bool = True,
+        many: bool = True,
         options: Sequence[Option],
         null_examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
-        super().__init__(id=id, description=description, multiple=multiple)
+        super().__init__(id=id, description=description, many=many)
         self.options = options
         self.null_examples = null_examples
 
@@ -236,7 +229,7 @@ class Object(AbstractInput):
         *,
         id: str,
         description: str = "",
-        multiple: bool = True,
+        many: bool = True,
         attributes: Sequence[Union[ExtractionInput, Selection]],
         examples: Sequence[
             Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
@@ -247,7 +240,7 @@ class Object(AbstractInput):
         group_as_object: bool = True,
     ) -> None:
         """Initialize for extraction input."""
-        super().__init__(id=id, description=description, multiple=multiple)
+        super().__init__(id=id, description=description, many=many)
         self.attributes = attributes
         self.examples = examples
         self.group_as_object = group_as_object

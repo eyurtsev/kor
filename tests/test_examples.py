@@ -1,7 +1,3 @@
-from typing import List
-
-import pytest
-
 from kor.examples import generate_examples
 from kor.nodes import Number, Object, Option, Selection, Text
 
@@ -30,59 +26,17 @@ def test_example_generation() -> None:
     )
 
     examples = generate_examples(obj)
-    assert isinstance(examples, list)
-    assert len(examples) == 5
-    # Verify a few generated examples
-    assert examples[0] == ("another number", "<object><number>1</number></object>")
-    assert examples[1] == ("number", "<object><number>2</number></object>")
-    assert examples[2] == ("text", "<object><text>3</text></object>")
+    assert examples == [
+        ("another number", {"object": [{"number": "1"}]}),
+        ("number", {"object": [{"number": ["2"]}]}),
+        ("text", {"object": [{"text": ["3"]}]}),
+        ("selection", {"object": [{"selection": ["option"]}]}),
+        ("foo", {}),
+    ]
 
 
-@pytest.mark.parametrize(
-    "encoding,expected",
-    [
-        (
-            "none",
-            [
-                ("another number", {"object": [{"number": ["1"]}]}),
-                ("number", {"object": [{"number": ["2"]}]}),
-                ("text", {"object": [{"text": ["3"]}]}),
-                ("selection", {"object": [{"selection": ["option"]}]}),
-                ("foo", {}),
-                ("1 2", {"object": [{"age": ["1", "2"]}]}),
-            ],
-        ),
-        (
-            "JSON",
-            [
-                ("another number", '{"object": [{"number": ["1"]}]}'),
-                ("number", '{"object": [{"number": ["2"]}]}'),
-                ("text", '{"object": [{"text": ["3"]}]}'),
-                ("selection", '{"object": [{"selection": ["option"]}]}'),
-                ("foo", "{}"),
-                ("1 2", '{"object": [{"age": ["1", "2"]}]}'),
-            ],
-        ),
-        (
-            "XML",
-            [
-                ("another number", "<object><number>1</number></object>"),
-                ("number", "<object><number>2</number></object>"),
-                ("text", "<object><text>3</text></object>"),
-                ("selection", "<object><selection>option</selection></object>"),
-                ("foo", ""),
-                ("1 2", "<object><age>1</age><age>2</age></object>"),
-            ],
-        ),
-    ],
-)
-def test_example_generation_with_plain_encoding(
-    encoding: str, expected: List[dict]
-) -> None:
-    """Light test for plain encoding.
-
-    Verifies that examples are getting picked up and encoded properly.
-    """
+def test_example_generation_with_plain_encoding() -> None:
+    """Light test for plain encoding."""
     option = Option(id="option", description="Option", examples=["selection"])
     number = Number(id="number", description="Number", examples=[("number", "2")])
     age = Number(id="age", description="Age", examples=[("1 2", ["1", "2"])])
@@ -102,7 +56,14 @@ def test_example_generation_with_plain_encoding(
         attributes=[number, text, selection, age],
     )
 
-    examples = generate_examples(obj, encoding=encoding)
+    examples = generate_examples(obj)
     assert isinstance(examples, list)
     # Verify a few generated examples
-    assert examples == expected
+    assert examples == [
+        ("another number", {"object": [{"number": ["1"]}]}),
+        ("number", {"object": [{"number": ["2"]}]}),
+        ("text", {"object": [{"text": ["3"]}]}),
+        ("selection", {"object": [{"selection": ["option"]}]}),
+        ("foo", {}),
+        ("1 2", {"object": [{"age": ["1", "2"]}]}),
+    ]

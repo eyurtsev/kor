@@ -13,6 +13,8 @@ from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection,
 
 T = TypeVar("T")
 
+# PUBLIC API
+
 
 class TypeDescriptor(AbstractVisitor[T], abc.ABC):
     """Interface for type descriptors."""
@@ -56,7 +58,7 @@ class BulletPointTypeGenerator(TypeDescriptor[None]):
         return self.get_type_description()
 
 
-class TypeScriptTypeGenerator(AbstractVisitor[None]):
+class TypeScriptTypeGenerator(TypeDescriptor[None]):
     """A mutable visitor (not thread safe) that helps generate TypeScript schema."""
 
     def __init__(self) -> None:
@@ -78,8 +80,13 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         else:
             raise NotImplementedError()
 
+        if node.many:
+            many_formatter = "[]"
+        else:
+            many_formatter = ""
+
         self.code_lines.append(
-            f"{space}{node.id}: {finalized_type}[] // {node.description}"
+            f"{space}{node.id}: {finalized_type}{many_formatter} // {node.description}"
         )
 
     def visit_object(self, node: Object) -> None:
@@ -113,18 +120,5 @@ class TypeScriptTypeGenerator(AbstractVisitor[None]):
         if not isinstance(node, Object):
             self.code_lines.insert(0, "{")
             self.code_lines.append("}")
-        return self.get_type_description()
 
-
-# PUBLIC API
-
-
-def generate_bullet_point_description(node: AbstractInput) -> str:
-    """Generate type description for the node in a custom bullet point format."""
-    return BulletPointTypeGenerator().describe(node)
-
-
-def generate_typescript_description(node: AbstractInput) -> str:
-    """Generate a description of the object_input type in TypeScript syntax."""
-    type_script_code = TypeScriptTypeGenerator().describe(node)
-    return f"```TypeScript\n\n{type_script_code}\n```\n"
+        return f"```TypeScript\n\n{self.get_type_description()}\n```\n"

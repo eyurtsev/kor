@@ -2,6 +2,8 @@ from collections import defaultdict
 from html.parser import HTMLParser
 from typing import Any, DefaultDict, Dict, List, Mapping, Optional, Sequence, Union
 
+from kor.encoders.typedefs import Encoder
+
 LiteralType = Union[str, int, float]
 
 
@@ -106,40 +108,55 @@ class TagParser(HTMLParser):
 # PUBLIC API
 
 
-def encode(obj: Mapping[str, Any]) -> str:
-    """Encode the object as XML."""
-    if not isinstance(obj, dict):
-        raise TypeError(f"Expected {obj} to be of type dict, got {type(obj)}")
-    return "".join(_write_tag(key, value) for key, value in obj.items())
+class XMLEncoder(Encoder):
+    def encode(self, obj: Mapping[str, Any]) -> str:
+        """Encode the object as XML."""
+        if not isinstance(obj, dict):
+            raise TypeError(f"Expected {obj} to be of type dict, got {type(obj)}")
+        return "".join(_write_tag(key, value) for key, value in obj.items())
 
+    def decode(self, text: str) -> Dict[str, List[str]]:
+        """Parse a response from an LLM.
 
-def decode(llm_output: str) -> Dict[str, List[str]]:
-    """Parse a response from an LLM.
+        The format of the response is to enclose the input id in angle brackets and
+        the value of the input is the data inside the tag.
 
-    The format of the response is to enclose the input id in angle brackets and
-    the value of the input is the data inside the tag.
+        <input_id>selected value</input_id>
 
-    <input_id>selected value</input_id>
+        The input_id can be repeated multiple times to support the use case
+        of a selection that allows for multiple options to be selected.
 
-    The input_id can be repeated multiple times to support the use case of a selection
-    that allows for multiple options to be selected.
+        The response can contain selections for multiple different inputs.
 
-    The response can contain selections for multiple different inputs.
+        Tags are to be optionally separated by one or more commas or whitespace.
 
-    Tags are to be optionally separated by one or more commas or whitespace.
+        <color>red</color>,<height>6.1</height>,<width>3</width>,<color>blue</color>
 
-    <color>red</color>,<height>6.1</height>,<width>3</width>,<color>blue</color>
+        Would represent a valid output. It would be interpreted as:
 
-    Would represent a valid output. It would be interpreted as:
+        {
+            "color": ["red", "blue"],
+            "height": ["6.1"],
+            "width": ["3"],
+        }
+        """
+        tag_parser = TagParser()
+        tag_parser.feed(text)
+        if not tag_parser.success:
+            return {}
+        return dict(tag_parser.parse_data)
 
-    {
-        "color": ["red", "blue"],
-        "height": ["6.1"],
-        "width": ["3"],
-    }
-    """
-    tag_parser = TagParser()
-    tag_parser.feed(llm_output)
-    if not tag_parser.success:
-        return {}
-    return dict(tag_parser.parse_data)
+    def get_instruction_segment(self) -> str:
+        """Format the instructions segment."""
+        return (
+            "Please enclose the extracted information in HTML style tags with the tag"
+            " name corresponding to the corresponding component ID. Use angle style"
+            " brackets for the tags ('>' and '<'). Only output tags when you're"
+            " confident about the information that was extracted from the user's query."
+            " If you can extract several pieces of relevant information from the query,"
+            " then include all of them. If the type is an array, please repeat the"
+            " corresponding tag name multiple times once for each relevant extraction."
+            " Do NOT output anything except for the extracted information. Only output"
+            " information inside the HTML style tags. Do not include any notes or any"
+            " clarifications. "
+        )
