@@ -4,8 +4,9 @@ The code will need to eventually support handling some form of nested objects,
 via either JSON encoded column values or by breaking down nested attributes
 into additional columns (likely both methods).
 """
+import re
 from io import StringIO
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
@@ -21,6 +22,18 @@ def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
         return [attributes.id for attributes in node.attributes]
     else:
         return [node.id]
+
+
+TABLE_PATTERN = re.compile(r"<table>(.*?)</table>", re.DOTALL)
+
+
+def _get_table_content(string: str) -> Optional[str]:
+    """Extract table content."""
+    match = TABLE_PATTERN.search(string)
+    if match:
+        return match.group(1)
+    else:
+        return None
 
 
 # PUBLIC API
@@ -74,13 +87,16 @@ class CSVEncoder(Encoder):
 
     def decode(self, text: str) -> Dict[str, List[Dict[str, Any]]]:
         """Decode the text."""
-        text = (
-            text.strip().removeprefix("<table>").removesuffix("</table>").lstrip("\n")
-        )
-        with StringIO(text) as buffer:
-            records = pd.read_csv(
-                buffer, dtype=str, keep_default_na=False, sep=DELIMITER
-            ).to_dict(orient="records")
+        # First get the content between the table tags
+        table_str = _get_table_content(text)
+
+        if table_str:
+            with StringIO(table_str) as buffer:
+                records = pd.read_csv(
+                    buffer, dtype=str, keep_default_na=False, sep=DELIMITER
+                ).to_dict(orient="records")
+        else:
+            records = []
 
         namespace = self.node.id
         return {namespace: records}
