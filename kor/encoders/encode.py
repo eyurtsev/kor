@@ -1,4 +1,4 @@
-from typing import List, Optional, Sequence, Tuple
+from typing import List, Sequence, Tuple
 
 from .typedefs import Encoder
 
@@ -6,7 +6,7 @@ from .typedefs import Encoder
 
 
 def encode_examples(
-    examples: Sequence[Tuple[str, str]], encoder: Optional[Encoder]
+    examples: Sequence[Tuple[str, str]], encoder: Encoder
 ) -> List[Tuple[str, str]]:
     """Encode the output using the given encoder."""
     return [

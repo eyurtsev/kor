@@ -67,6 +67,7 @@ line-length = 88
 
 [tool.mypy]
 disallow_untyped_defs = "True"
+ignore_missing_imports = "True"
 
 [tool.coverage.run]
 omit = [
