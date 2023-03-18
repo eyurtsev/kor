@@ -104,7 +104,9 @@ class ExtractionPromptTemplate(BasePromptTemplate):
         extra = Extra.forbid
         arbitrary_types_allowed = True
 
-    def format_prompt(self, text: str, **kwargs: Any) -> PromptValue:  # type: ignore[override]
+    def format_prompt(  # type: ignore[override]
+        self, text: str, **kwargs: Any
+    ) -> PromptValue:
         """Format the prompt."""
         return ExtractionPromptValue(
             text=text,
