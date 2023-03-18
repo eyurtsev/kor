@@ -117,12 +117,11 @@ class CSVEncoder(Encoder):
     def get_instruction_segment(self) -> str:
         """Format instructions."""
         return (
-            "Please output the extracted information in CSV format in Excel dialect."
-            "Only output the table. "
-            "Precede the table with a <table> tag and use a closing tag </table> after the table."
-            "Do not output anything except for the table. "
-            "Do not add any clarifying information. "
-            "All output must be in CSV format and follow the schema specified above. "
-            "Do not add any additional columns that do not appear in the schema. "
-            "If the attribute is an array or an object, please JSON encode it."
+            "Please output the extracted information in CSV format in Excel"
+            " dialect.Only output the table. Precede the table with a <table> tag and"
+            " use a closing tag </table> after the table.Do not output anything except"
+            " for the table. Do not add any clarifying information. All output must be"
+            " in CSV format and follow the schema specified above. Do not add any"
+            " additional columns that do not appear in the schema. If the attribute is"
+            " an array or an object, please JSON encode it."
         )
