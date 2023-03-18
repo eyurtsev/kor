@@ -33,8 +33,8 @@ class CSVEncoder(Encoder):
         """Attach node to the encoder to allow the encoder to understand schema."""
         super().__init__(node)
 
-        # Verify that if we have an Object then none of its attributes are lists or objects
-        # as that functionality is not yet supported.
+        # Verify that if we have an Object then none of its attributes are lists
+        # or objects as that functionality is not yet supported.
         if isinstance(node, Object):
             for attribute in node.attributes:
                 if attribute.many or isinstance(attribute, Object):
