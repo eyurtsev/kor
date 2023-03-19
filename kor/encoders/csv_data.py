@@ -11,12 +11,12 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 from kor.encoders.typedefs import Encoder
-from kor.nodes import AbstractInput, Object
+from kor.nodes import AbstractSchemaNode, Object
 
 DELIMITER = "|"
 
 
-def _extract_top_level_fieldnames(node: AbstractInput) -> List[str]:
+def _extract_top_level_fieldnames(node: AbstractSchemaNode) -> List[str]:
     """Temporary schema description for CSV extraction."""
     if isinstance(node, Object):
         return [attributes.id for attributes in node.attributes]
@@ -42,7 +42,7 @@ def _get_table_content(string: str) -> Optional[str]:
 class CSVEncoder(Encoder):
     """CSV encoder."""
 
-    def __init__(self, node: AbstractInput) -> None:
+    def __init__(self, node: AbstractSchemaNode) -> None:
         """Attach node to the encoder to allow the encoder to understand schema."""
         super().__init__(node)
 

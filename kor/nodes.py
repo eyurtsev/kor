@@ -39,21 +39,22 @@ class AbstractVisitor(Generic[T], abc.ABC):
         """Visit option node."""
         return self.visit_default(node)
 
-    def visit_default(self, node: "AbstractInput") -> T:
+    def visit_default(self, node: "AbstractSchemaNode") -> T:
         """Default node implementation."""
         raise NotImplementedError()
 
 
-class AbstractInput(abc.ABC):
-    """Abstract input node.
+class AbstractSchemaNode(abc.ABC):
+    """Abstract schema node.
 
-    Each input is expected to have a unique ID, and should
+    Each node is expected to have a unique ID, and should
     only use alphanumeric characters.
 
     The ID should be unique across all inputs that belong
     to a given form.
 
-    The description should describe what the input is about.
+    The description should describe what the node represents.
+    It is used during prompt generation.
     """
 
     __slots__ = "id", "description", "many"
@@ -79,7 +80,7 @@ class AbstractInput(abc.ABC):
         self,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         description: Optional[str] = None,
-    ) -> "AbstractInput":
+    ) -> "AbstractSchemaNode":
         """Wrapper around data-classes replace."""
         new_object = copy.copy(self)
         if id:
@@ -89,7 +90,7 @@ class AbstractInput(abc.ABC):
         return new_object
 
 
-class ExtractionInput(AbstractInput, abc.ABC):
+class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
     An extraction input can be associated with extraction examples.
@@ -119,7 +120,7 @@ class ExtractionInput(AbstractInput, abc.ABC):
         self.examples = examples
 
 
-class Number(ExtractionInput):
+class Number(ExtractionSchemaNode):
     """Built-in number input."""
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
@@ -127,7 +128,7 @@ class Number(ExtractionInput):
         return visitor.visit_number(self)
 
 
-class Text(ExtractionInput):
+class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
@@ -135,7 +136,7 @@ class Text(ExtractionInput):
         return visitor.visit_text(self)
 
 
-class Option(AbstractInput):
+class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
     __slots__ = ("examples",)
@@ -157,7 +158,7 @@ class Option(AbstractInput):
         return visitor.visit_option(self)
 
 
-class Selection(AbstractInput):
+class Selection(AbstractSchemaNode):
     """Built-in selection input.
 
     A selection input is composed of one or more options.
@@ -193,7 +194,7 @@ class Selection(AbstractInput):
         return visitor.visit_selection(self)
 
 
-class Object(AbstractInput):
+class Object(AbstractSchemaNode):
     """A definition for an object extraction.
 
     An extraction input can be associated with 2 different types of examples:
@@ -230,7 +231,7 @@ class Object(AbstractInput):
         id: str,
         description: str = "",
         many: bool = True,
-        attributes: Sequence[Union[ExtractionInput, Selection]],
+        attributes: Sequence[Union[ExtractionSchemaNode, Selection]],
         examples: Sequence[
             Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
         ] = tuple(),

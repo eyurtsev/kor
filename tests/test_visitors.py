@@ -1,7 +1,7 @@
 import pytest
 
 from kor.nodes import (
-    AbstractInput,
+    AbstractSchemaNode,
     AbstractVisitor,
     Number,
     Object,
@@ -14,11 +14,11 @@ from kor.nodes import (
 class TestVisitor(AbstractVisitor[str]):
     """Toy input for tests."""
 
-    def visit_default(self, node: AbstractInput) -> str:
+    def visit_default(self, node: AbstractSchemaNode) -> str:
         """Verify default is invoked"""
         return node.id
 
-    def visit(self, node: AbstractInput) -> str:
+    def visit(self, node: AbstractSchemaNode) -> str:
         """Convenience method."""
         return node.accept(self)
 
@@ -33,6 +33,6 @@ class TestVisitor(AbstractVisitor[str]):
         Option(id="uid"),
     ],
 )
-def test_visit_default_is_invoked(node: AbstractInput) -> None:
+def test_visit_default_is_invoked(node: AbstractSchemaNode) -> None:
     visitor = TestVisitor()
     assert visitor.visit(node) == "uid"

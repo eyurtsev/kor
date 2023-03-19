@@ -3,10 +3,10 @@ from typing import Any
 import pytest
 
 from kor.encoders import JSONEncoder, XMLEncoder
-from kor.nodes import AbstractInput, Number, Object, Option, Selection, Text
+from kor.nodes import AbstractSchemaNode, Number, Object, Option, Selection, Text
 
 
-def _get_schema() -> AbstractInput:
+def _get_schema() -> AbstractSchemaNode:
     """Make an abstract input node."""
     option = Option(id="option", description="Option", examples=["selection"])
     number = Number(id="number", description="Number", examples=[("number", "2")])

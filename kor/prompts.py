@@ -17,7 +17,7 @@ from pydantic import Extra
 from kor.encoders import Encoder
 from kor.encoders.encode import encode_examples
 from kor.examples import generate_examples
-from kor.nodes import AbstractInput
+from kor.nodes import AbstractSchemaNode
 from kor.type_descriptors import TypeDescriptor
 
 PromptFormat = Union[Literal["openai-chat"], Literal["string"]]
@@ -80,12 +80,14 @@ class ExtractionPromptValue(PromptValue):
         messages.append(HumanMessage(content=self.text))
         return messages
 
-    def generate_encoded_examples(self, node: AbstractInput) -> List[Tuple[str, str]]:
+    def generate_encoded_examples(
+        self, node: AbstractSchemaNode
+    ) -> List[Tuple[str, str]]:
         """Generate encoded examples."""
         examples = generate_examples(node)
         return encode_examples(examples, self.encoder)
 
-    def generate_instruction_segment(self, node: AbstractInput) -> str:
+    def generate_instruction_segment(self, node: AbstractSchemaNode) -> str:
         """Generate the instruction segment of the extraction."""
         type_description = self.type_descriptor.describe(node)
         instruction_segment = self.encoder.get_instruction_segment()
