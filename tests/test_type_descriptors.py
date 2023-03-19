@@ -1,7 +1,7 @@
 import pytest
 
 from kor import Number, Object, Text
-from kor.nodes import AbstractInput, Option, Selection
+from kor.nodes import AbstractSchemaNode, Option, Selection
 from kor.type_descriptors import BulletPointTypeGenerator, TypeScriptTypeGenerator
 
 OPTION = Option(id="option", description="Option Description", examples=["selection"])
@@ -63,7 +63,7 @@ def test_no_obvious_crashes() -> None:
         ),
     ],
 )
-def test_bullet_point_descriptions(node: AbstractInput, description: str) -> None:
+def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -> None:
     """Verify bullet point descriptions."""
     assert BulletPointTypeGenerator().describe(node) == description
 
@@ -102,6 +102,6 @@ def test_bullet_point_descriptions(node: AbstractInput, description: str) -> Non
         ),
     ],
 )
-def test_typescript_description(node: AbstractInput, description: str) -> None:
+def test_typescript_description(node: AbstractSchemaNode, description: str) -> None:
     """Verify typescript descriptions."""
     assert TypeScriptTypeGenerator().describe(node) == description

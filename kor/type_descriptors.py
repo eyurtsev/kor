@@ -9,7 +9,14 @@ of describing the schema.
 import abc
 from typing import List, TypeVar
 
-from kor.nodes import AbstractInput, AbstractVisitor, Number, Object, Selection, Text
+from kor.nodes import (
+    AbstractSchemaNode,
+    AbstractVisitor,
+    Number,
+    Object,
+    Selection,
+    Text,
+)
 
 T = TypeVar("T")
 
@@ -20,7 +27,7 @@ class TypeDescriptor(AbstractVisitor[T], abc.ABC):
     """Interface for type descriptors."""
 
     @abc.abstractmethod
-    def describe(self, node: AbstractInput) -> str:
+    def describe(self, node: AbstractSchemaNode) -> str:
         """Take in node and describe its type as a string."""
         raise NotImplementedError()
 
@@ -32,7 +39,7 @@ class BulletPointTypeGenerator(TypeDescriptor[None]):
         self.depth = 0
         self.code_lines: List[str] = []
 
-    def visit_default(self, node: "AbstractInput") -> None:
+    def visit_default(self, node: "AbstractSchemaNode") -> None:
         """Default action for a node."""
         space = "* " + self.depth * " "
         self.code_lines.append(
@@ -51,7 +58,7 @@ class BulletPointTypeGenerator(TypeDescriptor[None]):
         """Get the type."""
         return "\n".join(self.code_lines)
 
-    def describe(self, node: AbstractInput) -> str:
+    def describe(self, node: AbstractSchemaNode) -> str:
         """Describe the type of the given node."""
         self.code_lines = []
         node.accept(self)
@@ -65,7 +72,7 @@ class TypeScriptTypeGenerator(TypeDescriptor[None]):
         self.depth = 0
         self.code_lines: List[str] = []
 
-    def visit_default(self, node: "AbstractInput") -> None:
+    def visit_default(self, node: "AbstractSchemaNode") -> None:
         """Default action for a node."""
         space = self.depth * " "
 
@@ -106,7 +113,7 @@ class TypeScriptTypeGenerator(TypeDescriptor[None]):
         """Get the type."""
         return "\n".join(self.code_lines)
 
-    def describe(self, node: "AbstractInput") -> str:
+    def describe(self, node: "AbstractSchemaNode") -> str:
         """Describe the node type in TypeScript notation."""
         self.depth = 0
         self.code_lines = []
