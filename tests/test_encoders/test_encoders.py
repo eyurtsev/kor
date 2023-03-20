@@ -48,7 +48,7 @@ def _get_schema() -> AbstractSchemaNode:
 def test_xml_encoding(node_data: Any, expected: str) -> None:
     """Test XML encoding."""
     node = _get_schema()
-    xml_encoder = XMLEncoder(node)  # None
+    xml_encoder = XMLEncoder()
     assert xml_encoder.encode(node_data) == expected
 
 
@@ -66,5 +66,5 @@ def test_xml_encoding(node_data: Any, expected: str) -> None:
 def test_json_encoding(node_data: Any, expected: str) -> None:
     """Test JSON encoding. This is just json.dumps, so no need to test extensively."""
     node = _get_schema()
-    xml_encoder = JSONEncoder(node)  # None
+    xml_encoder = JSONEncoder()
     assert xml_encoder.encode(node_data) == expected

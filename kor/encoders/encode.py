@@ -1,4 +1,4 @@
-from typing import Any, List, Sequence, Tuple, Type, Union
+from typing import Any, List, Sequence, Tuple, Type, Union, Mapping
 
 from kor.nodes import AbstractSchemaNode
 
@@ -6,6 +6,13 @@ from .csv_data import CSVEncoder
 from .json_data import JSONEncoder
 from .typedefs import Encoder, SchemaBasedEncoder
 from .xml import XMLEncoder
+
+
+_ENCODER_REGISTRY: Mapping[str, Type[Encoder]] = {
+    "csv": CSVEncoder,
+    "xml": XMLEncoder,
+    "json": JSONEncoder,
+}
 
 # PUBLIC API
 
@@ -37,12 +44,12 @@ def initialize_encoder(
         An encoder instance
     """
     if isinstance(encoder_or_encoder_class, str):
-        encoder_or_encoder_class = {
-            "csv": CSVEncoder,
-            "xml": XMLEncoder,
-            "json": JSONEncoder,
-        }[encoder_or_encoder_class.lower()]
-
+        encoder_name = encoder_or_encoder_class.lower()
+        if encoder_name not in _ENCODER_REGISTRY:
+            raise ValueError(
+                f"Unknown encoder {encoder_name}. Use one of {sorted(_ENCODER_REGISTRY)}"
+            )
+        encoder_or_encoder_class = _ENCODER_REGISTRY[encoder_name]
     if isinstance(encoder_or_encoder_class, type(Encoder)):
         if issubclass(encoder_or_encoder_class, SchemaBasedEncoder):
             return encoder_or_encoder_class(schema, **kwargs)
