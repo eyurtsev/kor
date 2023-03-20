@@ -28,6 +28,6 @@ class Encoder(abc.ABC):
 
 
 class SchemaBasedEncoder(Encoder):
-    def __init__(self, node: AbstractSchemaNode) -> None:
+    def __init__(self, node: AbstractSchemaNode, **kwargs: Any) -> None:
         """Attach node to the encoder to allow the encoder to understand schema."""
         self.node = node

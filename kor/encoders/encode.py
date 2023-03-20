@@ -28,8 +28,8 @@ def initialize_encoder(
     """Flexible way to initialize an encoder, used only for top level API.
 
     Args:
-        encoder_or_encoder_class: Either an encoder instance, an encoder class or a string
-                                  representing the encoder class.
+        encoder_or_encoder_class: Either an encoder instance, an encoder class
+                                  or a string representing the encoder class.
         schema: The schema to use for the encoder.
         **kwargs: Keyword arguments to pass to the encoder class.
 
