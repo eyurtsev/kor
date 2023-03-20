@@ -22,7 +22,7 @@ def encode_examples(
 
 def initialize_encoder(
     encoder_or_encoder_class: Union[Type[Encoder], Encoder, str],
-    schema: Optional[AbstractSchemaNode] = None,
+    schema: AbstractSchemaNode,
     **kwargs: Any,
 ) -> Encoder:
     """Flexible way to initialize an encoder, used only for top level API.
@@ -30,6 +30,7 @@ def initialize_encoder(
     Args:
         encoder_or_encoder_class: Either an encoder instance, an encoder class or a string
                                   representing the encoder class.
+        schema: The schema to use for the encoder.
         **kwargs: Keyword arguments to pass to the encoder class.
 
     Returns:
@@ -46,10 +47,6 @@ def initialize_encoder(
         if issubclass(encoder_or_encoder_class, SchemaBasedEncoder):
             return encoder_or_encoder_class(schema, **kwargs)
         else:
-            if schema is not None:
-                raise ValueError(
-                    "Unable to use a schema with an encoder that does not use a schema"
-                )
             return encoder_or_encoder_class(**kwargs)
     elif isinstance(encoder_or_encoder_class, Encoder):
         if kwargs:

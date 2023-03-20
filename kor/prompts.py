@@ -1,18 +1,13 @@
 """Code to dynamically generate appropriate LLM prompts."""
 from __future__ import annotations
 
-from typing import Any, List, Literal, Tuple, Union
-
 from langchain import BasePromptTemplate
 from langchain.output_parsers import BaseOutputParser
 from langchain.schema import (
-    AIMessage,
-    BaseMessage,
-    HumanMessage,
-    PromptValue,
-    SystemMessage,
+    AIMessage, BaseMessage, HumanMessage, PromptValue, SystemMessage,
 )
 from pydantic import Extra
+from typing import Any, List, Literal, Tuple, Union
 
 from kor.encoders import Encoder
 from kor.encoders.encode import encode_examples
@@ -28,6 +23,7 @@ class ExtractionPromptValue(PromptValue):
 
     text: str
     encoder: Encoder
+    node: AbstractSchemaNode
     type_descriptor: TypeDescriptor
     prefix: str = (
         "Your goal is to extract structured information from the user's input that"
@@ -44,9 +40,8 @@ class ExtractionPromptValue(PromptValue):
 
     def to_string(self) -> str:
         """Format the template to a string."""
-        node = self.encoder.node
-        instruction_segment = self.generate_instruction_segment(node)
-        encoded_examples = self.generate_encoded_examples(node)
+        instruction_segment = self.generate_instruction_segment(self.node)
+        encoded_examples = self.generate_encoded_examples(self.node)
         formatted_examples: List[str] = []
 
         for in_example, output in encoded_examples:
@@ -63,11 +58,10 @@ class ExtractionPromptValue(PromptValue):
 
     def to_messages(self) -> List[BaseMessage]:
         """Format the template to chat messages."""
-        node = self.encoder.node
-        instruction_segment = self.generate_instruction_segment(node)
+        instruction_segment = self.generate_instruction_segment(self.node)
 
         messages: List[BaseMessage] = [SystemMessage(content=instruction_segment)]
-        encoded_examples = self.generate_encoded_examples(node)
+        encoded_examples = self.generate_encoded_examples(self.node)
 
         for example_input, example_output in encoded_examples:
             messages.extend(
@@ -98,6 +92,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     """Extraction prompt template."""
 
     encoder: Encoder
+    node: AbstractSchemaNode
     type_descriptor: TypeDescriptor
 
     class Config:
@@ -113,6 +108,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
         return ExtractionPromptValue(
             text=text,
             encoder=self.encoder,
+            node=self.node,
             type_descriptor=self.type_descriptor,
         )
 
@@ -155,12 +151,13 @@ class KorParser(BaseOutputParser):
 
 
 def create_langchain_prompt(
-    encoder: Encoder, type_descriptor: TypeDescriptor
+    schema: AbstractSchemaNode, encoder: Encoder, type_descriptor: TypeDescriptor
 ) -> ExtractionPromptTemplate:
     """Create a langchain style prompt with specified encoder."""
     return ExtractionPromptTemplate(
         input_variables=["text"],
         output_parser=KorParser(encoder=encoder),
         encoder=encoder,
+        node=schema,
         type_descriptor=type_descriptor,
     )
