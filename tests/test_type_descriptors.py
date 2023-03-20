@@ -2,7 +2,7 @@ import pytest
 
 from kor import Number, Object, Text
 from kor.nodes import AbstractSchemaNode, Option, Selection
-from kor.type_descriptors import BulletPointTypeGenerator, TypeScriptTypeGenerator
+from kor.type_descriptors import BulletPointDescriptor, TypeScriptDescriptor
 
 OPTION = Option(id="option", description="Option Description", examples=["selection"])
 NUMBER = Number(
@@ -32,7 +32,7 @@ def test_no_obvious_crashes() -> None:
     """
 
     nodes_to_check = [NUMBER, TEXT, SELECTION, OBJ]
-    descriptors = [TypeScriptTypeGenerator(), BulletPointTypeGenerator()]
+    descriptors = [TypeScriptDescriptor(), BulletPointDescriptor()]
 
     for node in nodes_to_check:
         # Verify that we can generate description
@@ -65,7 +65,7 @@ def test_no_obvious_crashes() -> None:
 )
 def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -> None:
     """Verify bullet point descriptions."""
-    assert BulletPointTypeGenerator().describe(node) == description
+    assert BulletPointDescriptor().describe(node) == description
 
 
 @pytest.mark.parametrize(
@@ -104,4 +104,4 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
 )
 def test_typescript_description(node: AbstractSchemaNode, description: str) -> None:
     """Verify typescript descriptions."""
-    assert TypeScriptTypeGenerator().describe(node) == description
+    assert TypeScriptDescriptor().describe(node) == description

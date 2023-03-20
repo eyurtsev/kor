@@ -2,20 +2,20 @@ from .encoders import CSVEncoder, JSONEncoder, XMLEncoder
 from .extraction import create_extraction_chain
 from .nodes import Number, Object, Text
 from .type_descriptors import (
-    BulletPointTypeGenerator,
+    BulletPointDescriptor,
     TypeDescriptor,
-    TypeScriptTypeGenerator,
+    TypeScriptDescriptor,
 )
 
 __all__ = (
-    "Text",
-    "Object",
-    "Number",
+    "BulletPointDescriptor",
     "create_extraction_chain",
-    "TypeDescriptor",
-    "TypeScriptTypeGenerator",
-    "BulletPointTypeGenerator",
     "CSVEncoder",
-    "XMLEncoder",
     "JSONEncoder",
+    "Number",
+    "Object",
+    "Text",
+    "TypeDescriptor",
+    "TypeScriptDescriptor",
+    "XMLEncoder",
 )
