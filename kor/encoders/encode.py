@@ -46,7 +46,8 @@ def initialize_encoder(
         encoder_name = encoder_or_encoder_class.lower()
         if encoder_name not in _ENCODER_REGISTRY:
             raise ValueError(
-                f"Unknown encoder {encoder_name}. Use one of {sorted(_ENCODER_REGISTRY)}"
+                f"Unknown encoder {encoder_name}. "
+                f"Use one of {sorted(_ENCODER_REGISTRY)}"
             )
         encoder_or_encoder_class = _ENCODER_REGISTRY[encoder_name]
     if isinstance(encoder_or_encoder_class, type(Encoder)):
