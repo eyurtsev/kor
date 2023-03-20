@@ -51,7 +51,7 @@ class CSVEncoder(SchemaBasedEncoder):
         if isinstance(node, Object):
             for attribute in node.attributes:
                 if attribute.many or isinstance(attribute, Object):
-                    raise AssertionError(
+                    raise NotImplementedError(
                         "CSV Encoder does not yet support embedded lists or "
                         f"objects (attribute `{attribute.id}`)."
                     )

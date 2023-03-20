@@ -11,7 +11,10 @@ class JSONEncoder(Encoder):
 
     def decode(self, text: str) -> Any:
         """Decode."""
-        return json.loads(text)
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError:
+            return {}
 
     def get_instruction_segment(self) -> str:
         """Format instruction"""

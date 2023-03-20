@@ -231,7 +231,9 @@ class Object(AbstractSchemaNode):
         id: str,
         description: str = "",
         many: bool = True,
-        attributes: Sequence[Union[ExtractionSchemaNode, Selection]],
+        # All attributes but Option are OK.
+        # May could clean up the type system to simplify this.
+        attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]],
         examples: Sequence[
             Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
         ] = tuple(),
