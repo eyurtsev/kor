@@ -7,7 +7,7 @@ Designing the code here to make it easier to experiment with different ways
 of describing the schema.
 """
 import abc
-from typing import List, TypeVar
+from typing import List, TypeVar, Union
 
 from kor.nodes import (
     AbstractSchemaNode,
@@ -129,3 +129,20 @@ class TypeScriptTypeGenerator(TypeDescriptor[None]):
             self.code_lines.append("}")
 
         return f"```TypeScript\n\n{self.get_type_description()}\n```\n"
+
+
+def initialize_type_descriptors(
+    type_descriptor: Union[TypeDescriptor, str]
+) -> TypeDescriptor:
+    """Initialize the type descriptors."""
+    if isinstance(type_descriptor, str):
+        if type_descriptor == "bullet_point":
+            return BulletPointTypeGenerator()
+        elif type_descriptor == "typescript":
+            return TypeScriptTypeGenerator()
+        else:
+            raise ValueError(
+                f"Unknown type descriptor: {type_descriptor}. Use one of: bullet_point,"
+                " typescript or else provide an instance of TypeDescriptor."
+            )
+    return type_descriptor

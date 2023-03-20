@@ -25,7 +25,7 @@ from kor.encoders.xml import XMLEncoder, _write_tag
 )
 def test_xml_decode(xml_string: str, output: Any) -> None:
     """Decode XML."""
-    encoder = XMLEncoder(None)  # type: ignore[arg-type]
+    encoder = XMLEncoder()
     assert encoder.decode(xml_string) == output
 
 
@@ -53,7 +53,7 @@ def test_xml_decode(xml_string: str, output: Any) -> None:
 )
 def test_xml_encode(obj: Any, output: Union[Type[Exception], str]) -> None:
     """Test XML encoding."""
-    encoder = XMLEncoder(None)  # type: ignore[arg-type]
+    encoder = XMLEncoder()
     if isinstance(output, str):
         assert encoder.encode(obj) == output
     else:

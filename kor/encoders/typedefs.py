@@ -13,10 +13,6 @@ from kor.nodes import AbstractSchemaNode
 
 
 class Encoder(abc.ABC):
-    def __init__(self, node: AbstractSchemaNode) -> None:
-        """Attach node to the encoder to allow the encoder to understand schema."""
-        self.node = node
-
     @abc.abstractmethod
     def encode(self, data: Any) -> str:
         """Encode the examples."""
@@ -29,3 +25,9 @@ class Encoder(abc.ABC):
     def get_instruction_segment(self) -> str:
         """Format instruction segment."""
         raise NotImplementedError()
+
+
+class SchemaBasedEncoder(Encoder):
+    def __init__(self, node: AbstractSchemaNode, **kwargs: Any) -> None:
+        """Attach node to the encoder to allow the encoder to understand schema."""
+        self.node = node
