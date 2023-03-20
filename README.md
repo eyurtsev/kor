@@ -16,7 +16,7 @@ output. You might even get results back.
 
 from kor.extraction import Extractor
 from kor.nodes import Object, Text
-from langchain import ChatOpenAI
+from langchain.chat_models import ChatOpenAI
 
 llm = ChatOpenAI(model_name="gpt-3.5-turbo", 
     temperature = 0,
