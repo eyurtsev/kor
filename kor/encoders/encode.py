@@ -1,6 +1,11 @@
-from typing import List, Sequence, Tuple
+from typing import Any, List, Optional, Sequence, Tuple, Type, Union
 
-from .typedefs import Encoder
+from kor.nodes import AbstractSchemaNode
+
+from .csv_data import CSVEncoder
+from .json_data import JSONEncoder
+from .typedefs import Encoder, SchemaBasedEncoder
+from .xml import XMLEncoder
 
 # PUBLIC API
 
@@ -13,3 +18,44 @@ def encode_examples(
         (input_example, encoder.encode(output_example))
         for input_example, output_example in examples
     ]
+
+
+def initialize_encoder(
+    encoder_or_encoder_class: Union[Type[Encoder], Encoder, str],
+    schema: Optional[AbstractSchemaNode] = None,
+    **kwargs: Any,
+) -> Encoder:
+    """Flexible way to initialize an encoder, used only for top level API.
+
+    Args:
+        encoder_or_encoder_class: Either an encoder instance, an encoder class or a string
+                                  representing the encoder class.
+        **kwargs: Keyword arguments to pass to the encoder class.
+
+    Returns:
+        An encoder instance
+    """
+    if isinstance(encoder_or_encoder_class, str):
+        encoder_or_encoder_class = {
+            "csv": CSVEncoder,
+            "xml": XMLEncoder,
+            "json": JSONEncoder,
+        }[encoder_or_encoder_class.lower()]
+
+    if isinstance(encoder_or_encoder_class, type(Encoder)):
+        if issubclass(encoder_or_encoder_class, SchemaBasedEncoder):
+            return encoder_or_encoder_class(schema, **kwargs)
+        else:
+            if schema is not None:
+                raise ValueError(
+                    "Unable to use a schema with an encoder that does not use a schema"
+                )
+            return encoder_or_encoder_class(**kwargs)
+    elif isinstance(encoder_or_encoder_class, Encoder):
+        if kwargs:
+            raise ValueError("Unable to use kwargs with an encoder instance")
+        return encoder_or_encoder_class
+    else:
+        raise TypeError(
+            f"Expected str, an encoder or encoder class, got {type(encoder_or_encoder_class)}"
+        )

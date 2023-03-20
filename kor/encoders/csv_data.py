@@ -10,7 +10,7 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-from kor.encoders.typedefs import Encoder
+from kor.encoders.typedefs import SchemaBasedEncoder
 from kor.nodes import AbstractSchemaNode, Object
 
 DELIMITER = "|"
@@ -39,7 +39,7 @@ def _get_table_content(string: str) -> Optional[str]:
 # PUBLIC API
 
 
-class CSVEncoder(Encoder):
+class CSVEncoder(SchemaBasedEncoder):
     """CSV encoder."""
 
     def __init__(self, node: AbstractSchemaNode) -> None:
