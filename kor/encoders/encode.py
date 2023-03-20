@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Sequence, Tuple, Type, Union
+from typing import Any, List, Sequence, Tuple, Type, Union
 
 from kor.nodes import AbstractSchemaNode
 

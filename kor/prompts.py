@@ -1,13 +1,18 @@
 """Code to dynamically generate appropriate LLM prompts."""
 from __future__ import annotations
 
+from typing import Any, List, Literal, Tuple, Union
+
 from langchain import BasePromptTemplate
 from langchain.output_parsers import BaseOutputParser
 from langchain.schema import (
-    AIMessage, BaseMessage, HumanMessage, PromptValue, SystemMessage,
+    AIMessage,
+    BaseMessage,
+    HumanMessage,
+    PromptValue,
+    SystemMessage,
 )
 from pydantic import Extra
-from typing import Any, List, Literal, Tuple, Union
 
 from kor.encoders import Encoder
 from kor.encoders.encode import encode_examples

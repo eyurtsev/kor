@@ -1,12 +1,12 @@
 from typing import Any, Type, Union
 
+from langchain.chains import LLMChain
+from langchain.schema import BaseLanguageModel
+
 from kor.encoders import Encoder, initialize_encoder
 from kor.nodes import AbstractSchemaNode
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
-from langchain.chains import LLMChain
-from langchain.schema import BaseLanguageModel
-
 
 # PUBLIC API
 
