@@ -1,4 +1,4 @@
-from typing import Any, List, Sequence, Tuple, Type, Union, Mapping
+from typing import Any, List, Mapping, Sequence, Tuple, Type, Union
 
 from kor.nodes import AbstractSchemaNode
 
@@ -6,7 +6,6 @@ from .csv_data import CSVEncoder
 from .json_data import JSONEncoder
 from .typedefs import Encoder, SchemaBasedEncoder
 from .xml import XMLEncoder
-
 
 _ENCODER_REGISTRY: Mapping[str, Type[Encoder]] = {
     "csv": CSVEncoder,
