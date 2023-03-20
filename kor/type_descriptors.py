@@ -142,7 +142,7 @@ def initialize_type_descriptors(
             return TypeScriptTypeGenerator()
         else:
             raise ValueError(
-                f"Unknown type descriptor: {type_descriptor}. Use one of: bullet_point, typescript "
-                f"or else provide an instance of TypeDescriptor."
+                f"Unknown type descriptor: {type_descriptor}. Use one of: bullet_point,"
+                " typescript or else provide an instance of TypeDescriptor."
             )
     return type_descriptor

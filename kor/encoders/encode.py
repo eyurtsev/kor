@@ -57,5 +57,6 @@ def initialize_encoder(
         return encoder_or_encoder_class
     else:
         raise TypeError(
-            f"Expected str, an encoder or encoder class, got {type(encoder_or_encoder_class)}"
+            "Expected str, an encoder or encoder class, got"
+            f" {type(encoder_or_encoder_class)}"
         )
