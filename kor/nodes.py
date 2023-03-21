@@ -59,7 +59,7 @@ class AbstractSchemaNode(abc.ABC):
 
     __slots__ = "id", "description", "many"
 
-    def __init__(self, *, id: str, description: str = "", many: bool = True) -> None:
+    def __init__(self, *, id: str, description: str = "", many: bool = False) -> None:
         self.id = id
         self.description = description
         self.many = many
@@ -112,7 +112,7 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
         *,
         id: str,
         description: str = "",
-        many: bool = True,
+        many: bool = False,
         examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
@@ -146,7 +146,7 @@ class Option(AbstractSchemaNode):
         *,
         id: str,
         description: str = "",
-        many: bool = True,
+        many: bool = False,
         examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
@@ -180,7 +180,7 @@ class Selection(AbstractSchemaNode):
         *,
         id: str,
         description: str = "",
-        many: bool = True,
+        many: bool = False,
         options: Sequence[Option],
         null_examples: Sequence[str] = tuple(),
     ) -> None:
@@ -230,7 +230,7 @@ class Object(AbstractSchemaNode):
         *,
         id: str,
         description: str = "",
-        many: bool = True,
+        many: bool = False,
         # All attributes but Option are OK.
         # May could clean up the type system to simplify this.
         attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]],

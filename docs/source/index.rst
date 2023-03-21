@@ -18,9 +18,8 @@ Translate user input into structured JSON to use for an API **request**:
 
 .. code-block:: python
 
-  from langchain import ChatOpenAI
-  from kor.extraction import Extractor
-  from kor.nodes import Object, Text
+  from langchain.chat_models import ChatOpenAI
+  from kor import create_extraction_chain, Object, Text, Number
 
   llm = ChatOpenAI(model_name="gpt-3.5-turbo", 
       temperature = 0,
@@ -30,8 +29,6 @@ Translate user input into structured JSON to use for an API **request**:
       top_p = 1.0,
   )
 
-  model = Extractor(llm)
-
   schema = Object(
       id="player",
       description=(
@@ -39,12 +36,20 @@ Translate user input into structured JSON to use for an API **request**:
           " music by a particular artist."
       ),
       attributes=[
-          Text(id="song", description="User wants to play this song", examples=[]),
-          Text(id="album", description="User wants to play this album", examples=[]),
+          Text(id="song", description="User wants to play this song", examples=[],
+                          many=True
+
+              ),
+          Text(id="album", description="User wants to play this album", examples=[],
+                           many=True
+
+              
+              ),
           Text(
               id="artist",
               description="Music by the given artist",
               examples=[("Songs by paul simon", "paul simon")],
+              many=True
           ),
           Text(
               id="action",
@@ -52,19 +57,22 @@ Translate user input into structured JSON to use for an API **request**:
               examples=[
                   ("Please stop the music", "stop"),
                   ("play something", "play"),
+                  ("play a song", "play"),
                   ("next song", "next"),
               ],
           ),
       ],
+      many=False,
   )
 
 .. code-block:: python
 
-  model("can you play all the songs from paul simon and led zepplin", schema)
+  chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
+  chain.predict_and_parse(text="play songs by paul simon and led zeppelin and the doors")['data']
 
 .. code-block:: python
 
-  {'player': [{'artist': ['paul simon', 'led zepplin']}]}
+  {'player': {'artist': ['paul simon', 'led zeppelin', 'the doors']}}
 
 
 .. toctree::
@@ -72,7 +80,8 @@ Translate user input into structured JSON to use for an API **request**:
    :caption: Contents:
 
    tutorial
-   prompt_examples 
    objects
+   nested_objects
+   untyped_objects
    apis
 

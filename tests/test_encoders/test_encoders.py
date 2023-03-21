@@ -64,5 +64,18 @@ def test_xml_encoding(node_data: Any, expected: str) -> None:
 )
 def test_json_encoding(node_data: Any, expected: str) -> None:
     """Test JSON encoding. This is just json.dumps, so no need to test extensively."""
-    xml_encoder = JSONEncoder()
-    assert xml_encoder.encode(node_data) == expected
+    json_encoder = JSONEncoder(use_tags=False)
+    assert json_encoder.encode(node_data) == expected
+    assert json_encoder.decode(expected) == node_data
+
+
+def test_json_encoding_with_tags() -> None:
+    """Test JSON encoder with content wrapped in tags."""
+    json_encoder = JSONEncoder(use_tags=True)
+    assert (
+        json_encoder.encode({"object": [{"a": 1}]})
+        == '<json>{"object": [{"a": 1}]}</json>'
+    )
+    assert json_encoder.decode('<json>{"object": [{"a": 1}]}</json>') == {
+        "object": [{"a": 1}]
+    }
