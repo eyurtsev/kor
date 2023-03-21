@@ -15,7 +15,7 @@ def create_extraction_chain(
     llm: BaseLanguageModel,
     node: AbstractSchemaNode,
     *,
-    encoder_or_encoder_class: Union[Type[Encoder], Encoder, str] = "json",
+    encoder_or_encoder_class: Union[Type[Encoder], Encoder, str] = "csv",
     type_descriptor: Union[TypeDescriptor, str] = "typescript",
     **encoder_kwargs: Any,
 ) -> LLMChain:

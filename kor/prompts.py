@@ -4,7 +4,6 @@ from __future__ import annotations
 from typing import Any, List, Literal, Tuple, Union
 
 from langchain import BasePromptTemplate
-from langchain.output_parsers import BaseOutputParser
 from langchain.schema import (
     AIMessage,
     BaseMessage,
@@ -16,6 +15,7 @@ from pydantic import Extra
 
 from kor.encoders import Encoder
 from kor.encoders.encode import encode_examples
+from kor.encoders.parser import KorParser
 from kor.examples import generate_examples
 from kor.nodes import AbstractSchemaNode
 from kor.type_descriptors import TypeDescriptor
@@ -125,31 +125,6 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     def _prompt_type(self) -> str:
         """Prompt type."""
         return "ExtractionPromptTemplate"
-
-
-class KorParser(BaseOutputParser):
-    """A Kor langchain parser integration.
-
-    This parser can use any of Kor's encoders to support encoding/decoding
-    different data formats.
-    """
-
-    encoder: Encoder
-
-    @property
-    def _type(self) -> str:
-        """Declare the type property."""
-        return "KorEncoder"
-
-    def parse(self, text: str) -> Any:
-        """Parse the text."""
-        return self.encoder.decode(text)
-
-    class Config:
-        """Configuration for this pydantic object."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
 
 
 # PUBLIC API
