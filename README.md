@@ -9,8 +9,79 @@ This is a half-baked prototype that "helps" you extract structured data from tex
 Specify the schema of what should be extracted and provide some examples.
 
 Kor will generate a prompt, send it to the specified LLM and parse out the
-output. You might even get results back.
+output. 
 
+You might even get results back.
+
+## Version 0.4.0
+
+Major changes since version 0.3.0 including breaking API changes.
+
+New API creates a langchain chain to help with usage within the langchain
+framework.
+
+```python
+
+  from langchain.chat_models import ChatOpenAI
+  from kor import create_extraction_chain, Object, Text, Number
+
+  llm = ChatOpenAI(
+      model_name="gpt-3.5-turbo",
+      temperature=0,
+      max_tokens=2000,
+      frequency_penalty=0,
+      presence_penalty=0,
+      top_p=1.0,
+  )
+
+  schema = Object(
+    id="player",
+    description=(
+        "User is controling a music player to select songs, pause or start them or play"
+        " music by a particular artist."
+    ),
+    attributes=[
+        Text(
+            id="song",
+            description="User wants to play this song",
+            examples=[],
+            many=True,
+        ),
+        Text(
+            id="album",
+            description="User wants to play this album",
+            examples=[],
+            many=True,
+        ),
+        Text(
+            id="artist",
+            description="Music by the given artist",
+            examples=[("Songs by paul simon", "paul simon")],
+            many=True,
+        ),
+        Text(
+            id="action",
+            description="Action to take one of: `play`, `stop`, `next`, `previous`.",
+            examples=[
+                ("Please stop the music", "stop"),
+                ("play something", "play"),
+                ("play a song", "play"),
+                ("next song", "next"),
+            ],
+        ),
+    ],
+    many=False,
+)
+
+  chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
+  chain.predict_and_parse(text="play songs by paul simon and led zeppelin and the doors")['data']
+```
+
+```python
+  {'player': {'artist': ['paul simon', 'led zeppelin', 'the doors']}}
+```
+
+## Version 0.3.0
 
 ```python
 
@@ -77,27 +148,27 @@ pip install kor
 
 Ideas of some things that could be done with Kor.
 
-* Extract data from text: Define what information should be extracted from a segment
-* Convert an HTML form into a Kor form and allow the user to fill it out using natural language. (Convert HTML forms -> API? Or not.)
-* Add some skills to an AI assistant
+* Extract data from text that matches an extraction schema.
+* Power an AI assistant with skills by precisely understanding a user request.
+* Provide natural language access to an existing API.
 
 ## 🚧 Prototype
 
-This a prototype and the API is not expected to be stable as it hasn't been
-tested against real world examples.
+Prototype! So the API is not expected to be stable!
 
-##  ✨ Where does Kor excel?  🌟 
+##  ✨ What does Kor excel at?  🌟 
 
-* Making mistakes! Plenty of them. Quality varies with the underlying language model, the quality of the prompt, and the number of bugs in the adapter code.
+* Making mistakes! Plenty of them!
 * Slow! It uses large prompts with examples, and works best with the larger slower LLMs.
 * Crashing for long enough pieces of text! Context length window could become
   limiting when working with large forms or long text inputs.
-* Incorrectly grouping results (see documentation section on objects).
+
+The expectation is that as LLMs improve some of these issues will be mitigated.
 
 ## Limtations
 
-This package has no limitations; however, look at the section directly above as
-well as at compatibility.
+No limitations whatsoever. Do take a look at the section directly above as well
+as at the section about compatibility.
 
 ## Potential Changes
 
