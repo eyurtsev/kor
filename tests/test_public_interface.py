@@ -9,7 +9,6 @@ def test_kor__all__() -> None:
     """
     assert sorted(__all__) == [
         "BulletPointDescriptor",
-        "create_extraction_chain",
         "CSVEncoder",
         "JSONEncoder",
         "Number",
@@ -18,4 +17,5 @@ def test_kor__all__() -> None:
         "TypeDescriptor",
         "TypeScriptDescriptor",
         "XMLEncoder",
+        "create_extraction_chain",
     ]
