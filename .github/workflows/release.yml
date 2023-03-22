@@ -15,6 +15,9 @@ env:
 
 jobs:
   if_release:
+    if: |
+        ${{ github.event.pull_request.merged == true }}
+        && ${{ contains(github.event.pull_request.labels.*.name, 'release') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,18 +34,8 @@ jobs:
         id: check-version
         run: |
           echo version=$(poetry version --short) >> $GITHUB_OUTPUT
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/*"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: false
-          generateReleaseNotes: true
-          tag: v${{ steps.check-version.outputs.version }}
-          commit: main
       - name: Publish to PyPI
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
         run: | 
-          echo "Publishing"
-          # poetry publish
+          poetry publish
