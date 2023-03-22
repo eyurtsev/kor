@@ -88,26 +88,36 @@ class TypeScriptTypeGenerator(TypeDescriptor[None]):
             raise NotImplementedError()
 
         if node.many:
-            many_formatter = "[]"
-        else:
-            many_formatter = ""
+            finalized_type = "Array<" + finalized_type + ">"
 
         self.code_lines.append(
-            f"{space}{node.id}: {finalized_type}{many_formatter} // {node.description}"
+            f"{space}{node.id}: {finalized_type} // {node.description}"
         )
 
     def visit_object(self, node: Object) -> None:
         """Visit an object node."""
         space = self.depth * " "
 
-        self.code_lines.append(f"{space}{node.id}: {{ // {node.description}")
+        if node.many:
+            many_formatter = "Array<"
+        else:
+            many_formatter = ""
+
+        self.code_lines.append(
+            f"{space}{node.id}: {many_formatter}{{ // {node.description}"
+        )
 
         self.depth += 1
         for child in node.attributes:
             child.accept(self)
         self.depth -= 1
 
-        self.code_lines.append(f"{space}}}")
+        if node.many:
+            many_formatter = ">"
+        else:
+            many_formatter = ""
+
+        self.code_lines.append(f"{space}}}{many_formatter}")
 
     def get_type_description(self) -> str:
         """Get the type."""

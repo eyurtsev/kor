@@ -73,16 +73,16 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
     [
         (
             NUMBER,
-            "```TypeScript\n\n{\n number: number[] // Number Description\n}\n```\n",
+            "```TypeScript\n\n{\n number: number // Number Description\n}\n```\n",
         ),
-        (TEXT, "```TypeScript\n\n{\n text: string[] // Text Description\n}\n```\n"),
+        (TEXT, "```TypeScript\n\n{\n text: string // Text Description\n}\n```\n"),
         (
             SELECTION,
             (
                 "```TypeScript\n"
                 "\n"
                 "{\n"
-                ' selection: ("option")[] // Selection Description\n'
+                ' selection: ("option") // Selection Description\n'
                 "}\n"
                 "```\n"
             ),
@@ -93,9 +93,9 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
                 "```TypeScript\n"
                 "\n"
                 "object: { // Object Description\n"
-                " number: number[] // Number Description\n"
-                " text: string[] // Text Description\n"
-                ' selection: ("option")[] // Selection Description\n'
+                " number: number // Number Description\n"
+                " text: string // Text Description\n"
+                ' selection: ("option") // Selection Description\n'
                 "}\n"
                 "```\n"
             ),
