@@ -7,15 +7,15 @@ def test_kor__all__() -> None:
 
     Upon changes this may help serve as a reminder to correctly bump the semver.
     """
-    assert __all__ == (
-        "Text",
-        "Object",
-        "Number",
-        "create_extraction_chain",
-        "TypeDescriptor",
-        "TypeScriptTypeGenerator",
-        "BulletPointTypeGenerator",
+    assert sorted(__all__) == [
+        "BulletPointDescriptor",
         "CSVEncoder",
-        "XMLEncoder",
         "JSONEncoder",
-    )
+        "Number",
+        "Object",
+        "Text",
+        "TypeDescriptor",
+        "TypeScriptDescriptor",
+        "XMLEncoder",
+        "create_extraction_chain",
+    ]

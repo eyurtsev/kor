@@ -32,7 +32,7 @@ class TypeDescriptor(AbstractVisitor[T], abc.ABC):
         raise NotImplementedError()
 
 
-class BulletPointTypeGenerator(TypeDescriptor[None]):
+class BulletPointDescriptor(TypeDescriptor[None]):
     """Mutable visitor used to generate a bullet point style schema description."""
 
     def __init__(self) -> None:
@@ -65,7 +65,7 @@ class BulletPointTypeGenerator(TypeDescriptor[None]):
         return self.get_type_description()
 
 
-class TypeScriptTypeGenerator(TypeDescriptor[None]):
+class TypeScriptDescriptor(TypeDescriptor[None]):
     """A mutable visitor (not thread safe) that helps generate TypeScript schema."""
 
     def __init__(self) -> None:
@@ -147,9 +147,9 @@ def initialize_type_descriptors(
     """Initialize the type descriptors."""
     if isinstance(type_descriptor, str):
         if type_descriptor == "bullet_point":
-            return BulletPointTypeGenerator()
+            return BulletPointDescriptor()
         elif type_descriptor == "typescript":
-            return TypeScriptTypeGenerator()
+            return TypeScriptDescriptor()
         else:
             raise ValueError(
                 f"Unknown type descriptor: {type_descriptor}. Use one of: bullet_point,"
