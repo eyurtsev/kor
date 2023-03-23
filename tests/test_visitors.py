@@ -23,7 +23,7 @@ class TestVisitor(AbstractVisitor[str]):
         return node.accept(self)
 
 
-OPTION = (Option(id="uid"),)
+OPTION = Option(id="uid")
 
 
 @pytest.mark.parametrize(
