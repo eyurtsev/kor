@@ -150,6 +150,10 @@ class Option(AbstractSchemaNode):
         examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
+        if many:
+            # TODO: Fix the type hierarchy so that `many` isn't provided to option.
+            raise ValueError("Option inputs cannot be many.")
+
         super().__init__(id=id, description=description, many=many)
         self.examples = examples
 
@@ -186,6 +190,9 @@ class Selection(AbstractSchemaNode):
     ) -> None:
         """Initialize for extraction input."""
         super().__init__(id=id, description=description, many=many)
+
+        if not options:
+            raise ValueError("Selection inputs must have at least one option.")
         self.options = options
         self.null_examples = null_examples
 
