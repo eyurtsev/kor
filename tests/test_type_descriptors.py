@@ -4,7 +4,9 @@ from kor import Number, Object, Text
 from kor.nodes import AbstractSchemaNode, Option, Selection
 from kor.type_descriptors import BulletPointDescriptor, TypeScriptDescriptor
 
-OPTION = Option(id="option", description="Option Description", examples=["selection"])
+OPTION_1 = Option(id="blue", description="Option Description", examples=["blue"])
+OPTION_2 = Option(id="red", description="Red color", examples=["red"])
+
 NUMBER = Number(
     id="number", description="Number Description", examples=[("number", "2")]
 )
@@ -13,8 +15,16 @@ TEXT = Text(id="text", description="Text Description", examples=[("text", "3")])
 SELECTION = Selection(
     id="selection",
     description="Selection Description",
-    options=[OPTION],
+    options=[OPTION_1],
     null_examples=["foo"],
+)
+
+SELECTION_2 = Selection(
+    id="selection",
+    description="Selection Description",
+    options=[OPTION_1, OPTION_2],
+    null_examples=["foo"],
+    many=True,
 )
 
 OBJ = Object(
@@ -52,6 +62,7 @@ def test_no_obvious_crashes() -> None:
             "* text: Text # Text Description",
         ),
         (SELECTION, "* selection: Selection # Selection Description"),
+        (SELECTION_2, "* selection: Selection # Selection Description"),
         (
             OBJ,
             (
@@ -82,7 +93,18 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
                 "```TypeScript\n"
                 "\n"
                 "{\n"
-                ' selection: ("option") // Selection Description\n'
+                ' selection: "blue" // Selection Description\n'
+                "}\n"
+                "```\n"
+            ),
+        ),
+        (
+            SELECTION_2,
+            (
+                "```TypeScript\n"
+                "\n"
+                "{\n"
+                ' selection: Array<"blue" | "red"> // Selection Description\n'
                 "}\n"
                 "```\n"
             ),
@@ -95,7 +117,7 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
                 "object: { // Object Description\n"
                 " number: number // Number Description\n"
                 " text: string // Text Description\n"
-                ' selection: ("option") // Selection Description\n'
+                ' selection: "blue" // Selection Description\n'
                 "}\n"
                 "```\n"
             ),

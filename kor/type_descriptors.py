@@ -77,9 +77,7 @@ class TypeScriptDescriptor(TypeDescriptor[None]):
         space = self.depth * " "
 
         if isinstance(node, Selection):
-            finalized_type = (
-                "(" + " | ".join('"' + s.id + '"' for s in node.options) + ")"
-            )
+            finalized_type = " | ".join('"' + s.id + '"' for s in node.options)
         elif isinstance(node, Text):
             finalized_type = "string"
         elif isinstance(node, Number):

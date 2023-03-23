@@ -13,6 +13,8 @@ def test_kor__all__() -> None:
         "JSONEncoder",
         "Number",
         "Object",
+        "Option",
+        "Selection",
         "Text",
         "TypeDescriptor",
         "TypeScriptDescriptor",

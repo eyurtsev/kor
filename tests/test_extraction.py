@@ -29,16 +29,9 @@ class ToyChatModel(BaseChatModel):
     def _generate(
         self, messages: List[BaseMessage], stop: Optional[List[str]] = None
     ) -> ChatResult:
-        output_str = self._call(messages, stop=stop)
-        message = AIMessage(content=output_str)
+        message = AIMessage(content=self.response)
         generation = ChatGeneration(message=message)
         return ChatResult(generations=[generation])
-
-    def _call(
-        self, messages: List[BaseMessage], stop: Optional[List[str]] = None
-    ) -> str:
-        """Get the response"""
-        return self.response
 
     def _agenerate(
         self, messages: List[BaseMessage], stop: Optional[List[str]] = None
