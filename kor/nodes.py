@@ -1,8 +1,21 @@
 """Definitions of input elements."""
+import operator
+
 import abc
 import copy
 import re
-from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Union
+import inspect
+from typing import (
+    Any,
+    Generic,
+    Mapping,
+    Optional,
+    Sequence,
+    Tuple,
+    TypeVar,
+    Union,
+    List,
+)
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -14,6 +27,15 @@ from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Un
 VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
 T = TypeVar("T")
+
+
+def _get_all_slots(cls) -> List[str]:
+    """Get a list of all slots."""
+    slots = []
+    for cls in inspect.getmro(type(cls)):
+        if hasattr(cls, "__slots__"):
+            slots += cls.__slots__
+    return sorted(slots)
 
 
 class AbstractVisitor(Generic[T], abc.ABC):
@@ -88,6 +110,25 @@ class AbstractSchemaNode(abc.ABC):
         if description:
             new_object.description = description
         return new_object
+
+    def __repr__(self) -> str:
+        """Get representation of the node."""
+        return f"{type(self).__name__}({self.id})"
+
+    def __eq__(self: Any, other: Any) -> bool:
+        """Equality check"""
+        if not isinstance(self, AbstractSchemaNode):
+            raise AssertionError(f"Cannot compare {type(self)} with {type(other)}")
+        if type(self) != type(other):
+            raise NotImplementedError(
+                f'Cannot compare "{type(self)}" {self.id} with "{type(other)}"'
+            )
+
+        if _get_all_slots(self) == _get_all_slots(other):
+            attr_getters = [operator.attrgetter(attr) for attr in self.__slots__]
+            return all(getter(self) == getter(other) for getter in attr_getters)
+
+        return False
 
 
 class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):

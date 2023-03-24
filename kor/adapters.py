@@ -6,10 +6,7 @@ from .nodes import Object, Text, Number
 from .validators import Validator, PydanticValidator
 
 
-# PUBLIC API
-
-
-def translate_pydantic_to_kor(
+def _translate_pydantic_to_kor(
     model_class: Type[BaseModel],
     *,
     name: Optional[str] = None,
@@ -21,6 +18,7 @@ def translate_pydantic_to_kor(
 
     Args:
         model_class: The pydantic model class to convert.
+        name: The name of the model.
         description: The description of the model.
         examples: A sequence of examples of the model.
         many: Whether the model is a list of models.
@@ -43,7 +41,7 @@ def translate_pydantic_to_kor(
         type_ = field.type_
         field_many = get_origin(field.outer_type_) is list
         if issubclass(type_, BaseModel):
-            attribute = translate_pydantic_to_kor(
+            attribute = _translate_pydantic_to_kor(
                 type_,
                 description=field_description,
                 examples=field_examples,
@@ -51,7 +49,7 @@ def translate_pydantic_to_kor(
                 name=field_name,
             )
         else:
-            if isinstance(type_, (int, float)):
+            if type_ in {int, float}:
                 node_class = Number
             else:
                 node_class = Text
@@ -74,19 +72,30 @@ def translate_pydantic_to_kor(
     )
 
 
-def foo(
+# PUBLIC API
+
+
+def from_pydantic(
     model_class: Type[BaseModel],
     *,
     description: str = "",
     examples: Sequence[Tuple[str, Dict[str, Any]]] = tuple(),
-    many: bool = False,
 ) -> Tuple[Object, Validator]:
-    """Convert a pydantic model to Kor internal representation."""
-    validator = PydanticValidator(model_class, many)
-    schema = translate_pydantic_to_kor(
+    """Convert a pydantic model to Kor internal representation.
+
+    Args:
+        model_class: The pydantic model class to convert.
+        description: The description of the model.
+        examples: A sequence of examples to be used for the model.
+
+    Returns:
+        A tuple of the Kor internal representation of the model and a validator.
+    """
+    validator = PydanticValidator(model_class)
+    schema = _translate_pydantic_to_kor(
         model_class,
         description=description,
         examples=examples,
-        many=many,
+        many=False,
     )
     return schema, validator

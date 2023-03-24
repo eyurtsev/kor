@@ -7,7 +7,11 @@ from kor.encoders import Encoder
 from kor.encoders.exceptions import ParseError
 from kor.nodes import Object
 from kor.validators import Validator
-from langchain.schema import BaseOutputParser
+
+try:
+    from langchain.output_parsers.base import BaseOutputParser
+except ImportError:
+    from langchain.schema import BaseOutputParser  # type: ignore
 
 
 class KorParser(BaseOutputParser):
@@ -41,7 +45,7 @@ class KorParser(BaseOutputParser):
         raw_data = data[key_id]
 
         if self.validator:
-            validated_data = self.validator.validate_and_format(raw_data)
+            validated_data = self.validator.clean_data(raw_data)
         else:
             validated_data = {}
 

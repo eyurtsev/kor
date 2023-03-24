@@ -14,7 +14,7 @@ from langchain.schema import BaseLanguageModel
 
 def create_extraction_chain(
     llm: BaseLanguageModel,
-    schema: AbstractSchemaNode,
+    node: AbstractSchemaNode,
     *,
     encoder_or_encoder_class: Union[Type[Encoder], Encoder, str] = "csv",
     type_descriptor: Union[TypeDescriptor, str] = "typescript",
@@ -25,7 +25,7 @@ def create_extraction_chain(
 
     Args:
         llm: The language model used for extraction
-        schema: the schematic description of what to extract from text
+        node: the schematic description of what to extract from text
         encoder_or_encoder_class: Either an encoder instance, an encoder class
                                   or a string representing the encoder class
         type_descriptor: The type descriptor to use. This can be either a TypeDescriptor
@@ -36,11 +36,11 @@ def create_extraction_chain(
     Returns:
         A langchain chain
     """
-    encoder = initialize_encoder(encoder_or_encoder_class, schema, **encoder_kwargs)
+    encoder = initialize_encoder(encoder_or_encoder_class, node, **encoder_kwargs)
     type_descriptor_to_use = initialize_type_descriptors(type_descriptor)
     return LLMChain(
         llm=llm,
         prompt=create_langchain_prompt(
-            schema, encoder, type_descriptor_to_use, validator
+            node, encoder, type_descriptor_to_use, validator
         ),
     )

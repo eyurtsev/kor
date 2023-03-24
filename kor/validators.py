@@ -1,38 +1,45 @@
 """Define validator interface and provide built-in validators for common-use cases."""
 import abc
-from typing import Any, Type, Union, List, Mapping
 from pydantic import BaseModel
+from typing import Any, Type, Union, List, Mapping
 
 
 class Validator(abc.ABC):
-    def is_valid(self, result) -> bool:
-        """Check if the result is valid."""
-        raise NotImplementedError()
+    @abc.abstractmethod
+    def clean_data(
+        self, data: Union[List[Mapping[str, Any]], Mapping[str, Any]]
+    ) -> Any:
+        """Validate the data and return a cleaned version of it.
 
-    def validate_and_format(self, result) -> Any:
-        """Validate and format the result."""
+        Args:
+            data: the parsed data
+
+        Returns:
+            a cleaned version of the data, the type depends on the validator
+        """
         raise NotImplementedError()
 
 
 class PydanticValidator(Validator):
-    def __init__(self, model_class: Type[BaseModel], many: bool) -> None:
-        """Create a validator for a pydantic model."""
+    """Use a pydantic model for validation."""
+
+    def __init__(self, model_class: Type[BaseModel]) -> None:
+        """Create a validator for a pydantic model.
+
+        Args:
+            model_class: The pydantic model class to use for validation
+        """
         self.model_class = model_class
-        self.many = many
 
-    def is_valid(self, result) -> bool:
-        """Check if the result is valid."""
-        try:
-            self.model_class.validate(result)
-            return True
-        except Exception:
-            return False
+    def clean_data(self, data: Mapping[str, Any]) -> Union[List[BaseModel], BaseModel]:
+        """Clean the data using the pydantic model.
 
-    def validate_and_format(
-        self, data: Union[List[Mapping[str, Any]], Mapping[str, Any]]
-    ) -> Any:
-        """Validate and format the result."""
-        if self.many:
-            return [self.model_class(**item) for item in data]
-        else:
-            return self.model_class(**data)
+        Args:
+            data: the parsed data
+
+        Returns:
+            cleaned data instantiated as the corresponding pydantic model
+        """
+        if not isinstance(data, dict):
+            raise TypeError(f"Expected a dictionary got {type(data)}")
+        return self.model_class(**data)

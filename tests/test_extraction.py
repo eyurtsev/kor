@@ -63,7 +63,7 @@ def test_create_extraction_chain(options: Mapping[str, Any]) -> None:
     """Create an extraction chain."""
     chat_model = ToyChatModel(response="hello")
 
-    for schema in [SIMPLE_TEXT_SCHEMA, SIMPLE_OBJECT_SCHEMA]:
+    for schema in [SIMPLE_OBJECT_SCHEMA]:
         chain = create_extraction_chain(chat_model, schema, **options)
         assert isinstance(chain, LLMChain)
         # Try to run through predict and parse
@@ -73,12 +73,7 @@ def test_create_extraction_chain(options: Mapping[str, Any]) -> None:
 @pytest.mark.parametrize(
     "options",
     [
-        {"encoder_or_encoder_class": CSVEncoder, "node": SIMPLE_TEXT_SCHEMA},
         {"encoder_or_encoder_class": CSVEncoder, "node": SIMPLE_OBJECT_SCHEMA},
-        {
-            "encoder_or_encoder_class": CSVEncoder(SIMPLE_TEXT_SCHEMA),
-            "node": SIMPLE_TEXT_SCHEMA,
-        },
         {
             "encoder_or_encoder_class": CSVEncoder(SIMPLE_OBJECT_SCHEMA),
             "node": SIMPLE_OBJECT_SCHEMA,
