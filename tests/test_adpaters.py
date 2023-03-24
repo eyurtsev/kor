@@ -1,4 +1,5 @@
 import pydantic
+from pydantic.fields import Field
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
 from kor.nodes import Number, Object, Text, Optional, List
@@ -7,22 +8,41 @@ from kor.nodes import Number, Object, Text, Optional, List
 def test_convert_pydantic() -> None:
     """Convert a pydantic object to a dictionary."""
 
+    class Child(pydantic.BaseModel):
+        """Child pydantic object."""
+
+        a: str
+
     class Toy(pydantic.BaseModel):
         """Toy pydantic object."""
 
-        a: str
-        b: int
-        c: Optional[int] = None
-        d: List[int] = []
+        a: str = Field(description="hello")
+        b: int = Field(examples=[("b is 1", "1")])
+        c: float
+        d: bool
+        e: Optional[int] = None
+        f: List[int] = []
+        g: Optional[List[str]] = None
+        h: List[Child] = Field(default=[], examples=[("h.a 1", {"a": "1"})])
 
     node = _translate_pydantic_to_kor(Toy)
     assert node == Object(
         id="toy",
         attributes=[
-            Text(id="a"),
-            Number(id="b"),
+            Text(id="a", description="hello"),
+            Number(id="b", examples=[("b is 1", "1")]),
             Number(id="c"),
-            Number(id="d", many=True),
+            Text(id="d"),  # We do not support boolean types yet.
+            # We don't have optional yet internally, so we don't check the optional setting.
+            Number(id="e"),  # We don't have a boolean type yet.
+            Number(id="f", many=True),
+            Text(id="g", many=True),
+            Object(
+                id="h",
+                many=True,
+                attributes=[Text(id="a")],
+                examples=[("h.a 1", {"a": "1"})],
+            ),
         ],
     )
 

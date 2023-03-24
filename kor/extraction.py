@@ -1,3 +1,5 @@
+from langchain.chains import LLMChain
+from langchain.schema import BaseLanguageModel
 from typing import Any, Type, Union, Optional
 
 from kor.encoders import Encoder, initialize_encoder
@@ -5,8 +7,6 @@ from kor.nodes import AbstractSchemaNode
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
-from langchain.chains import LLMChain
-from langchain.schema import BaseLanguageModel
 
 
 # PUBLIC API
