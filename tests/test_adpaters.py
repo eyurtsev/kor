@@ -33,7 +33,8 @@ def test_convert_pydantic() -> None:
             Number(id="b", examples=[("b is 1", "1")]),
             Number(id="c"),
             Text(id="d"),  # We do not support boolean types yet.
-            # We don't have optional yet internally, so we don't check the optional setting.
+            # We don't have optional yet internally, so we don't check the
+            # optional setting.
             Number(id="e"),  # We don't have a boolean type yet.
             Number(id="f", many=True),
             Text(id="g", many=True),
