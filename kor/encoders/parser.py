@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from pydantic import Extra
 from typing import Any, Dict, Optional
+
+from pydantic import Extra
 
 from kor.encoders import Encoder
 from kor.encoders.exceptions import ParseError

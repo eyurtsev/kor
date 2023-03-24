@@ -1,6 +1,7 @@
 """Test validator module."""
 import pytest
-from pydantic import BaseModel, validator as pydantic_validator, ValidationError
+from pydantic import BaseModel, ValidationError
+from pydantic import validator as pydantic_validator
 
 from kor.validators import (
     PydanticValidator,

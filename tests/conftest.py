@@ -1,5 +1,5 @@
 import operator
-from typing import List, Optional, Any
+from typing import Any, List, Optional
 
 from kor.nodes import AbstractSchemaNode, _get_all_slots
 

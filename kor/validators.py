@@ -1,7 +1,8 @@
 """Define validator interface and provide built-in validators for common-use cases."""
 import abc
+from typing import Any, List, Mapping, Type, Union
+
 from pydantic import BaseModel
-from typing import Any, Type, Union, List, Mapping
 
 
 class Validator(abc.ABC):

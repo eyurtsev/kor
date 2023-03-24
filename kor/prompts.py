@@ -1,6 +1,8 @@
 """Code to dynamically generate appropriate LLM prompts."""
 from __future__ import annotations
 
+from typing import Any, List, Optional, Tuple
+
 from langchain import BasePromptTemplate
 from langchain.schema import (
     AIMessage,
@@ -10,7 +12,6 @@ from langchain.schema import (
     SystemMessage,
 )
 from pydantic import Extra
-from typing import Any, List, Tuple, Optional
 
 from kor.encoders import Encoder
 from kor.encoders.encode import encode_examples
@@ -18,6 +19,7 @@ from kor.encoders.parser import KorParser
 from kor.examples import generate_examples
 from kor.nodes import AbstractSchemaNode
 from kor.type_descriptors import TypeDescriptor
+
 from .validators import Validator
 
 

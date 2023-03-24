@@ -1,20 +1,19 @@
 """Definitions of input elements."""
-import operator
-
 import abc
 import copy
-import re
 import inspect
+import operator
+import re
 from typing import (
     Any,
     Generic,
+    List,
     Mapping,
     Optional,
     Sequence,
     Tuple,
     TypeVar,
     Union,
-    List,
 )
 
 # For now, limit what's allowed for identifiers.

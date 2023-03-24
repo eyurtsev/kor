@@ -2,7 +2,7 @@ import pydantic
 from pydantic.fields import Field
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
-from kor.nodes import Number, Object, Text, Optional, List
+from kor.nodes import List, Number, Object, Optional, Text
 
 
 def test_convert_pydantic() -> None:
