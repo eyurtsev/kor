@@ -1,11 +1,28 @@
 """Adapters to convert from validation frameworks to Kor internal representation."""
 import enum
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_origin
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    get_args,
+    get_origin,
+)
 
 from pydantic import BaseModel
 
 from .nodes import ExtractionSchemaNode, Number, Object, Option, Selection, Text
 from .validators import PydanticValidator, Validator
+
+# Not going to support dicts or lists since that requires recursive checks.
+# May make sense to either drop the internal representation, or properly extend it
+# to handle Lists, Unions etc.
+# Not worth the effort, until it's clear that folks are using this functionality.
+PRIMITIVE_TYPES = {str, float, int, type(None)}
 
 
 def _translate_pydantic_to_kor(
@@ -43,17 +60,32 @@ def _translate_pydantic_to_kor(
         type_ = field.type_
         field_many = get_origin(field.outer_type_) is list
         attribute: Union[ExtractionSchemaNode, Selection, "Object"]
-        if issubclass(type_, BaseModel):
-            attribute = _translate_pydantic_to_kor(
-                type_,
-                description=field_description,
+        # Precedence matters here since bool is a subclass of int
+        if get_origin(type_) is Union:
+            args = get_args(type_)
+
+            if not all(arg in PRIMITIVE_TYPES for arg in args):
+                raise NotImplementedError(
+                    "Union of non-primitive types not supported. Issue with"
+                    f"field: `{field_name}`. Has type: `{type_}`"
+                )
+
+            attribute = Text(
+                id=field_name,
                 examples=field_examples,
+                description=field_description,
                 many=field_many,
-                name=field_name,
             )
         else:
-            # Precedence matters here since bool is a subclass of int
-            if issubclass(type_, bool):
+            if issubclass(type_, BaseModel):
+                attribute = _translate_pydantic_to_kor(
+                    type_,
+                    description=field_description,
+                    examples=field_examples,
+                    many=field_many,
+                    name=field_name,
+                )
+            elif issubclass(type_, bool):
                 attribute = Text(
                     id=field_name,
                     examples=field_examples,
