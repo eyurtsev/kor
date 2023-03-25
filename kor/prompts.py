@@ -1,7 +1,7 @@
 """Code to dynamically generate appropriate LLM prompts."""
 from __future__ import annotations
 
-from typing import Any, List, Literal, Tuple, Union
+from typing import Any, List, Optional, Tuple
 
 from langchain import BasePromptTemplate
 from langchain.schema import (
@@ -20,7 +20,7 @@ from kor.examples import generate_examples
 from kor.nodes import AbstractSchemaNode
 from kor.type_descriptors import TypeDescriptor
 
-PromptFormat = Union[Literal["openai-chat"], Literal["string"]]
+from .validators import Validator
 
 
 class ExtractionPromptValue(PromptValue):
@@ -131,12 +131,15 @@ class ExtractionPromptTemplate(BasePromptTemplate):
 
 
 def create_langchain_prompt(
-    schema: AbstractSchemaNode, encoder: Encoder, type_descriptor: TypeDescriptor
+    schema: AbstractSchemaNode,
+    encoder: Encoder,
+    type_descriptor: TypeDescriptor,
+    validator: Optional[Validator] = None,
 ) -> ExtractionPromptTemplate:
     """Create a langchain style prompt with specified encoder."""
     return ExtractionPromptTemplate(
         input_variables=["text"],
-        output_parser=KorParser(encoder=encoder),
+        output_parser=KorParser(encoder=encoder, validator=validator, schema_=schema),
         encoder=encoder,
         node=schema,
         type_descriptor=type_descriptor,

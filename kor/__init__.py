@@ -1,3 +1,4 @@
+from .adapters import from_pydantic
 from .encoders import CSVEncoder, JSONEncoder, XMLEncoder
 from .extraction import create_extraction_chain
 from .nodes import Number, Object, Option, Selection, Text
@@ -8,16 +9,17 @@ from .type_descriptors import (
 )
 
 __all__ = (
-    "Text",
-    "Object",
-    "Number",
-    "Selection",
-    "Option",
+    "BulletPointDescriptor",
     "create_extraction_chain",
+    "CSVEncoder",
+    "from_pydantic",
+    "JSONEncoder",
+    "Number",
+    "Object",
+    "Option",
+    "Selection",
+    "Text",
     "TypeDescriptor",
     "TypeScriptDescriptor",
-    "BulletPointDescriptor",
-    "CSVEncoder",
     "XMLEncoder",
-    "JSONEncoder",
 )

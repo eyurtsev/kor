@@ -1,8 +1,20 @@
 """Definitions of input elements."""
 import abc
 import copy
+import inspect
+import operator
 import re
-from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Union
+from typing import (
+    Any,
+    Generic,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    Tuple,
+    TypeVar,
+    Union,
+)
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -14,6 +26,15 @@ from typing import Any, Generic, Mapping, Optional, Sequence, Tuple, TypeVar, Un
 VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
 T = TypeVar("T")
+
+
+def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
+    """Get a list of all slots."""
+    slots: List[str] = []
+    for class_ in inspect.getmro(type(node)):
+        if hasattr(class_, "__slots__"):
+            slots.extend(class_.__slots__)
+    return sorted(slots)
 
 
 class AbstractVisitor(Generic[T], abc.ABC):
@@ -88,6 +109,23 @@ class AbstractSchemaNode(abc.ABC):
         if description:
             new_object.description = description
         return new_object
+
+    def __repr__(self) -> str:
+        """Get representation of the node."""
+        return f"{type(self).__name__}({self.id})"
+
+    def __eq__(self: Any, other: Any) -> bool:
+        """Equality check"""
+        if not isinstance(self, AbstractSchemaNode):
+            raise AssertionError(f"Cannot compare {type(self)} with {type(other)}")
+        if type(self) != type(other):
+            return False
+
+        if _get_all_slots(self) == _get_all_slots(other):
+            attr_getters = [operator.attrgetter(attr) for attr in self.__slots__]
+            return all(getter(self) == getter(other) for getter in attr_getters)
+
+        return False
 
 
 class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
@@ -177,7 +215,7 @@ class Selection(AbstractSchemaNode):
         from the text: "I eat an apple every day.".
     """
 
-    __slots__ = "options", "null_examples"
+    __slots__ = "options", "examples", "null_examples"
 
     def __init__(
         self,
@@ -186,6 +224,7 @@ class Selection(AbstractSchemaNode):
         description: str = "",
         many: bool = False,
         options: Sequence[Option],
+        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
         null_examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
@@ -194,6 +233,7 @@ class Selection(AbstractSchemaNode):
         if not options:
             raise ValueError("Selection inputs must have at least one option.")
         self.options = options
+        self.examples = examples
         self.null_examples = null_examples
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
