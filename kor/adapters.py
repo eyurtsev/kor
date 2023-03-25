@@ -1,9 +1,10 @@
 """Adapters to convert from validation frameworks to Kor internal representation."""
 import enum
-from pydantic import BaseModel
-from typing import Any, Dict, Optional, Sequence, Tuple, Type, get_origin, List, Union
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_origin
 
-from .nodes import Number, Object, Text, ExtractionSchemaNode, Selection, Option
+from pydantic import BaseModel
+
+from .nodes import ExtractionSchemaNode, Number, Object, Option, Selection, Text
 from .validators import PydanticValidator, Validator
 
 
@@ -113,5 +114,5 @@ def from_pydantic(
         examples=examples,
         many=many,
     )
-    validator = PydanticValidator(model_class, schema)
+    validator = PydanticValidator(model_class, schema.many)
     return schema, validator

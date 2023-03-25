@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from pydantic import Extra
 from typing import Any, Dict, Optional
+
+from pydantic import Extra
 
 from kor.encoders import Encoder
 from kor.exceptions import ParseError
@@ -42,8 +43,10 @@ class KorParser(BaseOutputParser):
         if key_id not in data:
             return {"data": {}, "raw": text, "errors": [], "validated_data": {}}
 
+        obj_data = data[key_id]
+
         if self.validator:
-            validated_data, exceptions = self.validator.clean_data(data)
+            validated_data, exceptions = self.validator.clean_data(obj_data)
         else:
             validated_data, exceptions = {}, []
 

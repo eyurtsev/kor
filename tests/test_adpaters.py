@@ -58,7 +58,7 @@ def test_from_pydantic() -> None:
         b: int
 
     node, validator = from_pydantic(Toy)
-    assert validator.clean_data({"a": "hello", "b": 5}) == Toy(a="hello", b=5)
+    assert validator.clean_data({"a": "hello", "b": 5}) == (Toy(a="hello", b=5), [])
     assert node == Object(
         id="toy",
         attributes=[Text(id="a"), Number(id="b")],

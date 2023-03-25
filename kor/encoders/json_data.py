@@ -11,6 +11,7 @@ import json
 from typing import Any
 
 from kor.exceptions import ParseError
+
 from .typedefs import Encoder
 from .utils import unwrap_tag, wrap_in_tag
 

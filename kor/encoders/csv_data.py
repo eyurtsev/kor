@@ -10,9 +10,9 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-from kor.exceptions import ParseError
 from kor.encoders.typedefs import SchemaBasedEncoder
 from kor.encoders.utils import unwrap_tag, wrap_in_tag
+from kor.exceptions import ParseError
 from kor.nodes import AbstractSchemaNode, Object
 
 DELIMITER = "|"

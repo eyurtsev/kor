@@ -1,8 +1,7 @@
 """Define validator interface and provide built-in validators for common-use cases."""
 import abc
 from pydantic import BaseModel, ValidationError as PydanticValidationError
-from typing import Any, List, Mapping, Type, Union, Tuple, Optional
-from kor.nodes import Object
+from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 
 
 class Validator(abc.ABC):
@@ -24,17 +23,16 @@ class Validator(abc.ABC):
 class PydanticValidator(Validator):
     """Use a pydantic model for validation."""
 
-    def __init__(self, model_class: Type[BaseModel], node: Object) -> None:
+    def __init__(self, model_class: Type[BaseModel], many: bool) -> None:
         """Create a validator for a pydantic model.
 
         Args:
             model_class: The pydantic model class to use for validation
-            node: kor internal schema, passed to determine whether model class
-                  is meant to be applied to a single instance or to a collection
-                  of records
+            many: Whether the data is expected to correspond to a single moder
+                  or a list of models
         """
         self.model_class = model_class
-        self.node = node
+        self.many = many
 
     def clean_data(
         self, data: Any
@@ -47,16 +45,11 @@ class PydanticValidator(Validator):
         Returns:
             cleaned data instantiated as the corresponding pydantic model
         """
-        key = self.node.id
-        if key not in data:
-            raise PydanticValidationError([f"Missing key {key} in data"], BaseModel)
-        obj_data = data[key]
-
-        if self.node.many:
+        if self.many:
             exceptions: List[Exception] = []
             records: List[BaseModel] = []
 
-            for item in obj_data:
+            for item in data:
                 try:
                     records.append(self.model_class.parse_obj(item))
                 except PydanticValidationError as e:
@@ -64,6 +57,6 @@ class PydanticValidator(Validator):
             return records, exceptions
         else:
             try:
-                return self.model_class.parse_obj(obj_data), []
+                return self.model_class.parse_obj(data), []
             except PydanticValidationError as e:
                 return None, [e]

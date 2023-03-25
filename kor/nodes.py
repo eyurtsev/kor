@@ -119,9 +119,7 @@ class AbstractSchemaNode(abc.ABC):
         if not isinstance(self, AbstractSchemaNode):
             raise AssertionError(f"Cannot compare {type(self)} with {type(other)}")
         if type(self) != type(other):
-            raise NotImplementedError(
-                f'Cannot compare "{type(self)}" {self.id} with "{type(other)}"'
-            )
+            return False
 
         if _get_all_slots(self) == _get_all_slots(other):
             attr_getters = [operator.attrgetter(attr) for attr in self.__slots__]
