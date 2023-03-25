@@ -1,8 +1,10 @@
+import enum
+
 import pydantic
 from pydantic.fields import Field
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
-from kor.nodes import List, Number, Object, Optional, Text
+from kor.nodes import List, Number, Object, Optional, Text, Selection, Option
 
 
 def test_convert_pydantic() -> None:
@@ -43,6 +45,49 @@ def test_convert_pydantic() -> None:
                 many=True,
                 attributes=[Text(id="a")],
                 examples=[("h.a 1", {"a": "1"})],
+            ),
+        ],
+    )
+
+
+def test_convert_pydantic_with_enum() -> None:
+    """Test conversion with an enum field."""
+
+    class Choice(enum.Enum):
+        """Choice field."""
+
+        A = "a"
+        B = "b"
+        C = "c"
+
+    class Toy(pydantic.BaseModel):
+        """Toy pydantic object."""
+
+        single_choice: Optional[Choice] = Field(examples=[("a", "a")])
+        multiple_choices: List[Choice] = Field(examples=[("a b", ["a", "b"])])
+
+    node = _translate_pydantic_to_kor(Toy)
+    assert node == Object(
+        id="toy",
+        attributes=[
+            Selection(
+                id="single_choice",
+                options=[
+                    Option(id="a"),
+                    Option(id="b"),
+                    Option(id="c"),
+                ],
+                examples=[("a", "a")],
+            ),
+            Selection(
+                id="multiple_choices",
+                many=True,
+                options=[
+                    Option(id="a"),
+                    Option(id="b"),
+                    Option(id="c"),
+                ],
+                examples=[("a b", ["a", "b"])],
             ),
         ],
     )
