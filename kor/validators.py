@@ -38,7 +38,7 @@ class PydanticValidator(Validator):
 
     def clean_data(
         self, data: Any
-    ) -> Tuple[Optional[BaseModel] | List[BaseModel], List[Exception]]:
+    ) -> Tuple[Union[Optional[BaseModel], List[BaseModel]], List[Exception]]:
         """Clean the data using the pydantic model.
 
         Args:
