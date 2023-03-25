@@ -41,29 +41,25 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         """Implementation of an object visitor."""
         examples = []
         if node.examples:
-            if node.group_as_object:
-                object_examples = [
-                    # Looks like false positive from mypy
-                    # Can investigate how to simplify at a later point.
-                    (
-                        example_input,
-                        self._assemble_output(node, example_output),
-                    )
-                    for example_input, example_output in node.examples
-                ]
-                examples.extend(object_examples)
-            else:
-                raise NotImplementedError("Not implemented yet")
+            object_examples = [
+                # Looks like false positive from mypy
+                # Can investigate how to simplify at a later point.
+                (
+                    example_input,
+                    self._assemble_output(node, example_output),
+                )
+                for example_input, example_output in node.examples
+            ]
+            examples.extend(object_examples)
 
         # Collect examples from children
         for child in node.attributes:
             child_examples = child.accept(self)
-            if node.group_as_object:  # Take care of namespaces
-                child_examples = [
-                    (example_input, self._assemble_output(node, example_output))
-                    for example_input, example_output in child_examples
-                ]
-
+            # Take care of namespaces
+            child_examples = [
+                (example_input, self._assemble_output(node, example_output))
+                for example_input, example_output in child_examples
+            ]
             examples.extend(child_examples)
 
         return examples
