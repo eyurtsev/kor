@@ -1,6 +1,8 @@
 import enum
+from typing import Union
 
 import pydantic
+import pytest
 from pydantic.fields import Field
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
@@ -91,6 +93,43 @@ def test_convert_pydantic_with_enum() -> None:
             ),
         ],
     )
+
+
+def test_convert_pydantic_with_union() -> None:
+    """Test behavior with Union field."""
+
+    class Toy(pydantic.BaseModel):
+        """Toy pydantic object."""
+
+        a: Union[int, float, None]
+
+    node = _translate_pydantic_to_kor(Toy)
+    assert node == Object(
+        id="toy",
+        attributes=[
+            Text(
+                # Any union type of primitives is mapped to a text field for now.
+                id="a"
+            ),
+        ],
+    )
+
+
+def test_convert_pydantic_with_complex_union() -> None:
+    """Test behavior with Union field that has nested pydantic objects."""
+
+    class Child(pydantic.BaseModel):
+        """Child pydantic object."""
+
+        y: str
+
+    class ModelWithComplexUnion(pydantic.BaseModel):
+        """Model that has a union with a pydantic object."""
+
+        x: Union[Child, int]
+
+    with pytest.raises(NotImplementedError):
+        _translate_pydantic_to_kor(ModelWithComplexUnion)
 
 
 def test_from_pydantic() -> None:
