@@ -270,7 +270,7 @@ class Object(AbstractSchemaNode):
         from the text: "I eat an apple every day.".
     """
 
-    __slots__ = ("attributes", "examples", "group_as_object")
+    __slots__ = ("attributes", "examples")
 
     def __init__(
         self,
@@ -284,16 +284,11 @@ class Object(AbstractSchemaNode):
         examples: Sequence[
             Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
         ] = tuple(),
-        # If false, will treat the inputs independent.
-        # Is there a better name for this?! I want it to be True by default
-        # which rules out as_input_bag
-        group_as_object: bool = True,
     ) -> None:
         """Initialize for extraction input."""
         super().__init__(id=id, description=description, many=many)
         self.attributes = attributes
         self.examples = examples
-        self.group_as_object = group_as_object
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:
         """Accept a visitor."""
