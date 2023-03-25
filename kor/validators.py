@@ -32,7 +32,7 @@ class PydanticValidator(Validator):
         """
         self.model_class = model_class
 
-    def clean_data(self, data: Mapping[str, Any]) -> Union[List[BaseModel], BaseModel]:
+    def clean_data(self, data: Any) -> Union[List[BaseModel], BaseModel]:
         """Clean the data using the pydantic model.
 
         Args:

@@ -1,7 +1,7 @@
 import operator
-from typing import Any, List, Optional
+from typing import Any, List, Optional, cast
 
-from kor.nodes import AbstractSchemaNode, _get_all_slots
+from kor.nodes import AbstractSchemaNode, Object, _get_all_slots
 
 
 def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[str]]:
@@ -15,6 +15,12 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
         and isinstance(right, AbstractSchemaNode)
         and op == "=="
     ):
+        if type(left) != type(right):
+            return [
+                "Comparing AbstractSchemaNode instances:",
+                f"Type mismatch: {type(left)} != {type(right)}",
+            ]
+
         all_slots = _get_all_slots(left)
 
         attr_getters = [
@@ -24,6 +30,10 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
         ]
 
         if "attributes" in all_slots:
+            if not isinstance(left, Object) and not isinstance(right, Object):
+                raise AssertionError("Expected both nodes to be of type Object")
+            left = cast(Object, left)
+            right = cast(Object, left)
             if len(left.attributes) != len(right.attributes):
                 return [
                     "Comparing AbstractSchemaNode instances:",
@@ -40,3 +50,4 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
             f"{right}: "
             + ", ".join([f"{attr}: {getter(right)}" for attr, getter in attr_getters]),
         ]
+    return None

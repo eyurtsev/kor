@@ -1,9 +1,16 @@
 """Adapters to convert from validation frameworks to Kor internal representation."""
-from typing import Any, Dict, Optional, Sequence, Tuple, Type, get_origin
+from typing import Any, Dict, Optional, Sequence, Tuple, Type, get_origin, List, Union
 
 from pydantic import BaseModel
 
-from .nodes import Number, Object, Text
+from .nodes import (
+    Number,
+    Object,
+    Text,
+    ExtractionSchemaNode,
+    AbstractSchemaNode,
+    Selection,
+)
 from .validators import PydanticValidator, Validator
 
 
@@ -28,7 +35,7 @@ def _translate_pydantic_to_kor(
         The Kor internal representation of the model.
     """
 
-    attributes = []
+    attributes: List[Union[ExtractionSchemaNode, Selection, "Object"]] = []
     for field_name, field in model_class.__fields__.items():
         field_info = field.field_info
         extra = field_info.extra
@@ -41,6 +48,7 @@ def _translate_pydantic_to_kor(
 
         type_ = field.type_
         field_many = get_origin(field.outer_type_) is list
+        attribute: Union[ExtractionSchemaNode, Selection, "Object"]
         if issubclass(type_, BaseModel):
             attribute = _translate_pydantic_to_kor(
                 type_,
@@ -51,7 +59,7 @@ def _translate_pydantic_to_kor(
             )
         else:
             if type_ in {int, float}:
-                node_class = Number
+                node_class: Type[ExtractionSchemaNode] = Number
             else:
                 node_class = Text
 

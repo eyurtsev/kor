@@ -28,12 +28,12 @@ VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 T = TypeVar("T")
 
 
-def _get_all_slots(cls) -> List[str]:
+def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
     """Get a list of all slots."""
-    slots = []
-    for cls in inspect.getmro(type(cls)):
-        if hasattr(cls, "__slots__"):
-            slots += cls.__slots__
+    slots: List[str] = []
+    for class_ in inspect.getmro(type(node)):
+        if hasattr(class_, "__slots__"):
+            slots.extend(class_.__slots__)
     return sorted(slots)
 
 

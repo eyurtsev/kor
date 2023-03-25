@@ -8,7 +8,7 @@ from kor.validators import (
 )
 
 
-def test_pydantic_validator():
+def test_pydantic_validator() -> None:
     """Test the PydanticValidator wrapper around pydantic."""
 
     class ToyModel(BaseModel):
