@@ -4,7 +4,7 @@ from langchain.chains import LLMChain
 from langchain.schema import BaseLanguageModel
 
 from kor.encoders import Encoder, initialize_encoder
-from kor.nodes import AbstractSchemaNode
+from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
@@ -14,7 +14,7 @@ from kor.validators import Validator
 
 def create_extraction_chain(
     llm: BaseLanguageModel,
-    node: AbstractSchemaNode,
+    node: Object,
     *,
     encoder_or_encoder_class: Union[Type[Encoder], Encoder, str] = "csv",
     type_descriptor: Union[TypeDescriptor, str] = "typescript",
@@ -36,6 +36,8 @@ def create_extraction_chain(
     Returns:
         A langchain chain
     """
+    if not isinstance(node, Object):
+        raise ValueError(f"node must be an Object got {type(node)}")
     encoder = initialize_encoder(encoder_or_encoder_class, node, **encoder_kwargs)
     type_descriptor_to_use = initialize_type_descriptors(type_descriptor)
     return LLMChain(
