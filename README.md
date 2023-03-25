@@ -4,6 +4,7 @@
 
 # Kor
 
+
 This is a half-baked prototype that "helps" you extract structured data from text using LLMs 🧩.
 
 Specify the schema of what should be extracted and provide some examples.
@@ -13,12 +14,13 @@ output.
 
 You might even get results back.
 
-## Version 0.4.0
+See [documentation](https://eyurtsev.github.io/kor/).
 
-Major changes since version 0.3.0 including breaking API changes.
+## Version >=0.4.0
 
-New API creates a langchain chain to help with usage within the langchain
-framework.
+* Integrated with langchain framework.
+* The code below uses Kor style schema, but you can also use [pydantic](https://eyurtsev.github.io/kor/validation.html).
+
 
 ```python
 
@@ -80,59 +82,6 @@ framework.
 ```python
   {'player': {'artist': ['paul simon', 'led zeppelin', 'the doors']}}
 ```
-
-## Version 0.3.0
-
-```python
-
-from kor.extraction import Extractor
-from kor.nodes import Object, Text
-from langchain.chat_models import ChatOpenAI
-
-llm = ChatOpenAI(model_name="gpt-3.5-turbo", 
-    temperature = 0,
-    max_tokens = 2000,
-    frequency_penalty = 0,
-    presence_penalty = 0,
-    top_p = 1.0,
-)
-
-model = Extractor(llm)
-
-schema = Object(
-    id="player",
-    description=(
-        "User is controling a music player to select songs, pause or start them or play"
-        " music by a particular artist."
-    ),
-    attributes=[
-        Text(id="song", description="User wants to play this song", examples=[]),
-        Text(id="album", description="User wants to play this album", examples=[]),
-        Text(
-            id="artist",
-            description="Music by the given artist",
-            examples=[("Songs by paul simon", "paul simon")],
-        ),
-        Text(
-            id="action",
-            description="Action to take one of: `play`, `stop`, `next`, `previous`.",
-            examples=[
-                ("Please stop the music", "stop"),
-                ("play something", "play"),
-                ("next song", "next"),
-            ],
-        ),
-    ],
-)
-
-model("can you play all the songs from paul simon and led zepplin", schema)
-```
-
-```python
-{'player': [{'artist': ['paul simon', 'led zepplin']}]}
-```
-
-See [documentation](https://eyurtsev.github.io/kor/).
 
 ## Compatibility
 
