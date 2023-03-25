@@ -10,7 +10,7 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-from kor.encoders.exceptions import ParseError
+from kor.exceptions import ParseError
 from kor.encoders.typedefs import SchemaBasedEncoder
 from kor.encoders.utils import unwrap_tag, wrap_in_tag
 from kor.nodes import AbstractSchemaNode, Object
@@ -104,13 +104,7 @@ class CSVEncoder(SchemaBasedEncoder):
                 except Exception as e:
                     raise ParseError(e)
 
-            if not isinstance(self.node, Object):
-                if self.node.id in df.columns:
-                    records = df[self.node.id].to_list()
-                else:
-                    records = []
-            else:
-                records = df.to_dict(orient="records")
+            records = df.to_dict(orient="records")
         else:
             records = []
 
@@ -121,6 +115,7 @@ class CSVEncoder(SchemaBasedEncoder):
         """Format instructions."""
         instructions = [
             "Please output the extracted information in CSV format in Excel dialect.",
+            f"Please use a {DELIMITER} as the delimiter."
             # TODO(Eugene): Add this when we start supporting embedded columns.
             # "If a column corresponds to an array or an object,
             # use a JSON encoding to "

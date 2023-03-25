@@ -1,15 +1,15 @@
 """Define validator interface and provide built-in validators for common-use cases."""
 import abc
-from typing import Any, List, Mapping, Type, Union
-
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError as PydanticValidationError
+from typing import Any, List, Mapping, Type, Union, Tuple, Optional
+from kor.nodes import Object
 
 
 class Validator(abc.ABC):
     @abc.abstractmethod
     def clean_data(
         self, data: Union[List[Mapping[str, Any]], Mapping[str, Any]]
-    ) -> Any:
+    ) -> Tuple[Any, List[Exception]]:
         """Validate the data and return a cleaned version of it.
 
         Args:
@@ -24,15 +24,21 @@ class Validator(abc.ABC):
 class PydanticValidator(Validator):
     """Use a pydantic model for validation."""
 
-    def __init__(self, model_class: Type[BaseModel]) -> None:
+    def __init__(self, model_class: Type[BaseModel], node: Object) -> None:
         """Create a validator for a pydantic model.
 
         Args:
             model_class: The pydantic model class to use for validation
+            node: kor internal schema, passed to determine whether model class
+                  is meant to be applied to a single instance or to a collection
+                  of records
         """
         self.model_class = model_class
+        self.node = node
 
-    def clean_data(self, data: Any) -> Union[List[BaseModel], BaseModel]:
+    def clean_data(
+        self, data: Any
+    ) -> Tuple[Optional[BaseModel] | List[BaseModel], List[Exception]]:
         """Clean the data using the pydantic model.
 
         Args:
@@ -41,6 +47,23 @@ class PydanticValidator(Validator):
         Returns:
             cleaned data instantiated as the corresponding pydantic model
         """
-        if not isinstance(data, dict):
-            raise TypeError(f"Expected a dictionary got {type(data)}")
-        return self.model_class(**data)
+        key = self.node.id
+        if key not in data:
+            raise PydanticValidationError([f"Missing key {key} in data"], BaseModel)
+        obj_data = data[key]
+
+        if self.node.many:
+            exceptions: List[Exception] = []
+            records: List[BaseModel] = []
+
+            for item in obj_data:
+                try:
+                    records.append(self.model_class.parse_obj(item))
+                except PydanticValidationError as e:
+                    exceptions.append(e)
+            return records, exceptions
+        else:
+            try:
+                return self.model_class.parse_obj(obj_data), []
+            except PydanticValidationError as e:
+                return None, [e]

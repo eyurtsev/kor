@@ -1,16 +1,9 @@
 """Adapters to convert from validation frameworks to Kor internal representation."""
+import enum
+from pydantic import BaseModel
 from typing import Any, Dict, Optional, Sequence, Tuple, Type, get_origin, List, Union
 
-from pydantic import BaseModel
-
-from .nodes import (
-    Number,
-    Object,
-    Text,
-    ExtractionSchemaNode,
-    AbstractSchemaNode,
-    Selection,
-)
+from .nodes import Number, Object, Text, ExtractionSchemaNode, Selection, Option
 from .validators import PydanticValidator, Validator
 
 
@@ -58,17 +51,29 @@ def _translate_pydantic_to_kor(
                 name=field_name,
             )
         else:
-            if type_ in {int, float}:
-                node_class: Type[ExtractionSchemaNode] = Number
+            if issubclass(type_, (int, float)):
+                attribute = Number(
+                    id=field_name,
+                    examples=field_examples,
+                    description=field_description,
+                    many=field_many,
+                )
+            elif issubclass(type_, enum.Enum):
+                enum_choices = list(type_)
+                attribute = Selection(
+                    id=field_name,
+                    description=field_description,
+                    many=field_many,
+                    examples=field_examples,
+                    options=[Option(id=choice.value) for choice in enum_choices],
+                )
             else:
-                node_class = Text
-
-            attribute = node_class(
-                id=field_name,
-                examples=field_examples,
-                description=field_description,
-                many=field_many,
-            )
+                attribute = Text(
+                    id=field_name,
+                    examples=field_examples,
+                    description=field_description,
+                    many=field_many,
+                )
 
         attributes.append(attribute)
 
@@ -89,6 +94,7 @@ def from_pydantic(
     *,
     description: str = "",
     examples: Sequence[Tuple[str, Dict[str, Any]]] = tuple(),
+    many: bool = False,
 ) -> Tuple[Object, Validator]:
     """Convert a pydantic model to Kor internal representation.
 
@@ -96,15 +102,16 @@ def from_pydantic(
         model_class: The pydantic model class to convert.
         description: The description of the model.
         examples: A sequence of examples to be used for the model.
+        many: Whether to expect the model to be a list of models.
 
     Returns:
         A tuple of the Kor internal representation of the model and a validator.
     """
-    validator = PydanticValidator(model_class)
     schema = _translate_pydantic_to_kor(
         model_class,
         description=description,
         examples=examples,
-        many=False,
+        many=many,
     )
+    validator = PydanticValidator(model_class, schema)
     return schema, validator

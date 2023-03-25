@@ -10,7 +10,7 @@ about the output despite being told not to do that.
 import json
 from typing import Any
 
-from .exceptions import ParseError
+from kor.exceptions import ParseError
 from .typedefs import Encoder
 from .utils import unwrap_tag, wrap_in_tag
 

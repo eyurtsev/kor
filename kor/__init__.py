@@ -6,18 +6,20 @@ from .type_descriptors import (
     TypeDescriptor,
     TypeScriptDescriptor,
 )
+from .adapters import from_pydantic
 
 __all__ = (
-    "Text",
-    "Object",
-    "Number",
-    "Selection",
-    "Option",
+    "BulletPointDescriptor",
     "create_extraction_chain",
+    "CSVEncoder",
+    "from_pydantic",
+    "JSONEncoder",
+    "Number",
+    "Object",
+    "Option",
+    "Selection",
+    "Text",
     "TypeDescriptor",
     "TypeScriptDescriptor",
-    "BulletPointDescriptor",
-    "CSVEncoder",
     "XMLEncoder",
-    "JSONEncoder",
 )

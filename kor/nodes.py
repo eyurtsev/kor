@@ -217,7 +217,7 @@ class Selection(AbstractSchemaNode):
         from the text: "I eat an apple every day.".
     """
 
-    __slots__ = "options", "null_examples"
+    __slots__ = "options", "examples", "null_examples"
 
     def __init__(
         self,
@@ -226,6 +226,7 @@ class Selection(AbstractSchemaNode):
         description: str = "",
         many: bool = False,
         options: Sequence[Option],
+        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
         null_examples: Sequence[str] = tuple(),
     ) -> None:
         """Initialize for extraction input."""
@@ -234,6 +235,7 @@ class Selection(AbstractSchemaNode):
         if not options:
             raise ValueError("Selection inputs must have at least one option.")
         self.options = options
+        self.examples = examples
         self.null_examples = null_examples
 
     def accept(self, visitor: AbstractVisitor[T]) -> T:

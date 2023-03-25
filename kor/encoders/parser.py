@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+from pydantic import Extra
 from typing import Any, Dict, Optional
 
-from pydantic import Extra
-
 from kor.encoders import Encoder
-from kor.encoders.exceptions import ParseError
+from kor.exceptions import ParseError
 from kor.nodes import Object
 from kor.validators import Validator
 
@@ -36,24 +35,22 @@ class KorParser(BaseOutputParser):
         try:
             data = self.encoder.decode(text)
         except ParseError as e:
-            return {"data": {}, "raw": text, "errors": [repr(e)], "validated_data": {}}
+            return {"data": {}, "raw": text, "errors": [e], "validated_data": {}}
 
         key_id = self.schema_.id
 
         if key_id not in data:
             return {"data": {}, "raw": text, "errors": [], "validated_data": {}}
 
-        raw_data = data[key_id]
-
         if self.validator:
-            validated_data = self.validator.clean_data(raw_data)
+            validated_data, exceptions = self.validator.clean_data(data)
         else:
-            validated_data = {}
+            validated_data, exceptions = {}, []
 
         return {
-            "data": raw_data,
+            "data": data,
             "raw": text,
-            "errors": [],
+            "errors": exceptions,
             "validated_data": validated_data,
         }
 

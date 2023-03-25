@@ -12,6 +12,8 @@ def test_pydantic_validator() -> None:
     """Test the PydanticValidator wrapper around pydantic."""
 
     class ToyModel(BaseModel):
+        """Toy model for testing purposes."""
+
         name: str
         age: int
 
@@ -22,7 +24,8 @@ def test_pydantic_validator() -> None:
                 raise ValueError("age must be positive")
             return v
 
-    validator = PydanticValidator(ToyModel)
+    # Adding an unused
+    validator = PydanticValidator(ToyModel, None)  # type: ignore
     assert validator.clean_data({"name": "Eugene", "age": 5}) == ToyModel(
         name="Eugene", age=5
     )
