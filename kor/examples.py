@@ -75,7 +75,8 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
             for example in option.examples:
                 examples.append((example, self._assemble_output(node, option.id)))
 
-        examples.extend(node.examples)
+        for example_input, example_output in node.examples:
+            examples.append((example_input, self._assemble_output(node, example_output)))
 
         for null_example in node.null_examples:
             examples.append((null_example, ""))
