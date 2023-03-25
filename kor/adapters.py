@@ -52,7 +52,15 @@ def _translate_pydantic_to_kor(
                 name=field_name,
             )
         else:
-            if issubclass(type_, (int, float)):
+            # Precedence matters here since bool is a subclass of int
+            if issubclass(type_, bool):
+                attribute = Text(
+                    id=field_name,
+                    examples=field_examples,
+                    description=field_description,
+                    many=field_many,
+                )
+            elif issubclass(type_, (int, float)):
                 attribute = Number(
                     id=field_name,
                     examples=field_examples,

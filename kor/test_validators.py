@@ -1,5 +1,6 @@
 """Test validator module."""
-from pydantic import BaseModel, ValidationError, validator as pydantic_validator
+from pydantic import BaseModel, ValidationError
+from pydantic import validator as pydantic_validator
 
 from kor.validators import (
     PydanticValidator,
@@ -30,6 +31,6 @@ def test_pydantic_validator() -> None:
     )
 
     clean_data, exceptions = validator.clean_data({"name": "Eugene", "age": -1})
-    assert clean_data == None
+    assert clean_data is None
     assert len(exceptions) == 1
     assert isinstance(exceptions[0], ValidationError)

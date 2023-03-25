@@ -18,7 +18,8 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
         if type(left) != type(right):
             return [
                 "Comparing AbstractSchemaNode instances:",
-                f"Type mismatch: {type(left)} != {type(right)}",
+                f"Type mismatch: {type(left)} ({left.id}) != "
+                f"{type(right)} ({right.id})",
             ]
 
         all_slots = _get_all_slots(left)
@@ -33,7 +34,7 @@ def pytest_assertrepr_compare(op: str, left: Any, right: Any) -> Optional[List[s
             if not isinstance(left, Object) and not isinstance(right, Object):
                 raise AssertionError("Expected both nodes to be of type Object")
             left = cast(Object, left)
-            right = cast(Object, left)
+            right = cast(Object, right)
             if len(left.attributes) != len(right.attributes):
                 return [
                     "Comparing AbstractSchemaNode instances:",
