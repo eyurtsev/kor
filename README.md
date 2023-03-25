@@ -19,7 +19,7 @@ See [documentation](https://eyurtsev.github.io/kor/).
 ## Version >=0.4.0
 
 * Integrated with langchain framework.
-* Either use internal representation or else use pydantic (https://eyurtsev.github.io/kor/validation.html)
+* The code below uses Kor style schema, but you can also use [pydantic](https://eyurtsev.github.io/kor/validation.html).
 
 
 ```python
