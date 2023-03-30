@@ -1,4 +1,4 @@
-from typing import Any, List, Mapping, Sequence, Tuple, Type, Union
+from typing import Any, List, Mapping, Sequence, Tuple, Type, Union, Literal
 
 from kor.nodes import AbstractSchemaNode
 
@@ -16,12 +16,26 @@ _ENCODER_REGISTRY: Mapping[str, Type[Encoder]] = {
 # PUBLIC API
 
 
+InputEncoding = Union[Literal["text"], None]
+
+
+def input_encoder(text: str, input_encoding: InputEncoding) -> str:
+    """An encoder for the input text."""
+    if input_encoding == "text":
+        return 'Text: """"\n' + text + '\n"""'
+    elif input_encoding is None:
+        return text
+    else:
+        raise NotImplementedError(f'No support for input encoding "{input_encoding}"')
+
+
 def encode_examples(
-    examples: Sequence[Tuple[str, str]], encoder: Encoder
+    examples: Sequence[Tuple[str, str]], encoder: Encoder, input_encoding: InputEncoding
 ) -> List[Tuple[str, str]]:
     """Encode the output using the given encoder."""
+
     return [
-        (input_example, encoder.encode(output_example))
+        (input_encoder(input_example, input_encoding), encoder.encode(output_example))
         for input_example, output_example in examples
     ]
 
