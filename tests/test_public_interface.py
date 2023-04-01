@@ -19,6 +19,7 @@ def test_kor__all__() -> None:
         "TypeDescriptor",
         "TypeScriptDescriptor",
         "XMLEncoder",
+        "__version__",
         "create_extraction_chain",
         "from_pydantic",
     ]
