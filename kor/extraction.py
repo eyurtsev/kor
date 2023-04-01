@@ -34,8 +34,9 @@ def create_extraction_chain(
         validator: optional validator to use for validation
         input_formatter: the formatter to use for encoding the input. Used for
                          both input examples and the text to be analyzed.
-            * None: use for single sentences or single paragraphs, no formatting
-            * long_text: use for long text (adds ``` around the input and `TEXT`)
+            * None: use for single sentences or single paragraph, no formatting
+            * triple_quotes: for long text, surround input with \"\"\"
+            * text_prefix: for long text, triple_quote with `TEXT: ` prefix
             * Callable: user provided function
         encoder_kwargs: Keyword arguments to pass to the encoder class
 

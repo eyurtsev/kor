@@ -14,7 +14,9 @@ _ENCODER_REGISTRY: Mapping[str, Type[Encoder]] = {
 }
 
 # Use to denote different types of formatters for the input.
-InputFormatter = Union[Literal["long_text"], None, Callable[[str], str]]
+InputFormatter = Union[
+    Literal["text_prefix"], Literal["triple_quotes"], None, Callable[[str], str]
+]
 
 
 def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
@@ -24,14 +26,17 @@ def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
         text: the text to encode
         input_formatter: the formatter to use for the input
             * None: use for single sentences or single paragraphs, no formatting
-            * long_text: use for long text (adds ``` around the input and `TEXT`)
+            * triple_quotes: surround input with \"\"\", use for long text
+            * text_prefix: same as triple_quote but with `TEXT: ` prefix
             * Callable: user provided function
 
     Returns:
         The encoded text if it was encoded
     """
-    if input_formatter == "long_text":
+    if input_formatter == "text_prefix":
         return 'Text: """\n' + text + '\n"""'
+    elif input_formatter == "triple_quotes":
+        return '"""\n' + text + '\n"""'
     elif input_formatter is None:
         return text
     else:
