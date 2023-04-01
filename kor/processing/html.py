@@ -3,10 +3,10 @@ import markdownify
 from bs4 import BeautifulSoup
 from langchain.document_loaders.base import BaseLoader
 from langchain.schema import Document
-from langchain.text_splitter import TextSplitter, RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter, TextSplitter
 from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
-from typing import Union, Sequence, List, Optional
+from typing import List, Optional, Sequence, Union
 
 
 def _get_mini_html(content: str) -> str:
@@ -64,27 +64,21 @@ async def a_download_html(url: str) -> str:
 
 
 class HTMLToMarkDown(BaseLoader):
-    """A loader that converts HTML to Markdown."""
+    """A loader that converts HTML to Markdown.
+    
+    This lolader
+    
+    
+    """
 
-    def __init__(self, texts: Union[Sequence[str], Sequence[Document]]) -> None:
+    def __init__(self, htmls: Union[Sequence[str], Sequence[Document]]) -> None:
         """Convert HTML to markdown."""
-        self.texts = texts
-
-    @classmethod
-    def from_url(cls, url: str, run_javascript: bool = False) -> "HTMLToMarkDown":
-        """Load HTML from a URL."""
-        import requests
-
-        if run_javascript:
-            html = download_html(url)
-        else:
-            html = requests.get(url).text
-        return cls(texts=[html])
+        self.htmls = htmls
 
     def load(self) -> List[Document]:
         """Load data into document objects."""
         loaded_docs = []
-        for text in self.texts:
+        for text in self.htmls:
             if isinstance(text, Document):
                 new_document = text.copy()
                 new_document.page_content = _convert_html(text.page_content)
@@ -100,7 +94,7 @@ class HTMLToMarkDown(BaseLoader):
     ) -> List[Document]:
         """Load documents and split into chunks."""
         if text_splitter is None:
-            _text_splitter: TextSplitter = RecursiveCharacterTextSplitter()
+            _text_splitter: TextSplitter = RecursiveCharacterTextSplitter(chunk_size=600)
         else:
             _text_splitter = text_splitter
         docs = self.load()
