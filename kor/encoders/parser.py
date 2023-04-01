@@ -44,8 +44,9 @@ class KorParser(BaseOutputParser):
             if data:  # We got something parsed, but it doesn't match the schema.
                 errors = [
                     ParseError(
-                        "The LLM has returned structured data which does not match the "
-                        "expected schema. "
+                        "The LLM has returned structured data which does not match the"
+                        " expected schema. Providing additional examples may help"
+                        " improve the parse."
                     )
                 ]
             else:
