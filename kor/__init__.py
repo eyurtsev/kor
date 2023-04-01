@@ -7,6 +7,7 @@ from .type_descriptors import (
     TypeDescriptor,
     TypeScriptDescriptor,
 )
+from .version import __version__
 
 __all__ = (
     "BulletPointDescriptor",
@@ -22,4 +23,5 @@ __all__ = (
     "TypeDescriptor",
     "TypeScriptDescriptor",
     "XMLEncoder",
+    "__version__",
 )
