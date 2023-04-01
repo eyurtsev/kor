@@ -1,12 +1,4 @@
-"""JSON encoder and decoder.
-
-The encoder adds additional <json> tags around the JSON output,
-while the decoder looks for these tags and removes them.
-
-The usage of additional tags to wrap the content as an additional
-layer of protection against the LLMs tendencies to provide explanations
-about the output despite being told not to do that.
-"""
+"""JSON encoder and decoder."""
 import json
 from typing import Any
 
@@ -17,6 +9,16 @@ from .utils import unwrap_tag, wrap_in_tag
 
 
 class JSONEncoder(Encoder):
+    """JSON encoder and decoder.
+
+    The encoder by default adds additional <json> tags around the JSON output,
+
+    Additional tags are added to the output to help identify the JSON content
+    within the LLM response and extract it.
+
+    The usage of <json> tags is similar to the usage of ```JSON and ``` marks.
+    """
+
     def __init__(self, use_tags: bool = True) -> None:
         """Initialize the JSON encoder.
 
@@ -28,14 +30,31 @@ class JSONEncoder(Encoder):
         self.use_tags = use_tags
 
     def encode(self, data: Any) -> str:
-        """Encode."""
+        """Encode the data as JSON.
+
+        Args:
+            data: JSON serializable data.
+
+        Returns:
+            The JSON encoded data as a string optionally wrapped in <json> tags.
+        """
         content = json.dumps(data)
         if self.use_tags:
             return wrap_in_tag("json", json.dumps(data))
         return content
 
     def decode(self, text: str) -> Any:
-        """Decode."""
+        """Decode the text as JSON.
+
+        If the encoder is using tags, the <json> content is identified within the text
+        and then is decoded.
+
+        Args:
+            text: the text to be decoded
+
+        Returns:
+            The decoded JSON data.
+        """
         if self.use_tags:
             content = unwrap_tag("json", text)
         else:
@@ -49,12 +68,19 @@ class JSONEncoder(Encoder):
             raise ParseError(e)
 
     def get_instruction_segment(self) -> str:
-        """Format instruction."""
-        return (
+        """Get the format instructions for the given decoder.
+
+        This is a specification to the LLM that tells it how to shape its response
+        so that the response can be structured properly using the given decoder.
+        """
+        format_instructions = (
             "Please output the extracted information in JSON format. Do not output"
             " anything except for the extracted information. Do not add any clarifying"
             " information. Do not add any fields that are not in the schema. If the"
             " text contains attributes that do not appear in the schema, please ignore"
             " them. All output must be in JSON format and follow the schema specified"
-            " above. Wrap the JSON in <json> tags."
+            " above."
         )
+        if self.use_tags:
+            format_instructions += " Wrap the JSON in <json> tags."
+        return format_instructions
