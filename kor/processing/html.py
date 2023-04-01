@@ -45,8 +45,7 @@ def download_html(url: str) -> str:
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto(url)
-
+        page.goto(url, wait_until="load")
         # Wait for the page to finish rendering
         html = page.content()
         browser.close()
@@ -55,15 +54,13 @@ def download_html(url: str) -> str:
 
 async def a_download_html(url: str) -> str:
     """Download an HTML from a URL."""
-    with async_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True)
-        page = browser.new_page()
-        page.goto(url)
-
-        # Wait for the page to finish rendering
-        html = page.content()
-        browser.close()
-    return html
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+        await page.goto(url, wait_until="load")
+        html_content = await page.content()
+        await browser.close()
+    return html_content
 
 
 class HTMLToMarkDown(BaseLoader):
