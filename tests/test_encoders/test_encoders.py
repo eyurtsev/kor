@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from kor.encoders import JSONEncoder, XMLEncoder, encode_examples, Encoder
+from kor.encoders import Encoder, JSONEncoder, XMLEncoder, encode_examples
 from kor.nodes import AbstractSchemaNode, Number, Object, Option, Selection, Text
 
 

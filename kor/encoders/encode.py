@@ -1,4 +1,4 @@
-from typing import Any, List, Mapping, Sequence, Tuple, Type, Union, Literal, Callable
+from typing import Any, Callable, List, Literal, Mapping, Sequence, Tuple, Type, Union
 
 from kor.nodes import AbstractSchemaNode
 
@@ -37,7 +37,7 @@ def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
     else:
         raise NotImplementedError(
             f'No support for input encoding "{input_formatter}". '
-            f' Use one of "long_text" or None.'
+            ' Use one of "long_text" or None.'
         )
 
 

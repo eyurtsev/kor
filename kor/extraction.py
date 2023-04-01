@@ -1,13 +1,13 @@
-from langchain.chains import LLMChain
-from langchain.schema import BaseLanguageModel
 from typing import Any, Optional, Type, Union
 
-from kor.encoders import Encoder, initialize_encoder, InputFormatter
+from langchain.chains import LLMChain
+from langchain.schema import BaseLanguageModel
+
+from kor.encoders import Encoder, InputFormatter, initialize_encoder
 from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
-
 
 # PUBLIC API
 
