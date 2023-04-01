@@ -3,7 +3,7 @@ from typing import Any, Optional, Type, Union
 from langchain.chains import LLMChain
 from langchain.schema import BaseLanguageModel
 
-from kor.encoders import Encoder, initialize_encoder
+from kor.encoders import Encoder, InputFormatter, initialize_encoder
 from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
@@ -19,6 +19,7 @@ def create_extraction_chain(
     encoder_or_encoder_class: Union[Type[Encoder], Encoder, str] = "csv",
     type_descriptor: Union[TypeDescriptor, str] = "typescript",
     validator: Optional[Validator] = None,
+    input_formatter: InputFormatter = None,
     **encoder_kwargs: Any,
 ) -> LLMChain:
     """Create an extraction chain.
@@ -30,8 +31,13 @@ def create_extraction_chain(
                                   or a string representing the encoder class
         type_descriptor: The type descriptor to use. This can be either a TypeDescriptor
                           or a string representing the type descriptor name
-        encoder_kwargs: Keyword arguments to pass to the encoder class
         validator: optional validator to use for validation
+        input_formatter: the formatter to use for encoding the input. Used for
+                         both input examples and the text to be analyzed.
+            * None: use for single sentences or single paragraphs, no formatting
+            * long_text: use for long text (adds ``` around the input and `TEXT`)
+            * Callable: user provided function
+        encoder_kwargs: Keyword arguments to pass to the encoder class
 
     Returns:
         A langchain chain
@@ -43,6 +49,10 @@ def create_extraction_chain(
     return LLMChain(
         llm=llm,
         prompt=create_langchain_prompt(
-            node, encoder, type_descriptor_to_use, validator
+            node,
+            encoder,
+            type_descriptor_to_use,
+            validator,
+            input_formatter=input_formatter,
         ),
     )

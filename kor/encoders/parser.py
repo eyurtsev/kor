@@ -41,7 +41,18 @@ class KorParser(BaseOutputParser):
         key_id = self.schema_.id
 
         if key_id not in data:
-            return {"data": {}, "raw": text, "errors": [], "validated_data": {}}
+            if len(text) > 5:  # Arbitrary threshold of 5 characters
+                errors = [
+                    ParseError(
+                        "Text seems to contains data, but unable to find top level key"
+                        f" '{key_id}' that matches the top namespace of the schema."
+                        " Assuming extraction is invalid since extracted content is"
+                        " unable to follow the schema correctly. "
+                    )
+                ]
+            else:
+                errors = []
+            return {"data": {}, "raw": text, "errors": errors, "validated_data": {}}
 
         obj_data = data[key_id]
 

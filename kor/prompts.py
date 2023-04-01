@@ -14,7 +14,7 @@ from langchain.schema import (
 from pydantic import Extra
 
 from kor.encoders import Encoder
-from kor.encoders.encode import encode_examples
+from kor.encoders.encode import InputFormatter, encode_examples
 from kor.encoders.parser import KorParser
 from kor.examples import generate_examples
 from kor.nodes import AbstractSchemaNode
@@ -30,6 +30,7 @@ class ExtractionPromptValue(PromptValue):
     encoder: Encoder
     node: AbstractSchemaNode
     type_descriptor: TypeDescriptor
+    input_formatter: InputFormatter
     prefix: str = (
         "Your goal is to extract structured information from the user's input that"
         " matches the form described below. When extracting information please make"
@@ -84,7 +85,9 @@ class ExtractionPromptValue(PromptValue):
     ) -> List[Tuple[str, str]]:
         """Generate encoded examples."""
         examples = generate_examples(node)
-        return encode_examples(examples, self.encoder)
+        return encode_examples(
+            examples, self.encoder, input_formatter=self.input_formatter
+        )
 
     def generate_instruction_segment(self, node: AbstractSchemaNode) -> str:
         """Generate the instruction segment of the extraction."""
@@ -99,6 +102,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     encoder: Encoder
     node: AbstractSchemaNode
     type_descriptor: TypeDescriptor
+    input_formatter: InputFormatter
 
     class Config:
         """Configuration for this pydantic object."""
@@ -115,6 +119,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
             encoder=self.encoder,
             node=self.node,
             type_descriptor=self.type_descriptor,
+            input_formatter=self.input_formatter,
         )
 
     def format(self, **kwargs: Any) -> str:
@@ -135,6 +140,7 @@ def create_langchain_prompt(
     encoder: Encoder,
     type_descriptor: TypeDescriptor,
     validator: Optional[Validator] = None,
+    input_formatter: InputFormatter = None,
 ) -> ExtractionPromptTemplate:
     """Create a langchain style prompt with specified encoder."""
     return ExtractionPromptTemplate(
@@ -142,5 +148,6 @@ def create_langchain_prompt(
         output_parser=KorParser(encoder=encoder, validator=validator, schema_=schema),
         encoder=encoder,
         node=schema,
+        input_formatter=input_formatter,
         type_descriptor=type_descriptor,
     )
