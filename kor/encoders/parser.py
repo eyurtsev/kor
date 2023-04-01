@@ -41,13 +41,11 @@ class KorParser(BaseOutputParser):
         key_id = self.schema_.id
 
         if key_id not in data:
-            if len(text) > 5:  # Arbitrary threshold of 5 characters
+            if data:  # We got something parsed, but it doesn't match the schema.
                 errors = [
                     ParseError(
-                        "Text seems to contains data, but unable to find top level key"
-                        f" '{key_id}' that matches the top namespace of the schema."
-                        " Assuming extraction is invalid since extracted content is"
-                        " unable to follow the schema correctly. "
+                        "The LLM has returned structured data which does not match the "
+                        "expected schema. "
                     )
                 ]
             else:
