@@ -113,7 +113,9 @@ def test_encode_examples() -> None:
         ('Text: """\ninput2\n"""', "output2"),
     ]
 
-    assert encode_examples(examples, NoOpEncoder(), input_formatter="triple_quotes") == [
+    assert encode_examples(
+        examples, NoOpEncoder(), input_formatter="triple_quotes"
+    ) == [
         ('"""\ninput\n"""', "output"),
         ('"""\ninput2\n"""', "output2"),
     ]
