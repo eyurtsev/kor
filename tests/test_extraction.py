@@ -51,7 +51,8 @@ SIMPLE_OBJECT_SCHEMA = Object(id="obj", description="", attributes=[SIMPLE_TEXT_
 @pytest.mark.parametrize(
     "options",
     [
-        {"encoder_or_encoder_class": "csv"},
+        {"encoder_or_encoder_class": "csv", "input_formatter": None},
+        {"encoder_or_encoder_class": "csv", "input_formatter": "text_prefix"},
         {"encoder_or_encoder_class": "json"},
         {"encoder_or_encoder_class": "xml"},
         {"encoder_or_encoder_class": JSONEncoder()},

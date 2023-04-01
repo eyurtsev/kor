@@ -93,3 +93,4 @@ html_css_files = [
 ]
 
 nb_execution_mode = "off"
+autosummary_generate = True

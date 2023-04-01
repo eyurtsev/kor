@@ -59,6 +59,8 @@ fix_docs = "black docs"
 # Using a --preview feature. Commit your code prior to use this fix.
 fix_strings = "black kor --preview"
 test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
+# Use to auto-generate docs
+apidoc = "sphinx-apidoc -o docs/source/generated kor"
 
 [tool.ruff]
 select = [

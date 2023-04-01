@@ -65,9 +65,9 @@ Translate user input into structured JSON to use for an API **request**:
                 ("next song", "next"),
             ],
         ),
-    ],
+      ],
     many=False,
-)
+  )
 
 .. code-block:: python
 
@@ -81,7 +81,7 @@ Translate user input into structured JSON to use for an API **request**:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
    tutorial
    objects
@@ -89,4 +89,4 @@ Translate user input into structured JSON to use for an API **request**:
    untyped_objects
    apis
    validation
-
+   api

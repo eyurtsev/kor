@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import json
-
 from typing import Any, Dict, Optional
 
 from pydantic import Extra
@@ -46,9 +44,10 @@ class KorParser(BaseOutputParser):
             if len(text) > 5:  # Arbitrary threshold of 5 characters
                 errors = [
                     ParseError(
-                        f"Text seems to contains data, but unable to find top level key '{key_id}' that "
-                        f"matches the top namespace of the schema. Assuming extraction is invalid since "
-                        f"extracted content is unable to follow the schema correctly. "
+                        "Text seems to contains data, but unable to find top level key"
+                        f" '{key_id}' that matches the top namespace of the schema."
+                        " Assuming extraction is invalid since extracted content is"
+                        " does not match the schema. "
                     )
                 ]
             else:
