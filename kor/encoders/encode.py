@@ -1,4 +1,4 @@
-from typing import Any, List, Mapping, Sequence, Tuple, Type, Union, Literal
+from typing import Any, List, Mapping, Sequence, Tuple, Type, Union, Literal, Callable
 
 from kor.nodes import AbstractSchemaNode
 
@@ -13,29 +13,49 @@ _ENCODER_REGISTRY: Mapping[str, Type[Encoder]] = {
     "json": JSONEncoder,
 }
 
+# Use to denote different types of formatters for the input.
+InputFormatter = Union[Literal["long_text"], None, Callable[[str], str]]
+
+
+def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
+    """An encoder for the input text.
+
+    Args:
+        text: the text to encode
+        input_formatter: the formatter to use for the input
+                         long_text: adds a triple quote around the text and a TEXT prefix
+                         None: no formatting, ideal for single sentences or single paragraphs
+                         Callable: a function that takes the text and returns the formatted text
+
+    Returns:
+        The encoded text if it was encoded
+    """
+    if input_formatter == "long_text":
+        return 'Text: """\n' + text + '\n"""'
+    elif input_formatter is None:
+        return text
+    else:
+        raise NotImplementedError(
+            f'No support for input encoding "{input_formatter}". '
+            f' Use one of "long_text" or None.'
+        )
+
+
 # PUBLIC API
 
 
-InputEncoding = Union[Literal["text"], None]
-
-
-def input_encoder(text: str, input_encoding: InputEncoding) -> str:
-    """An encoder for the input text."""
-    if input_encoding == "text":
-        return 'Text: """"\n' + text + '\n"""'
-    elif input_encoding is None:
-        return text
-    else:
-        raise NotImplementedError(f'No support for input encoding "{input_encoding}"')
-
-
 def encode_examples(
-    examples: Sequence[Tuple[str, str]], encoder: Encoder, input_encoding: InputEncoding
+    examples: Sequence[Tuple[str, str]],
+    encoder: Encoder,
+    input_formatter: InputFormatter = None,
 ) -> List[Tuple[str, str]]:
     """Encode the output using the given encoder."""
 
     return [
-        (input_encoder(input_example, input_encoding), encoder.encode(output_example))
+        (
+            _format_text(input_example, input_formatter=input_formatter),
+            encoder.encode(output_example),
+        )
         for input_example, output_example in examples
     ]
 

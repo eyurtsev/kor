@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from kor.encoders import JSONEncoder, XMLEncoder
+from kor.encoders import JSONEncoder, XMLEncoder, encode_examples, Encoder
 from kor.nodes import AbstractSchemaNode, Number, Object, Option, Selection, Text
 
 
@@ -79,3 +79,36 @@ def test_json_encoding_with_tags() -> None:
     assert json_encoder.decode('<json>{"object": [{"a": 1}]}</json>') == {
         "object": [{"a": 1}]
     }
+
+
+class NoOpEncoder(Encoder):
+    def encode(self, data: Any) -> str:
+        """Identity function for encoding."""
+        return data
+
+    def decode(self, text: str) -> Any:
+        """Identity function for decoding."""
+        return text
+
+    def get_instruction_segment(self) -> str:
+        return ""
+
+
+def test_encode_examples() -> None:
+    """Test that examples are encoded properly."""
+    examples = [("input", "output"), ("input2", "output2")]
+
+    assert encode_examples(examples, JSONEncoder(use_tags=True), None) == [
+        ("input", '<json>"output"</json>'),
+        ("input2", '<json>"output2"</json>'),
+    ]
+
+    assert encode_examples(examples, NoOpEncoder(), input_formatter=None) == [
+        ("input", "output"),
+        ("input2", "output2"),
+    ]
+
+    assert encode_examples(examples, NoOpEncoder(), input_formatter="long_text") == [
+        ('Text: """\ninput\n"""', "output"),
+        ('Text: """\ninput2\n"""', "output2"),
+    ]

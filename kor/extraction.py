@@ -2,7 +2,7 @@ from langchain.chains import LLMChain
 from langchain.schema import BaseLanguageModel
 from typing import Any, Optional, Type, Union
 
-from kor.encoders import Encoder, initialize_encoder, InputEncoding
+from kor.encoders import Encoder, initialize_encoder, InputFormatter
 from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
@@ -19,7 +19,7 @@ def create_extraction_chain(
     encoder_or_encoder_class: Union[Type[Encoder], Encoder, str] = "csv",
     type_descriptor: Union[TypeDescriptor, str] = "typescript",
     validator: Optional[Validator] = None,
-    input_encoding: InputEncoding = None,
+    input_formatter: InputFormatter = None,
     **encoder_kwargs: Any,
 ) -> LLMChain:
     """Create an extraction chain.
@@ -32,7 +32,11 @@ def create_extraction_chain(
         type_descriptor: The type descriptor to use. This can be either a TypeDescriptor
                           or a string representing the type descriptor name
         validator: optional validator to use for validation
-        input_encoding: if provided, will determine how to encode the input
+        input_formatter: the formatter to use for encoding the input. Used for
+                         both input examples and the text to be analyzed.
+                         * long_text: adds a triple quote around the text and a TEXT prefix
+                         * None: no formatting, ideal for single sentences or single paragraphs
+                         * Callable: a function that takes the text and returns the formatted text
         encoder_kwargs: Keyword arguments to pass to the encoder class
 
     Returns:
@@ -49,6 +53,6 @@ def create_extraction_chain(
             encoder,
             type_descriptor_to_use,
             validator,
-            input_encoding=input_encoding,
+            input_formatter=input_formatter,
         ),
     )
