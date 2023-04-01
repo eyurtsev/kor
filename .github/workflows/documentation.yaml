@@ -19,13 +19,16 @@ jobs:
           python-version: "3.11"
           cache: "poetry"
       - name: Install dependencies
+        shell: bash
         run: poetry install --with=doc
+      - name: sphinx-apidoc
+        shell: bash
+        run: |
+          poetry run poe apidoc
       - name: Sphinx build
+        shell: bash
         run: |
           poetry run sphinx-build docs/source _build
-      - name: list
-        run: |
-          ls -lsh _build/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: |
