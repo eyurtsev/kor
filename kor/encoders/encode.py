@@ -23,9 +23,9 @@ def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
     Args:
         text: the text to encode
         input_formatter: the formatter to use for the input
-                         long_text: adds a triple quote around the text and a TEXT prefix
-                         None: no formatting, ideal for single sentences or single paragraphs
-                         Callable: a function that takes the text and returns the formatted text
+            * None: use for single sentences or single paragraphs, no formatting
+            * long_text: use for long text (adds ``` around the input and `TEXT`)
+            * Callable: user provided function
 
     Returns:
         The encoded text if it was encoded
