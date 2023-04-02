@@ -58,7 +58,8 @@ Base class:
 
 .. autosummary::
 
-  Encoder
+  encoders.Encoder
+  encoders.SchemaBasedEncoder
 
 TypeDescriptors
 ================
