@@ -41,27 +41,27 @@ def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
 class AbstractVisitor(Generic[T], abc.ABC):
     """An abstract visitor."""
 
-    def visit_text(self, node: "Text") -> T:
+    def visit_text(self, node: "Text", *args: Any, **kwargs: Any) -> T:
         """Visit text node."""
-        return self.visit_default(node)
+        return self.visit_default(node, *args, **kwargs)
 
-    def visit_number(self, node: "Number") -> T:
+    def visit_number(self, node: "Number", *args: Any, **kwargs: Any) -> T:
         """Visit text node."""
-        return self.visit_default(node)
+        return self.visit_default(node, *args, **kwargs)
 
-    def visit_object(self, node: "Object") -> T:
+    def visit_object(self, node: "Object", *args: Any, **kwargs: Any) -> T:
         """Visit object node."""
-        return self.visit_default(node)
+        return self.visit_default(node, *args, **kwargs)
 
-    def visit_selection(self, node: "Selection") -> T:
+    def visit_selection(self, node: "Selection", *args: Any, **kwargs: Any) -> T:
         """Visit selection node."""
-        return self.visit_default(node)
+        return self.visit_default(node, *args, **kwargs)
 
-    def visit_option(self, node: "Option") -> T:
+    def visit_option(self, node: "Option", *args: Any, **kwargs: Any) -> T:
         """Visit option node."""
-        return self.visit_default(node)
+        return self.visit_default(node, *args, **kwargs)
 
-    def visit_default(self, node: "AbstractSchemaNode") -> T:
+    def visit_default(self, node: "AbstractSchemaNode", *args: Any, **kwargs: Any) -> T:
         """Default node implementation."""
         raise NotImplementedError()
 
@@ -93,7 +93,7 @@ class AbstractSchemaNode(abc.ABC):
             )
 
     @abc.abstractmethod
-    def accept(self, visitor: AbstractVisitor) -> Any:
+    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
         """Accept a visitor."""
         raise NotImplementedError()
 
@@ -164,17 +164,17 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 class Number(ExtractionSchemaNode):
     """Built-in number input."""
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_number(self)
+        return visitor.visit_number(self, *args, **kwargs)
 
 
 class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_text(self)
+        return visitor.visit_text(self, *args, **kwargs)
 
 
 class Option(AbstractSchemaNode):
@@ -198,9 +198,9 @@ class Option(AbstractSchemaNode):
         super().__init__(id=id, description=description, many=many)
         self.examples = examples
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_option(self)
+        return visitor.visit_option(self, *args, **kwargs)
 
 
 class Selection(AbstractSchemaNode):
@@ -257,9 +257,9 @@ class Selection(AbstractSchemaNode):
         self.examples = examples
         self.null_examples = null_examples
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_selection(self)
+        return visitor.visit_selection(self, *args, **kwargs)
 
 
 class Object(AbstractSchemaNode):
@@ -309,6 +309,6 @@ class Object(AbstractSchemaNode):
         self.attributes = attributes
         self.examples = examples
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_object(self)
+        return visitor.visit_object(self, *args, **kwargs)
