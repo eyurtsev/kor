@@ -37,8 +37,9 @@ def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
     return sorted(slots)
 
 
+# Visitor is defined here for now, to avoid circular imports.
 class AbstractVisitor(Generic[T], abc.ABC):
-    """An abstract visitor. Define here to avoid cyclical imports for now."""
+    """An abstract visitor."""
 
     def visit_text(self, node: "Text") -> T:
         """Visit text node."""
@@ -137,6 +138,8 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     extraction.
 
     For example:
+
+    .. code-block:: python
         [
             ("I bought this cookie for $10", "$10"),
             ("Eggs cost twelve dollars", "twelve dollars"),
@@ -201,18 +204,36 @@ class Option(AbstractSchemaNode):
 
 
 class Selection(AbstractSchemaNode):
-    """Built-in selection input.
+    """Built-in selection node (aka Enum).
 
     A selection input is composed of one or more options.
 
-    ## Null examples
+    A selectio node supports both examples and null_examples.
 
     Null examples are segments of text for which nothing should be extracted.
-    Good null examples will likely be challenging, adversarial examples.
 
-    For example:
-        for an extraction input about company names nothing should be extracted
-        from the text: "I eat an apple every day.".
+    Examples:
+
+    .. code-block:: python
+
+        selection = Selection(
+            id="species",
+            description="What is your favorite animal species?",
+            options=[
+                Option(id="dog", description="Dog"),
+                Option(id="cat", description="Cat"),
+                Option(id="bird", description="Bird"),
+            ],
+            examples=[
+                ("I like dogs", "dog"),
+                ("I like cats", "cat"),
+                ("I like birds", "bird"),
+            ],
+            null_examples=[
+                "I like flowers",
+            ],
+            many=False
+        )
     """
 
     __slots__ = "options", "examples", "null_examples"
@@ -242,32 +263,29 @@ class Selection(AbstractSchemaNode):
 
 
 class Object(AbstractSchemaNode):
-    """A definition for an object extraction.
+    """Built-in representation for an object.
+
+    Use an object node to represent an entire object that should be extracted.
 
     An extraction input can be associated with 2 different types of examples:
 
-    1) extraction examples (called simply `examples`)
-    2) null examples (called `null_examples`)
+    Example:
 
-    ## Extraction examples
+    .. code-block:: python
 
-    A standard extraction example is a 2-tuple composed of a text segment
-    and the expected extraction.
+        object = Object(
+            id="cookie",
+            description="Information about a cookie including price and name.",
+            attributes=[
+                Text(id="name", description="The name of the cookie"),
+                Number(id="price", description="The price of the cookie"),
+            ],
+            examples=[
+                ("I bought this Big Cookie for $10", {"name": "Big Cookie", "price": "$10"}),
+                ("Eggs cost twelve dollars", {}), # Not a cookie
+            ],
+        )
 
-    For example:
-        [
-            ("I bought this cookie for $10", "$10"),
-            ("Eggs cost twelve dollars", "twelve dollars"),
-        ]
-
-    ## Null examples
-
-    Null examples are segments of text for which nothing should be extracted.
-    Good null examples will likely be challenging, adversarial examples.
-
-    For example:
-        for an extraction input about company names nothing should be extracted
-        from the text: "I eat an apple every day.".
     """
 
     __slots__ = ("attributes", "examples")
