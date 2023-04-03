@@ -41,27 +41,27 @@ def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
 class AbstractVisitor(Generic[T], abc.ABC):
     """An abstract visitor."""
 
-    def visit_text(self, node: "Text", *args: Any, **kwargs: Any) -> T:
+    def visit_text(self, node: "Text", **kwargs: Any) -> T:
         """Visit text node."""
-        return self.visit_default(node, *args, **kwargs)
+        return self.visit_default(node, **kwargs)
 
-    def visit_number(self, node: "Number", *args: Any, **kwargs: Any) -> T:
+    def visit_number(self, node: "Number", **kwargs: Any) -> T:
         """Visit text node."""
-        return self.visit_default(node, *args, **kwargs)
+        return self.visit_default(node, **kwargs)
 
-    def visit_object(self, node: "Object", *args: Any, **kwargs: Any) -> T:
+    def visit_object(self, node: "Object", **kwargs: Any) -> T:
         """Visit object node."""
-        return self.visit_default(node, *args, **kwargs)
+        return self.visit_default(node, **kwargs)
 
-    def visit_selection(self, node: "Selection", *args: Any, **kwargs: Any) -> T:
+    def visit_selection(self, node: "Selection", **kwargs: Any) -> T:
         """Visit selection node."""
-        return self.visit_default(node, *args, **kwargs)
+        return self.visit_default(node, **kwargs)
 
-    def visit_option(self, node: "Option", *args: Any, **kwargs: Any) -> T:
+    def visit_option(self, node: "Option", **kwargs: Any) -> T:
         """Visit option node."""
-        return self.visit_default(node, *args, **kwargs)
+        return self.visit_default(node, **kwargs)
 
-    def visit_default(self, node: "AbstractSchemaNode", *args: Any, **kwargs: Any) -> T:
+    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> T:
         """Default node implementation."""
         raise NotImplementedError()
 
@@ -93,7 +93,7 @@ class AbstractSchemaNode(abc.ABC):
             )
 
     @abc.abstractmethod
-    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         raise NotImplementedError()
 
@@ -164,17 +164,17 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 class Number(ExtractionSchemaNode):
     """Built-in number input."""
 
-    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_number(self, *args, **kwargs)
+        return visitor.visit_number(self, **kwargs)
 
 
 class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
-    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_text(self, *args, **kwargs)
+        return visitor.visit_text(self, **kwargs)
 
 
 class Option(AbstractSchemaNode):
@@ -198,9 +198,9 @@ class Option(AbstractSchemaNode):
         super().__init__(id=id, description=description, many=many)
         self.examples = examples
 
-    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_option(self, *args, **kwargs)
+        return visitor.visit_option(self, **kwargs)
 
 
 class Selection(AbstractSchemaNode):
@@ -257,9 +257,9 @@ class Selection(AbstractSchemaNode):
         self.examples = examples
         self.null_examples = null_examples
 
-    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_selection(self, *args, **kwargs)
+        return visitor.visit_selection(self, **kwargs)
 
 
 class Object(AbstractSchemaNode):
@@ -309,6 +309,6 @@ class Object(AbstractSchemaNode):
         self.attributes = attributes
         self.examples = examples
 
-    def accept(self, visitor: AbstractVisitor[T], *args: Any, **kwargs: Any) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_object(self, *args, **kwargs)
+        return visitor.visit_object(self, **kwargs)

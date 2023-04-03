@@ -16,13 +16,13 @@ from kor.nodes import (
 class TestVisitor(AbstractVisitor[Any]):
     """Toy input for tests."""
 
-    def visit_default(self, node: AbstractSchemaNode, *args: Any, **kwargs: Any) -> Any:
+    def visit_default(self, node: AbstractSchemaNode, **kwargs: Any) -> Any:
         """Verify default is invoked"""
-        return node.id, args, kwargs
+        return node.id, kwargs
 
-    def visit(self, node: AbstractSchemaNode, *args: Any, **kwargs: Any) -> Any:
+    def visit(self, node: AbstractSchemaNode, **kwargs: Any) -> Any:
         """Convenience method."""
-        return node.accept(self, *args, **kwargs)
+        return node.accept(self, **kwargs)
 
 
 OPTION = Option(id="uid")
@@ -40,8 +40,7 @@ OPTION = Option(id="uid")
 )
 def test_visit_default_is_invoked(node: AbstractSchemaNode) -> None:
     visitor = TestVisitor()
-    assert visitor.visit(node, 1, 2, a="a", b="b") == (
+    assert visitor.visit(node, a="a", b="b") == (
         "uid",
-        (1, 2),
         {"a": "a", "b": "b"},
     )
