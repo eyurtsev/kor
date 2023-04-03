@@ -24,9 +24,7 @@ T = TypeVar("T")
 class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
     """Use to visit node and all of its descendents and aggregates all examples."""
 
-    def visit_option(
-        self, node: "Option", *args: Any, **kwargs: Any
-    ) -> List[Tuple[str, str]]:
+    def visit_option(self, node: "Option", **kwargs: Any) -> List[Tuple[str, str]]:
         """Should not visit Options directly."""
         raise AssertionError("Should never visit an Option node.")
 
@@ -39,9 +37,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
             data = [data]
         return {node.id: data}
 
-    def visit_object(
-        self, node: "Object", *args: Any, **kwargs: Any
-    ) -> List[Tuple[str, str]]:
+    def visit_object(self, node: "Object", **kwargs: Any) -> List[Tuple[str, str]]:
         """Implementation of an object visitor."""
         examples = []
         if node.examples:
@@ -69,7 +65,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         return examples
 
     def visit_selection(
-        self, node: "Selection", *args: Any, **kwargs: Any
+        self, node: "Selection", **kwargs: Any
     ) -> List[Tuple[str, str]]:
         """Selection visitor."""
         examples = []
@@ -87,7 +83,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         return examples
 
     def visit_default(
-        self, node: "AbstractSchemaNode", *args: Any, **kwargs: Any
+        self, node: "AbstractSchemaNode", **kwargs: Any
     ) -> List[Tuple[str, str]]:
         """Default visitor implementation."""
         if not isinstance(node, ExtractionSchemaNode):
