@@ -281,7 +281,8 @@ class Object(AbstractSchemaNode):
                 Number(id="price", description="The price of the cookie"),
             ],
             examples=[
-                ("I bought this Big Cookie for $10", {"name": "Big Cookie", "price": "$10"}),
+                ("I bought this Big Cookie for $10",
+                    {"name": "Big Cookie", "price": "$10"}),
                 ("Eggs cost twelve dollars", {}), # Not a cookie
             ],
         )

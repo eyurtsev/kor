@@ -1,5 +1,4 @@
 from collections import defaultdict
-
 from html.parser import HTMLParser
 from typing import Any, DefaultDict, Dict, List, Mapping, Optional, Sequence, Union
 
@@ -112,17 +111,17 @@ class TagParser(HTMLParser):
 class XMLEncoder(Encoder):
     """Experimental XML encoder to encode and decode data.
 
-    This encoder is not recommended for usage, at least not without further benchmarking
-    for your use-case.
+    This encoder is not recommended for usage, at least not without further
+    benchmarking for your use-case.
 
-    The decoder re-interprets all data types as lists, which makes validating and using
-    parser results more involved. It's unclear whether the encoder offers more advantages
-    over other encoders (e.g., JSON or CSV).
+    The decoder re-interprets all data types as lists, which makes validating
+    and using parser results more involved. It's unclear whether the encoder
+    offers more advantages over other encoders (e.g., JSON or CSV).
 
     The encoder would encode the following dictionary
-    
+
     .. code-block:: JSON
-    
+
         {
             "color": ["red", "blue"],
             "height": ["6.1"],
@@ -130,7 +129,7 @@ class XMLEncoder(Encoder):
         }
 
     As:
-    
+
     .. code-block:: XML
 
         <color>red</color><height>6.1</height><width>3</width><color>blue</color>

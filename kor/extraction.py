@@ -29,7 +29,8 @@ def create_extraction_chain(
         node: the schematic description of what to extract from text
         encoder_or_encoder_class: Either an encoder instance, an encoder class
                                   or a string representing the encoder class
-        type_descriptor: either a TypeDescriptor or a string representing the type descriptor name
+        type_descriptor: either a TypeDescriptor or a string representing the type \
+                         descriptor name
         validator: optional validator to use for validation
         input_formatter: the formatter to use for encoding the input. Used for \
                          both input examples and the text to be analyzed.
