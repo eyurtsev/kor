@@ -10,6 +10,10 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
+      - name: check
+        run: |
+          echo $${{ github.event.pull_request.merged }} 
+          echo $${{ github.event.pull_request.labels }} 
       - uses: actions/checkout@v3
       - name: Install poetry
         run: pipx install poetry==$POETRY_VERSION
