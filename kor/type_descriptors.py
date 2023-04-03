@@ -7,7 +7,7 @@ Designing the code here to make it easier to experiment with different ways
 of describing the schema.
 """
 import abc
-from typing import List, TypeVar, Union
+from typing import Any, List, TypeVar, Union
 
 from kor.nodes import (
     AbstractSchemaNode,
@@ -39,14 +39,16 @@ class BulletPointDescriptor(TypeDescriptor[None]):
         self.depth = 0
         self.code_lines: List[str] = []
 
-    def visit_default(self, node: "AbstractSchemaNode") -> None:
+    def visit_default(
+        self, node: "AbstractSchemaNode", *args: Any, **kwargs: Any
+    ) -> None:
         """Default action for a node."""
         space = "* " + self.depth * " "
         self.code_lines.append(
             f"{space}{node.id}: {node.__class__.__name__} # {node.description}"
         )
 
-    def visit_object(self, node: Object) -> None:
+    def visit_object(self, node: Object, *args: Any, **kwargs: Any) -> None:
         """Visit an object node."""
         self.visit_default(node)
         self.depth += 1
@@ -72,7 +74,9 @@ class TypeScriptDescriptor(TypeDescriptor[None]):
         self.depth = 0
         self.code_lines: List[str] = []
 
-    def visit_default(self, node: "AbstractSchemaNode") -> None:
+    def visit_default(
+        self, node: "AbstractSchemaNode", *args: Any, **kwargs: Any
+    ) -> None:
         """Default action for a node."""
         space = self.depth * " "
 
@@ -92,7 +96,7 @@ class TypeScriptDescriptor(TypeDescriptor[None]):
             f"{space}{node.id}: {finalized_type} // {node.description}"
         )
 
-    def visit_object(self, node: Object) -> None:
+    def visit_object(self, node: Object, *args: Any, **kwargs: Any) -> None:
         """Visit an object node."""
         space = self.depth * " "
 
