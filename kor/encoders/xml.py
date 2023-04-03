@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from html.parser import HTMLParser
 from typing import Any, DefaultDict, Dict, List, Mapping, Optional, Sequence, Union
 
@@ -109,6 +110,34 @@ class TagParser(HTMLParser):
 
 
 class XMLEncoder(Encoder):
+    """Experimental XML encoder to encode and decode data.
+
+    This encoder is not recommended for usage, at least not without further benchmarking
+    for your use-case.
+
+    The decoder re-interprets all data types as lists, which makes validating and using
+    parser results more involved. It's unclear whether the encoder offers more advantages
+    over other encoders (e.g., JSON or CSV).
+
+    The encoder would encode the following dictionary
+    
+    .. code-block:: JSON
+    
+        {
+            "color": ["red", "blue"],
+            "height": ["6.1"],
+            "width": ["3"],
+        }
+
+    As:
+    
+    .. code-block:: XML
+
+        <color>red</color><height>6.1</height><width>3</width><color>blue</color>
+
+    A tag be repeated multiple times to represent multiple list elements.
+    """
+
     def encode(self, obj: Mapping[str, Any]) -> str:
         """Encode the object as XML."""
         if not isinstance(obj, dict):
@@ -116,30 +145,7 @@ class XMLEncoder(Encoder):
         return "".join(_write_tag(key, value) for key, value in obj.items())
 
     def decode(self, text: str) -> Dict[str, List[str]]:
-        """Parse a response from an LLM.
-
-        The format of the response is to enclose the input id in angle brackets and
-        the value of the input is the data inside the tag.
-
-        <input_id>selected value</input_id>
-
-        The input_id can be repeated multiple times to support the use case
-        of a selection that allows for multiple options to be selected.
-
-        The response can contain selections for multiple different inputs.
-
-        Tags are to be optionally separated by one or more commas or whitespace.
-
-        <color>red</color>,<height>6.1</height>,<width>3</width>,<color>blue</color>
-
-        Would represent a valid output. It would be interpreted as:
-
-        {
-            "color": ["red", "blue"],
-            "height": ["6.1"],
-            "width": ["3"],
-        }
-        """
+        """Decode the XML as an object."""
         tag_parser = TagParser()
         tag_parser.feed(text)
         if not tag_parser.success:
