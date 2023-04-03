@@ -142,7 +142,7 @@ class Text(ExtractionSchemaNode):
 class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
-    examples: Sequence[str] = (tuple(),)
+    examples: Sequence[str] = tuple()
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -220,7 +220,15 @@ class Object(AbstractSchemaNode):
 
     attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]]
 
-    examples: Sequence[Tuple[str, Mapping[str, Union[str, Sequence[str]]]]] = tuple()
+    examples: Sequence[
+        Tuple[
+            str,
+            Union[
+                Mapping[str, Any],
+                Sequence[Mapping[str, Any]],
+            ],
+        ]
+    ] = tuple()
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
