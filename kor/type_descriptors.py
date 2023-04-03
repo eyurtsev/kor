@@ -3,8 +3,9 @@
 Without fine-tuning the LLM, the quality of the response may end up depending
 on details such as the schema description in the prompt.
 
-Users can implement their own type descriptors or customize an existing one using inheritance
-and over-loading and provide the type-descriptors to the create_extraction_chain function.
+Users can implement their own type descriptors or customize an existing one
+using inheritance and over-loading and provide the type-descriptors to
+the create_extraction_chain function.
 """
 import abc
 from typing import List, TypeVar, Union
