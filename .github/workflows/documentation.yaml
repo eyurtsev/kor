@@ -12,8 +12,9 @@ jobs:
     steps:
       - name: check
         run: |
-          echo $${{ github.event.pull_request.merged }} 
-          echo $${{ github.event.pull_request.labels }} 
+          echo ${{ github.event.pull_request.merged }} 
+          echo ${{ github.event.pull_request.labels }} 
+          echo ${{ github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'doc-publish') }}
       - uses: actions/checkout@v3
       - name: Install poetry
         run: pipx install poetry==$POETRY_VERSION
