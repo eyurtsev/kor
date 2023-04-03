@@ -26,8 +26,9 @@ Instead of using the internal representation it may be more convenient
 to use **from_pydantic** to convert a pydantic schema into internal
 representation automatically.
 
-It may be that the internal schema will be removed in the future in favor
-of just using pydantic schema.
+.. note::
+  It may be that the internal schema will be removed in the future in favor
+  of just using pydantic schema.
 
 .. autosummary::
 
