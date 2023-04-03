@@ -8,7 +8,7 @@ using inheritance and over-loading and provide the type-descriptors to
 the create_extraction_chain function.
 """
 import abc
-from typing import Any, List, TypeVar, Union
+from typing import Any, Iterable, List, TypeVar, Union
 
 from kor.nodes import (
     AbstractSchemaNode,
@@ -34,55 +34,41 @@ class TypeDescriptor(AbstractVisitor[T], abc.ABC):
     """
 
     @abc.abstractmethod
-    def describe(self, node: AbstractSchemaNode) -> str:
+    def describe(self, node: Object) -> str:
         """Take in node and describe its type as a string."""
         raise NotImplementedError()
 
 
-class BulletPointDescriptor(TypeDescriptor[None]):
+class BulletPointDescriptor(TypeDescriptor[Iterable[str]]):
     """Mutable visitor used to generate a bullet point style schema description."""
 
-    def __init__(self) -> None:
-        """Initializer for the bullet point descriptor."""
-        self.depth = 0
-        self.code_lines: List[str] = []
-
-    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> None:
+    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
         """Default action for a node."""
-        space = "* " + self.depth * " "
-        self.code_lines.append(
-            f"{space}{node.id}: {node.__class__.__name__} # {node.description}"
-        )
+        depth = kwargs["depth"]
+        space = "* " + depth * " "
+        return [f"{space}{node.id}: {node.__class__.__name__} # {node.description}"]
 
-    def visit_object(self, node: Object, **kwargs: Any) -> None:
+    def visit_object(self, node: Object, **kwargs: Any) -> List[str]:
         """Visit an object node."""
-        self.visit_default(node)
-        self.depth += 1
+        depth = kwargs["depth"]
+        code_lines = self.visit_default(node, depth=depth)
         for child in node.attributes:
-            child.accept(self)
-        self.depth -= 1
+            code_lines.extend(child.accept(self, depth=depth + 1))
+        return code_lines
 
-    def get_type_description(self) -> str:
-        """Get the type."""
-        return "\n".join(self.code_lines)
-
-    def describe(self, node: AbstractSchemaNode) -> str:
+    def describe(self, node: Object) -> str:
         """Describe the type of the given node."""
-        self.code_lines = []
-        node.accept(self)
-        return self.get_type_description()
+        code_lines = node.accept(self, depth=0)
+        return "\n".join(code_lines)
 
 
-class TypeScriptDescriptor(TypeDescriptor[None]):
+class TypeScriptDescriptor(TypeDescriptor[Iterable[str]]):
     """A mutable visitor (not thread safe) that helps generate TypeScript schema."""
 
-    def __init__(self) -> None:
-        self.depth = 0
-        self.code_lines: List[str] = []
-
-    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> None:
+    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
         """Default action for a node."""
-        space = self.depth * " "
+        depth = kwargs["depth"]
+        space = depth * " "
 
         if isinstance(node, Selection):
             finalized_type = " | ".join('"' + s.id + '"' for s in node.options)
@@ -96,55 +82,39 @@ class TypeScriptDescriptor(TypeDescriptor[None]):
         if node.many:
             finalized_type = "Array<" + finalized_type + ">"
 
-        self.code_lines.append(
-            f"{space}{node.id}: {finalized_type} // {node.description}"
-        )
+        return [f"{space}{node.id}: {finalized_type} // {node.description}"]
 
-    def visit_object(self, node: Object, **kwargs: Any) -> None:
+    def visit_object(self, node: Object, **kwargs: Any) -> List[str]:
         """Visit an object node."""
-        space = self.depth * " "
+        depth = kwargs["depth"]
+        space = depth * " "
 
         if node.many:
             many_formatter = "Array<"
         else:
             many_formatter = ""
 
-        self.code_lines.append(
-            f"{space}{node.id}: {many_formatter}{{ // {node.description}"
-        )
+        code_lines = [f"{space}{node.id}: {many_formatter}{{ // {node.description}"]
 
-        self.depth += 1
         for child in node.attributes:
-            child.accept(self)
-        self.depth -= 1
+            code_lines.extend(child.accept(self, depth=depth + 1))
 
         if node.many:
             many_formatter = ">"
         else:
             many_formatter = ""
 
-        self.code_lines.append(f"{space}}}{many_formatter}")
+        code_lines.append(f"{space}}}{many_formatter}")
+        return code_lines
 
-    def get_type_description(self) -> str:
-        """Get the type."""
-        return "\n".join(self.code_lines)
-
-    def describe(self, node: "AbstractSchemaNode") -> str:
+    def describe(self, node: "Object") -> str:
         """Describe the node type in TypeScript notation."""
-        self.depth = 0
-        self.code_lines = []
-
         if not isinstance(node, Object):
-            self.depth += 1  # We'll add curly brackets below at depth 0.
+            raise TypeError(f"Expecting an Object node got {node}")
 
-        node.accept(self)
-
-        # Add curly brackets if top level node is not an object.
-        if not isinstance(node, Object):
-            self.code_lines.insert(0, "{")
-            self.code_lines.append("}")
-
-        return f"```TypeScript\n\n{self.get_type_description()}\n```\n"
+        code_lines = node.accept(self, depth=0)
+        code = "\n".join(code_lines)
+        return f"```TypeScript\n\n{code}\n```\n"
 
 
 def initialize_type_descriptors(

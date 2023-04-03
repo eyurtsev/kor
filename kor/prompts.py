@@ -17,7 +17,7 @@ from kor.encoders import Encoder
 from kor.encoders.encode import InputFormatter, encode_examples
 from kor.encoders.parser import KorParser
 from kor.examples import generate_examples
-from kor.nodes import AbstractSchemaNode
+from kor.nodes import Object
 from kor.type_descriptors import TypeDescriptor
 
 from .validators import Validator
@@ -28,7 +28,7 @@ class ExtractionPromptValue(PromptValue):
 
     text: str
     encoder: Encoder
-    node: AbstractSchemaNode
+    node: Object
     type_descriptor: TypeDescriptor
     input_formatter: InputFormatter
     prefix: str = (
@@ -80,16 +80,14 @@ class ExtractionPromptValue(PromptValue):
         messages.append(HumanMessage(content=self.text))
         return messages
 
-    def generate_encoded_examples(
-        self, node: AbstractSchemaNode
-    ) -> List[Tuple[str, str]]:
+    def generate_encoded_examples(self, node: Object) -> List[Tuple[str, str]]:
         """Generate encoded examples."""
         examples = generate_examples(node)
         return encode_examples(
             examples, self.encoder, input_formatter=self.input_formatter
         )
 
-    def generate_instruction_segment(self, node: AbstractSchemaNode) -> str:
+    def generate_instruction_segment(self, node: Object) -> str:
         """Generate the instruction segment of the extraction."""
         type_description = self.type_descriptor.describe(node)
         instruction_segment = self.encoder.get_instruction_segment()
@@ -100,7 +98,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     """Extraction prompt template."""
 
     encoder: Encoder
-    node: AbstractSchemaNode
+    node: Object
     type_descriptor: TypeDescriptor
     input_formatter: InputFormatter
 
@@ -136,7 +134,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
 
 
 def create_langchain_prompt(
-    schema: AbstractSchemaNode,
+    schema: Object,
     encoder: Encoder,
     type_descriptor: TypeDescriptor,
     validator: Optional[Validator] = None,

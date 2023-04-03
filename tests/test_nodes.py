@@ -9,7 +9,7 @@ from kor.nodes import AbstractVisitor
 class FakeSchemaNode(nodes.AbstractSchemaNode):
     """Fake Schema Node for testing purposes."""
 
-    def accept(self, visitor: AbstractVisitor, *args: Any, **kwargs: Any) -> Any:
+    def accept(self, visitor: AbstractVisitor, **kwargs: Any) -> Any:
         """Visitor acceptor."""
         raise NotImplementedError()
 
