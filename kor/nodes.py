@@ -1,13 +1,11 @@
 """Definitions of input elements."""
 import abc
 import copy
-import inspect
-import operator
 import re
+from pydantic import Extra, validator, BaseModel
 from typing import (
     Any,
     Generic,
-    List,
     Mapping,
     Optional,
     Sequence,
@@ -26,15 +24,6 @@ from typing import (
 VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
 T = TypeVar("T")
-
-
-def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
-    """Get a list of all slots."""
-    slots: List[str] = []
-    for class_ in inspect.getmro(type(node)):
-        if hasattr(class_, "__slots__"):
-            slots.extend(class_.__slots__)
-    return sorted(slots)
 
 
 # Visitor is defined here for now, to avoid circular imports.
@@ -66,7 +55,7 @@ class AbstractVisitor(Generic[T], abc.ABC):
         raise NotImplementedError()
 
 
-class AbstractSchemaNode(abc.ABC):
+class AbstractSchemaNode(BaseModel):
     """Abstract schema node.
 
     Each node is expected to have a unique ID, and should
@@ -79,18 +68,19 @@ class AbstractSchemaNode(abc.ABC):
     It is used during prompt generation.
     """
 
-    __slots__ = "id", "description", "many"
+    id: str
+    description: str = ""
+    many: bool = False
 
-    def __init__(self, *, id: str, description: str = "", many: bool = False) -> None:
-        self.id = id
-        self.description = description
-        self.many = many
-
-        if not VALID_IDENTIFIER_PATTERN.match(self.id):
+    @validator("id")
+    def ensure_valid_uid(cls, uid: str) -> str:
+        """Validate that using a valid identifier."""
+        if not VALID_IDENTIFIER_PATTERN.match(uid):
             raise ValueError(
-                f"`{self.id}` is not a valid identifier. "
-                "Please only use lower cased a-z, _ or the digits 0-9"
+                f"`{id}` is not a valid identifier. "
+                f"Please only use lower cased a-z, _ or the digits 0-9"
             )
+        return uid
 
     @abc.abstractmethod
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
@@ -111,23 +101,6 @@ class AbstractSchemaNode(abc.ABC):
             new_object.description = description
         return new_object
 
-    def __repr__(self) -> str:
-        """Get representation of the node."""
-        return f"{type(self).__name__}({self.id})"
-
-    def __eq__(self: Any, other: Any) -> bool:
-        """Equality check"""
-        if not isinstance(self, AbstractSchemaNode):
-            raise AssertionError(f"Cannot compare {type(self)} with {type(other)}")
-        if type(self) != type(other):
-            return False
-
-        if _get_all_slots(self) == _get_all_slots(other):
-            attr_getters = [operator.attrgetter(attr) for attr in self.__slots__]
-            return all(getter(self) == getter(other) for getter in attr_getters)
-
-        return False
-
 
 class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     """An abstract definition for inputs that involve extraction.
@@ -140,25 +113,14 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     For example:
 
     .. code-block:: python
+
         [
             ("I bought this cookie for $10", "$10"),
             ("Eggs cost twelve dollars", "twelve dollars"),
         ]
     """
 
-    __slots__ = ("examples",)
-
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        super().__init__(id=id, description=description, many=many)
-        self.examples = examples
+    examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
 
 
 class Number(ExtractionSchemaNode):
@@ -180,23 +142,7 @@ class Text(ExtractionSchemaNode):
 class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
-    __slots__ = ("examples",)
-
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        examples: Sequence[str] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        if many:
-            # TODO: Fix the type hierarchy so that `many` isn't provided to option.
-            raise ValueError("Option inputs cannot be many.")
-
-        super().__init__(id=id, description=description, many=many)
-        self.examples = examples
+    examples: Sequence[str] = (tuple(),)
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -236,26 +182,9 @@ class Selection(AbstractSchemaNode):
         )
     """
 
-    __slots__ = "options", "examples", "null_examples"
-
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        options: Sequence[Option],
-        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
-        null_examples: Sequence[str] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        super().__init__(id=id, description=description, many=many)
-
-        if not options:
-            raise ValueError("Selection inputs must have at least one option.")
-        self.options = options
-        self.examples = examples
-        self.null_examples = null_examples
+    options: Sequence[Option]
+    examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
+    null_examples: Sequence[str] = tuple()
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -289,25 +218,9 @@ class Object(AbstractSchemaNode):
 
     """
 
-    __slots__ = ("attributes", "examples")
+    attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]]
 
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        # All attributes but Option are OK.
-        # May could clean up the type system to simplify this.
-        attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]],
-        examples: Sequence[
-            Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
-        ] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        super().__init__(id=id, description=description, many=many)
-        self.attributes = attributes
-        self.examples = examples
+    examples: Sequence[Tuple[str, Mapping[str, Union[str, Sequence[str]]]]] = tuple()
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
