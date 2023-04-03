@@ -40,7 +40,7 @@ class TypeDescriptor(AbstractVisitor[T], abc.ABC):
 
 
 class BulletPointDescriptor(TypeDescriptor[Iterable[str]]):
-    """Mutable visitor used to generate a bullet point style schema description."""
+    """Generate a bullet point style schema description."""
 
     def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
         """Default action for a node."""
@@ -63,7 +63,7 @@ class BulletPointDescriptor(TypeDescriptor[Iterable[str]]):
 
 
 class TypeScriptDescriptor(TypeDescriptor[Iterable[str]]):
-    """A mutable visitor (not thread safe) that helps generate TypeScript schema."""
+    """Generate a typescript style schema description."""
 
     def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
         """Default action for a node."""
