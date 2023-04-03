@@ -1,10 +1,11 @@
-"""Code that takes a object_input and outputs a string that describes its schema.
+"""Code that takes an Object schema and outputs a string that describes its schema.
 
 Without fine-tuning the LLM, the quality of the response may end up depending
 on details such as the schema description in the prompt.
 
-Designing the code here to make it easier to experiment with different ways
-of describing the schema.
+Users can implement their own type descriptors or customize an existing one
+using inheritance and over-loading and provide the type-descriptors to
+the create_extraction_chain function.
 """
 import abc
 from typing import List, TypeVar, Union
@@ -24,7 +25,13 @@ T = TypeVar("T")
 
 
 class TypeDescriptor(AbstractVisitor[T], abc.ABC):
-    """Interface for type descriptors."""
+    """Abstract interface for a type-descriptor.
+
+    A type-descriptor is responsible for taking in a schema and outputting its type
+    as a string. The description is used to help the LLM generate structured output.
+
+    A type-descriptor is a visitor that can be used to traverse the schema recursively.
+    """
 
     @abc.abstractmethod
     def describe(self, node: AbstractSchemaNode) -> str:
@@ -36,6 +43,7 @@ class BulletPointDescriptor(TypeDescriptor[None]):
     """Mutable visitor used to generate a bullet point style schema description."""
 
     def __init__(self) -> None:
+        """Initializer for the bullet point descriptor."""
         self.depth = 0
         self.code_lines: List[str] = []
 

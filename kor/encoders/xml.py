@@ -111,8 +111,9 @@ class TagParser(HTMLParser):
 class XMLEncoder(Encoder):
     """Experimental XML encoder to encode and decode data.
 
-    This encoder is not recommended for usage, at least not without further
-    benchmarking for your use-case.
+    .. warning::
+        This encoder is not recommended for usage, at least not without further
+        benchmarking for your use-case.
 
     The decoder re-interprets all data types as lists, which makes validating
     and using parser results more involved. It's unclear whether the encoder
