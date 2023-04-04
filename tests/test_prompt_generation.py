@@ -1,15 +1,14 @@
 import pytest
 
-from kor.prompts import create_langchain_prompt
-from kor import TypeScriptDescriptor, JSONEncoder
+from kor import JSONEncoder, Object, TypeScriptDescriptor
 from kor.encoders import InputFormatter
-from kor import Object
+from kor.prompts import create_langchain_prompt
 
 
 @pytest.mark.parametrize(
     "input_formatter, expected_string",
     [
-        (None, 'user input'),
+        (None, "user input"),
         ("triple_quotes", '"""\nuser input\n"""'),
         ("text_prefix", 'Text: """\nuser input\n"""'),
     ],
