@@ -19,7 +19,10 @@ InputFormatter = Union[
 ]
 
 
-def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
+# PUBLIC API
+
+
+def format_text(text: str, input_formatter: InputFormatter = None) -> str:
     """An encoder for the input text.
 
     Args:
@@ -46,9 +49,6 @@ def _format_text(text: str, input_formatter: InputFormatter = None) -> str:
         )
 
 
-# PUBLIC API
-
-
 def encode_examples(
     examples: Sequence[Tuple[str, str]],
     encoder: Encoder,
@@ -58,7 +58,7 @@ def encode_examples(
 
     return [
         (
-            _format_text(input_example, input_formatter=input_formatter),
+            format_text(input_example, input_formatter=input_formatter),
             encoder.encode(output_example),
         )
         for input_example, output_example in examples
