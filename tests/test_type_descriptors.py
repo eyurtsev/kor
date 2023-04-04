@@ -1,7 +1,7 @@
 import pytest
 
 from kor import Number, Object, Text
-from kor.nodes import AbstractSchemaNode, Option, Selection
+from kor.nodes import Option, Selection
 from kor.type_descriptors import BulletPointDescriptor, TypeScriptDescriptor
 
 OPTION_1 = Option(id="blue", description="Option Description", examples=["blue"])
@@ -20,8 +20,8 @@ SELECTION = Selection(
 )
 
 SELECTION_2 = Selection(
-    id="selection",
-    description="Selection Description",
+    id="selection2",
+    description="Selection2 Description",
     options=[OPTION_1, OPTION_2],
     null_examples=["foo"],
     many=True,
@@ -31,7 +31,7 @@ OBJ = Object(
     id="object",
     description="Object Description",
     examples=[("another number", {"number": "1"})],
-    attributes=[NUMBER, TEXT, SELECTION],
+    attributes=[NUMBER, TEXT, SELECTION, SELECTION_2],
 )
 
 
@@ -41,7 +41,7 @@ def test_no_obvious_crashes() -> None:
     This test doesn't verify correctness, only that code doesn't crash!
     """
 
-    nodes_to_check = [NUMBER, TEXT, SELECTION, OBJ]
+    nodes_to_check = [OBJ]
     descriptors = [TypeScriptDescriptor(), BulletPointDescriptor()]
 
     for node in nodes_to_check:
@@ -54,27 +54,18 @@ def test_no_obvious_crashes() -> None:
     "node,description",
     [
         (
-            NUMBER,
-            "* number: Number # Number Description",
-        ),
-        (
-            TEXT,
-            "* text: Text # Text Description",
-        ),
-        (SELECTION, "* selection: Selection # Selection Description"),
-        (SELECTION_2, "* selection: Selection # Selection Description"),
-        (
             OBJ,
             (
                 "* object: Object # Object Description\n"
                 "*  number: Number # Number Description\n"
                 "*  text: Text # Text Description\n"
-                "*  selection: Selection # Selection Description"
+                "*  selection: Selection # Selection Description\n"
+                "*  selection2: Selection # Selection2 Description"
             ),
         ),
     ],
 )
-def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -> None:
+def test_bullet_point_descriptions(node: Object, description: str) -> None:
     """Verify bullet point descriptions."""
     assert BulletPointDescriptor().describe(node) == description
 
@@ -82,33 +73,6 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
 @pytest.mark.parametrize(
     "node,description",
     [
-        (
-            NUMBER,
-            "```TypeScript\n\n{\n number: number // Number Description\n}\n```\n",
-        ),
-        (TEXT, "```TypeScript\n\n{\n text: string // Text Description\n}\n```\n"),
-        (
-            SELECTION,
-            (
-                "```TypeScript\n"
-                "\n"
-                "{\n"
-                ' selection: "blue" // Selection Description\n'
-                "}\n"
-                "```\n"
-            ),
-        ),
-        (
-            SELECTION_2,
-            (
-                "```TypeScript\n"
-                "\n"
-                "{\n"
-                ' selection: Array<"blue" | "red"> // Selection Description\n'
-                "}\n"
-                "```\n"
-            ),
-        ),
         (
             OBJ,
             (
@@ -118,12 +82,13 @@ def test_bullet_point_descriptions(node: AbstractSchemaNode, description: str) -
                 " number: number // Number Description\n"
                 " text: string // Text Description\n"
                 ' selection: "blue" // Selection Description\n'
+                ' selection2: Array<"blue" | "red"> // Selection2 Description\n'
                 "}\n"
                 "```\n"
             ),
         ),
     ],
 )
-def test_typescript_description(node: AbstractSchemaNode, description: str) -> None:
+def test_typescript_description(node: Object, description: str) -> None:
     """Verify typescript descriptions."""
     assert TypeScriptDescriptor().describe(node) == description

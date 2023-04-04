@@ -1,3 +1,5 @@
+from typing import Any, Tuple
+
 import pytest
 
 from kor.nodes import (
@@ -11,16 +13,16 @@ from kor.nodes import (
 )
 
 
-class TestVisitor(AbstractVisitor[str]):
+class TestVisitor(AbstractVisitor[Tuple[str, Any]]):
     """Toy input for tests."""
 
-    def visit_default(self, node: AbstractSchemaNode) -> str:
+    def visit_default(self, node: AbstractSchemaNode, **kwargs: Any) -> Tuple[str, Any]:
         """Verify default is invoked"""
-        return node.id
+        return node.id, kwargs
 
-    def visit(self, node: AbstractSchemaNode) -> str:
+    def visit(self, node: AbstractSchemaNode, **kwargs: Any) -> Tuple[str, Any]:
         """Convenience method."""
-        return node.accept(self)
+        return node.accept(self, **kwargs)
 
 
 OPTION = Option(id="uid")
@@ -38,4 +40,4 @@ OPTION = Option(id="uid")
 )
 def test_visit_default_is_invoked(node: AbstractSchemaNode) -> None:
     visitor = TestVisitor()
-    assert visitor.visit(node) == "uid"
+    assert visitor.visit(node, a="a", b="b") == ("uid", {"a": "a", "b": "b"})

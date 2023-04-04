@@ -1,13 +1,10 @@
 """Definitions of input elements."""
 import abc
 import copy
-import inspect
-import operator
 import re
 from typing import (
     Any,
     Generic,
-    List,
     Mapping,
     Optional,
     Sequence,
@@ -15,6 +12,8 @@ from typing import (
     TypeVar,
     Union,
 )
+
+from pydantic import BaseModel, validator
 
 # For now, limit what's allowed for identifiers.
 # The main constraints
@@ -28,44 +27,36 @@ VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 T = TypeVar("T")
 
 
-def _get_all_slots(node: "AbstractSchemaNode") -> List[str]:
-    """Get a list of all slots."""
-    slots: List[str] = []
-    for class_ in inspect.getmro(type(node)):
-        if hasattr(class_, "__slots__"):
-            slots.extend(class_.__slots__)
-    return sorted(slots)
-
-
+# Visitor is defined here for now, to avoid circular imports.
 class AbstractVisitor(Generic[T], abc.ABC):
-    """An abstract visitor. Define here to avoid cyclical imports for now."""
+    """An abstract visitor."""
 
-    def visit_text(self, node: "Text") -> T:
+    def visit_text(self, node: "Text", **kwargs: Any) -> T:
         """Visit text node."""
-        return self.visit_default(node)
+        return self.visit_default(node, **kwargs)
 
-    def visit_number(self, node: "Number") -> T:
+    def visit_number(self, node: "Number", **kwargs: Any) -> T:
         """Visit text node."""
-        return self.visit_default(node)
+        return self.visit_default(node, **kwargs)
 
-    def visit_object(self, node: "Object") -> T:
+    def visit_object(self, node: "Object", **kwargs: Any) -> T:
         """Visit object node."""
-        return self.visit_default(node)
+        return self.visit_default(node, **kwargs)
 
-    def visit_selection(self, node: "Selection") -> T:
+    def visit_selection(self, node: "Selection", **kwargs: Any) -> T:
         """Visit selection node."""
-        return self.visit_default(node)
+        return self.visit_default(node, **kwargs)
 
-    def visit_option(self, node: "Option") -> T:
+    def visit_option(self, node: "Option", **kwargs: Any) -> T:
         """Visit option node."""
-        return self.visit_default(node)
+        return self.visit_default(node, **kwargs)
 
-    def visit_default(self, node: "AbstractSchemaNode") -> T:
+    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> T:
         """Default node implementation."""
         raise NotImplementedError()
 
 
-class AbstractSchemaNode(abc.ABC):
+class AbstractSchemaNode(BaseModel):
     """Abstract schema node.
 
     Each node is expected to have a unique ID, and should
@@ -78,21 +69,22 @@ class AbstractSchemaNode(abc.ABC):
     It is used during prompt generation.
     """
 
-    __slots__ = "id", "description", "many"
+    id: str
+    description: str = ""
+    many: bool = False
 
-    def __init__(self, *, id: str, description: str = "", many: bool = False) -> None:
-        self.id = id
-        self.description = description
-        self.many = many
-
-        if not VALID_IDENTIFIER_PATTERN.match(self.id):
+    @validator("id")
+    def ensure_valid_uid(cls, uid: str) -> str:
+        """Validate that using a valid identifier."""
+        if not VALID_IDENTIFIER_PATTERN.match(uid):
             raise ValueError(
-                f"`{self.id}` is not a valid identifier. "
-                "Please only use lower cased a-z, _ or the digits 0-9"
+                f"`{id}` is not a valid identifier. "
+                f"Please only use lower cased a-z, _ or the digits 0-9"
             )
+        return uid
 
     @abc.abstractmethod
-    def accept(self, visitor: AbstractVisitor) -> Any:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         raise NotImplementedError()
 
@@ -110,23 +102,6 @@ class AbstractSchemaNode(abc.ABC):
             new_object.description = description
         return new_object
 
-    def __repr__(self) -> str:
-        """Get representation of the node."""
-        return f"{type(self).__name__}({self.id})"
-
-    def __eq__(self: Any, other: Any) -> bool:
-        """Equality check"""
-        if not isinstance(self, AbstractSchemaNode):
-            raise AssertionError(f"Cannot compare {type(self)} with {type(other)}")
-        if type(self) != type(other):
-            return False
-
-        if _get_all_slots(self) == _get_all_slots(other):
-            attr_getters = [operator.attrgetter(attr) for attr in self.__slots__]
-            return all(getter(self) == getter(other) for getter in attr_getters)
-
-        return False
-
 
 class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     """An abstract definition for inputs that involve extraction.
@@ -137,159 +112,125 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     extraction.
 
     For example:
+
+    .. code-block:: python
+
         [
             ("I bought this cookie for $10", "$10"),
             ("Eggs cost twelve dollars", "twelve dollars"),
         ]
     """
 
-    __slots__ = ("examples",)
-
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        super().__init__(id=id, description=description, many=many)
-        self.examples = examples
+    examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
 
 
 class Number(ExtractionSchemaNode):
     """Built-in number input."""
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_number(self)
+        return visitor.visit_number(self, **kwargs)
 
 
 class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_text(self)
+        return visitor.visit_text(self, **kwargs)
 
 
 class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
-    __slots__ = ("examples",)
+    examples: Sequence[str] = tuple()
 
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        examples: Sequence[str] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        if many:
-            # TODO: Fix the type hierarchy so that `many` isn't provided to option.
-            raise ValueError("Option inputs cannot be many.")
-
-        super().__init__(id=id, description=description, many=many)
-        self.examples = examples
-
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_option(self)
+        return visitor.visit_option(self, **kwargs)
 
 
 class Selection(AbstractSchemaNode):
-    """Built-in selection input.
+    """Built-in selection node (aka Enum).
 
     A selection input is composed of one or more options.
 
-    ## Null examples
+    A selectio node supports both examples and null_examples.
 
     Null examples are segments of text for which nothing should be extracted.
-    Good null examples will likely be challenging, adversarial examples.
 
-    For example:
-        for an extraction input about company names nothing should be extracted
-        from the text: "I eat an apple every day.".
+    Examples:
+
+    .. code-block:: python
+
+        selection = Selection(
+            id="species",
+            description="What is your favorite animal species?",
+            options=[
+                Option(id="dog", description="Dog"),
+                Option(id="cat", description="Cat"),
+                Option(id="bird", description="Bird"),
+            ],
+            examples=[
+                ("I like dogs", "dog"),
+                ("I like cats", "cat"),
+                ("I like birds", "bird"),
+            ],
+            null_examples=[
+                "I like flowers",
+            ],
+            many=False
+        )
     """
 
-    __slots__ = "options", "examples", "null_examples"
+    options: Sequence[Option]
+    examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
+    null_examples: Sequence[str] = tuple()
 
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        options: Sequence[Option],
-        examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple(),
-        null_examples: Sequence[str] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        super().__init__(id=id, description=description, many=many)
-
-        if not options:
-            raise ValueError("Selection inputs must have at least one option.")
-        self.options = options
-        self.examples = examples
-        self.null_examples = null_examples
-
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_selection(self)
+        return visitor.visit_selection(self, **kwargs)
 
 
 class Object(AbstractSchemaNode):
-    """A definition for an object extraction.
+    """Built-in representation for an object.
+
+    Use an object node to represent an entire object that should be extracted.
 
     An extraction input can be associated with 2 different types of examples:
 
-    1) extraction examples (called simply `examples`)
-    2) null examples (called `null_examples`)
+    Example:
 
-    ## Extraction examples
+    .. code-block:: python
 
-    A standard extraction example is a 2-tuple composed of a text segment
-    and the expected extraction.
+        object = Object(
+            id="cookie",
+            description="Information about a cookie including price and name.",
+            attributes=[
+                Text(id="name", description="The name of the cookie"),
+                Number(id="price", description="The price of the cookie"),
+            ],
+            examples=[
+                ("I bought this Big Cookie for $10",
+                    {"name": "Big Cookie", "price": "$10"}),
+                ("Eggs cost twelve dollars", {}), # Not a cookie
+            ],
+        )
 
-    For example:
-        [
-            ("I bought this cookie for $10", "$10"),
-            ("Eggs cost twelve dollars", "twelve dollars"),
-        ]
-
-    ## Null examples
-
-    Null examples are segments of text for which nothing should be extracted.
-    Good null examples will likely be challenging, adversarial examples.
-
-    For example:
-        for an extraction input about company names nothing should be extracted
-        from the text: "I eat an apple every day.".
     """
 
-    __slots__ = ("attributes", "examples")
+    attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]]
 
-    def __init__(
-        self,
-        *,
-        id: str,
-        description: str = "",
-        many: bool = False,
-        # All attributes but Option are OK.
-        # May could clean up the type system to simplify this.
-        attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]],
-        examples: Sequence[
-            Tuple[str, Mapping[str, Union[str, Sequence[str]]]]
-        ] = tuple(),
-    ) -> None:
-        """Initialize for extraction input."""
-        super().__init__(id=id, description=description, many=many)
-        self.attributes = attributes
-        self.examples = examples
+    examples: Sequence[
+        Tuple[
+            str,
+            Union[
+                Mapping[str, Any],
+                Sequence[Mapping[str, Any]],
+            ],
+        ]
+    ] = tuple()
 
-    def accept(self, visitor: AbstractVisitor[T]) -> T:
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
-        return visitor.visit_object(self)
+        return visitor.visit_object(self, **kwargs)
