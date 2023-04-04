@@ -2,7 +2,6 @@
 import abc
 import copy
 import re
-from pydantic import Extra, validator, BaseModel
 from typing import (
     Any,
     Generic,
@@ -13,6 +12,8 @@ from typing import (
     TypeVar,
     Union,
 )
+
+from pydantic import BaseModel, validator
 
 # For now, limit what's allowed for identifiers.
 # The main constraints

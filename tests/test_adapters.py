@@ -1,5 +1,5 @@
 import enum
-from typing import Union
+from typing import List, Union
 
 import pydantic
 import pytest
@@ -7,7 +7,6 @@ from pydantic.fields import Field
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
 from kor.nodes import Number, Object, Option, Optional, Selection, Text
-from typing import List
 
 
 def test_convert_pydantic() -> None:
