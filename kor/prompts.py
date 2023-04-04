@@ -14,7 +14,7 @@ from langchain.schema import (
 from pydantic import Extra
 
 from kor.encoders import Encoder
-from kor.encoders.encode import InputFormatter, encode_examples
+from kor.encoders.encode import InputFormatter, encode_examples, format_text
 from kor.encoders.parser import KorParser
 from kor.examples import generate_examples
 from kor.nodes import Object
@@ -44,6 +44,10 @@ class ExtractionPromptValue(PromptValue):
         extra = Extra.forbid
         arbitrary_types_allowed = True
 
+    def get_formatted_text(self) -> str:
+        """Get the text encoded if needed."""
+        return format_text(self.text, input_formatter=self.input_formatter)
+
     def to_string(self) -> str:
         """Format the template to a string."""
         instruction_segment = self.generate_instruction_segment(self.node)
@@ -58,7 +62,8 @@ class ExtractionPromptValue(PromptValue):
                 ]
             )
 
-        formatted_examples.append(f"Input: {self.text}\nOutput:")
+        text = self.get_formatted_text()
+        formatted_examples.append(f"Input: {text}\nOutput:")
         input_output_block = "\n".join(formatted_examples)
         return f"{instruction_segment}\n\n{input_output_block}"
 
@@ -77,7 +82,8 @@ class ExtractionPromptValue(PromptValue):
                 ]
             )
 
-        messages.append(HumanMessage(content=self.text))
+        content = self.get_formatted_text()
+        messages.append(HumanMessage(content=content))
         return messages
 
     def generate_encoded_examples(self, node: Object) -> List[Tuple[str, str]]:
