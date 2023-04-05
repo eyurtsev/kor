@@ -36,7 +36,7 @@ def test_markdownify_html_preprocessor(
     </body>
     </html>
     """
-    assert preprocessor.process(html) == expected
+    assert preprocessor.transform(html) == expected
 
 
 def test_html_loader() -> None:

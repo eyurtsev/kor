@@ -3,22 +3,22 @@
 import markdownify
 import re
 from bs4 import BeautifulSoup
+from typing import Callable, List, Optional, Sequence, Union, Tuple
+
+from kor.documents.typedefs import AbstractDocumentTransformer
 from langchain.document_loaders.base import BaseLoader
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter, TextSplitter
-from typing import Callable, List, Optional, Sequence, Union, Tuple
-
-from kor.documents.typedefs import AbstractHTMLPreprocessor
 
 # Regular expression pattern to detect multiple new lines in a row with optional
 # whitespace in between
 CONSECUTIVE_NEW_LINES = re.compile(r"\n(\s*\n)+", flags=re.UNICODE)
 
 
-def _get_mini_html(content: str, *, tags_to_remove: Tuple[str] = tuple()) -> str:
-    """Clean up HTML content."""
+def _get_mini_html(html: str, *, tags_to_remove: Tuple[str] = tuple()) -> str:
+    """Clean up HTML tags."""
     # Parse the HTML document using BeautifulSoup
-    soup = BeautifulSoup(content, "html.parser")
+    soup = BeautifulSoup(html, "html.parser")
 
     # Remove all CSS stylesheets
     for stylesheet in soup.find_all("link", rel="stylesheet"):
@@ -43,29 +43,35 @@ def _clean_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> str:
 ## PUBLIC API
 
 
-class MarkDownifyHTMLPreprocessor(AbstractHTMLPreprocessor):
+class MarkDownifyHTMLPreprocessor(AbstractDocumentTransformer):
     """A preprocessor to clean HTML and convert to markdown using markdownify."""
 
     def __init__(
-        self, tags_to_remove: Tuple[str, ...] = ("svg", "img", "script", "style")
+        self,
+        tags_to_remove: Tuple[str, ...] = ("svg", "img", "script", "style"),
     ) -> None:
         """Initialize the preprocessor.
 
         Args:
+            preserve_metadata: boolean to preserve metadata, true by default
             tags_to_remove: A tuple of tags to remove from the HTML
         """
         self.tags_to_remove = tags_to_remove
 
-    def process(self, html: str) -> str:
+    def transform(self, document: Document) -> Document:
         """Clean up HTML and convert to markdown using markdownify.
 
         Args:
-            html: The HTML to clean
+            document: a document with HTML content
 
         Returns:
             The cleaned HTML
         """
-        return _clean_html(html, tags_to_remove=self.tags_to_remove)
+        new_document = document.copy()
+        new_document.content = _clean_html(
+            document.page_content, tags_to_remove=self.tags_to_remove
+        )
+        return new_document
 
 
 class HTMLLoader(BaseLoader):
@@ -75,7 +81,7 @@ class HTMLLoader(BaseLoader):
         self,
         htmls: Union[Sequence[str], Sequence[Document]],
         preprocessor: Optional[
-            Union[AbstractHTMLPreprocessor, Callable[[str], str]]
+            Union[AbstractDocumentTransformer, Callable[[str], str]]
         ] = None,
     ) -> None:
         """Load with optional preprocessor.
@@ -98,8 +104,8 @@ class HTMLLoader(BaseLoader):
             processed HTML if a preprocessor is provided, otherwise the original HTML
         """
         if self.preprocessor:
-            if isinstance(self.preprocessor, AbstractHTMLPreprocessor):
-                return self.preprocessor.process(html)
+            if isinstance(self.preprocessor, AbstractDocumentTransformer):
+                return self.preprocessor.transform(html)
             else:
                 return self.preprocessor(html)
         else:
