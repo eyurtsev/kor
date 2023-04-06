@@ -1,6 +1,9 @@
-from kor.documents.html import HTMLLoader, MarkDownifyHTMLPreprocessor
-import pytest
 from typing import Optional, Tuple
+
+import pytest
+from langchain.schema import Document
+
+from kor.documents.html import MarkDownifyHTMLPreprocessor
 
 
 @pytest.mark.parametrize(
@@ -36,38 +39,8 @@ def test_markdownify_html_preprocessor(
     </body>
     </html>
     """
-    assert preprocessor.transform(html) == expected
-
-
-def test_html_loader() -> None:
-    """Test the HTMLLoader."""
-    html = """
-    <html>
-    <head>
-    <title>Test</title>
-    </head>
-    <body>
-    <p>Test</p>
-    </body>
-    </html>
-    """
-
-    # No pre-processor
-    loader = HTMLLoader([html])
-    docs = loader.load()
-    assert len(docs) == 1
-    assert docs[0].page_content == html
-
-    # With callable
-    loader = HTMLLoader([html], preprocessor=lambda x: "html" + x)
-    docs = loader.load()
-    assert len(docs) == 1
-    assert docs[0].page_content == "html" + html
-
-    # With pre-processor
-    loader = HTMLLoader(
-        [html], preprocessor=MarkDownifyHTMLPreprocessor(tags_to_remove=("title",))
-    )
-    docs = loader.load()
-    assert len(docs) == 1
-    assert docs[0].page_content == "Test"
+    document = Document(page_content=html, metadata={"a": 1})
+    processed_document = preprocessor.transform(document)
+    assert isinstance(processed_document, Document)
+    assert processed_document.page_content == expected
+    assert processed_document.metadata == {"a": 1}
