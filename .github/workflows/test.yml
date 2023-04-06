@@ -27,7 +27,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: "poetry"
       - name: Install dependencies
-        run: poetry install --with test
+        run: poetry install --with test -E html
       - name: Run unit tests
         run: |
           poetry run poe test
