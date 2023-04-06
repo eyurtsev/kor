@@ -2,6 +2,7 @@
 from typing import Any, List, Mapping, Optional
 
 import pytest
+from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models.base import BaseChatModel
 from langchain.schema import (
@@ -129,3 +130,30 @@ def test_not_implemented_assertion_raised_for_csv(options: Mapping[str, Any]) ->
 
     with pytest.raises(NotImplementedError):
         create_extraction_chain(chat_model, **options)
+
+
+def test_using_custom_template() -> None:
+    """Create an extraction chain with a custom template."""
+    template = PromptTemplate(
+        input_variables=["instruction_segment", "type_description"],
+        template=(
+            "custom_prefix\n"
+            "{type_description}\n\n"
+            "{instruction_segment}\n"
+            "custom_suffix"
+        ),
+    )
+    chain = create_extraction_chain(
+        ToyChatModel(response="hello"),
+        OBJECT_SCHEMA_WITH_MANY,
+        prompt_template=template,
+        encoder_or_encoder_class="json",
+    )
+    prompt_value = chain.prompt.format_prompt(text="hello")
+    system_message = prompt_value.to_messages()[0]
+    string_value = prompt_value.to_string()
+
+    assert "custom_prefix" in string_value
+    assert "custom_suffix" in string_value
+    assert "custom_prefix" in system_message.content
+    assert "custom_suffix" in system_message.content
