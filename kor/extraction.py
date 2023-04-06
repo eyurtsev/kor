@@ -44,7 +44,8 @@ def create_extraction_chain(
              used for generating the instruction section of the prompt.
              It accepts 2 optional input variables:
              * "type_description": type description of the node (from TypeDescriptor)
-             * "format_instructions": information on how to format the output (from Encoder)
+             * "format_instructions": information on how to format the output
+               (from Encoder)
         encoder_kwargs: Keyword arguments to pass to the encoder class
 
     Returns:
