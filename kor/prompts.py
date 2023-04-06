@@ -23,15 +23,15 @@ from kor.type_descriptors import TypeDescriptor
 
 from .validators import Validator
 
-DEFAULT_PROMPT_TEMPLATE = PromptTemplate(
-    input_variables=["type_description", "instruction_segment"],
+DEFAULT_INSTRUCTION_TEMPLATE = PromptTemplate(
+    input_variables=["type_description", "format_instructions"],
     template=(
         "Your goal is to extract structured information from the user's input that"
         " matches the form described below. When extracting information please make"
         " sure it matches the type information exactly. Do not add any attributes that"
         " do not appear in the schema shown below.\n\n"
         "{type_description}\n\n"
-        "{instruction_segment}\n\n"
+        "{format_instructions}\n\n"
     ),
 )
 
@@ -64,7 +64,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     node: Object
     type_descriptor: TypeDescriptor
     input_formatter: InputFormatter
-    prompt_template: PromptTemplate
+    instruction_template: PromptTemplate
 
     class Config:
         """Configuration for this pydantic object."""
@@ -137,18 +137,18 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     def format_instruction_segment(self, node: Object) -> str:
         """Generate the instruction segment of the extraction."""
         type_description = self.type_descriptor.describe(node)
-        instruction_segment = self.encoder.get_instruction_segment()
-        input_variables = self.prompt_template.input_variables
+        format_instructions = self.encoder.get_instruction_segment()
+        input_variables = self.instruction_template.input_variables
 
         formatting_kwargs = {}
 
         if "type_description" in input_variables:
             formatting_kwargs["type_description"] = type_description
 
-        if "instruction_segment" in input_variables:
-            formatting_kwargs["instruction_segment"] = instruction_segment
+        if "format_instructions" in input_variables:
+            formatting_kwargs["format_instructions"] = format_instructions
 
-        return self.prompt_template.format(**formatting_kwargs)
+        return self.instruction_template.format(**formatting_kwargs)
 
 
 # PUBLIC API
@@ -161,7 +161,7 @@ def create_langchain_prompt(
     *,
     validator: Optional[Validator] = None,
     input_formatter: InputFormatter = None,
-    prompt_template: Optional[PromptTemplate] = None,
+    instruction_template: Optional[PromptTemplate] = None,
 ) -> ExtractionPromptTemplate:
     """Create a langchain style prompt with specified encoder."""
     return ExtractionPromptTemplate(
@@ -171,5 +171,5 @@ def create_langchain_prompt(
         node=schema,
         input_formatter=input_formatter,
         type_descriptor=type_descriptor,
-        prompt_template=prompt_template or DEFAULT_PROMPT_TEMPLATE,
+        instruction_template=instruction_template or DEFAULT_INSTRUCTION_TEMPLATE,
     )

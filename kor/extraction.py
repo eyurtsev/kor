@@ -21,7 +21,7 @@ def create_extraction_chain(
     type_descriptor: Union[TypeDescriptor, str] = "typescript",
     validator: Optional[Validator] = None,
     input_formatter: InputFormatter = None,
-    prompt_template: Optional[PromptTemplate] = None,
+    instruction_template: Optional[PromptTemplate] = None,
     **encoder_kwargs: Any,
 ) -> LLMChain:
     """Create an extraction chain.
@@ -40,15 +40,11 @@ def create_extraction_chain(
             * `triple_quotes`: for long text, surround input with \"\"\"
             * `text_prefix`: for long text, triple_quote with `TEXT: ` prefix
             * `Callable`: user provided function
-        prompt_template: optional prompt template to use, use to over-ride default
-             prompt template. This prompt template is used just for generation of the
-             instruction segment. It accepts 2 optional input variables:
+        instruction_template: optional prompt template to use, use to over-ride prompt
+             used for generating the instruction section of the prompt.
+             It accepts 2 optional input variables:
              * "type_description": type description of the node (from TypeDescriptor)
-             * "instruction_segment": information on how to format the output
-                (please note that this variable may get renamed in the future. to avoid
-                confusing it with the instruction segment of the prompt.)
-             No other input variables can be used in the prompt. These input variables
-             will be filled in automatically by the Encoder and the TypeDescriptor.
+             * "format_instructions": information on how to format the output (from Encoder)
         encoder_kwargs: Keyword arguments to pass to the encoder class
 
     Returns:
@@ -77,7 +73,7 @@ def create_extraction_chain(
             encoder,
             type_descriptor_to_use,
             validator=validator,
-            prompt_template=prompt_template,
+            instruction_template=instruction_template,
             input_formatter=input_formatter,
         ),
     )

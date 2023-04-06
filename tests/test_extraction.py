@@ -135,18 +135,18 @@ def test_not_implemented_assertion_raised_for_csv(options: Mapping[str, Any]) ->
 def test_using_custom_template() -> None:
     """Create an extraction chain with a custom template."""
     template = PromptTemplate(
-        input_variables=["instruction_segment", "type_description"],
+        input_variables=["format_instructions", "type_description"],
         template=(
             "custom_prefix\n"
             "{type_description}\n\n"
-            "{instruction_segment}\n"
+            "{format_instructions}\n"
             "custom_suffix"
         ),
     )
     chain = create_extraction_chain(
         ToyChatModel(response="hello"),
         OBJECT_SCHEMA_WITH_MANY,
-        prompt_template=template,
+        instruction_template=template,
         encoder_or_encoder_class="json",
     )
     prompt_value = chain.prompt.format_prompt(text="hello")
