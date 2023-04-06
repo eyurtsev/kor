@@ -12,11 +12,10 @@ python = "^3.8.1"
 openai = "^0.27"
 langchain = ">=0.0.110"
 pandas = "^1.5.3"
-unstructured = "^0.5.7"
+markdownify = {version = "^0.11.6", optional = true}
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
-
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.1"
@@ -45,9 +44,10 @@ mypy = "^0.991"
 types-toml = "^0.10.8.5"
 
 
-[tool.poetry.group.web.dependencies]
-playwright = "^1.32.1"
-markdownify = "^0.11.6"
+[tool.poetry.group.html.dependencies]
+
+[tool.poetry.extras]
+html = ["markdownify"]
 
 [tool.poe.tasks]
 black = "black"
