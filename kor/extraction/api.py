@@ -1,3 +1,4 @@
+"""Kor API for extraction related functionality."""
 import asyncio
 from langchain import PromptTemplate
 from langchain.chains import LLMChain

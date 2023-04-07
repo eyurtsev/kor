@@ -1,4 +1,4 @@
-from kor.extraction.extraction import create_extraction_chain, extract_from_documents
+from kor.extraction.api import create_extraction_chain, extract_from_documents
 from kor.extraction.parser import KorParser
 from kor.extraction.typedefs import Extraction, DocumentExtraction
 
