@@ -106,7 +106,8 @@ def test_extract_from_documents_with_extraction_uid_function() -> None:
         Document(page_content="hello", metadata={"uid": "a"}),
     ]
 
-    def uid_function(doc):
+    def uid_function(doc: Document) -> str:
+        """Function to assign a uid to the extraction."""
         return doc.metadata["uid"] + "!"
 
     extraction_results = asyncio.run(

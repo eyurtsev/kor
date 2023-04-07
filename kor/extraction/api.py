@@ -21,17 +21,20 @@ async def _extract_from_document_with_semaphore(
     document: Document,
     uid: str,
     source_uid: str,
-) -> Extraction:
+) -> DocumentExtraction:
     """Extract from document with a semaphore to limit concurrency."""
     async with semaphore:
-        extraction_result = cast(
+        extraction_result: Extraction = cast(
             Extraction, await chain.apredict_and_parse(text=document.page_content)
         )
-        return DocumentExtraction(
-            uid=uid,
-            source_uid=source_uid,
-            **extraction_result,
-        )
+        return {
+            "uid": uid,
+            "source_uid": source_uid,
+            'data': extraction_result['data'],
+            'raw': extraction_result['raw'],
+            'validated_data': extraction_result['validated_data'],
+            'errors': extraction_result['errors'],
+        }
 
 
 # PUBLIC API

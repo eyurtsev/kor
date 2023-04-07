@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import Extra
 
 from kor.encoders import Encoder
 from kor.exceptions import ParseError
-from kor.extraction import Extraction
+from kor.extraction.typedefs import Extraction
 from kor.nodes import Object
 from kor.validators import Validator
 
@@ -41,6 +41,8 @@ class KorParser(BaseOutputParser):
 
         key_id = self.schema_.id
 
+        errors: List[Exception]
+
         if key_id not in data:
             if data:  # We got something parsed, but it doesn't match the schema.
                 errors = [
@@ -57,14 +59,14 @@ class KorParser(BaseOutputParser):
         obj_data = data[key_id]
 
         if self.validator:
-            validated_data, exceptions = self.validator.clean_data(obj_data)
+            validated_data, errors = self.validator.clean_data(obj_data)
         else:
-            validated_data, exceptions = {}, []
+            validated_data, errors = {}, []
 
         return {
             "data": data,
             "raw": text,
-            "errors": exceptions,
+            "errors": errors,
             "validated_data": validated_data,
         }
 
