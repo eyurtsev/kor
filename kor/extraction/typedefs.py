@@ -21,7 +21,8 @@ class DocumentExtraction(Extraction):
     The original extraction typedefs together with the unique identifiers for the result
     itself as well as the source document.
 
-    Identifiers are included to make it easier to link the extraction result to the source.
+    Identifiers are included to make it easier to link the extraction result
+    to the source content.
     """
 
     uid: str

@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+from typing import Optional
+
 from pydantic import Extra
-from typing import Any, Dict, Optional, List
 
 from kor.encoders import Encoder
-
 from kor.exceptions import ParseError
+from kor.extraction import Extraction
 from kor.nodes import Object
 from kor.validators import Validator
 

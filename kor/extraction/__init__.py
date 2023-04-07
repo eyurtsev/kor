@@ -1,6 +1,6 @@
 from kor.extraction.api import create_extraction_chain, extract_from_documents
 from kor.extraction.parser import KorParser
-from kor.extraction.typedefs import Extraction, DocumentExtraction
+from kor.extraction.typedefs import DocumentExtraction, Extraction
 
 __all__ = [
     "Extraction",

@@ -16,8 +16,8 @@ from pydantic import Extra
 
 from kor.encoders import Encoder
 from kor.encoders.encode import InputFormatter, encode_examples, format_text
-from kor.extraction.parser import KorParser
 from kor.examples import generate_examples
+from kor.extraction.parser import KorParser
 from kor.nodes import Object
 from kor.type_descriptors import TypeDescriptor
 

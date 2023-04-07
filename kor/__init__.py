@@ -1,10 +1,10 @@
 from .adapters import from_pydantic
 from .encoders import CSVEncoder, JSONEncoder, XMLEncoder
 from .extraction import (
+    DocumentExtraction,
+    Extraction,
     create_extraction_chain,
     extract_from_documents,
-    Extraction,
-    DocumentExtraction,
 )
 from .nodes import Number, Object, Option, Selection, Text
 from .type_descriptors import (

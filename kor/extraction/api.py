@@ -1,17 +1,37 @@
 """Kor API for extraction related functionality."""
 import asyncio
+from typing import Any, Callable, List, Optional, Sequence, Type, Union, cast
+
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.docstore.document import Document
 from langchain.schema import BaseLanguageModel
-from typing import Any, Optional, Type, Union, List
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
-from kor.extraction.typedefs import DocumentExtraction
+from kor.extraction.typedefs import DocumentExtraction, Extraction
 from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
+
+
+async def _extract_from_document_with_semaphore(
+    semaphore: asyncio.Semaphore,
+    chain: LLMChain,
+    document: Document,
+    uid: str,
+    source_uid: str,
+) -> Extraction:
+    """Extract from document with a semaphore to limit concurrency."""
+    async with semaphore:
+        extraction_result = cast(
+            Extraction, await chain.apredict_and_parse(text=document.page_content)
+        )
+        return DocumentExtraction(
+            uid=uid,
+            source_uid=source_uid,
+            **extraction_result,
+        )
 
 
 # PUBLIC API
@@ -86,18 +106,21 @@ def create_extraction_chain(
 
 async def extract_from_documents(
     chain: LLMChain,
-    documents: List[Document],
+    documents: Sequence[Document],
     *,
     max_concurrency: int = 1,
     use_uid: bool = True,
+    extraction_uid_function: Optional[Callable[[Document], str]] = None,
+    return_exceptions: bool = False,
 ) -> List[DocumentExtraction]:
     """Run extraction through all the given documents.
 
-    If a `uid` field is found in the document metadata, it will be used as the
-    `uid` field in the extraction result.
+    Attention: When using this function with a large number of documents, mind the bill
+               since this can use a lot of tokens!
 
-    Add a `uid` field to the document metadata to allow associate the extraction
-    result with the source document.
+    Concurrency is currently limited using a semaphore. This is a temporary
+    and can be changed to a queue implementation to support a non-materialized stream
+    of documents.
 
     Args:
         chain: the extraction chain to use for extraction
@@ -107,32 +130,40 @@ async def extract_from_documents(
         use_uid: If True, will use a uid attribute in metadata if it exists
                           will raise error if attribute does not exist.
                  If False, will use the index of the document in the list as the uid
+        extraction_uid_function: Optional function to use to generate the uid for
+             a given DocumentExtraction. If not provided, will use the uid
+             of the document.
+        return_exceptions: named argument passed to asyncio.gather
 
     Returns:
         A list of extraction results
     """
     semaphore = asyncio.Semaphore(value=max_concurrency)
 
-    async with semaphore:
-        tasks = []
-        for idx, doc in enumerate(documents):
-            if use_uid:
-                source_uid = doc.metadata.get("uid")
-                if source_uid is None:
-                    raise ValueError(
-                        f"uid not found in document metadata for document {idx}"
-                    )
-            else:
-                source_uid = str(idx)
+    tasks = []
+    for idx, doc in enumerate(documents):
+        if use_uid:
+            source_uid = doc.metadata.get("uid")
+            if source_uid is None:
+                raise ValueError(
+                    f"uid not found in document metadata for document {idx}"
+                )
+            # C
+            source_uid = str(source_uid)
+        else:
+            source_uid = str(idx)
 
-            tasks.append((source_uid, chain.apredict_and_parse(text=doc.page_content)))
+        extraction_uid = (
+            extraction_uid_function(doc) if extraction_uid_function else source_uid
+        )
 
-    results = await asyncio.gather(*tasks)
+        tasks.append(
+            asyncio.ensure_future(
+                _extract_from_document_with_semaphore(
+                    semaphore, chain, doc, extraction_uid, source_uid
+                )
+            )
+        )
 
-    extraction_results: List[DocumentExtraction] = []
-
-    for result in results:
-        source_uid, data = result
-        extraction_results.append(DocumentExtraction(uid=source_uid, **data))
-
-    return extraction_results
+    results = await asyncio.gather(*tasks, return_exceptions=return_exceptions)
+    return results
