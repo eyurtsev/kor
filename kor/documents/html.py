@@ -7,7 +7,7 @@ import markdownify
 from bs4 import BeautifulSoup
 from langchain.schema import Document
 
-from kor.documents.typedefs import AbstractDocumentTransformer
+from kor.documents.typedefs import AbstractDocumentProcessor
 
 # Regular expression pattern to detect multiple new lines in a row with optional
 # whitespace in between
@@ -42,7 +42,7 @@ def _clean_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> str:
 ## PUBLIC API
 
 
-class MarkdownifyHTMLTransformer(AbstractDocumentTransformer):
+class MarkdownifyHTMLProcessor(AbstractDocumentProcessor):
     """A preprocessor to clean HTML and convert to markdown using markdownify."""
 
     def __init__(
@@ -56,7 +56,7 @@ class MarkdownifyHTMLTransformer(AbstractDocumentTransformer):
         """
         self.tags_to_remove = tags_to_remove
 
-    def transform(self, document: Document) -> Document:
+    def process(self, document: Document) -> Document:
         """Clean up HTML and convert to markdown using markdownify.
 
         Args:

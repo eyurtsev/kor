@@ -3,7 +3,7 @@ from typing import Optional, Tuple
 import pytest
 from langchain.schema import Document
 
-from kor.documents.html import MarkdownifyHTMLTransformer
+from kor.documents.html import MarkdownifyHTMLProcessor
 
 
 @pytest.mark.parametrize(
@@ -19,9 +19,9 @@ def test_markdownify_html_preprocessor(
 ) -> None:
     """Test the MarkDownifyHTMLPreprocessor."""
     if tags is not None:
-        preprocessor = MarkdownifyHTMLTransformer(tags_to_remove=tags)
+        processor = MarkdownifyHTMLProcessor(tags_to_remove=tags)
     else:
-        preprocessor = MarkdownifyHTMLTransformer()
+        processor = MarkdownifyHTMLProcessor()
 
     html = """
     <html>
@@ -40,7 +40,7 @@ def test_markdownify_html_preprocessor(
     </html>
     """
     document = Document(page_content=html, metadata={"a": 1})
-    processed_document = preprocessor.transform(document)
+    processed_document = processor.process(document)
     assert isinstance(processed_document, Document)
     assert processed_document.page_content == expected
     assert processed_document.metadata == {"a": 1}
