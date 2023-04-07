@@ -10,6 +10,8 @@ def test_kor__all__() -> None:
     assert sorted(__all__) == [
         "BulletPointDescriptor",
         "CSVEncoder",
+        "DocumentExtraction",
+        "Extraction",
         "JSONEncoder",
         "Number",
         "Object",
@@ -21,5 +23,6 @@ def test_kor__all__() -> None:
         "XMLEncoder",
         "__version__",
         "create_extraction_chain",
+        "extract_from_documents",
         "from_pydantic",
     ]
