@@ -30,10 +30,10 @@ async def _extract_from_document_with_semaphore(
         return {
             "uid": uid,
             "source_uid": source_uid,
-            'data': extraction_result['data'],
-            'raw': extraction_result['raw'],
-            'validated_data': extraction_result['validated_data'],
-            'errors': extraction_result['errors'],
+            "data": extraction_result["data"],
+            "raw": extraction_result["raw"],
+            "validated_data": extraction_result["validated_data"],
+            "errors": extraction_result["errors"],
         }
 
 
