@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
-
 from pydantic import Extra
+from typing import Any, Dict, Optional, List
 
 from kor.encoders import Encoder
+
 from kor.exceptions import ParseError
 from kor.nodes import Object
 from kor.validators import Validator
@@ -31,7 +31,7 @@ class KorParser(BaseOutputParser):
         """Declare the type property."""
         return "KorEncoder"
 
-    def parse(self, text: str) -> Dict[str, Any]:
+    def parse(self, text: str) -> Extraction:
         """Parse the text."""
         try:
             data = self.encoder.decode(text)

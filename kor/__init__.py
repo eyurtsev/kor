@@ -1,6 +1,11 @@
 from .adapters import from_pydantic
 from .encoders import CSVEncoder, JSONEncoder, XMLEncoder
-from .extraction import create_extraction_chain
+from .extraction import (
+    create_extraction_chain,
+    extract_from_documents,
+    Extraction,
+    DocumentExtraction,
+)
 from .nodes import Number, Object, Option, Selection, Text
 from .type_descriptors import (
     BulletPointDescriptor,
@@ -13,6 +18,8 @@ __all__ = (
     "BulletPointDescriptor",
     "create_extraction_chain",
     "CSVEncoder",
+    "DocumentExtraction",
+    "Extraction",
     "from_pydantic",
     "JSONEncoder",
     "Number",
@@ -22,6 +29,7 @@ __all__ = (
     "Text",
     "TypeDescriptor",
     "TypeScriptDescriptor",
-    "XMLEncoder",
+    "extract_from_documents",
     "__version__",
+    "XMLEncoder",
 )

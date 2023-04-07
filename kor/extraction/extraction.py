@@ -1,14 +1,17 @@
-from typing import Any, Optional, Type, Union
-
+import asyncio
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.docstore.document import Document
 from langchain.schema import BaseLanguageModel
+from typing import Any, Optional, Type, Union, List
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
+from kor.extraction.typedefs import DocumentExtraction
 from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
+
 
 # PUBLIC API
 
@@ -78,3 +81,57 @@ def create_extraction_chain(
             input_formatter=input_formatter,
         ),
     )
+
+
+async def extract_from_documents(
+    chain: LLMChain,
+    documents: List[Document],
+    *,
+    max_concurrency: int = 1,
+    use_uid: bool = True,
+) -> List[DocumentExtraction]:
+    """Run extraction through all the given documents.
+
+    If a `uid` field is found in the document metadata, it will be used as the
+    `uid` field in the extraction result.
+
+    Add a `uid` field to the document metadata to allow associate the extraction
+    result with the source document.
+
+    Args:
+        chain: the extraction chain to use for extraction
+        documents: the documents to run extraction on
+        max_concurrency: the maximum number of concurrent requests to make,
+                         uses a semaphore to limit concurrency
+        use_uid: If True, will use a uid attribute in metadata if it exists
+                          will raise error if attribute does not exist.
+                 If False, will use the index of the document in the list as the uid
+
+    Returns:
+        A list of extraction results
+    """
+    semaphore = asyncio.Semaphore(value=max_concurrency)
+
+    async with semaphore:
+        tasks = []
+        for idx, doc in enumerate(documents):
+            if use_uid:
+                source_uid = doc.metadata.get("uid")
+                if source_uid is None:
+                    raise ValueError(
+                        f"uid not found in document metadata for document {idx}"
+                    )
+            else:
+                source_uid = str(idx)
+
+            tasks.append((source_uid, chain.apredict_and_parse(text=doc.page_content)))
+
+    results = await asyncio.gather(*tasks)
+
+    extraction_results: List[DocumentExtraction] = []
+
+    for result in results:
+        source_uid, data = result
+        extraction_results.append(DocumentExtraction(uid=source_uid, **data))
+
+    return extraction_results
