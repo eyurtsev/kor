@@ -42,7 +42,7 @@ def _clean_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> str:
 ## PUBLIC API
 
 
-class MarkDownifyHTMLPreprocessor(AbstractDocumentTransformer):
+class MarkdownifyHTMLTransformer(AbstractDocumentTransformer):
     """A preprocessor to clean HTML and convert to markdown using markdownify."""
 
     def __init__(
