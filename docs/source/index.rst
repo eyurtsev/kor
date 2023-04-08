@@ -89,5 +89,10 @@ Translate user input into structured JSON to use for an API **request**:
    untyped_objects
    apis
    validation
+   document_extraction
+
+.. toctree::
+   :caption: Advanced
+
    type_descriptors
    api
