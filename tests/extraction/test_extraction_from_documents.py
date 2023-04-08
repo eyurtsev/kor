@@ -118,7 +118,9 @@ def test_extract_from_documents_with_extraction_uid_function() -> None:
             max_concurrency=100,
         )
     )
-    assert extraction_results[0]["uid"] == "a!"
+    first_result = extraction_results[0]
+    assert isinstance(first_result, dict)
+    assert first_result["uid"] == "a!"
 
 
 def test_check_assertion_is_raised_when_using_missing_uuid() -> None:
