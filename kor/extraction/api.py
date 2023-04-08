@@ -112,10 +112,10 @@ async def extract_from_documents(
     documents: Sequence[Document],
     *,
     max_concurrency: int = 1,
-    use_uid: bool = True,
+    use_uid: bool = False,
     extraction_uid_function: Optional[Callable[[Document], str]] = None,
     return_exceptions: bool = False,
-) -> List[DocumentExtraction]:
+) -> List[Union[DocumentExtraction, Exception]]:
     """Run extraction through all the given documents.
 
     Attention: When using this function with a large number of documents, mind the bill
@@ -140,6 +140,7 @@ async def extract_from_documents(
 
     Returns:
         A list of extraction results
+        if return_exceptions = True, the exceptions may be returned as well.
     """
     semaphore = asyncio.Semaphore(value=max_concurrency)
 
