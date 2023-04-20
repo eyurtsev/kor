@@ -225,8 +225,8 @@ class Object(AbstractSchemaNode):
         Tuple[
             str,
             Union[
-                Mapping[str, Any],
                 Sequence[Mapping[str, Any]],
+                Mapping[str, Any],
             ],
         ]
     ] = tuple()
