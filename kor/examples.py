@@ -22,7 +22,7 @@ T = TypeVar("T")
 
 
 class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
-    """Use to visit node and all of its descendents and aggregates all examples."""
+    """Use to visit node and all of its descendants and aggregates all examples."""
 
     def visit_option(self, node: "Option", **kwargs: Any) -> List[Tuple[str, str]]:
         """Should not visit Options directly."""
