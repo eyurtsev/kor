@@ -5,6 +5,7 @@
 
 # Kor
 
+Do not merge me
 
 This is a half-baked prototype that "helps" you extract structured data from text using LLMs 🧩.
 
