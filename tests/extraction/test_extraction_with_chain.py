@@ -1,6 +1,7 @@
 """Test that the extraction chain works as expected."""
-from typing import Any, Mapping
+from typing import Any, Mapping, Optional
 
+import langchain
 import pytest
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
@@ -100,6 +101,24 @@ def test_not_implemented_assertion_raised_for_csv(options: Mapping[str, Any]) ->
 
     with pytest.raises(NotImplementedError):
         create_extraction_chain(chat_model, **options)
+
+
+@pytest.mark.parametrize("verbose", [True, False, None])
+def test_instantiation_with_verbose_flag(verbose: Optional[bool]) -> None:
+    """Create an extraction chain."""
+    chat_model = ToyChatModel(response="hello")
+    chain = create_extraction_chain(
+        chat_model,
+        SIMPLE_OBJECT_SCHEMA,
+        encoder_or_encoder_class="json",
+        verbose=verbose,
+    )
+    assert isinstance(chain, LLMChain)
+    if verbose is None:
+        expected_verbose = langchain.verbose
+    else:
+        expected_verbose = verbose
+    assert chain.verbose == expected_verbose
 
 
 def test_using_custom_template() -> None:
