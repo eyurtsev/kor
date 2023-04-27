@@ -49,7 +49,6 @@ def create_extraction_chain(
     validator: Optional[Validator] = None,
     input_formatter: InputFormatter = None,
     instruction_template: Optional[PromptTemplate] = None,
-    verbose: Optional[bool] = None,
     **encoder_kwargs: Any,
 ) -> LLMChain:
     """Create an extraction chain.
@@ -74,12 +73,11 @@ def create_extraction_chain(
              * "type_description": type description of the node (from TypeDescriptor)
              * "format_instructions": information on how to format the output
                (from Encoder)
-        verbose: if provided, sets the verbosity on the chain, otherwise default
-                 verbosity of the chain will be used
         encoder_kwargs: Keyword arguments to pass to the encoder class
 
     Returns:
         A langchain chain
+        
         
     Examples:
     
@@ -96,11 +94,6 @@ def create_extraction_chain(
         raise ValueError(f"node must be an Object got {type(node)}")
     encoder = initialize_encoder(encoder_or_encoder_class, node, **encoder_kwargs)
     type_descriptor_to_use = initialize_type_descriptors(type_descriptor)
-
-    chain_kwargs = {}
-    if verbose is not None:
-        chain_kwargs["verbose"] = verbose
-
     return LLMChain(
         llm=llm,
         prompt=create_langchain_prompt(
@@ -111,7 +104,6 @@ def create_extraction_chain(
             instruction_template=instruction_template,
             input_formatter=input_formatter,
         ),
-        **chain_kwargs,
     )
 
 
