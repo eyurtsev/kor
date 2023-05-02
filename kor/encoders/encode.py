@@ -1,6 +1,6 @@
 from typing import Any, Callable, List, Literal, Mapping, Sequence, Tuple, Type, Union
 
-from kor.nodes import AbstractSchemaNode
+from kor.nodes import AbstractValueNode
 
 from .csv_data import CSVEncoder
 from .json_data import JSONEncoder
@@ -67,7 +67,7 @@ def encode_examples(
 
 def initialize_encoder(
     encoder_or_encoder_class: Union[Type[Encoder], Encoder, str],
-    schema: AbstractSchemaNode,
+    schema: AbstractValueNode,
     **kwargs: Any,
 ) -> Encoder:
     """Flexible way to initialize an encoder, used only for top level API.

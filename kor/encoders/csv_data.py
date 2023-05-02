@@ -13,12 +13,12 @@ import pandas as pd
 from kor.encoders.typedefs import SchemaBasedEncoder
 from kor.encoders.utils import unwrap_tag, wrap_in_tag
 from kor.exceptions import ParseError
-from kor.nodes import AbstractSchemaNode, Object
+from kor.nodes import AbstractValueNode, Object
 
 DELIMITER = "|"
 
 
-def _extract_top_level_fieldnames(node: AbstractSchemaNode) -> List[str]:
+def _extract_top_level_fieldnames(node: AbstractValueNode) -> List[str]:
     """Temporary schema description for CSV extraction."""
     if isinstance(node, Object):
         return [attributes.id for attributes in node.attributes]
@@ -32,7 +32,7 @@ def _extract_top_level_fieldnames(node: AbstractSchemaNode) -> List[str]:
 class CSVEncoder(SchemaBasedEncoder):
     """CSV encoder."""
 
-    def __init__(self, node: AbstractSchemaNode, use_tags: bool = False) -> None:
+    def __init__(self, node: AbstractValueNode, use_tags: bool = False) -> None:
         """Attach node to the encoder to allow the encoder to understand schema.
 
         Args:

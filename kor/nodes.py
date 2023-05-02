@@ -51,13 +51,29 @@ class AbstractVisitor(Generic[T], abc.ABC):
         """Visit option node."""
         return self.visit_default(node, **kwargs)
 
-    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> T:
+    def visit_list(self, node: "List", **kwargs: Any) -> T:
+        """Visit list node."""
+        return self.visit_default(node, **kwargs)
+
+    def visit_any_of(self, node: "AnyOf", **kwargs: Any) -> T:
+        """Visit any of node."""
+        return self.visit_default(node, **kwargs)
+
+    def visit_default(self, node: "AbstractValueNode", **kwargs: Any) -> T:
         """Default node implementation."""
         raise NotImplementedError()
 
 
-class AbstractSchemaNode(BaseModel):
-    """Abstract schema node.
+class AbstractSchemaNode(BaseModel, abc.ABC):
+    """An abstract schema node that defines the schema tree."""
+
+    @abc.abstractmethod
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
+        """Accept a visitor."""
+
+
+class AbstractValueNode(AbstractSchemaNode, abc.ABC):
+    """Abstract value node.
 
     Each node is expected to have a unique ID, and should
     only use alphanumeric characters.
@@ -83,17 +99,12 @@ class AbstractSchemaNode(BaseModel):
             )
         return uid
 
-    @abc.abstractmethod
-    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
-        """Accept a visitor."""
-        raise NotImplementedError()
-
     # Update return type to `Self` when bumping python version.
     def replace(
         self,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         description: Optional[str] = None,
-    ) -> "AbstractSchemaNode":
+    ) -> "AbstractValueNode":
         """Wrapper around data-classes replace."""
         new_object = copy.copy(self)
         if id:
@@ -103,7 +114,7 @@ class AbstractSchemaNode(BaseModel):
         return new_object
 
 
-class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
+class ExtractionValueNode(AbstractValueNode, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
     An extraction input can be associated with extraction examples.
@@ -124,7 +135,7 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
 
 
-class Number(ExtractionSchemaNode):
+class Number(ExtractionValueNode):
     """Built-in number input."""
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
@@ -132,7 +143,7 @@ class Number(ExtractionSchemaNode):
         return visitor.visit_number(self, **kwargs)
 
 
-class Text(ExtractionSchemaNode):
+class Text(ExtractionValueNode):
     """Built-in text input."""
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
@@ -140,7 +151,7 @@ class Text(ExtractionSchemaNode):
         return visitor.visit_text(self, **kwargs)
 
 
-class Option(AbstractSchemaNode):
+class Option(AbstractValueNode):
     """Built-in option input must be part of a selection input."""
 
     examples: Sequence[str] = tuple()
@@ -150,7 +161,27 @@ class Option(AbstractSchemaNode):
         return visitor.visit_option(self, **kwargs)
 
 
-class Selection(AbstractSchemaNode):
+class List_(AbstractSchemaNode):
+    """Represent a list of nodes, equivalent to many=True."""
+
+    nodes: Sequence[AbstractSchemaNode]
+
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
+        """Accept a visitor."""
+        return visitor.visit_list(self, **kwargs)
+
+
+class AnyOf(AbstractSchemaNode):
+    """Equivalent of a Union type."""
+
+    nodes: Sequence[AbstractSchemaNode]
+
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
+        """Accept a visitor."""
+        return visitor.visit_any_of(self, **kwargs)
+
+
+class Selection(AbstractValueNode):
     """Built-in selection node (aka Enum).
 
     A selection input is composed of one or more options.
@@ -192,7 +223,7 @@ class Selection(AbstractSchemaNode):
         return visitor.visit_selection(self, **kwargs)
 
 
-class Object(AbstractSchemaNode):
+class Object(AbstractValueNode):
     """Built-in representation for an object.
 
     Use an object node to represent an entire object that should be extracted.
@@ -219,7 +250,7 @@ class Object(AbstractSchemaNode):
 
     """
 
-    attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]]
+    attributes: Sequence[Union[ExtractionValueNode, Selection, "Object"]]
 
     examples: Sequence[
         Tuple[
