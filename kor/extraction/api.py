@@ -5,7 +5,11 @@ from typing import Any, Callable, List, Optional, Sequence, Type, Union, cast
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.docstore.document import Document
-from langchain.schema import BaseLanguageModel
+
+try:  # Handle breaking change in langchain
+    from langchain.base_language import BaseLanguageModel
+except ImportError:
+    from langchain.schema import BaseLanguageModel
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
 from kor.extraction.typedefs import DocumentExtraction, Extraction
