@@ -12,13 +12,13 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../'))
-
-
-# -- Project information -----------------------------------------------------
 from typing import List
 
 import toml
+
+# -- Project information -----------------------------------------------------
+
+sys.path.insert(0, os.path.abspath("../../"))
 
 with open("../../pyproject.toml") as f:
     data = toml.load(f)
