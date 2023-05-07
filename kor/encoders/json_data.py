@@ -25,13 +25,14 @@ class JSONEncoder(Encoder):
             from kor import JSONEncoder
 
             json_encoder = JSONEncoder(use_tags=True)
-            json_encoder.encode({"object": [{"a": 1}]})
-            # '<json>{"object": [{"a": 1}]}</json>'
-
-            json_encoder = JSONEncoder(use_tags=True, ensure_ascii=False)
             data = {"name": "Café"}
             json_encoder.encode(data)
             # '<json>{"name": "Café"}</json>'
+
+            json_encoder = JSONEncoder(use_tags=True, ensure_ascii=True)
+            data = {"name": "Café"}
+            json_encoder.encode(data)
+            # '<json>{"name": "Caf\\u00e9"}</json>'
 
     """
 
