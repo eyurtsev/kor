@@ -35,24 +35,17 @@ class JSONEncoder(Encoder):
 
     """
 
-    def __init__(self, use_tags: bool = True, ensure_ascii: bool = True) -> None:
+    def __init__(self, use_tags: bool = True, ensure_ascii: bool = False) -> None:
         """Initialize the JSON encoder.
 
-                Args:
-                    use_tags: Whether to wrap the output in a special JSON tags.
-                              This may help identify the JSON content in cases when
-                              the model attempts to add clarifying explanations.
-                    ensure_ascii: Whether to escape non-ASCII characters.
-                    data = {"name": "Café"}
-
-        # Using ensure_ascii=True (default)
-        json_str = json.dumps(data)
-        print(json_str)  # {"name": "Caf\u00e9"}
-
-        # Using ensure_ascii=False
-        json_str = json.dumps(data, ensure_ascii=False)
-        print(json_str)  # {"name": "Café"}
-
+        Args:
+            use_tags: Whether to wrap the output in a special JSON tags.
+                      This may help identify the JSON content in cases when
+                      the model attempts to add clarifying explanations.
+            ensure_ascii: Whether to escape non-ASCII characters.
+                      Default is False to preserve non-ASCII characters as
+                      that it a more sensible behavior for the extraction
+                      use cases.
         """
         self.use_tags = use_tags
         self.ensure_ascii = ensure_ascii
