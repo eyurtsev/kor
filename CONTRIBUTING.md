@@ -2,14 +2,13 @@
 
 Thanks for your interest in contributing to Kor!
 
-At the moment, I'm only gauging interest from the community in this package.
+If you have ideas or features you would like to see implemented feel free to
+open an issue and let me know.
 
-If you have ideas or features you would like please open an issue and let me
-know!
+PRs are welcome, but before spending a lot of time on the code, feel free
+to either file an issue or a draft PR to discuss the implementation etc.
 
-Feel free to submit PRs with new features, just be aware that at the moment
-I'll commander them to figure out how to consolidate things into something
-coherent (or at least resembling something coherent).
+Be aware that I may comandeer the PRs and refactor them a bit.
 
 ## Setting up for development
 

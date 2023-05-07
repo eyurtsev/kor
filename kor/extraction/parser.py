@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import List, Optional
 
 from pydantic import Extra
 
 from kor.encoders import Encoder
 from kor.exceptions import ParseError
+from kor.extraction.typedefs import Extraction
 from kor.nodes import Object
 from kor.validators import Validator
 
@@ -31,7 +32,7 @@ class KorParser(BaseOutputParser):
         """Declare the type property."""
         return "KorEncoder"
 
-    def parse(self, text: str) -> Dict[str, Any]:
+    def parse(self, text: str) -> Extraction:
         """Parse the text."""
         try:
             data = self.encoder.decode(text)
@@ -39,6 +40,8 @@ class KorParser(BaseOutputParser):
             return {"data": {}, "raw": text, "errors": [e], "validated_data": {}}
 
         key_id = self.schema_.id
+
+        errors: List[Exception]
 
         if key_id not in data:
             if data:  # We got something parsed, but it doesn't match the schema.
@@ -56,14 +59,14 @@ class KorParser(BaseOutputParser):
         obj_data = data[key_id]
 
         if self.validator:
-            validated_data, exceptions = self.validator.clean_data(obj_data)
+            validated_data, errors = self.validator.clean_data(obj_data)
         else:
-            validated_data, exceptions = {}, []
+            validated_data, errors = {}, []
 
         return {
             "data": data,
             "raw": text,
-            "errors": exceptions,
+            "errors": errors,
             "validated_data": validated_data,
         }
 
