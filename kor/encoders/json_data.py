@@ -17,17 +17,45 @@ class JSONEncoder(Encoder):
     within the LLM response and extract it.
 
     The usage of <json> tags is similar to the usage of ```JSON and ``` marks.
+
+    Examples:
+
+        .. code-block:: python
+
+            from kor import JSONEncoder
+
+            json_encoder = JSONEncoder(use_tags=True)
+            json_encoder.encode({"object": [{"a": 1}]})
+            # '<json>{"object": [{"a": 1}]}</json>'
+
+            json_encoder = JSONEncoder(use_tags=True, ensure_ascii=False)
+            data = {"name": "Café"}
+            json_encoder.encode(data)
+            # '<json>{"name": "Café"}</json>'
+
     """
 
-    def __init__(self, use_tags: bool = True) -> None:
+    def __init__(self, use_tags: bool = True, ensure_ascii: bool = True) -> None:
         """Initialize the JSON encoder.
 
-        Args:
-            use_tags: Whether to wrap the output in a special JSON tags.
-                      This may help identify the JSON content in cases when
-                      the model attempts to add clarifying explanations.
+                Args:
+                    use_tags: Whether to wrap the output in a special JSON tags.
+                              This may help identify the JSON content in cases when
+                              the model attempts to add clarifying explanations.
+                    ensure_ascii: Whether to escape non-ASCII characters.
+                    data = {"name": "Café"}
+
+        # Using ensure_ascii=True (default)
+        json_str = json.dumps(data)
+        print(json_str)  # {"name": "Caf\u00e9"}
+
+        # Using ensure_ascii=False
+        json_str = json.dumps(data, ensure_ascii=False)
+        print(json_str)  # {"name": "Café"}
+
         """
         self.use_tags = use_tags
+        self.ensure_ascii = ensure_ascii
 
     def encode(self, data: Any) -> str:
         """Encode the data as JSON.
@@ -40,7 +68,7 @@ class JSONEncoder(Encoder):
         """
         content = json.dumps(data)
         if self.use_tags:
-            return wrap_in_tag("json", json.dumps(data))
+            return wrap_in_tag("json", json.dumps(data, ensure_ascii=self.ensure_ascii))
         return content
 
     def decode(self, text: str) -> Any:
@@ -63,7 +91,9 @@ class JSONEncoder(Encoder):
         if content is None:
             return {}
         try:
-            return json.loads(content)
+            return json.loads(
+                content,
+            )
         except json.JSONDecodeError as e:
             raise ParseError(e)
 

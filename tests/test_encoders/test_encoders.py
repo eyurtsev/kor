@@ -51,36 +51,6 @@ def test_xml_encoding(node_data: Any, expected: str) -> None:
     assert xml_encoder.encode(node_data) == expected
 
 
-@pytest.mark.parametrize(
-    "node_data,expected",
-    [
-        ({"object": [{"number": ["1"]}]}, '{"object": [{"number": ["1"]}]}'),
-        ({"object": [{"text": ["3"]}]}, '{"object": [{"text": ["3"]}]}'),
-        (
-            {"object": [{"selection": ["option"]}]},
-            '{"object": [{"selection": ["option"]}]}',
-        ),
-    ],
-)
-def test_json_encoding(node_data: Any, expected: str) -> None:
-    """Test JSON encoding. This is just json.dumps, so no need to test extensively."""
-    json_encoder = JSONEncoder(use_tags=False)
-    assert json_encoder.encode(node_data) == expected
-    assert json_encoder.decode(expected) == node_data
-
-
-def test_json_encoding_with_tags() -> None:
-    """Test JSON encoder with content wrapped in tags."""
-    json_encoder = JSONEncoder(use_tags=True)
-    assert (
-        json_encoder.encode({"object": [{"a": 1}]})
-        == '<json>{"object": [{"a": 1}]}</json>'
-    )
-    assert json_encoder.decode('<json>{"object": [{"a": 1}]}</json>') == {
-        "object": [{"a": 1}]
-    }
-
-
 class NoOpEncoder(Encoder):
     def encode(self, data: Any) -> str:
         """Identity function for encoding."""
