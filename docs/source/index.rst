@@ -94,5 +94,6 @@ Translate user input into structured JSON to use for an API **request**:
 .. toctree::
    :caption: Advanced
 
+   prompt
    type_descriptors
    api
