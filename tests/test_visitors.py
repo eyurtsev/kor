@@ -3,7 +3,7 @@ from typing import Any, Tuple
 import pytest
 
 from kor.nodes import (
-    AbstractSchemaNode,
+    AbstractValueNode,
     AbstractVisitor,
     Number,
     Object,
@@ -16,11 +16,11 @@ from kor.nodes import (
 class TestVisitor(AbstractVisitor[Tuple[str, Any]]):
     """Toy input for tests."""
 
-    def visit_default(self, node: AbstractSchemaNode, **kwargs: Any) -> Tuple[str, Any]:
+    def visit_default(self, node: AbstractValueNode, **kwargs: Any) -> Tuple[str, Any]:
         """Verify default is invoked"""
         return node.id, kwargs
 
-    def visit(self, node: AbstractSchemaNode, **kwargs: Any) -> Tuple[str, Any]:
+    def visit(self, node: AbstractValueNode, **kwargs: Any) -> Tuple[str, Any]:
         """Convenience method."""
         return node.accept(self, **kwargs)
 
@@ -38,6 +38,6 @@ OPTION = Option(id="uid")
         Option(id="uid"),
     ],
 )
-def test_visit_default_is_invoked(node: AbstractSchemaNode) -> None:
+def test_visit_default_is_invoked(node: AbstractValueNode) -> None:
     visitor = TestVisitor()
     assert visitor.visit(node, a="a", b="b") == ("uid", {"a": "a", "b": "b"})

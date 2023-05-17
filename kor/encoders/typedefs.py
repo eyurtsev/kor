@@ -9,7 +9,7 @@ This file only contains the interface for encoders.
 import abc
 from typing import Any
 
-from kor.nodes import AbstractSchemaNode
+from kor.nodes import AbstractValueNode
 
 
 class Encoder(abc.ABC):
@@ -46,6 +46,6 @@ class SchemaBasedEncoder(Encoder, abc.ABC):
     of the data that's being encoded.
     """
 
-    def __init__(self, node: AbstractSchemaNode, **kwargs: Any) -> None:
+    def __init__(self, node: AbstractValueNode, **kwargs: Any) -> None:
         """Attach node to the encoder to allow the encoder to understand schema."""
         self.node = node

@@ -9,9 +9,9 @@ The code uses a default encoding of XML. This encoding should match the parser.
 from typing import Any, List, Tuple
 
 from kor.nodes import (
-    AbstractSchemaNode,
+    AbstractValueNode,
     AbstractVisitor,
-    ExtractionSchemaNode,
+    ExtractionValueNode,
     Object,
     Option,
     Selection,
@@ -29,7 +29,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         raise AssertionError("Should never visit an Option node.")
 
     @staticmethod
-    def _assemble_output(node: AbstractSchemaNode, data: Any) -> Any:
+    def _assemble_output(node: AbstractValueNode, data: Any) -> Any:
         """Assemble the output data according to the type of the node."""
         if not data:
             return {}
@@ -83,10 +83,10 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
         return examples
 
     def visit_default(
-        self, node: "AbstractSchemaNode", **kwargs: Any
+        self, node: "AbstractValueNode", **kwargs: Any
     ) -> List[Tuple[str, str]]:
         """Default visitor implementation."""
-        if not isinstance(node, ExtractionSchemaNode):
+        if not isinstance(node, ExtractionValueNode):
             raise AssertionError()
         examples = []
 
@@ -95,7 +95,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
             examples.append((text, value))
         return examples
 
-    def visit(self, node: "AbstractSchemaNode") -> List[Tuple[str, str]]:
+    def visit(self, node: "AbstractValueNode") -> List[Tuple[str, str]]:
         """Entry-point."""
         return node.accept(self)
 
@@ -103,7 +103,7 @@ class SimpleExampleAggregator(AbstractVisitor[List[Tuple[str, str]]]):
 # PUBLIC API
 
 
-def generate_examples(node: AbstractSchemaNode) -> List[Tuple[str, str]]:
+def generate_examples(node: AbstractValueNode) -> List[Tuple[str, str]]:
     """Generate examples for a given element.
 
     A rudimentary implementation that simply concatenates all available examples

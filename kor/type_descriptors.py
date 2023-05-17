@@ -11,7 +11,7 @@ import abc
 from typing import Any, Iterable, List, TypeVar, Union
 
 from kor.nodes import (
-    AbstractSchemaNode,
+    AbstractValueNode,
     AbstractVisitor,
     Number,
     Object,
@@ -42,7 +42,7 @@ class TypeDescriptor(AbstractVisitor[T], abc.ABC):
 class BulletPointDescriptor(TypeDescriptor[Iterable[str]]):
     """Generate a bullet point style schema description."""
 
-    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
+    def visit_default(self, node: "AbstractValueNode", **kwargs: Any) -> List[str]:
         """Default action for a node."""
         depth = kwargs["depth"]
         space = "* " + depth * " "
@@ -65,7 +65,7 @@ class BulletPointDescriptor(TypeDescriptor[Iterable[str]]):
 class TypeScriptDescriptor(TypeDescriptor[Iterable[str]]):
     """Generate a typescript style schema description."""
 
-    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
+    def visit_default(self, node: "AbstractValueNode", **kwargs: Any) -> List[str]:
         """Default action for a node."""
         depth = kwargs["depth"]
         space = depth * " "

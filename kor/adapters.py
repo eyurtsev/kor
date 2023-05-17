@@ -15,7 +15,7 @@ from typing import (
 
 from pydantic import BaseModel
 
-from .nodes import ExtractionSchemaNode, Number, Object, Option, Selection, Text
+from .nodes import ExtractionValueNode, Number, Object, Option, Selection, Text
 from .validators import PydanticValidator, Validator
 
 # Not going to support dicts or lists since that requires recursive checks.
@@ -46,7 +46,7 @@ def _translate_pydantic_to_kor(
         The Kor internal representation of the model.
     """
 
-    attributes: List[Union[ExtractionSchemaNode, Selection, "Object"]] = []
+    attributes: List[Union[ExtractionValueNode, Selection, "Object"]] = []
     for field_name, field in model_class.__fields__.items():
         field_info = field.field_info
         extra = field_info.extra
@@ -59,7 +59,7 @@ def _translate_pydantic_to_kor(
 
         type_ = field.type_
         field_many = get_origin(field.outer_type_) is list
-        attribute: Union[ExtractionSchemaNode, Selection, "Object"]
+        attribute: Union[ExtractionValueNode, Selection, "Object"]
         # Precedence matters here since bool is a subclass of int
         if get_origin(type_) is Union:
             args = get_args(type_)
