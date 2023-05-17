@@ -86,6 +86,8 @@ Integrated with the [LangChain framework 😽💗 🦜🔗](https://python.langc
 
 ## Pydantic style schema
 
+* See documentation here [pydantic](https://eyurtsev.github.io/kor/validation.html).
+
 ```python 
 
 class Action(enum.Enum):
