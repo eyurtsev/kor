@@ -90,6 +90,7 @@ Translate user input into structured JSON to use for an API **request**:
    apis
    validation
    document_extraction
+   guidelines
 
 .. toctree::
    :caption: Advanced
