@@ -5,7 +5,6 @@
 
 # Kor
 
-
 This is a half-baked prototype that "helps" you extract structured data from text using LLMs 🧩.
 
 Specify the schema of what should be extracted and provide some examples.
@@ -15,13 +14,13 @@ output.
 
 You might even get results back.
 
+So yes – it’s just another wrapper on top of LLMs with its own flavor of abstractions. 😸
+
 See [documentation](https://eyurtsev.github.io/kor/).
 
-## Version >=0.4.0
+Integrated with the [LangChain framework 😽💗 🦜🔗](https://python.langchain.com/en/latest/index.html).
 
-* Integrated with langchain framework.
-* The code below uses Kor style schema, but you can also use [pydantic](https://eyurtsev.github.io/kor/validation.html).
-
+## Kor style schema
 
 ```python
 
@@ -40,7 +39,7 @@ See [documentation](https://eyurtsev.github.io/kor/).
   schema = Object(
     id="player",
     description=(
-        "User is controling a music player to select songs, pause or start them or play"
+        "User is controlling a music player to select songs, pause or start them or play"
         " music by a particular artist."
     ),
     attributes=[
@@ -81,14 +80,60 @@ See [documentation](https://eyurtsev.github.io/kor/).
 ```
 
 ```python
+
   {'player': {'artist': ['paul simon', 'led zeppelin', 'the doors']}}
 ```
+
+## Pydantic style schema
+
+```python 
+
+class Action(enum.Enum):
+    play = "play"
+    stop = "stop"
+    previous = "previous"
+    next_ = "next"
+
+
+class MusicRequest(BaseModel):
+    song: Optional[List[str]] = Field(
+        description="The song(s) that the user would like to be played."
+    )
+    album: Optional[List[str]] = Field(
+        description="The album(s) that the user would like to be played."
+    )
+    artist: Optional[List[str]] = Field(
+        description="The artist(s) whose music the user would like to hear.",
+        examples=[("Songs by paul simon", "paul simon")],
+    )
+    action: Optional[Action] = Field(
+        description="The action that should be taken; one of `play`, `stop`, `next`, `previous`",
+        examples=[
+            ("Please stop the music", "stop"),
+            ("play something", "play"),
+            ("play a song", "play"),
+            ("next song", "next"),
+        ],
+    )
+    
+schema, validator = from_pydantic(MusicRequest)   
+chain = create_extraction_chain(
+    llm, schema, encoder_or_encoder_class="json", validator=validator
+)
+chain.predict_and_parse(text="stop the music now")["validated_data"]
+```
+
+```
+MusicRequest(song=None, album=None, artist=None, action=<Action.stop: 'stop'>)
+```
+
+
 
 ## Compatibility
 
 `Kor` is tested against python 3.8, 3.9, 3.10, 3.11.
 
-## Installaton 
+## Installation 
 
 ```sh
 pip install kor
@@ -115,17 +160,15 @@ Prototype! So the API is not expected to be stable!
 
 The expectation is that as LLMs improve some of these issues will be mitigated.
 
-## Limtations
+## Limitations 
 
-No limitations whatsoever. Do take a look at the section directly above as well
-as at the section about compatibility.
+Kor has no limitations. (Just kidding.)
 
-## Potential Changes
+Take a look at the section above and at the compatibility section.
 
-* Adding validators
-* Built-in components to quickly assemble schema with examples
-* Add routing layer to select appropriate extraction schema for a use case when
-  many schema exist
+## Got Ideas?
+
+Open an issue, and let's discuss!
 
 ## 🎶 Why the name?
 
