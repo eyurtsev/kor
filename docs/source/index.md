@@ -1,8 +1,3 @@
-**⚠ WARNING: Prototype with unstable API. 🚧**  
-
-[![Unit Tests](https://github.com/eyurtsev/kor/actions/workflows/test.yml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/test.yml)
-[![Test Docs](https://github.com/eyurtsev/kor/actions/workflows/doc_test.yaml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/doc_test.yaml)
-
 # Kor
 
 This is a half-baked prototype that "helps" you extract structured data from text using LLMs 🧩.
@@ -24,7 +19,7 @@ Integrated with the [LangChain framework 😽💗 🦜🔗](https://python.langc
 
 ```python
 from langchain.chat_models import ChatOpenAI
-from kor import create_extraction_chain, Object, Text
+from kor import create_extraction_chain, Object, Text 
 
 llm = ChatOpenAI(
     model_name="gpt-3.5-turbo",
@@ -187,3 +182,25 @@ So here are some great alternatives:
 
 * [Promptify](https://github.com/promptslab/Promptify)
 * [MiniChain](https://srush.github.io/MiniChain/examples/stats/)
+
+
+```{toctree}
+:maxdepth: 2
+:caption: Contents
+tutorial
+objects
+nested_objects
+untyped_objects
+apis
+validation
+document_extraction
+guidelines
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: Advanced
+prompt
+type_descriptors
+api
+```
