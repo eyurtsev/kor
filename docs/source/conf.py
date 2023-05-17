@@ -71,6 +71,7 @@ html_theme_options = {
     "path_to_docs": "docs",
     "repository_url": "https://github.com/eyurtsev/kor",
     "use_repository_button": True,
+    "home_page_in_toc": True,
 }
 
 html_context = {
