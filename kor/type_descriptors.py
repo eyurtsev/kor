@@ -117,6 +117,60 @@ class TypeScriptDescriptor(TypeDescriptor[Iterable[str]]):
         return f"```TypeScript\n\n{code}\n```\n"
 
 
+class PostgresDescriptor(TypeDescriptor[Iterable[str]]):
+    """Generate a postgres style schema description."""
+
+    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> List[str]:
+        """Default action for a node."""
+        depth = kwargs["depth"]
+        space = depth * " "
+
+        if isinstance(node, Selection):
+            finalized_type = " , ".join('"' + s.id + '"' for s in node.options)
+        elif isinstance(node, Text):
+            finalized_type = "TEXT"
+        elif isinstance(node, Number):
+            finalized_type = "NUMERIC"
+        else:
+            raise NotImplementedError()
+
+        if node.many:
+            if isinstance(node, Selection):
+                finalized_type = "ENUM(" + finalized_type + ")"
+            else:
+                finalized_type += " ARRAY[]"
+
+        return [f"{space}{node.id}: {finalized_type} // {node.description}"]
+
+    def visit_object(self, node: Object, **kwargs: Any) -> List[str]:
+        """Visit an object node."""
+        depth = kwargs["depth"]
+        space = depth * " "
+        many_formatter = ""
+
+        code_lines = [f"{space}{node.id}: {many_formatter}{{ // {node.description}"]
+
+        for child in node.attributes:
+            code_lines.extend(child.accept(self, depth=depth + 1))
+
+        if node.many:
+            many_formatter = "ARRAY[]"
+        else:
+            many_formatter = ""
+
+        code_lines.append(f"{space}}}{many_formatter}")
+        return code_lines
+
+    def describe(self, node: "Object") -> str:
+        """Describe the node type in Postgres notation."""
+        if not isinstance(node, Object):
+            raise TypeError(f"Expecting an Object node got {node}")
+
+        code_lines = node.accept(self, depth=0)
+        code = "\n".join(code_lines)
+        return f"```Postgres\n\n{code}\n```\n"
+
+
 def initialize_type_descriptors(
     type_descriptor: Union[TypeDescriptor, str]
 ) -> TypeDescriptor:
@@ -126,9 +180,11 @@ def initialize_type_descriptors(
             return BulletPointDescriptor()
         elif type_descriptor == "typescript":
             return TypeScriptDescriptor()
+        elif type_descriptor == "postgres":
+            return PostgresDescriptor()
         else:
             raise ValueError(
                 f"Unknown type descriptor: {type_descriptor}. Use one of: bullet_point,"
-                " typescript or else provide an instance of TypeDescriptor."
+                " typescript, postgres or else provide an instance of TypeDescriptor."
             )
     return type_descriptor
