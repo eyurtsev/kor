@@ -155,7 +155,7 @@ class Selection(AbstractSchemaNode):
 
     A selection input is composed of one or more options.
 
-    A selectio node supports both examples and null_examples.
+    A selection node supports both examples and null_examples.
 
     Null examples are segments of text for which nothing should be extracted.
 

@@ -2,7 +2,11 @@ import pytest
 
 from kor import Number, Object, Text
 from kor.nodes import Option, Selection
-from kor.type_descriptors import BulletPointDescriptor, TypeScriptDescriptor
+from kor.type_descriptors import (
+    BulletPointDescriptor,
+    PostgresDescriptor,
+    TypeScriptDescriptor,
+)
 
 OPTION_1 = Option(id="blue", description="Option Description", examples=["blue"])
 OPTION_2 = Option(id="red", description="Red color", examples=["red"])
@@ -10,7 +14,15 @@ OPTION_2 = Option(id="red", description="Red color", examples=["red"])
 NUMBER = Number(
     id="number", description="Number Description", examples=[("number", "2")]
 )
+
 TEXT = Text(id="text", description="Text Description", examples=[("text", "3")])
+
+TEXT_ARRAY = Text(
+    id="text_array",
+    description="Text Array Description",
+    examples=[("list of text", ["1", "2", "3"])],
+    many=True,
+)
 
 SELECTION = Selection(
     id="selection",
@@ -32,6 +44,13 @@ OBJ = Object(
     description="Object Description",
     examples=[("another number", {"number": "1"})],
     attributes=[NUMBER, TEXT, SELECTION, SELECTION_2],
+)
+
+OBJ1 = Object(
+    id="object",
+    description="Object Description",
+    examples=[("few numbers", {"numbers": ["1", "2", "3"]})],
+    attributes=[NUMBER, TEXT_ARRAY, SELECTION, SELECTION_2],
 )
 
 
@@ -92,3 +111,27 @@ def test_bullet_point_descriptions(node: Object, description: str) -> None:
 def test_typescript_description(node: Object, description: str) -> None:
     """Verify typescript descriptions."""
     assert TypeScriptDescriptor().describe(node) == description
+
+
+@pytest.mark.parametrize(
+    "node,description",
+    [
+        (
+            OBJ1,
+            (
+                "```Postgres\n"
+                "\n"
+                "object: { // Object Description\n"
+                " number: NUMERIC // Number Description\n"
+                " text_array: TEXT ARRAY[] // Text Array Description\n"
+                ' selection: "blue" // Selection Description\n'
+                ' selection2: ENUM("blue" , "red") // Selection2 Description\n'
+                "}\n"
+                "```\n"
+            ),
+        ),
+    ],
+)
+def test_postgres_description(node: Object, description: str) -> None:
+    """Verify postgres descriptions."""
+    assert PostgresDescriptor().describe(node) == description
