@@ -15,7 +15,7 @@ from typing import (
 
 from pydantic import BaseModel
 
-from .nodes import ExtractionSchemaNode, Number, Object, Option, Selection, Text
+from .nodes import Bool, ExtractionSchemaNode, Number, Object, Option, Selection, Text
 from .validators import PydanticValidator, Validator
 
 # Not going to support dicts or lists since that requires recursive checks.
@@ -86,7 +86,7 @@ def _translate_pydantic_to_kor(
                     name=field_name,
                 )
             elif issubclass(type_, bool):
-                attribute = Text(
+                attribute = Bool(
                     id=field_name,
                     examples=field_examples,
                     description=field_description,

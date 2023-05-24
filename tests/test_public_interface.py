@@ -8,6 +8,7 @@ def test_kor__all__() -> None:
     Upon changes this may help serve as a reminder to correctly bump the semver.
     """
     assert sorted(__all__) == [
+        "Bool",
         "BulletPointDescriptor",
         "CSVEncoder",
         "DocumentExtraction",

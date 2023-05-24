@@ -1,7 +1,7 @@
 import pytest
 
 from kor import Number, Object, Text
-from kor.nodes import Option, Selection
+from kor.nodes import Bool, Option, Selection
 from kor.type_descriptors import BulletPointDescriptor, TypeScriptDescriptor
 
 OPTION_1 = Option(id="blue", description="Option Description", examples=["blue"])
@@ -11,6 +11,8 @@ NUMBER = Number(
     id="number", description="Number Description", examples=[("number", "2")]
 )
 TEXT = Text(id="text", description="Text Description", examples=[("text", "3")])
+
+BOOL = Bool(id="bool", description="Bool Description", examples=[("bool", True)])
 
 SELECTION = Selection(
     id="selection",
@@ -31,7 +33,7 @@ OBJ = Object(
     id="object",
     description="Object Description",
     examples=[("another number", {"number": "1"})],
-    attributes=[NUMBER, TEXT, SELECTION, SELECTION_2],
+    attributes=[NUMBER, TEXT, SELECTION, SELECTION_2, BOOL],
 )
 
 
@@ -60,7 +62,8 @@ def test_no_obvious_crashes() -> None:
                 "*  number: Number # Number Description\n"
                 "*  text: Text # Text Description\n"
                 "*  selection: Selection # Selection Description\n"
-                "*  selection2: Selection # Selection2 Description"
+                "*  selection2: Selection # Selection2 Description\n"
+                "*  bool: Bool # Bool Description"
             ),
         ),
     ],
@@ -83,6 +86,7 @@ def test_bullet_point_descriptions(node: Object, description: str) -> None:
                 " text: string // Text Description\n"
                 ' selection: "blue" // Selection Description\n'
                 ' selection2: Array<"blue" | "red"> // Selection2 Description\n'
+                " bool: boolean // Bool Description\n"
                 "}\n"
                 "```\n"
             ),

@@ -6,7 +6,7 @@ from .extraction import (
     create_extraction_chain,
     extract_from_documents,
 )
-from .nodes import Number, Object, Option, Selection, Text
+from .nodes import Bool, Number, Object, Option, Selection, Text
 from .type_descriptors import (
     BulletPointDescriptor,
     TypeDescriptor,
@@ -22,6 +22,7 @@ __all__ = (
     "Extraction",
     "from_pydantic",
     "JSONEncoder",
+    "Bool",
     "Number",
     "Object",
     "Option",

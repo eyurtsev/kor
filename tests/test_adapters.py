@@ -6,7 +6,7 @@ import pytest
 from pydantic.fields import Field
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
-from kor.nodes import Number, Object, Option, Optional, Selection, Text
+from kor.nodes import Bool, Number, Object, Option, Optional, Selection, Text
 
 
 def test_convert_pydantic() -> None:
@@ -30,13 +30,21 @@ def test_convert_pydantic() -> None:
         h: List[Child] = Field(default=[], examples=[("h.a 1", {"a": "1"})])
 
     node = _translate_pydantic_to_kor(Toy)
+
+    # Doing a few isinstance checks explicitly because pydantic does not do
+    # the correct comparison based on the type itself!!
+    assert isinstance(node.attributes[2], Number)
+    assert not isinstance(node.attributes[2], Bool)
+    assert not isinstance(node.attributes[3], Number)
+    assert isinstance(node.attributes[3], Bool)
+
     assert node == Object(
         id="toy",
         attributes=[
             Text(id="a", description="hello"),
             Number(id="b", examples=[("b is 1", "1")]),
             Number(id="c"),
-            Text(id="d"),  # We do not support boolean types yet.
+            Bool(id="d"),
             # We don't have optional yet internally, so we don't check the
             # optional setting.
             Number(id="e"),  # We don't have a boolean type yet.

@@ -3,8 +3,6 @@
 import re
 from typing import Tuple
 
-import markdownify
-from bs4 import BeautifulSoup
 from langchain.schema import Document
 
 from kor.documents.typedefs import AbstractDocumentProcessor
@@ -16,6 +14,13 @@ CONSECUTIVE_NEW_LINES = re.compile(r"\n(\s*\n)+", flags=re.UNICODE)
 
 def _get_mini_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> str:
     """Clean up HTML tags."""
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        raise ImportError(
+            "Please install BeautifulSoup to use the HTML document processor. "
+            "You can do so by running `pip install beautifulsoup4`."
+        )
     # Parse the HTML document using BeautifulSoup
     soup = BeautifulSoup(html, "html.parser")
 
@@ -34,6 +39,14 @@ def _get_mini_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> s
 
 def _clean_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> str:
     """Clean up HTML and convert to markdown using markdownify."""
+    try:
+        import markdownify
+    except ImportError:
+        raise ImportError(
+            "Please install markdownify to use the HTML document processor. "
+            "You can do so by running `pip install markdownify`."
+        )
+
     html = _get_mini_html(html, tags_to_remove=tags_to_remove)
     md = markdownify.markdownify(html)
     return CONSECUTIVE_NEW_LINES.sub("\n\n", md).strip()
