@@ -33,8 +33,9 @@ representation automatically.
 .. autosummary::
 
     Object
-    Number
     Text
+    Number
+    Bool
     Selection
     Option
 
