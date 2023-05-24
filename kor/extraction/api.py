@@ -9,7 +9,7 @@ from langchain.docstore.document import Document
 try:  # Handle breaking change in langchain
     from langchain.base_language import BaseLanguageModel
 except ImportError:
-    from langchain.schema import BaseLanguageModel
+    from langchain.schema import BaseLanguageModel  # type: ignore
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
 from kor.extraction.typedefs import DocumentExtraction, Extraction

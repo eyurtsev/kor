@@ -1,5 +1,9 @@
-from typing import Any, List, Optional
+from typing import List, Optional
 
+from langchain.callbacks.manager import (
+    AsyncCallbackManagerForLLMRun,
+    CallbackManagerForLLMRun,
+)
 from langchain.chat_models.base import BaseChatModel
 from langchain.schema import AIMessage, BaseMessage, ChatGeneration, ChatResult
 from pydantic import Extra
@@ -15,15 +19,22 @@ class ToyChatModel(BaseChatModel):
         arbitrary_types_allowed = True
 
     def _generate(
-        self, messages: List[BaseMessage], stop: Optional[List[str]] = None
+        self,
+        messages: List[BaseMessage],
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
     ) -> ChatResult:
+        """Top Level call"""
         message = AIMessage(content=self.response)
         generation = ChatGeneration(message=message)
         return ChatResult(generations=[generation])
 
     async def _agenerate(
-        self, messages: List[BaseMessage], stop: Optional[List[str]] = None
-    ) -> Any:
+        self,
+        messages: List[BaseMessage],
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[AsyncCallbackManagerForLLMRun] = None,
+    ) -> ChatResult:
         """Async version of _generate."""
         message = AIMessage(content=self.response)
         generation = ChatGeneration(message=message)
