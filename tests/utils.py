@@ -40,6 +40,7 @@ class ToyChatModel(BaseChatModel):
         generation = ChatGeneration(message=message)
         return ChatResult(generations=[generation])
 
+    @property
     def _llm_type(self) -> str:
         """Return the type of llm this is."""
         return "toy_chat_model"
