@@ -22,7 +22,6 @@ def _get_mini_html(html: str, *, tags_to_remove: Tuple[str, ...] = tuple()) -> s
             "You can do so by running `pip install beautifulsoup4`."
         )
     # Parse the HTML document using BeautifulSoup
-
     soup = BeautifulSoup(html, "html.parser")
 
     # Remove all CSS stylesheets
