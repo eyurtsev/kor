@@ -39,3 +39,7 @@ class ToyChatModel(BaseChatModel):
         message = AIMessage(content=self.response)
         generation = ChatGeneration(message=message)
         return ChatResult(generations=[generation])
+
+    def _llm_type(self) -> str:
+        """Return the type of llm this is."""
+        return "toy_chat_model"
