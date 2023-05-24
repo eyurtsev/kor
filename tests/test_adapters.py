@@ -1,8 +1,9 @@
 import enum
+from typing import List, Union
+
 import pydantic
 import pytest
 from pydantic.fields import Field
-from typing import List, Union
 
 from kor.adapters import _translate_pydantic_to_kor, from_pydantic
 from kor.nodes import Bool, Number, Object, Option, Optional, Selection, Text

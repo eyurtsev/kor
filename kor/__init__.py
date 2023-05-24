@@ -6,7 +6,7 @@ from .extraction import (
     create_extraction_chain,
     extract_from_documents,
 )
-from .nodes import Number, Object, Option, Selection, Text, Bool
+from .nodes import Bool, Number, Object, Option, Selection, Text
 from .type_descriptors import (
     BulletPointDescriptor,
     TypeDescriptor,

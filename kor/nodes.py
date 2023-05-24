@@ -13,7 +13,6 @@ from typing import (
     Tuple,
     TypeVar,
     Union,
-    Dict,
 )
 
 from pydantic import BaseModel, validator
