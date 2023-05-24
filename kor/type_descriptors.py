@@ -13,6 +13,7 @@ from typing import Any, Iterable, List, TypeVar, Union
 from kor.nodes import (
     AbstractSchemaNode,
     AbstractVisitor,
+    Bool,
     Number,
     Object,
     Selection,
@@ -76,6 +77,8 @@ class TypeScriptDescriptor(TypeDescriptor[Iterable[str]]):
             finalized_type = "string"
         elif isinstance(node, Number):
             finalized_type = "number"
+        elif isinstance(node, Bool):
+            finalized_type = "boolean"
         else:
             raise NotImplementedError()
 

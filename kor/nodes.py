@@ -1,4 +1,6 @@
 """Definitions of input elements."""
+from __future__ import annotations
+
 import abc
 import copy
 import re
@@ -11,6 +13,7 @@ from typing import (
     Tuple,
     TypeVar,
     Union,
+    Dict,
 )
 
 from pydantic import BaseModel, validator
@@ -31,29 +34,33 @@ T = TypeVar("T")
 class AbstractVisitor(Generic[T], abc.ABC):
     """An abstract visitor."""
 
-    def visit_text(self, node: "Text", **kwargs: Any) -> T:
+    def visit_text(self, node: Text, **kwargs: Any) -> T:
         """Visit text node."""
         return self.visit_default(node, **kwargs)
 
-    def visit_number(self, node: "Number", **kwargs: Any) -> T:
+    def visit_number(self, node: Number, **kwargs: Any) -> T:
         """Visit text node."""
         return self.visit_default(node, **kwargs)
 
-    def visit_object(self, node: "Object", **kwargs: Any) -> T:
+    def visit_object(self, node: Object, **kwargs: Any) -> T:
         """Visit object node."""
         return self.visit_default(node, **kwargs)
 
-    def visit_selection(self, node: "Selection", **kwargs: Any) -> T:
+    def visit_selection(self, node: Selection, **kwargs: Any) -> T:
         """Visit selection node."""
         return self.visit_default(node, **kwargs)
 
-    def visit_option(self, node: "Option", **kwargs: Any) -> T:
+    def visit_option(self, node: Option, **kwargs: Any) -> T:
         """Visit option node."""
         return self.visit_default(node, **kwargs)
 
-    def visit_default(self, node: "AbstractSchemaNode", **kwargs: Any) -> T:
+    def visit_default(self, node: AbstractSchemaNode, **kwargs: Any) -> T:
         """Default node implementation."""
         raise NotImplementedError()
+
+    def visit_bool(self, node: Bool, **kwargs: Any) -> T:
+        """Visit bool node."""
+        return self.visit_default(node, **kwargs)
 
 
 class AbstractSchemaNode(BaseModel):
@@ -140,6 +147,14 @@ class Text(ExtractionSchemaNode):
         return visitor.visit_text(self, **kwargs)
 
 
+class Bool(ExtractionSchemaNode):
+    """Built-in bool input."""
+
+    def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
+        """Accept a visitor."""
+        return visitor.visit_bool(self, **kwargs)
+
+
 class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
@@ -219,7 +234,7 @@ class Object(AbstractSchemaNode):
 
     """
 
-    attributes: Sequence[Union[ExtractionSchemaNode, Selection, "Object"]]
+    attributes: Sequence[Union[ExtractionSchemaNode, Selection, Object]]
 
     examples: Sequence[
         Tuple[
