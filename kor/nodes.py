@@ -129,6 +129,28 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 
     examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
 
+    @classmethod
+    def parse_obj(cls, data: dict):
+        type = data.get("$type")
+        if type is None:
+            raise ValueError("Need to specify type ($type)")
+        for sub in cls.__subclasses__():
+            if type == sub.__name__:
+                return sub(**data)
+        raise TypeError(f"Unknown sub-type: {type}")
+
+    @classmethod
+    def __get_validators__(cls):
+        def validate(dict_or_obj):
+            if isinstance(dict_or_obj, dict):
+                return cls.parse_obj(dict_or_obj)
+            elif isinstance(dict_or_obj, cls):
+                return dict_or_obj
+            else:
+                raise TypeError(f"Unsupported type: {type(dict_or_obj)}")
+
+        yield validate
+
 
 class Number(ExtractionSchemaNode):
     """Built-in number input."""
