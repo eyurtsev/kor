@@ -19,7 +19,7 @@ The package uses [poetry](https://python-poetry.org/) together with
 
 ```shell
 
-poetry install --with dev,test,doc
+poetry install --with dev,test,docs
 ```
 
 ### List tasks

@@ -11,6 +11,7 @@ from typing import (
     Optional,
     Sequence,
     Tuple,
+    Type,
     TypeVar,
     Union,
 )
@@ -128,6 +129,25 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     """
 
     examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
+
+    @classmethod
+    def parse_obj(cls: Type[ExtractionSchemaNode], data: dict) -> ExtractionSchemaNode:
+        type = data.get("$type")
+        if type is None:
+            raise ValueError("Need to specify type ($type)")
+        for sub in cls.__subclasses__():
+            if type == sub.__name__:
+                return sub(**data)
+        raise TypeError(f"Unknown sub-type: {type}")
+
+    @classmethod
+    def validate(cls: Type[ExtractionSchemaNode], v: Any) -> ExtractionSchemaNode:
+        if isinstance(v, dict):
+            return cls.parse_obj(v)
+        elif isinstance(v, cls):
+            return v
+        else:
+            raise TypeError(f"Unsupported type: {type(v)}")
 
 
 class Number(ExtractionSchemaNode):
