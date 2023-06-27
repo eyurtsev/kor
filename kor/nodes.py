@@ -132,13 +132,14 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 
     @classmethod
     def parse_obj(cls: Type[ExtractionSchemaNode], data: dict) -> ExtractionSchemaNode:
-        type = data.get("$type")
-        if type is None:
+        """Parse an object."""
+        type_ = data.pop("$type", None)
+        if type_ is None:
             raise ValueError("Need to specify type ($type)")
         for sub in cls.__subclasses__():
-            if type == sub.__name__:
+            if type_ == sub.__name__:
                 return sub(**data)
-        raise TypeError(f"Unknown sub-type: {type}")
+        raise TypeError(f"Unknown sub-type: {type_}")
 
     @classmethod
     def validate(cls: Type[ExtractionSchemaNode], v: Any) -> ExtractionSchemaNode:
