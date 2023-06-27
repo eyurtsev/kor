@@ -194,6 +194,7 @@ untyped_objects
 apis
 validation
 document_extraction
+schema_from_json
 guidelines
 ```
 
