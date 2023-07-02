@@ -130,6 +130,10 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 
     examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
 
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.__dict__["$type"] = type(self).__name__
+
     @classmethod
     def parse_obj(cls: Type[ExtractionSchemaNode], data: dict) -> ExtractionSchemaNode:
         """Parse an object."""
