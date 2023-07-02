@@ -27,6 +27,9 @@ from pydantic import BaseModel, validator
 # not worth the effort for a v0.
 VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
 
+# Name of field to store the type discriminator
+TYPE_DISCRIMINATOR_FIELD = "$type"
+
 T = TypeVar("T")
 
 
@@ -132,14 +135,14 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
-        self.__dict__["$type"] = type(self).__name__
+        self.__dict__[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
 
     @classmethod
     def parse_obj(cls: Type[ExtractionSchemaNode], data: dict) -> ExtractionSchemaNode:
         """Parse an object."""
-        type_ = data.pop("$type", None)
+        type_ = data.pop(TYPE_DISCRIMINATOR_FIELD, None)
         if type_ is None:
-            raise ValueError("Need to specify type ($type)")
+            raise ValueError(f"Need to specify type ({TYPE_DISCRIMINATOR_FIELD})")
         for sub in cls.__subclasses__():
             if type_ == sub.__name__:
                 return sub(**data)
