@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from langchain.callbacks.manager import (
     AsyncCallbackManagerForLLMRun,
@@ -23,6 +23,7 @@ class ToyChatModel(BaseChatModel):
         messages: List[BaseMessage],
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
     ) -> ChatResult:
         """Top Level call"""
         message = AIMessage(content=self.response)
@@ -34,6 +35,7 @@ class ToyChatModel(BaseChatModel):
         messages: List[BaseMessage],
         stop: Optional[List[str]] = None,
         run_manager: Optional[AsyncCallbackManagerForLLMRun] = None,
+        **kwargs: Any,
     ) -> ChatResult:
         """Async version of _generate."""
         message = AIMessage(content=self.response)

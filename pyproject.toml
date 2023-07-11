@@ -10,9 +10,9 @@ repository = "https://www.github.com/eyurtsev/kor"
 [tool.poetry.dependencies]
 python = "^3.8.1"
 openai = "^0.27"
-langchain = ">=0.0.110"
+langchain = ">=0.0.205"
 pandas = "^1.5.3"
-markdownify = {version = "^0.11.6", optional = true}
+markdownify = {version = "^0.11.6", optional = false}
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
@@ -52,7 +52,7 @@ html = ["markdownify"]
 [tool.poe.tasks]
 black = "black"
 ruff = "ruff"
-pytest.cmd = "py.test --durations=5 -W error::RuntimeWarning --cov --cov-config=.coveragerc --cov-report xml --cov-report term-missing:skip-covered"
+pytest.cmd = "py.test -s --durations=5 -W error::RuntimeWarning --cov --cov-config=.coveragerc --cov-report xml --cov-report term-missing:skip-covered"
 mypy = "mypy . --pretty --show-error-codes"
 fix = { shell = "poe black . && poe ruff --fix ." }
 fix_docs = "black docs"
@@ -61,6 +61,8 @@ fix_strings = "black kor --preview"
 test = { shell = "poe black . --check --diff && poe ruff . && poe pytest && poe mypy" }
 # Use to auto-generate docs
 apidoc = "sphinx-apidoc -o docs/source/generated kor"
+pyintegration = { shell = "py.test -s ./tests/integration/*.py" }
+integration = { shell = "poe black . --check --diff && poe ruff . && poe pyintegration && poe mypy" }
 
 [tool.ruff]
 select = [

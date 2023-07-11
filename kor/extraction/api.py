@@ -6,6 +6,8 @@ from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.docstore.document import Document
 
+from kor.extraction.parser import KorParser
+
 try:  # Handle breaking change in langchain
     from langchain.base_language import BaseLanguageModel
 except ImportError:
@@ -29,7 +31,7 @@ async def _extract_from_document_with_semaphore(
     """Extract from document with a semaphore to limit concurrency."""
     async with semaphore:
         extraction_result: Extraction = cast(
-            Extraction, await chain.apredict_and_parse(text=document.page_content)
+            Extraction, await chain.arun(document.page_content)
         )
         return {
             "uid": uid,
@@ -115,6 +117,7 @@ def create_extraction_chain(
             instruction_template=instruction_template,
             input_formatter=input_formatter,
         ),
+        output_parser=KorParser(encoder=encoder, validator=validator, schema_=node),
         **chain_kwargs,
     )
 
