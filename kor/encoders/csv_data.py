@@ -1,10 +1,9 @@
 """Module that contains Kor flavored encoders/decoders for CSV data.
-
-The code will need to eventually support handling some form of nested objects,
-via either JSON encoded column values or by breaking down nested attributes
-into additional columns (likely both methods).
+The code supports handling some form of nested objects,
+via JSON-encoded column values for nested attributes.
 """
 
+import json
 from io import StringIO
 from typing import Any, Dict, List
 
@@ -26,15 +25,35 @@ def _extract_top_level_fieldnames(node: AbstractSchemaNode) -> List[str]:
         return [node.id]
 
 
-# PUBLIC API
+def _nested_attribute_to_json(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Convert nested attributes to JSON strings."""
+    json_data = {}
+    for key, value in data.items():
+        if isinstance(value, (list, dict)):
+            json_data[key] = json.dumps(value)
+        else:
+            json_data[key] = value
+    return json_data
 
+
+def _json_to_nested_attribute(data: Dict[str, str]) -> Dict[str, Any]:
+    """Convert JSON strings to nested attributes."""
+    nested_data = {}
+    for key, value in data.items():
+        try:
+            nested_data[key] = json.loads(value)
+        except (json.JSONDecodeError, TypeError):
+            nested_data[key] = value
+    return nested_data
+
+
+# PUBLIC API
 
 class CSVEncoder(SchemaBasedEncoder):
     """CSV encoder."""
 
     def __init__(self, node: AbstractSchemaNode, use_tags: bool = False) -> None:
         """Attach node to the encoder to allow the encoder to understand schema.
-
         Args:
             node: The schema node to attach to the encoder.
             use_tags: Whether to wrap the output in tags. This may help identify
@@ -43,16 +62,6 @@ class CSVEncoder(SchemaBasedEncoder):
         """
         super().__init__(node)
         self.use_tags = use_tags
-
-        # Verify that if we have an Object then none of its attributes are lists
-        # or objects as that functionality is not yet supported.
-        if isinstance(node, Object):
-            for attribute in node.attributes:
-                if attribute.many or isinstance(attribute, Object):
-                    raise NotImplementedError(
-                        "CSV Encoder does not yet support embedded lists or "
-                        f"objects (attribute `{attribute.id}`)."
-                    )
 
     def encode(self, data: Any) -> str:
         """Encode the data."""
@@ -74,7 +83,10 @@ class CSVEncoder(SchemaBasedEncoder):
         if not isinstance(data_to_output, list):
             # Should always output records for pd.Dataframe
             data_to_output = [data_to_output]
-        table_content = pd.DataFrame(data_to_output, columns=field_names).to_csv(
+
+        json_data_to_output = [_nested_attribute_to_json(item) for item in data_to_output]
+
+        table_content = pd.DataFrame(json_data_to_output, columns=field_names).to_csv(
             index=False, sep=DELIMITER
         )
 
@@ -105,21 +117,20 @@ class CSVEncoder(SchemaBasedEncoder):
                     raise ParseError(e)
 
             records = df.to_dict(orient="records")
+            nested_records = [_json_to_nested_attribute(record) for record in records]
         else:
-            records = []
+            nested_records = []
 
         namespace = self.node.id
-        return {namespace: records}
+        return {namespace: nested_records}
 
     def get_instruction_segment(self) -> str:
         """Format instructions."""
         instructions = [
             "Please output the extracted information in CSV format in Excel dialect.",
-            f"Please use a {DELIMITER} as the delimiter."
-            # TODO(Eugene): Add this when we start supporting embedded columns.
-            # "If a column corresponds to an array or an object,
-            # use a JSON encoding to "
-            # "encode its value.",
+            f"Please use a {DELIMITER} as the delimiter.",
+            "If a column corresponds to an array or an object, use a JSON encoding to "
+            "encode its value.",
         ]
 
         if self.use_tags:
