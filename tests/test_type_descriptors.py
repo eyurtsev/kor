@@ -7,9 +7,7 @@ from kor.type_descriptors import BulletPointDescriptor, TypeScriptDescriptor
 OPTION_1 = Option(id="blue", description="Option Description", examples=["blue"])
 OPTION_2 = Option(id="red", description="Red color", examples=["red"])
 
-NUMBER = Number(
-    id="number", description="Number Description", examples=[("number", "2")]
-)
+NUMBER = Number(id="number", description="Number Description", examples=[("number", 2)])
 TEXT = Text(id="text", description="Text Description", examples=[("text", "3")])
 
 BOOL = Bool(id="bool", description="Bool Description", examples=[("bool", True)])

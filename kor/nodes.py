@@ -131,7 +131,9 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
         ]
     """
 
-    examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
+    examples: Sequence[
+        Tuple[str, Union[bool, int, float, str, Sequence[str]]]
+    ] = tuple()
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)

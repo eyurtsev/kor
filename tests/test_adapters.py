@@ -2,11 +2,60 @@ import enum
 from typing import List, Union
 
 import pydantic
+from typing import get_type_hints
 import pytest
 from pydantic.fields import Field
 
-from kor.adapters import _translate_pydantic_to_kor, from_pydantic
+from kor.adapters import (
+    _translate_pydantic_to_kor,
+    from_pydantic,
+    _is_many,
+)
 from kor.nodes import Bool, Number, Object, Option, Optional, Selection, Text
+
+
+def test_is_an_optional() -> None:
+    class A:
+        a: Optional[str]
+        b: Union[None, str]
+        c: Union[None, str, int]
+
+    assert _is_an_optional(A.__annotations__["a"]) == True
+    assert _is_an_optional(A.__annotations__["b"]) == True
+    assert _is_an_optional(A.__annotations__["c"]) == False
+
+
+@pytest.mark.parametrize(
+    "field,expected",
+    [
+        ("no_a", False),
+        ("no_b", False),
+        ("no_c", False),
+        ("no_d", False),
+        ("no_e", False),
+        ("no_f", False),
+        ("yes_a", True),
+        ("yes_b", True),
+        ("yes_c", True),
+        ("yes_d", True),
+    ],
+)
+def test_is_many(field: str, expected: bool) -> None:
+    """Test if a type hint contains a Sequence argument."""
+
+    class A:
+        no_a: Optional[int]
+        no_b: Union[None, str]
+        no_c: Union[None, str, int]
+        no_d: str
+        no_e: float
+        no_f: bool
+        yes_a: Optional[List[str]]
+        yes_b: List[Optional[str]]
+        yes_c: List[str]
+        yes_d: Union[None, str, List[int]]
+
+    assert _is_many(get_type_hints(A)[field]) == expected
 
 
 def test_convert_pydantic() -> None:
@@ -28,6 +77,8 @@ def test_convert_pydantic() -> None:
         f: List[int] = []
         g: Optional[List[str]] = None
         h: List[Child] = Field(default=[], examples=[("h.a 1", {"a": "1"})])
+        # Same as `g` but with Union format instead
+        i: Union[None, List[str]] = None
 
     node = _translate_pydantic_to_kor(Toy)
 
@@ -56,6 +107,7 @@ def test_convert_pydantic() -> None:
                 attributes=[Text(id="a")],
                 examples=[("h.a 1", {"a": "1"})],
             ),
+            Text(id="i", many=True),
         ],
     )
 
