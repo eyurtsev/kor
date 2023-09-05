@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import abc
 import copy
-import re
 from typing import (
     Any,
     Generic,
@@ -16,16 +15,7 @@ from typing import (
     Union,
 )
 
-from pydantic import BaseModel, validator
-
-# For now, limit what's allowed for identifiers.
-# The main constraints
-# 1) Relying on HTML parser to parse output
-# 2) One of the type descriptors is TypeScript, so we want
-#    to produce valid TypeScript identifiers.
-# We can lift the constraints later if it becomes important,
-# not worth the effort for a v0.
-VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
+from pydantic import BaseModel
 
 # Name of field to store the type discriminator
 TYPE_DISCRIMINATOR_FIELD = "$type"
@@ -83,16 +73,6 @@ class AbstractSchemaNode(BaseModel):
     description: str = ""
     many: bool = False
 
-    @validator("id")
-    def ensure_valid_uid(cls, uid: str) -> str:
-        """Validate that using a valid identifier."""
-        if not VALID_IDENTIFIER_PATTERN.match(uid):
-            raise ValueError(
-                f"`{id}` is not a valid identifier. "
-                f"Please only use lower cased a-z, _ or the digits 0-9"
-            )
-        return uid
-
     @abc.abstractmethod
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -132,7 +112,7 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     """
 
     examples: Sequence[
-        Tuple[str, Union[bool, int, float, str, Sequence[str]]]
+        Tuple[str, Union[bool, int, float, str, Sequence[Union[str, int, float, bool]]]]
     ] = tuple()
 
     def __init__(self, **kwargs: Any) -> None:

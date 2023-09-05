@@ -58,7 +58,7 @@ def test_convert_pydantic() -> None:
         """Toy pydantic object."""
 
         a: str = Field(description="hello")
-        b: int = Field(examples=[("b is 1", "1")])
+        b: int = Field(examples=[("b is 1", 1)])
         c: float
         d: bool
         e: Optional[int] = None
@@ -81,7 +81,7 @@ def test_convert_pydantic() -> None:
         id="toy",
         attributes=[
             Text(id="a", description="hello"),
-            Number(id="b", examples=[("b is 1", "1")]),
+            Number(id="b", examples=[("b is 1", 1)]),
             Number(id="c"),
             Bool(id="d"),
             # We don't have optional yet internally, so we don't check the
