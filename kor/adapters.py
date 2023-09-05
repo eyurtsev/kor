@@ -1,16 +1,16 @@
 """Adapters to convert from validation frameworks to Kor internal representation."""
 import enum
 from typing import (
+    Any,
     Dict,
+    List,
     Optional,
+    Sequence,
     Tuple,
+    Type,
+    Union,
     get_args,
     get_origin,
-    Sequence,
-    Union,
-    List,
-    Type,
-    Any,
 )
 
 from pydantic import BaseModel
@@ -97,11 +97,11 @@ def _translate_pydantic_to_kor(
     attributes: List[Union[ExtractionSchemaNode, Selection, "Object"]] = []
 
     if PYDANTIC_MAJOR_VERSION == 1:
-        fields_with_info = model_class.__fields__.items()  # type: ignore[attr-defined]
+        fields_info = model_class.__fields__.items()  # type: ignore[attr-defined]
     else:
-        fields_with_info = model_class.model_fields.items()  # type: ignore[attr-defined]
+        fields_info = model_class.model_fields.items()  # type: ignore[attr-defined]
 
-    for field_name, field in fields_with_info:
+    for field_name, field in fields_info:
         if PYDANTIC_MAJOR_VERSION == 1:
             field_info = field.field_info
             extra = field_info.extra
@@ -114,7 +114,7 @@ def _translate_pydantic_to_kor(
             field_description = field.description or ""
 
         field_many = _is_many(type_)
-        origin = get_origin(type_)
+        get_origin(type_)
 
         attribute: Union[ExtractionSchemaNode, Selection, "Object"]
 

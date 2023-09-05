@@ -1,28 +1,16 @@
 import enum
-from typing import List, Union
+from typing import List, Union, get_type_hints
 
 import pydantic
-from typing import get_type_hints
 import pytest
 from pydantic.fields import Field
 
 from kor.adapters import (
+    _is_many,
     _translate_pydantic_to_kor,
     from_pydantic,
-    _is_many,
 )
 from kor.nodes import Bool, Number, Object, Option, Optional, Selection, Text
-
-
-def test_is_an_optional() -> None:
-    class A:
-        a: Optional[str]
-        b: Union[None, str]
-        c: Union[None, str, int]
-
-    assert _is_an_optional(A.__annotations__["a"]) == True
-    assert _is_an_optional(A.__annotations__["b"]) == True
-    assert _is_an_optional(A.__annotations__["c"]) == False
 
 
 @pytest.mark.parametrize(
