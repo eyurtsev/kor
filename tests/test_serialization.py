@@ -8,12 +8,14 @@ from kor.nodes import ExtractionSchemaNode
 
 @pytest.fixture(params=ExtractionSchemaNode.__subclasses__())
 def extraction_subclass(request: Any) -> Any:
+    """Fixture to test all subclasses of ExtractionSchemaNode."""
     return request.param
 
 
 def test_extractionschemanode_has_type_discriminator(
     extraction_subclass: Any,
 ) -> None:
+    """Test if all subclasses of ExtractionSchemaNode have a type discriminator."""
     sut = extraction_subclass(id="test")
     assert sut.dict()["$type"] == extraction_subclass.__name__
 
