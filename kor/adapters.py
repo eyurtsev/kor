@@ -18,6 +18,20 @@ from pydantic import BaseModel
 from .nodes import Bool, ExtractionSchemaNode, Number, Object, Option, Selection, Text
 from .validators import PydanticValidator, Validator
 
+
+def _get_pydantic_major_version() -> int:
+    """Get the major version of Pydantic."""
+    try:
+        import pydantic
+
+        return int(pydantic.__version__.split(".")[0])
+    except ImportError:
+        return 0
+
+
+PYDANTIC_MAJOR_VERSION = _get_pydantic_major_version()
+
+
 # Not going to support dicts or lists since that requires recursive checks.
 # May make sense to either drop the internal representation, or properly extend it
 # to handle Lists, Unions etc.
@@ -47,7 +61,13 @@ def _translate_pydantic_to_kor(
     """
 
     attributes: List[Union[ExtractionSchemaNode, Selection, "Object"]] = []
-    for field_name, field in model_class.__fields__.items():
+
+    if PYDANTIC_MAJOR_VERSION == 1:
+        fields_with_info = model_class.__fields__.items()  # type: ignore[attr-defined]
+    else:
+        fields_with_info = model_class.model_fields  # type: ignore[attr-defined]
+
+    for field_name, field in fields_with_info:
         field_info = field.field_info
         extra = field_info.extra
         if "examples" in extra:

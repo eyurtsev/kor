@@ -9,10 +9,10 @@ repository = "https://www.github.com/eyurtsev/kor"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
-openai = "^0.27"
 langchain = ">=0.0.205"
 pandas = "^1.5.3"
 markdownify = {version = "^0.11.6", optional = false}
+pydantic = "^1"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3.6.1"
@@ -43,8 +43,6 @@ mypy = "^0.991"
 [tool.poetry.group.types.dependencies]
 types-toml = "^0.10.8.5"
 
-
-[tool.poetry.group.html.dependencies]
 
 [tool.poetry.extras]
 html = ["markdownify"]
