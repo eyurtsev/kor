@@ -262,7 +262,8 @@ class Object(AbstractSchemaNode):
         """Accept a visitor."""
         return visitor.visit_object(self, **kwargs)
 
-    def parse_raw(self, *args: Any, **kwargs: Any) -> Object:
+    @classmethod
+    def parse_raw(cls, *args: Any, **kwargs: Any) -> Object:
         """Parse raw data."""
         if PYDANTIC_MAJOR_VERSION != 1:
             raise NotImplementedError(
@@ -270,7 +271,8 @@ class Object(AbstractSchemaNode):
             )
         return super().parse_raw(*args, **kwargs)
 
-    def parse_obj(*args, **kwargs) -> Object:
+    @classmethod
+    def parse_obj(cls, *args: Any, **kwargs: Any) -> Object:
         """Parse an object."""
         if PYDANTIC_MAJOR_VERSION != 1:
             raise NotImplementedError(

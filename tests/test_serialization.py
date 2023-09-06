@@ -1,5 +1,5 @@
 """Test serialization and deserialization of nodes."""
-from typing import Any
+from typing import Any, Type
 
 import pytest
 
@@ -18,7 +18,7 @@ def extraction_subclass(request: Any) -> Any:
     PYDANTIC_MAJOR_VERSION != 1, reason="Only implemented for pydantic 1"
 )
 def test_extraction_schema_node_has_type_discriminator(
-    extraction_subclass: ExtractionSchemaNode,
+    extraction_subclass: Type[ExtractionSchemaNode],
 ) -> None:
     """Test if all subclasses of ExtractionSchemaNode have a type discriminator."""
     node_type = extraction_subclass(id="test")
@@ -236,9 +236,9 @@ def test_extractionschemanode_without_type_cannot_be_deserialized() -> None:
     }
     """
     if PYDANTIC_MAJOR_VERSION == 1:
-        exception = ValueError
+        exception_class: Type[Exception] = ValueError
     else:
-        exception = NotImplementedError
+        exception_class = NotImplementedError
 
-    with pytest.raises(exception):
+    with pytest.raises(exception_class):
         Object.parse_raw(json)

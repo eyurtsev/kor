@@ -22,9 +22,9 @@ from kor.type_descriptors import TypeDescriptor
 
 try:
     # Use pydantic v1 namespace since working with langchain
-    from pydantic.v1 import Extra
+    from pydantic.v1 import Extra  # type: ignore[assignment]
 except ImportError:
-    from pydantic import Extra
+    from pydantic import Extra  # type: ignore[assignment]
 
 from .validators import Validator
 

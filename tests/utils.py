@@ -10,9 +10,9 @@ from langchain.schema import AIMessage, BaseMessage, ChatGeneration, ChatResult
 from kor._pydantic import PYDANTIC_MAJOR_VERSION
 
 if PYDANTIC_MAJOR_VERSION == 1:
-    from pydantic import Extra
+    from pydantic import Extra  # type: ignore[assignment]
 else:
-    from pydantic.v1 import Extra
+    from pydantic.v1 import Extra  # type: ignore[assignment]
 
 
 class ToyChatModel(BaseChatModel):

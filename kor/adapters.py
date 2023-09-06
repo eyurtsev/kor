@@ -142,11 +142,13 @@ def _translate_pydantic_to_kor(
             # If the type is an Optional or Union equivalent, use the inner type
             type_to_use = unpacked_optional if is_optional_equivalent else type_
 
-            # If the type is a generic, use the inner type
-            if not isinstance(type_to_use, type):  # Handle generics
-                if not issubclass(get_origin(type_to_use), List):
+            # If the type is a parameterized generic, we want to extract
+            # the innter type; e.g., List[str] -> str
+            if not isinstance(type_to_use, type):  # i.e., parameterized generic
+                origin_ = get_origin(type_to_use)
+                if not isinstance(origin_, type) or not issubclass(origin_, List):
                     raise NotImplementedError(f"Unsupported type: {type_to_use}")
-                type_to_use = get_args(type_to_use)[0]
+                type_to_use = get_args(type_to_use)[0]  # extract the argument
 
             if issubclass(type_to_use, BaseModel):
                 attribute = _translate_pydantic_to_kor(
