@@ -1,5 +1,3 @@
-**⚠ WARNING: Prototype with unstable API. 🚧**  
-
 [![Unit Tests](https://github.com/eyurtsev/kor/actions/workflows/test.yml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/test.yml)
 [![Test Docs](https://github.com/eyurtsev/kor/actions/workflows/doc_test.yaml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/doc_test.yaml)
 
@@ -19,6 +17,33 @@ So yes – it’s just another wrapper on top of LLMs with its own flavor of abs
 See [documentation](https://eyurtsev.github.io/kor/).
 
 Integrated with the [LangChain framework 😽💗 🦜🔗](https://python.langchain.com/en/latest/index.html).
+
+
+## Version 1.0.0 Release
+
+* `kor` compatible with both pydantic v2 and v1.
+* pydantic v2 had significant breaking changes w/ respect to v1, `kor` major
+  version bump was used as a precaution.
+
+
+Main things to watch out for:
+
+1. Use a `default` value for any Optional fields if using pydantic v2 for validation.
+
+```python
+class MusicRequest(BaseModel):
+    song: Optional[List[str]] = Field(
+        default=None,
+        description="The song(s) that the user would like to be played."
+    )
+```
+
+2. Kor schema is typed checked using pydantic. Pydantic v2 is stricter, and may
+   catch issues that were hiding in existing user code that was using the `kor`
+   library.
+
+3. Serialization has not yet been implemented with pydantic v2.
+
 
 ## Kor style schema
 
