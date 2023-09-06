@@ -119,8 +119,6 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 
     def __init__(self, **kwargs: Any) -> None:
         """Initialize."""
-        if PYDANTIC_MAJOR_VERSION == 2:
-            kwargs[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
         super().__init__(**kwargs)
         if PYDANTIC_MAJOR_VERSION == 1:
             self.__dict__[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
@@ -128,6 +126,8 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     @classmethod
     def parse_obj(cls, data: dict) -> ExtractionSchemaNode:
         """Parse an object."""
+        if PYDANTIC_MAJOR_VERSION != 1:
+            raise NotImplementedError("Only supported for pydantic 1.x")
         type_ = data.pop(TYPE_DISCRIMINATOR_FIELD, None)
         if type_ is None:
             raise ValueError(f"Need to specify type ({TYPE_DISCRIMINATOR_FIELD})")

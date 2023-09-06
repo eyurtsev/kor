@@ -108,12 +108,12 @@ def _translate_pydantic_to_kor(
             field_examples = extra.get(  # type: ignore[attr-defined]
                 "examples", tuple()
             )
-            field_description = getattr(field_info, "description", "")
+            field_description = getattr(field_info, "description") or ""
             type_ = field.outer_type_
         else:
             type_ = field.annotation
             field_examples = field.examples or tuple()  # type: ignore[attr-defined]
-            field_description = getattr(field, "description", "")
+            field_description = getattr(field, "description") or ""
 
         field_many = _is_many(type_)
 
