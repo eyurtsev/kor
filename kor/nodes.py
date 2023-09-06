@@ -119,8 +119,11 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 
     def __init__(self, **kwargs: Any) -> None:
         """Initialize."""
-        kwargs[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
+        if PYDANTIC_MAJOR_VERSION == 2:
+            kwargs[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
         super().__init__(**kwargs)
+        if PYDANTIC_MAJOR_VERSION == 1:
+            self.__dict__[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
 
     @classmethod
     def parse_obj(cls, data: dict) -> ExtractionSchemaNode:
@@ -146,6 +149,10 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
 class Number(ExtractionSchemaNode):
     """Built-in number input."""
 
+    examples: Sequence[
+        Tuple[str, Union[int, float, Sequence[Union[float, int]]]]
+    ] = tuple()
+
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         return visitor.visit_number(self, **kwargs)
@@ -154,6 +161,8 @@ class Number(ExtractionSchemaNode):
 class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
+    examples: Sequence[Tuple[str, Union[Sequence[str], str]]] = tuple()
+
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         return visitor.visit_text(self, **kwargs)
@@ -161,6 +170,8 @@ class Text(ExtractionSchemaNode):
 
 class Bool(ExtractionSchemaNode):
     """Built-in bool input."""
+
+    examples: Sequence[Tuple[str, Union[Sequence[bool], bool]]] = tuple()
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""

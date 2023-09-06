@@ -9,7 +9,7 @@ def test_example_generation() -> None:
     """
     option = Option(id="option", description="Option", examples=["selection"])
     number = Number(
-        id="number", description="Number", examples=[("number", "2")], many=True
+        id="number", description="Number", examples=[("number", 2)], many=True
     )
     text = Text(id="text", description="Text", examples=[("text", "3")], many=True)
 
@@ -24,15 +24,15 @@ def test_example_generation() -> None:
     obj = Object(
         id="object",
         description="object",
-        examples=[("another number", {"number": "1"})],
+        examples=[("another number", {"number": 1})],
         attributes=[number, text, selection],
         many=True,
     )
 
     examples = generate_examples(obj)
     assert examples == [
-        ("another number", {"object": [{"number": "1"}]}),
-        ("number", {"object": [{"number": ["2"]}]}),
+        ("another number", {"object": [{"number": 1}]}),
+        ("number", {"object": [{"number": [2]}]}),
         ("text", {"object": [{"text": ["3"]}]}),
         ("selection", {"object": [{"selection": ["option"]}]}),
         ("foo", {}),
