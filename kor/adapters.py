@@ -105,16 +105,17 @@ def _translate_pydantic_to_kor(
         if PYDANTIC_MAJOR_VERSION == 1:
             field_info = field.field_info
             extra = field_info.extra
-            field_examples = extra.get("examples", tuple())
-            field_description = field_info.description or ""
-            type_ = field.type_
+            field_examples = extra.get(  # type: ignore[attr-defined]
+                "examples", tuple()
+            )
+            field_description = getattr(field_info, "description") or ""
+            type_ = field.outer_type_
         else:
             type_ = field.annotation
-            field_examples = field.examples or tuple()
-            field_description = field.description or ""
+            field_examples = field.examples or tuple()  # type: ignore[attr-defined]
+            field_description = getattr(field, "description") or ""
 
         field_many = _is_many(type_)
-        get_origin(type_)
 
         attribute: Union[ExtractionSchemaNode, Selection, "Object"]
 

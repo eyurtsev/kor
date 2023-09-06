@@ -48,6 +48,8 @@ class PydanticValidator(Validator):
         Returns:
             cleaned data instantiated as the corresponding pydantic model
         """
+        model_ = self.model_class  # a proxy to make code fit in char limit
+
         if self.many:
             exceptions: List[Exception] = []
             records: List[BaseModel] = []
@@ -55,9 +57,11 @@ class PydanticValidator(Validator):
             for item in data:
                 try:
                     if PYDANTIC_MAJOR_VERSION == 1:
-                        record = self.model_class.parse_obj(item)
+                        record = model_.parse_obj(item)  # type: ignore[attr-defined]
                     else:
-                        record = self.model_class.model_validate(item)
+                        record = model_.model_validate(  # type: ignore[attr-defined]
+                            item
+                        )
 
                     records.append(record)
                 except ValidationError as e:
@@ -66,9 +70,9 @@ class PydanticValidator(Validator):
         else:
             try:
                 if PYDANTIC_MAJOR_VERSION == 1:
-                    record = self.model_class.parse_obj(data)
+                    record = model_.parse_obj(data)  # type: ignore[attr-defined]
                 else:
-                    record = self.model_class.model_validate(data)
+                    record = model_.model_validate(data)  # type: ignore[attr-defined]
                 return record, []
             except ValidationError as e:
                 return None, [e]

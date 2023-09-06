@@ -82,7 +82,7 @@ def test_convert_pydantic() -> None:
         attributes=[
             Text(id="a", description="hello"),
             Number(id="b", examples=[("b is 1", 1)]),
-            Number(id="c"),
+            Number(id="c", many=False),
             Bool(id="d"),
             # We don't have optional yet internally, so we don't check the
             # optional setting.
