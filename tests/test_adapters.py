@@ -1,12 +1,49 @@
 import enum
-from typing import List, Union
+from typing import List, Union, get_type_hints
 
 import pydantic
 import pytest
 from pydantic.fields import Field
 
-from kor.adapters import _translate_pydantic_to_kor, from_pydantic
+from kor.adapters import (
+    _is_many,
+    _translate_pydantic_to_kor,
+    from_pydantic,
+)
 from kor.nodes import Bool, Number, Object, Option, Optional, Selection, Text
+
+
+@pytest.mark.parametrize(
+    "field,expected",
+    [
+        ("no_a", False),
+        ("no_b", False),
+        ("no_c", False),
+        ("no_d", False),
+        ("no_e", False),
+        ("no_f", False),
+        ("yes_a", True),
+        ("yes_b", True),
+        ("yes_c", True),
+        ("yes_d", True),
+    ],
+)
+def test_is_many(field: str, expected: bool) -> None:
+    """Test if a type hint contains a Sequence argument."""
+
+    class A:
+        no_a: Optional[int]
+        no_b: Union[None, str]
+        no_c: Union[None, str, int]
+        no_d: str
+        no_e: float
+        no_f: bool
+        yes_a: Optional[List[str]]
+        yes_b: List[Optional[str]]
+        yes_c: List[str]
+        yes_d: Union[None, str, List[int]]
+
+    assert _is_many(get_type_hints(A)[field]) == expected
 
 
 def test_convert_pydantic() -> None:
@@ -21,13 +58,15 @@ def test_convert_pydantic() -> None:
         """Toy pydantic object."""
 
         a: str = Field(description="hello")
-        b: int = Field(examples=[("b is 1", "1")])
+        b: int = Field(examples=[("b is 1", 1)])
         c: float
         d: bool
         e: Optional[int] = None
         f: List[int] = []
         g: Optional[List[str]] = None
         h: List[Child] = Field(default=[], examples=[("h.a 1", {"a": "1"})])
+        # Same as `g` but with Union format instead
+        i: Union[None, List[str]] = None
 
     node = _translate_pydantic_to_kor(Toy)
 
@@ -42,7 +81,7 @@ def test_convert_pydantic() -> None:
         id="toy",
         attributes=[
             Text(id="a", description="hello"),
-            Number(id="b", examples=[("b is 1", "1")]),
+            Number(id="b", examples=[("b is 1", 1)]),
             Number(id="c"),
             Bool(id="d"),
             # We don't have optional yet internally, so we don't check the
@@ -56,6 +95,7 @@ def test_convert_pydantic() -> None:
                 attributes=[Text(id="a")],
                 examples=[("h.a 1", {"a": "1"})],
             ),
+            Text(id="i", many=True),
         ],
     )
 

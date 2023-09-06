@@ -15,6 +15,7 @@ from typing import (
 
 from pydantic import BaseModel
 
+from ._pydantic import PYDANTIC_MAJOR_VERSION
 from .nodes import Bool, ExtractionSchemaNode, Number, Object, Option, Selection, Text
 from .validators import PydanticValidator, Validator
 
@@ -23,6 +24,53 @@ from .validators import PydanticValidator, Validator
 # to handle Lists, Unions etc.
 # Not worth the effort, until it's clear that folks are using this functionality.
 PRIMITIVE_TYPES = {str, float, int, type(None)}
+
+
+def _is_many(annotation: Any) -> bool:
+    """Determine if the given annotation should map to field many.
+
+    Map to field many if the annotation is a list or a Union where at least one
+    of the arguments is a list type.
+
+    Args:
+        annotation: The annotation to check.
+
+    Returns:
+        bool
+    """
+    origin = get_origin(annotation)
+    if origin is Union:
+        for arg in get_args(annotation):
+            arg_origin = get_origin(arg)
+            if isinstance(arg_origin, type) and issubclass(arg_origin, List):
+                return True
+    if isinstance(origin, type) and issubclass(origin, List):
+        return True
+    return False
+
+
+def _unpack_if_optional_equivalent(annotation: Any) -> Tuple[bool, Any]:
+    """Determine if type is equivalent to an Optional and if so return the inner type.
+
+    Args:
+        annotation: The annotation to check.
+
+    Returns:
+        Tuple[bool, Any]; e.g., Optional[str] -> (True, str)
+    """
+    origin = get_origin(annotation)
+    if origin is Union:
+        args = get_args(annotation)
+        if len(args) == 2 and type(None) in args:
+            if args[0] is type(None):
+                return True, args[1]
+            else:
+                return True, args[0]
+
+    if origin is Optional:
+        return True, get_args(annotation)[0]
+
+    return False, None
 
 
 def _translate_pydantic_to_kor(
@@ -47,21 +95,35 @@ def _translate_pydantic_to_kor(
     """
 
     attributes: List[Union[ExtractionSchemaNode, Selection, "Object"]] = []
-    for field_name, field in model_class.__fields__.items():
-        field_info = field.field_info
-        extra = field_info.extra
-        if "examples" in extra:
-            field_examples = extra["examples"]
+
+    if PYDANTIC_MAJOR_VERSION == 1:
+        fields_info = model_class.__fields__.items()  # type: ignore[attr-defined]
+    else:
+        fields_info = model_class.model_fields.items()  # type: ignore[attr-defined]
+
+    for field_name, field in fields_info:
+        if PYDANTIC_MAJOR_VERSION == 1:
+            field_info = field.field_info
+            extra = field_info.extra
+            field_examples = extra.get("examples", tuple())
+            field_description = field_info.description or ""
+            type_ = field.type_
         else:
-            field_examples = tuple()
+            type_ = field.annotation
+            field_examples = field.examples or tuple()
+            field_description = field.description or ""
 
-        field_description = field_info.description or ""
+        field_many = _is_many(type_)
+        get_origin(type_)
 
-        type_ = field.type_
-        field_many = get_origin(field.outer_type_) is list
         attribute: Union[ExtractionSchemaNode, Selection, "Object"]
-        # Precedence matters here since bool is a subclass of int
-        if get_origin(type_) is Union:
+
+        is_optional_equivalent, unpacked_optional = _unpack_if_optional_equivalent(
+            type_
+        )
+
+        if get_origin(type_) is Union and not is_optional_equivalent:
+            # Verify that all arguments are primitive types
             args = get_args(type_)
 
             if not all(arg in PRIMITIVE_TYPES for arg in args):
@@ -77,30 +139,42 @@ def _translate_pydantic_to_kor(
                 many=field_many,
             )
         else:
-            if issubclass(type_, BaseModel):
+            # If the type is an Optional or Union equivalent, use the inner type
+            type_to_use = unpacked_optional if is_optional_equivalent else type_
+
+            # If the type is a parameterized generic, we want to extract
+            # the innter type; e.g., List[str] -> str
+            if not isinstance(type_to_use, type):  # i.e., parameterized generic
+                origin_ = get_origin(type_to_use)
+                if not isinstance(origin_, type) or not issubclass(origin_, List):
+                    raise NotImplementedError(f"Unsupported type: {type_to_use}")
+                type_to_use = get_args(type_to_use)[0]  # extract the argument
+
+            if issubclass(type_to_use, BaseModel):
                 attribute = _translate_pydantic_to_kor(
-                    type_,
+                    type_to_use,
                     description=field_description,
                     examples=field_examples,
                     many=field_many,
                     name=field_name,
                 )
-            elif issubclass(type_, bool):
+            # Precedence matters here since bool is a subclass of int
+            elif issubclass(type_to_use, bool):
                 attribute = Bool(
                     id=field_name,
                     examples=field_examples,
                     description=field_description,
                     many=field_many,
                 )
-            elif issubclass(type_, (int, float)):
+            elif issubclass(type_to_use, (int, float)):
                 attribute = Number(
                     id=field_name,
                     examples=field_examples,
                     description=field_description,
                     many=field_many,
                 )
-            elif issubclass(type_, enum.Enum):
-                enum_choices = list(type_)
+            elif issubclass(type_to_use, enum.Enum):
+                enum_choices = list(type_to_use)
                 attribute = Selection(
                     id=field_name,
                     description=field_description,

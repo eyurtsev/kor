@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import abc
 import copy
-import re
 from typing import (
     Any,
     Generic,
@@ -16,16 +15,9 @@ from typing import (
     Union,
 )
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 
-# For now, limit what's allowed for identifiers.
-# The main constraints
-# 1) Relying on HTML parser to parse output
-# 2) One of the type descriptors is TypeScript, so we want
-#    to produce valid TypeScript identifiers.
-# We can lift the constraints later if it becomes important,
-# not worth the effort for a v0.
-VALID_IDENTIFIER_PATTERN = re.compile(r"^[a-z_][0-9a-z_]*$")
+from ._pydantic import PYDANTIC_MAJOR_VERSION
 
 # Name of field to store the type discriminator
 TYPE_DISCRIMINATOR_FIELD = "$type"
@@ -83,16 +75,6 @@ class AbstractSchemaNode(BaseModel):
     description: str = ""
     many: bool = False
 
-    @validator("id")
-    def ensure_valid_uid(cls, uid: str) -> str:
-        """Validate that using a valid identifier."""
-        if not VALID_IDENTIFIER_PATTERN.match(uid):
-            raise ValueError(
-                f"`{id}` is not a valid identifier. "
-                f"Please only use lower cased a-z, _ or the digits 0-9"
-            )
-        return uid
-
     @abc.abstractmethod
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -131,14 +113,17 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
         ]
     """
 
-    examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
+    examples: Sequence[
+        Tuple[str, Union[bool, int, float, str, Sequence[Union[str, int, float, bool]]]]
+    ] = tuple()
 
     def __init__(self, **kwargs: Any) -> None:
+        """Initialize."""
+        kwargs[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
         super().__init__(**kwargs)
-        self.__dict__[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
 
     @classmethod
-    def parse_obj(cls: Type[ExtractionSchemaNode], data: dict) -> ExtractionSchemaNode:
+    def parse_obj(cls, data: dict) -> ExtractionSchemaNode:
         """Parse an object."""
         type_ = data.pop(TYPE_DISCRIMINATOR_FIELD, None)
         if type_ is None:
@@ -276,3 +261,21 @@ class Object(AbstractSchemaNode):
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         return visitor.visit_object(self, **kwargs)
+
+    @classmethod
+    def parse_raw(cls, *args: Any, **kwargs: Any) -> Object:
+        """Parse raw data."""
+        if PYDANTIC_MAJOR_VERSION != 1:
+            raise NotImplementedError(
+                f"parse_raw is not supported for pydantic {PYDANTIC_MAJOR_VERSION}"
+            )
+        return super().parse_raw(*args, **kwargs)
+
+    @classmethod
+    def parse_obj(cls, *args: Any, **kwargs: Any) -> Object:
+        """Parse an object."""
+        if PYDANTIC_MAJOR_VERSION != 1:
+            raise NotImplementedError(
+                f"parse_obj is not supported for pydantic {PYDANTIC_MAJOR_VERSION}"
+            )
+        return super().parse_obj(*args, **kwargs)
