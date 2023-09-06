@@ -3,6 +3,7 @@ import abc
 from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 
 from pydantic import BaseModel, ValidationError
+
 from ._pydantic import PYDANTIC_MAJOR_VERSION
 
 

@@ -1,7 +1,8 @@
 """Test validator module."""
 from typing import Optional
 
-from pydantic import BaseModel, ValidationError, Field, validator as pydantic_validator
+from pydantic import BaseModel, Field, ValidationError
+from pydantic import validator as pydantic_validator
 
 from kor.validators import PydanticValidator
 
