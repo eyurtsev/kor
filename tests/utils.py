@@ -12,7 +12,7 @@ from kor._pydantic import PYDANTIC_MAJOR_VERSION
 if PYDANTIC_MAJOR_VERSION == 1:
     from pydantic import Extra  # type: ignore[assignment]
 else:
-    from pydantic.v1 import Extra  # type: ignore[assignment]
+    from pydantic.v1 import Extra  # type: ignore[assignment,no-redef]
 
 
 class ToyChatModel(BaseChatModel):

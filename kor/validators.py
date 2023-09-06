@@ -55,9 +55,13 @@ class PydanticValidator(Validator):
             for item in data:
                 try:
                     if PYDANTIC_MAJOR_VERSION == 1:
-                        record = self.model_class.parse_obj(item)
+                        record = self.model_class.parse_obj(  # type: ignore[attr-defined]
+                            item
+                        )
                     else:
-                        record = self.model_class.model_validate(item)
+                        record = self.model_class.model_validate(  # type: ignore[attr-defined]
+                            item
+                        )
 
                     records.append(record)
                 except ValidationError as e:
@@ -65,10 +69,12 @@ class PydanticValidator(Validator):
             return records, exceptions
         else:
             try:
+                model_class = self.model_class
                 if PYDANTIC_MAJOR_VERSION == 1:
-                    record = self.model_class.parse_obj(data)
+                    _loader = model_class.parse_obj  # type: ignore[attr-defined]
                 else:
-                    record = self.model_class.model_validate(data)
+                    _loader = model_class.model_validate  # type: ignore[attr-defined]
+                record = _loader(data)
                 return record, []
             except ValidationError as e:
                 return None, [e]
