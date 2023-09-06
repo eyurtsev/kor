@@ -42,6 +42,8 @@ class MusicRequest(BaseModel):
    catch issues that were hiding in existing user code that was using the `kor`
    library.
 
+3. Serialization has not yet been implemented with pydantic v2.
+
 
 ## Kor style schema
 
