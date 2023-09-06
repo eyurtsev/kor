@@ -96,16 +96,20 @@ class Action(enum.Enum):
 
 class MusicRequest(BaseModel):
     song: Optional[List[str]] = Field(
+        default=None,
         description="The song(s) that the user would like to be played."
     )
     album: Optional[List[str]] = Field(
+        default=None,
         description="The album(s) that the user would like to be played."
     )
     artist: Optional[List[str]] = Field(
+        default=None,
         description="The artist(s) whose music the user would like to hear.",
         examples=[("Songs by paul simon", "paul simon")],
     )
     action: Optional[Action] = Field(
+        default=None,
         description="The action that should be taken; one of `play`, `stop`, `next`, `previous`",
         examples=[
             ("Please stop the music", "stop"),
