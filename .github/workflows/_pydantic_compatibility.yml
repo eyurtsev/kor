@@ -78,4 +78,5 @@ jobs:
           echo "Found pydantic version ${CURRENT_VERSION}, as expected"
       - name: Run pydantic compatibility tests
         shell: bash
-        run: make test
+        run: poetry run poe test
+
