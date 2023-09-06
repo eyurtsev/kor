@@ -15,7 +15,7 @@ markdownify = {version = "^0.11.6", optional = false}
 pydantic = "<3"
 
 [tool.poetry.group.dev.dependencies]
-jupyterlab = "^3.6.1"
+jupyterlab = "^3"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.1"
