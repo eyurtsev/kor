@@ -17,6 +17,8 @@ from typing import (
 
 from pydantic import BaseModel
 
+from ._pydantic import PYDANTIC_MAJOR_VERSION
+
 # Name of field to store the type discriminator
 TYPE_DISCRIMINATOR_FIELD = "$type"
 
@@ -116,11 +118,12 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     ] = tuple()
 
     def __init__(self, **kwargs: Any) -> None:
+        """Initialize."""
+        kwargs[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
         super().__init__(**kwargs)
-        self.__dict__[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
 
     @classmethod
-    def parse_obj(cls: Type[ExtractionSchemaNode], data: dict) -> ExtractionSchemaNode:
+    def parse_obj(cls, data: dict) -> ExtractionSchemaNode:
         """Parse an object."""
         type_ = data.pop(TYPE_DISCRIMINATOR_FIELD, None)
         if type_ is None:
@@ -258,3 +261,19 @@ class Object(AbstractSchemaNode):
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         return visitor.visit_object(self, **kwargs)
+
+    def parse_raw(self, *args: Any, **kwargs: Any) -> Object:
+        """Parse raw data."""
+        if PYDANTIC_MAJOR_VERSION != 1:
+            raise NotImplementedError(
+                f"parse_raw is not supported for pydantic {PYDANTIC_MAJOR_VERSION}"
+            )
+        return super().parse_raw(*args, **kwargs)
+
+    def parse_obj(*args, **kwargs) -> Object:
+        """Parse an object."""
+        if PYDANTIC_MAJOR_VERSION != 1:
+            raise NotImplementedError(
+                f"parse_obj is not supported for pydantic {PYDANTIC_MAJOR_VERSION}"
+            )
+        return super().parse_obj(*args, **kwargs)

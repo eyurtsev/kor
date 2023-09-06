@@ -1,15 +1,11 @@
 """Test serialization and deserialization of nodes."""
 from typing import Any
 
-
 import pytest
 
 from kor import Bool, Number, Object, Selection, Text
-import pytest
-
-from kor import Bool, Number, Object, Text
-from kor.nodes import ExtractionSchemaNode
 from kor._pydantic import PYDANTIC_MAJOR_VERSION
+from kor.nodes import ExtractionSchemaNode
 
 
 @pytest.fixture(params=ExtractionSchemaNode.__subclasses__())
