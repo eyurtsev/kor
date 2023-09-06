@@ -2,8 +2,9 @@
 import abc
 from typing import Any, List, Mapping, Optional, Tuple, Type, Union
 
-from pydantic import BaseModel
-from pydantic import ValidationError as PydanticValidationError
+from pydantic import BaseModel, ValidationError
+
+from ._pydantic import PYDANTIC_MAJOR_VERSION
 
 
 class Validator(abc.ABC):
@@ -53,12 +54,21 @@ class PydanticValidator(Validator):
 
             for item in data:
                 try:
-                    records.append(self.model_class.parse_obj(item))
-                except PydanticValidationError as e:
+                    if PYDANTIC_MAJOR_VERSION == 1:
+                        record = self.model_class.parse_obj(item)
+                    else:
+                        record = self.model_class.model_validate(item)
+
+                    records.append(record)
+                except ValidationError as e:
                     exceptions.append(e)
             return records, exceptions
         else:
             try:
-                return self.model_class.parse_obj(data), []
-            except PydanticValidationError as e:
+                if PYDANTIC_MAJOR_VERSION == 1:
+                    record = self.model_class.parse_obj(data)
+                else:
+                    record = self.model_class.model_validate(data)
+                return record, []
+            except ValidationError as e:
                 return None, [e]

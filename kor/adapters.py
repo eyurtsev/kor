@@ -143,7 +143,7 @@ def _translate_pydantic_to_kor(
             type_to_use = unpacked_optional if is_optional_equivalent else type_
 
             # If the type is a parameterized generic, we want to extract
-            # the innter type; e.g., List[str] -> str
+            # the inner type; e.g., List[str] -> str
             if not isinstance(type_to_use, type):  # i.e., parameterized generic
                 origin_ = get_origin(type_to_use)
                 if not isinstance(origin_, type) or not issubclass(origin_, List):

@@ -1,10 +1,10 @@
 """Test validator module."""
-from pydantic import BaseModel, ValidationError
+from typing import Optional
+
+from pydantic import BaseModel, Field, ValidationError
 from pydantic import validator as pydantic_validator
 
-from kor.validators import (
-    PydanticValidator,
-)
+from kor.validators import PydanticValidator
 
 
 def test_pydantic_validator() -> None:
@@ -15,6 +15,8 @@ def test_pydantic_validator() -> None:
 
         name: str
         age: int
+        foo: Optional[str] = None
+        foo2: Optional[str] = Field(default=None, description="some field")
 
         @pydantic_validator("age")
         def age_must_be_positive(cls, v: int) -> int:
