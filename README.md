@@ -54,10 +54,12 @@ from kor import create_extraction_chain, Object, Text
 llm = ChatOpenAI(
     model_name="gpt-3.5-turbo",
     temperature=0,
-    max_tokens=2000,
-    frequency_penalty=0,
-    presence_penalty=0,
-    top_p=1.0,
+    max_tokens=2000
+    model_kwargs = {
+        'frequency_penalty':0,
+        'presence_penalty':0,
+        'top_p':1.0
+    }
 )
 
 schema = Object(
