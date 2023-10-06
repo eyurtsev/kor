@@ -1,8 +1,8 @@
+import json
 from typing import Optional
 
 from ._pydantic import PYDANTIC_MAJOR_VERSION
 from .nodes import Object
-import json
 
 # PUBLIC API
 

@@ -1,11 +1,9 @@
 """Test serialization and deserialization of nodes."""
-from typing import Any, Type
 
 import pytest
 from pydantic import ValidationError
 
 from kor import Bool, Number, Object, Selection, Text
-from kor.nodes import ExtractionSchemaNode
 from kor.serializer import dumps, loads
 
 
