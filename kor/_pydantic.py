@@ -7,8 +7,8 @@ def _get_pydantic_major_version() -> int:
         import pydantic
 
         return int(pydantic.__version__.split(".")[0])
-    except (AttributeError, ValueError):
-        return 1
+    except ImportError:
+        return 0
 
 
 PYDANTIC_MAJOR_VERSION = _get_pydantic_major_version()
