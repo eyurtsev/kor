@@ -4,8 +4,8 @@ import pytest
 from pydantic import ValidationError
 
 from kor import Bool, Number, Object, Selection, Text
-from kor.serializer import dumps, loads
 from kor._pydantic import PYDANTIC_MAJOR_VERSION
+from kor.serializer import dumps, loads
 
 
 def test_serialize_deserialize_equals() -> None:
