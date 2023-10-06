@@ -6,21 +6,16 @@ import copy
 from typing import (
     Any,
     Generic,
+    Literal,
     Mapping,
     Optional,
     Sequence,
     Tuple,
-    Type,
     TypeVar,
     Union,
 )
 
 from pydantic import BaseModel
-
-from ._pydantic import PYDANTIC_MAJOR_VERSION
-
-# Name of field to store the type discriminator
-TYPE_DISCRIMINATOR_FIELD = "$type"
 
 T = TypeVar("T")
 
@@ -117,34 +112,6 @@ class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
         Tuple[str, Union[bool, int, float, str, Sequence[Union[str, int, float, bool]]]]
     ] = tuple()
 
-    def __init__(self, **kwargs: Any) -> None:
-        """Initialize."""
-        super().__init__(**kwargs)
-        if PYDANTIC_MAJOR_VERSION == 1:
-            self.__dict__[TYPE_DISCRIMINATOR_FIELD] = type(self).__name__
-
-    @classmethod
-    def parse_obj(cls, data: dict) -> ExtractionSchemaNode:
-        """Parse an object."""
-        if PYDANTIC_MAJOR_VERSION != 1:
-            raise NotImplementedError("Only supported for pydantic 1.x")
-        type_ = data.pop(TYPE_DISCRIMINATOR_FIELD, None)
-        if type_ is None:
-            raise ValueError(f"Need to specify type ({TYPE_DISCRIMINATOR_FIELD})")
-        for sub in cls.__subclasses__():
-            if type_ == sub.__name__:
-                return sub(**data)
-        raise TypeError(f"Unknown sub-type: {type_}")
-
-    @classmethod
-    def validate(cls: Type[ExtractionSchemaNode], v: Any) -> ExtractionSchemaNode:
-        if isinstance(v, dict):
-            return cls.parse_obj(v)
-        elif isinstance(v, cls):
-            return v
-        else:
-            raise TypeError(f"Unsupported type: {type(v)}")
-
 
 class Number(ExtractionSchemaNode):
     """Built-in number input."""
@@ -152,6 +119,8 @@ class Number(ExtractionSchemaNode):
     examples: Sequence[
         Tuple[str, Union[int, float, Sequence[Union[float, int]]]]
     ] = tuple()
+
+    type: Literal["number"] = "number"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -162,6 +131,7 @@ class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
     examples: Sequence[Tuple[str, Union[Sequence[str], str]]] = tuple()
+    type: Literal["text"] = "text"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -172,6 +142,7 @@ class Bool(ExtractionSchemaNode):
     """Built-in bool input."""
 
     examples: Sequence[Tuple[str, Union[Sequence[bool], bool]]] = tuple()
+    type: Literal["bool"] = "bool"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -182,6 +153,7 @@ class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
     examples: Sequence[str] = tuple()
+    type: Literal["option"] = "option"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -224,6 +196,7 @@ class Selection(AbstractSchemaNode):
     options: Sequence[Option]
     examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
     null_examples: Sequence[str] = tuple()
+    type: Literal["selection"] = "selection"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -257,7 +230,8 @@ class Object(AbstractSchemaNode):
 
     """
 
-    attributes: Sequence[Union[ExtractionSchemaNode, Selection, Object]]
+    attributes: Sequence[Union[Selection, Object, Number, Text, Bool]]
+    type: Literal["object"] = "object"
 
     examples: Sequence[
         Tuple[
@@ -272,21 +246,3 @@ class Object(AbstractSchemaNode):
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
         return visitor.visit_object(self, **kwargs)
-
-    @classmethod
-    def parse_raw(cls, *args: Any, **kwargs: Any) -> Object:
-        """Parse raw data."""
-        if PYDANTIC_MAJOR_VERSION != 1:
-            raise NotImplementedError(
-                f"parse_raw is not supported for pydantic {PYDANTIC_MAJOR_VERSION}"
-            )
-        return super().parse_raw(*args, **kwargs)
-
-    @classmethod
-    def parse_obj(cls, *args: Any, **kwargs: Any) -> Object:
-        """Parse an object."""
-        if PYDANTIC_MAJOR_VERSION != 1:
-            raise NotImplementedError(
-                f"parse_obj is not supported for pydantic {PYDANTIC_MAJOR_VERSION}"
-            )
-        return super().parse_obj(*args, **kwargs)
