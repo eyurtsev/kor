@@ -5,6 +5,7 @@ from pydantic import ValidationError
 
 from kor import Bool, Number, Object, Selection, Text
 from kor.serializer import dumps, loads
+from kor._pydantic import PYDANTIC_MAJOR_VERSION
 
 
 def test_serialize_deserialize_equals() -> None:
@@ -163,6 +164,7 @@ def test_nested_object_deserialization() -> None:
     assert len(scheme.attributes[0].attributes) == 1
 
 
+@pytest.mark.skipif(PYDANTIC_MAJOR_VERSION < 2, reason="Fails for pydantic v1")
 def test_inconsistent_attribute_cannot_be_deserialized() -> None:
     """Test if inconsistent attributes cannot be deserialized."""
 
