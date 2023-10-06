@@ -93,24 +93,8 @@ class AbstractSchemaNode(BaseModel):
 class ExtractionSchemaNode(AbstractSchemaNode, abc.ABC):
     """An abstract definition for inputs that involve extraction.
 
-    An extraction input can be associated with extraction examples.
-
-    An extraction example is a 2-tuple composed of a text segment and the expected
-    extraction.
-
-    For example:
-
-    .. code-block:: python
-
-        [
-            ("I bought this cookie for $10", "$10"),
-            ("Eggs cost twelve dollars", "twelve dollars"),
-        ]
+    Used for organizing the schema.
     """
-
-    examples: Sequence[
-        Tuple[str, Union[bool, int, float, str, Sequence[Union[str, int, float, bool]]]]
-    ] = tuple()
 
 
 class Number(ExtractionSchemaNode):
@@ -120,7 +104,7 @@ class Number(ExtractionSchemaNode):
         Tuple[str, Union[int, float, Sequence[Union[float, int]]]]
     ] = tuple()
 
-    type: Literal["number"] = "number"
+    type_: Literal["number"] = "number"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -131,7 +115,7 @@ class Text(ExtractionSchemaNode):
     """Built-in text input."""
 
     examples: Sequence[Tuple[str, Union[Sequence[str], str]]] = tuple()
-    type: Literal["text"] = "text"
+    type_: Literal["text"] = "text"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -142,7 +126,7 @@ class Bool(ExtractionSchemaNode):
     """Built-in bool input."""
 
     examples: Sequence[Tuple[str, Union[Sequence[bool], bool]]] = tuple()
-    type: Literal["bool"] = "bool"
+    type_: Literal["bool"] = "bool"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -153,7 +137,7 @@ class Option(AbstractSchemaNode):
     """Built-in option input must be part of a selection input."""
 
     examples: Sequence[str] = tuple()
-    type: Literal["option"] = "option"
+    type_: Literal["option"] = "option"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -196,7 +180,7 @@ class Selection(AbstractSchemaNode):
     options: Sequence[Option]
     examples: Sequence[Tuple[str, Union[str, Sequence[str]]]] = tuple()
     null_examples: Sequence[str] = tuple()
-    type: Literal["selection"] = "selection"
+    type_: Literal["selection"] = "selection"
 
     def accept(self, visitor: AbstractVisitor[T], **kwargs: Any) -> T:
         """Accept a visitor."""
@@ -231,7 +215,7 @@ class Object(AbstractSchemaNode):
     """
 
     attributes: Sequence[Union[Selection, Object, Number, Text, Bool]]
-    type: Literal["object"] = "object"
+    type_: Literal["object"] = "object"
 
     examples: Sequence[
         Tuple[
