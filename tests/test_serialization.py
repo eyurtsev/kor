@@ -1,34 +1,15 @@
 """Test serialization and deserialization of nodes."""
-from typing import Any, Type
 
 import pytest
+from pydantic import ValidationError
 
 from kor import Bool, Number, Object, Selection, Text
 from kor._pydantic import PYDANTIC_MAJOR_VERSION
-from kor.nodes import ExtractionSchemaNode
+from kor.serializer import dumps, loads
 
 
-@pytest.fixture(params=ExtractionSchemaNode.__subclasses__())
-def extraction_subclass(request: Any) -> Any:
-    """Fixture to test all subclasses of ExtractionSchemaNode."""
-    return request.param
-
-
-@pytest.mark.skipif(
-    PYDANTIC_MAJOR_VERSION != 1, reason="Only implemented for pydantic 1"
-)
-def test_extraction_schema_node_has_type_discriminator(
-    extraction_subclass: Type[ExtractionSchemaNode],
-) -> None:
-    """Test if all subclasses of ExtractionSchemaNode have a type discriminator."""
-    node_type = extraction_subclass(id="test")
-    assert node_type.dict()["$type"] == extraction_subclass.__name__
-
-
-@pytest.mark.skipif(
-    PYDANTIC_MAJOR_VERSION != 1, reason="Only implemented for pydantic 1"
-)
 def test_serialize_deserialize_equals() -> None:
+    """Test if serialization and deserialization are inverse operations."""
     expected = Object(
         id="root",
         description="root-object",
@@ -39,41 +20,11 @@ def test_serialize_deserialize_equals() -> None:
         ],
         examples=[],
     )
-
-    stringified = expected.json()
-    assert Object.parse_raw(stringified) == expected
+    stringified = dumps(expected)
     assert isinstance(stringified, str)
-    assert expected.dict() == {
-        "attributes": [
-            {
-                "description": "Number description",
-                "examples": [],
-                "id": "number",
-                "many": False,
-                "$type": "Number",
-            },
-            {
-                "description": "text description",
-                "examples": [],
-                "id": "text",
-                "many": False,
-                "$type": "Text",
-            },
-            {
-                "description": "bool description",
-                "examples": [],
-                "id": "bool",
-                "many": False,
-                "$type": "Bool",
-            },
-        ],
-        "description": "root-object",
-        "examples": [],
-        "id": "root",
-        "many": False,
-    }
-
-    assert Object.parse_raw(stringified) == expected
+    loaded_obj = loads(stringified)
+    assert loaded_obj == expected
+    assert loaded_obj.schema() == expected.schema()
 
 
 def test_simple_deserialization() -> None:
@@ -82,66 +33,65 @@ def test_simple_deserialization() -> None:
         "id": "sample_object",
         "description": "Deserialization Example",
         "many": true,
+        "type": "object",
         "attributes": [
             {
-                "$type": "Number",
                 "id": "number_attribute",
                 "description": "Description for Number",
                 "many": true,
+                "type": "number",
                 "examples": [
                     ["Here is 1 number", 1],
                     ["Here are 0 numbers", 0]
                 ]
             },
             {
-                "$type": "Text",
                 "id": "text_attribute",
                 "description": "Description for Text",
                 "many": true,
+                "type": "text",
                 "examples": [
                     ["Here is a text", "a text"],
                     ["Here is no text", "no text"]
                 ]
             },
             {
-                "$type": "Bool",
                 "id": "bool_attribute",
                 "description": "Description for Bool",
                 "many": true,
+                "type": "bool",
                 "examples": [
                     ["This is soo true", true],
                     ["This is wrong", false]
                 ]
             },
             {
-                "$type": "Selection",
                 "id": "selection_attribute",
                 "description": "Description for Selection",
                 "many": true,
+                "type": "selection",
                 "options": [
                     {
                         "id": "option1",
-                        "description": "description for option 1"
+                        "description": "description for option 1",
+                        "type": "option"
                     },
                     {
                         "id": "option2",
-                        "description": "description for option 2"
+                        "description": "description for option 2",
+                        "type": "option"
                     }
                 ],
                 "examples": [
-                    ["This is soo true", true],
-                    ["This is wrong", false]
+                    ["This is soo true", "true"],
+                    ["This is wrong", "false"]
                 ]
             }
         ]
     }
     """
-    if PYDANTIC_MAJOR_VERSION == 2:
-        with pytest.raises(NotImplementedError):
-            scheme = Object.parse_raw(json)
-        return
+    scheme = loads(json)
 
-    scheme = Object.parse_raw(json)
     assert scheme.id == "sample_object"
     assert scheme.description == "Deserialization Example"
     assert scheme.many is True
@@ -178,17 +128,19 @@ def test_nested_object_deserialization() -> None:
         "id": "root_object",
         "description": "Deserialization Example",
         "many": true,
+        "type": "object",
         "attributes": [
             {
                 "id": "nested_object",
                 "description": "Description nested object",
                 "many": true,
+                "type": "object",
                 "attributes": [
                     {
-                        "$type": "Number",
                         "id": "number_attribute",
                         "description": "Description for Number",
                         "many": true,
+                        "type": "number",
                         "examples": [
                             ["Here is 1 number", 1],
                             ["Here are 0 numbers", 0]
@@ -199,11 +151,7 @@ def test_nested_object_deserialization() -> None:
         ]
     }
     """
-    if PYDANTIC_MAJOR_VERSION == 2:
-        with pytest.raises(NotImplementedError):
-            scheme = Object.parse_raw(json)
-        return
-    scheme = Object.parse_raw(json)
+    scheme = loads(json)
 
     assert scheme.id == "root_object"
     assert scheme.description == "Deserialization Example"
@@ -216,7 +164,11 @@ def test_nested_object_deserialization() -> None:
     assert len(scheme.attributes[0].attributes) == 1
 
 
-def test_extractionschemanode_without_type_cannot_be_deserialized() -> None:
+@pytest.mark.skipif(PYDANTIC_MAJOR_VERSION < 2, reason="Fails for pydantic v1")
+def test_inconsistent_attribute_cannot_be_deserialized() -> None:
+    """Test if inconsistent attributes cannot be deserialized."""
+
+    # Here the examples are a mix of string and float, which should not be allowed
     json = """
     {
         "id": "root_object",
@@ -228,17 +180,12 @@ def test_extractionschemanode_without_type_cannot_be_deserialized() -> None:
                 "description": "Description for Number",
                 "many": true,
                 "examples": [
-                    ["Here is 1 number", 1],
-                    ["Here are 0 numbers", 0]
+                    ["Here is 1 number", "true"],
+                    ["Here are 0 numbers", 2.3]
                 ]
             }
         ]
     }
     """
-    if PYDANTIC_MAJOR_VERSION == 1:
-        exception_class: Type[Exception] = ValueError
-    else:
-        exception_class = NotImplementedError
-
-    with pytest.raises(exception_class):
-        Object.parse_raw(json)
+    with pytest.raises(ValidationError):
+        loads(json)
