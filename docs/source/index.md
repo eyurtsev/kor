@@ -72,7 +72,7 @@ schema = Object(
 )
 
 chain = create_extraction_chain(llm, schema, encoder_or_encoder_class='json')
-chain.run("play songs by paul simon and led zeppelin and the doors")['data']
+chain.invoke("play songs by paul simon and led zeppelin and the doors")['data']
 ```
 
 ```python
@@ -116,7 +116,7 @@ schema, validator = from_pydantic(MusicRequest)
 chain = create_extraction_chain(
     llm, schema, encoder_or_encoder_class="json", validator=validator
 )
-chain.run("stop the music now")["validated_data"]
+chain.invoke("stop the music now")["validated_data"]
 ```
 
 ```python

@@ -26,7 +26,7 @@ def test_pydantic() -> None:
     )
 
     chain = create_extraction_chain(llm, schema)
-    result = chain.run("My name is Bobby. My brother's name Joe.")  # type: ignore
+    result = chain.invoke("My name is Bobby. My brother's name Joe.")  # type: ignore
     data = result["data"]  # type: ignore
 
     assert "person" in data  # type: ignore

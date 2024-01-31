@@ -3,8 +3,7 @@ from __future__ import annotations
 
 from typing import Any, List, Optional, Tuple
 
-from langchain import BasePromptTemplate
-from langchain.prompts import PromptTemplate
+from langchain.prompts import BasePromptTemplate, PromptTemplate
 from langchain.schema import (
     AIMessage,
     BaseMessage,
