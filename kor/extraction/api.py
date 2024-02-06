@@ -2,9 +2,9 @@
 import asyncio
 from typing import Any, Callable, List, Optional, Sequence, Type, Union, cast
 
-from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.docstore.document import Document
+from langchain.prompts import PromptTemplate
 
 from kor.extraction.parser import KorParser
 
