@@ -3,8 +3,8 @@ from typing import Any, Mapping, Optional
 
 import langchain
 import pytest
-from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
 
 from kor.encoders import CSVEncoder, JSONEncoder
 from kor.extraction import create_extraction_chain
