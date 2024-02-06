@@ -62,7 +62,7 @@ def test_create_extraction_chain_with_csv_encoder(options: Mapping[str, Any]) ->
     chain = create_extraction_chain(chat_model, **options)
     assert isinstance(chain, LLMChain)
     # Try to run through predict and parse
-    chain.invoke("some string")
+    chain.invoke("some string")  # type: ignore
 
 
 MANY_TEXT_SCHEMA = Text(
