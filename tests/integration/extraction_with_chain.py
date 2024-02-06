@@ -1,4 +1,4 @@
-from langchain.chat_models import ChatOpenAI
+from langchain_openai.chat_models import ChatOpenAI
 from pydantic import BaseModel, Field
 
 from kor.adapters import from_pydantic

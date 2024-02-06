@@ -42,7 +42,7 @@ def test_create_extraction_chain(options: Mapping[str, Any]) -> None:
         chain = create_extraction_chain(chat_model, schema, **options)
         assert isinstance(chain, LLMChain)
         # Try to run through predict and parse
-        chain.invoke("some string")
+        chain.invoke("some string")  # type: ignore
 
 
 @pytest.mark.parametrize(
