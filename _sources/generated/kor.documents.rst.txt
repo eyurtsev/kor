@@ -1,0 +1,29 @@
+kor.documents package
+=====================
+
+Submodules
+----------
+
+kor.documents.html module
+-------------------------
+
+.. automodule:: kor.documents.html
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.documents.typedefs module
+-----------------------------
+
+.. automodule:: kor.documents.typedefs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: kor.documents
+   :members:
+   :undoc-members:
+   :show-inheritance:

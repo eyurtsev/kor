@@ -1,0 +1,87 @@
+kor package
+===========
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   kor.documents
+   kor.encoders
+   kor.extraction
+
+Submodules
+----------
+
+kor.adapters module
+-------------------
+
+.. automodule:: kor.adapters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.examples module
+-------------------
+
+.. automodule:: kor.examples
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.exceptions module
+---------------------
+
+.. automodule:: kor.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.nodes module
+----------------
+
+.. automodule:: kor.nodes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.prompts module
+------------------
+
+.. automodule:: kor.prompts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.type\_descriptors module
+----------------------------
+
+.. automodule:: kor.type_descriptors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.validators module
+---------------------
+
+.. automodule:: kor.validators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.version module
+------------------
+
+.. automodule:: kor.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: kor
+   :members:
+   :undoc-members:
+   :show-inheritance:
