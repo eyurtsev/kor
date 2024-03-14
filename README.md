@@ -1,5 +1,10 @@
 [![Unit Tests](https://github.com/eyurtsev/kor/actions/workflows/test.yml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/test.yml)
 [![Test Docs](https://github.com/eyurtsev/kor/actions/workflows/doc_test.yaml/badge.svg?branch=main&event=push)](https://github.com/eyurtsev/kor/actions/workflows/doc_test.yaml)
+[![Release Notes](https://img.shields.io/github/release/eyurtsev/kor)](https://github.com/eyurtsev/kor/releases)
+[![Downloads](https://static.pepy.tech/badge/kor/month)](https://pepy.tech/project/kor)
+[![Open Issues](https://img.shields.io/github/issues-raw/eyurtsev/kor)](https://github.com/eyurtsev/kor/issues)
+[![](https://dcbadge.vercel.app/api/server/6adMQxSpJS?compact=true&style=flat)](https://discord.com/channels/1038097195422978059/1170024642245832774)
+
 
 # Kor
 
