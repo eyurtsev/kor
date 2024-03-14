@@ -18,6 +18,22 @@ See [documentation](https://eyurtsev.github.io/kor/).
 
 Integrated with the [LangChain framework 😽💗 🦜🔗](https://python.langchain.com/en/latest/index.html).
 
+## Kor vs. LangChain
+
+There are 3 different approaches for extracting information using LLMs: 
+
+1. [prompt based/parsing](https://python.langchain.com/docs/use_cases/extraction/how_to/parse)
+2. [function/tool calling](https://python.langchain.com/docs/use_cases/extraction/quickstart)
+3. JSON mode
+
+Please see the LangChain [extraction use case docs](https://python.langchain.com/docs/use_cases/extraction/) for an overview.
+
+Kor has a pretty good implementation of the **parsing** approach. The approach works with all good-enough LLMs regardless
+of whether they support function/tool calling or JSON modes.
+
+Extraction quality is principally driven by providing good reference examples and good schema documentation.
+
+Please see guidelines [here](https://python.langchain.com/docs/use_cases/extraction/guidelines) and [here](https://eyurtsev.github.io/kor/guidelines.html).
 
 ## Version 1.0.0 Release
 
