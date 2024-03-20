@@ -19,7 +19,7 @@ jupyterlab = "^3"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.1"
-black = { version="^23.1.0", extras=["jupyter"] }
+black = { version=">=23.1,<25.0", extras=["jupyter"] }
 poethepoet = "^0.18.1"
 ruff = "^0.0.255"
 pytest-cov = "^4.0.0"
