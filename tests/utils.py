@@ -1,11 +1,12 @@
 from typing import Any, List, Optional
 
-from langchain.callbacks.manager import (
+from langchain_core.callbacks import (
     AsyncCallbackManagerForLLMRun,
     CallbackManagerForLLMRun,
 )
-from langchain.chat_models.base import BaseChatModel
-from langchain.schema import AIMessage, BaseMessage, ChatGeneration, ChatResult
+from langchain_core.language_models import BaseChatModel
+from langchain_core.messages import AIMessage, BaseMessage
+from langchain_core.outputs import ChatGeneration, ChatResult
 
 from kor._pydantic import PYDANTIC_MAJOR_VERSION
 

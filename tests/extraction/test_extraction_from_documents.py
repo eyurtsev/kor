@@ -2,7 +2,7 @@ import asyncio
 from typing import List
 
 import pytest
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 
 from kor import (
     DocumentExtraction,
