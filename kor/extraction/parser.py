@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from langchain_core.output_parsers import BaseOutputParser
 from pydantic import Extra
 
 from kor.encoders import Encoder
@@ -9,11 +10,6 @@ from kor.exceptions import ParseError
 from kor.extraction.typedefs import Extraction
 from kor.nodes import Object
 from kor.validators import Validator
-
-try:
-    from langchain.output_parsers.base import BaseOutputParser
-except ImportError:
-    from langchain.schema import BaseOutputParser  # type: ignore
 
 
 class KorParser(BaseOutputParser):

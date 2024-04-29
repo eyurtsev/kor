@@ -3,7 +3,7 @@
 import re
 from typing import Tuple
 
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 from kor.documents.typedefs import AbstractDocumentProcessor
 

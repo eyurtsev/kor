@@ -1,6 +1,6 @@
 import abc
 
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 
 class AbstractDocumentProcessor(abc.ABC):

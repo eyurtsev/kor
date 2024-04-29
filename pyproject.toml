@@ -9,10 +9,11 @@ repository = "https://www.github.com/eyurtsev/kor"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
-langchain = ">=0.1.4"
 pandas = "^1.5.3"
 markdownify = {version = "^0.11.6", optional = false}
 pydantic = "<3"
+langchain-core = "^0.1"
+langchain = "^0.1"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3"
@@ -21,7 +22,7 @@ jupyterlab = "^3"
 pytest = "^7.2.1"
 black = { version="^23.1.0", extras=["jupyter"] }
 poethepoet = "^0.18.1"
-ruff = "^0.0.255"
+ruff = "^0.1.4"
 pytest-cov = "^4.0.0"
 langchain-openai = "^0.0.5"
 

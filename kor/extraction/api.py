@@ -3,17 +3,12 @@ import asyncio
 from typing import Any, Callable, List, Optional, Sequence, Type, Union, cast
 
 from langchain.chains import LLMChain
-from langchain.docstore.document import Document
-from langchain.prompts import PromptTemplate
-
-from kor.extraction.parser import KorParser
-
-try:  # Handle breaking change in langchain
-    from langchain.base_language import BaseLanguageModel
-except ImportError:
-    from langchain.schema import BaseLanguageModel  # type: ignore
+from langchain_core.documents import Document
+from langchain_core.language_models import BaseLanguageModel
+from langchain_core.prompts import PromptTemplate
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
+from kor.extraction.parser import KorParser
 from kor.extraction.typedefs import DocumentExtraction, Extraction
 from kor.nodes import Object
 from kor.prompts import create_langchain_prompt

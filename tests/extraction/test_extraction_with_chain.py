@@ -4,7 +4,7 @@ from typing import Any, Mapping, Optional
 import langchain
 import pytest
 from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 from kor.encoders import CSVEncoder, JSONEncoder
 from kor.extraction import create_extraction_chain

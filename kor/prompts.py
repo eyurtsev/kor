@@ -3,14 +3,9 @@ from __future__ import annotations
 
 from typing import Any, List, Optional, Tuple
 
-from langchain.prompts import BasePromptTemplate, PromptTemplate
-from langchain.schema import (
-    AIMessage,
-    BaseMessage,
-    HumanMessage,
-    PromptValue,
-    SystemMessage,
-)
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
+from langchain_core.prompt_values import PromptValue
+from langchain_core.prompts import BasePromptTemplate, PromptTemplate
 
 from kor.encoders import Encoder
 from kor.encoders.encode import InputFormatter, encode_examples, format_text
