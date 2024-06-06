@@ -9,7 +9,7 @@ repository = "https://www.github.com/eyurtsev/kor"
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
-pandas = "^1.5.3"
+pandas = ">=1.5.3,<3"
 markdownify = {version = "^0.11.6", optional = false}
 pydantic = "<3"
 langchain-core = "^0.1"
