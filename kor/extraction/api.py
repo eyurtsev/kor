@@ -1,11 +1,15 @@
 """Kor API for extraction related functionality."""
+
 import asyncio
+from contextlib import contextmanager
 from typing import Any, Callable, List, Optional, Sequence, Type, Union, cast
 
-from langchain.chains import LLMChain
+from langchain.globals import get_verbose, set_verbose
 from langchain_core.documents import Document
 from langchain_core.language_models import BaseLanguageModel
+from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnableSequence
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
 from kor.extraction.parser import KorParser
@@ -16,9 +20,17 @@ from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
 
 
+@contextmanager
+def set_verbose_context(verbose: bool):
+    old_verbose = get_verbose()
+    set_verbose(verbose)
+    yield
+    set_verbose(old_verbose)
+
+
 async def _extract_from_document_with_semaphore(
     semaphore: asyncio.Semaphore,
-    chain: LLMChain,
+    chain: RunnableSequence,
     document: Document,
     uid: str,
     source_uid: str,
@@ -26,7 +38,7 @@ async def _extract_from_document_with_semaphore(
     """Extract from document with a semaphore to limit concurrency."""
     async with semaphore:
         extraction_result: Extraction = cast(
-            Extraction, await chain.arun(document.page_content)
+            Extraction, await chain.ainvoke(document.page_content)
         )
         return {
             "uid": uid,
@@ -52,7 +64,7 @@ def create_extraction_chain(
     instruction_template: Optional[PromptTemplate] = None,
     verbose: Optional[bool] = None,
     **encoder_kwargs: Any,
-) -> LLMChain:
+) -> RunnableSequence:
     """Create an extraction chain.
     
     Args:
@@ -98,27 +110,27 @@ def create_extraction_chain(
     encoder = initialize_encoder(encoder_or_encoder_class, node, **encoder_kwargs)
     type_descriptor_to_use = initialize_type_descriptors(type_descriptor)
 
-    chain_kwargs = {}
-    if verbose is not None:
-        chain_kwargs["verbose"] = verbose
-
-    return LLMChain(
-        llm=llm,
-        prompt=create_langchain_prompt(
+    with set_verbose_context(verbose if verbose is not None else False):
+        prompt = create_langchain_prompt(
             node,
             encoder,
             type_descriptor_to_use,
             validator=validator,
             instruction_template=instruction_template,
             input_formatter=input_formatter,
-        ),
-        output_parser=KorParser(encoder=encoder, validator=validator, schema_=node),
-        **chain_kwargs,
-    )
+        )
+
+        chain = (
+            prompt
+            | llm
+            | StrOutputParser()
+            | KorParser(encoder=encoder, validator=validator, schema_=node)
+        )
+    return chain
 
 
 async def extract_from_documents(
-    chain: LLMChain,
+    chain: RunnableSequence,
     documents: Sequence[Document],
     *,
     max_concurrency: int = 1,

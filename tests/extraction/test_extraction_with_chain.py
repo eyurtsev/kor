@@ -1,10 +1,10 @@
 """Test that the extraction chain works as expected."""
 from typing import Any, Mapping, Optional
 
-import langchain
 import pytest
-from langchain.chains import LLMChain
+from langchain.globals import get_verbose
 from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnableSequence
 
 from kor.encoders import CSVEncoder, JSONEncoder
 from kor.extraction import create_extraction_chain
@@ -40,7 +40,7 @@ def test_create_extraction_chain(options: Mapping[str, Any]) -> None:
 
     for schema in [SIMPLE_OBJECT_SCHEMA]:
         chain = create_extraction_chain(chat_model, schema, **options)
-        assert isinstance(chain, LLMChain)
+        assert isinstance(chain, RunnableSequence)
         # Try to run through predict and parse
         chain.invoke("some string")  # type: ignore
 
@@ -60,7 +60,7 @@ def test_create_extraction_chain_with_csv_encoder(options: Mapping[str, Any]) ->
     chat_model = ToyChatModel(response="hello")
 
     chain = create_extraction_chain(chat_model, **options)
-    assert isinstance(chain, LLMChain)
+    assert isinstance(chain, RunnableSequence)
     # Try to run through predict and parse
     chain.invoke("some string")  # type: ignore
 
@@ -115,11 +115,8 @@ def test_instantiation_with_verbose_flag(verbose: Optional[bool]) -> None:
         encoder_or_encoder_class="json",
         verbose=verbose,
     )
-    assert isinstance(chain, LLMChain)
-    if verbose is None:
-        expected_verbose = langchain.verbose
-    else:
-        expected_verbose = verbose
+    assert isinstance(chain, RunnableSequence)
+    expected_verbose = verbose if verbose is not None else get_verbose()
     assert chain.verbose == expected_verbose
 
 
