@@ -24,8 +24,10 @@ from kor.validators import Validator
 def set_verbose_context(verbose: bool):
     old_verbose = get_verbose()
     set_verbose(verbose)
-    yield
-    set_verbose(old_verbose)
+    try:
+        yield
+    finally:
+        set_verbose(old_verbose)
 
 
 async def _extract_from_document_with_semaphore(
