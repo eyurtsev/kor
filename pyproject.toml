@@ -13,7 +13,6 @@ pandas = "<3,>=1.5.3"
 markdownify = {version = "^0.11.6", optional = false}
 pydantic = "<3"
 langchain-core = ">=0.1,<0.3"
-langchain = ">=0.1,<0.3"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3"
