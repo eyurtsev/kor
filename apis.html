@@ -1,0 +1,1012 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Natural Language Based APIs &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Validation with Pydantic" href="validation.html" />
+    <link rel="prev" title="Untyped Obects 🤷" href="untyped_objects.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/apis.ipynb.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#control-music">
+   Control Music
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#music-player">
+   Music Player
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ticket-ordering">
+   Ticket ordering
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#company-search">
+   Company Search
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Natural Language Based APIs</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#control-music">
+   Control Music
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#music-player">
+   Music Player
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ticket-ordering">
+   Ticket ordering
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#company-search">
+   Company Search
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="natural-language-based-apis">
+<h1>Natural Language Based APIs<a class="headerlink" href="#natural-language-based-apis" title="Permalink to this headline">#</a></h1>
+<p>Being able to understand the content of text can help in tasks other than information extraction.</p>
+<p>Here, we’ll see how extracting information from text can help with powering a natural language based assistant
+that has different skills.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">create_extraction_chain</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="control-music">
+<h2>Control Music<a class="headerlink" href="#control-music" title="Permalink to this headline">#</a></h2>
+<p>Here’s a hypotehtical API for controlling music.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;player&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;User is controlling a music player to select songs, pause or start them or play&quot;</span>
+        <span class="s2">&quot; music by a particular artist.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;song&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;User wants to play this song&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;album&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;User wants to play this album&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;artist&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Music by the given artist&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Songs by paul simon&quot;</span><span class="p">,</span> <span class="s2">&quot;paul simon&quot;</span><span class="p">)],</span>
+            <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Action to take one of: `play`, `stop`, `next`, `previous`.&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;Please stop the music&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;play something&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;play a song&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;next song&quot;</span><span class="p">,</span> <span class="s2">&quot;next&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>ATTENTION</strong> Use the JSON encoder here rather than the default CSV encoder as it supports nested lists</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="music-player">
+<h2>Music Player<a class="headerlink" href="#music-player" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;stop playing the music now&quot;</span><span class="p">)[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;player&#39;: {&#39;action&#39;: &#39;stop&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;i want to hear a song&quot;</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;player&#39;: {&#39;action&#39;: &#39;play&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;can you play the lion king soundtrack&quot;</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;player&#39;: {&#39;album&#39;: [&#39;the lion king soundtrack&#39;], &#39;action&#39;: &#39;play&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;play songs by paul simon and led zeppelin and the doors&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;data&#39;: {&#39;player&#39;: {&#39;artist&#39;: [&#39;paul simon&#39;, &#39;led zeppelin&#39;, &#39;the doors&#39;],
+   &#39;action&#39;: &#39;play&#39;}},
+ &#39;raw&#39;: &#39;&lt;json&gt;{&quot;player&quot;: {&quot;artist&quot;: [&quot;paul simon&quot;, &quot;led zeppelin&quot;, &quot;the doors&quot;], &quot;action&quot;: &quot;play&quot;}}&lt;/json&gt;&#39;,
+ &#39;errors&#39;: [],
+ &#39;validated_data&#39;: {}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;could you play the previous song again?&quot;</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;player&#39;: {&#39;action&#39;: &#39;previous&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ticket-ordering">
+<h2>Ticket ordering<a class="headerlink" href="#ticket-ordering" title="Permalink to this headline">#</a></h2>
+<p>Here’s an imaginary API for searching and buying tickets</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;User is looking for sports tickets&quot;</span><span class="p">,</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;sport&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;which sports do you want to buy tickets for?&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;I want to buy tickets to basketball and football games&quot;</span><span class="p">,</span>
+                    <span class="p">[</span><span class="s2">&quot;basketball&quot;</span><span class="p">,</span> <span class="s2">&quot;footbal&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;location&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;where would you like to watch the game?&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;in boston&quot;</span><span class="p">,</span> <span class="s2">&quot;boston&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;in france or italy&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;france&quot;</span><span class="p">,</span> <span class="s2">&quot;italy&quot;</span><span class="p">]),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">Object</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;price_range&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;how much do you want to spend?&quot;</span><span class="p">,</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;no more than $100&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;price_max&quot;</span><span class="p">:</span> <span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;$&quot;</span><span class="p">}),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;between 50 and 100 dollars&quot;</span><span class="p">,</span>
+                    <span class="p">{</span><span class="s2">&quot;price_max&quot;</span><span class="p">:</span> <span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;price_min&quot;</span><span class="p">:</span> <span class="s2">&quot;50&quot;</span><span class="p">,</span> <span class="s2">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;$&quot;</span><span class="p">},</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;I want to buy tickets for a baseball game in LA area under $100&quot;</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;action&#39;: {&#39;sport&#39;: &#39;baseball&#39;,
+  &#39;location&#39;: &#39;LA area&#39;,
+  &#39;price_range&#39;: {&#39;price_max&#39;: &#39;100&#39;}}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+    <span class="s2">&quot;I want to see a celtics game in boston somewhere between 20 and 40 dollars per ticket&quot;</span>
+<span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;action&#39;: {&#39;sport&#39;: &#39;basketball&#39;,
+  &#39;location&#39;: &#39;boston&#39;,
+  &#39;price_range&#39;: {&#39;price_max&#39;: &#39;40&#39;, &#39;price_min&#39;: &#39;20&#39;, &#39;currency&#39;: &#39;$&#39;}}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="company-search">
+<h2>Company Search<a class="headerlink" href="#company-search" title="Permalink to this headline">#</a></h2>
+<p><strong>ATTENTION</strong> This is a demo that shows how to build a complex schema to run a company search that matches different criteria.</p>
+<p>However, using this format for issuing database queries (e.g., by translating the JSON into SQL) will only works well for simple queries.</p>
+<p>There’s a better way to leverage LLMs to issue database queries, and support for that may be added to the package in the future.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">company_name</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;company_name&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;what is the name of the company you want to find&quot;</span><span class="p">,</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Apple inc&quot;</span><span class="p">,</span> <span class="s2">&quot;Apple inc&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;largest 10 banks in the world&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;microsoft and apple&quot;</span><span class="p">,</span> <span class="s2">&quot;microsoft,apple&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">industry_name</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;industry_name&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;what is the name of the company&#39;s industry&quot;</span><span class="p">,</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;companies in the steel manufacturing industry&quot;</span><span class="p">,</span> <span class="s2">&quot;steel manufacturing&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;large banks&quot;</span><span class="p">,</span> <span class="s2">&quot;banking&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;military companies&quot;</span><span class="p">,</span> <span class="s2">&quot;defense&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;chinese companies&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;companies that cell cigars&quot;</span><span class="p">,</span> <span class="s2">&quot;cigars&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">geography_name</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;geography_name&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;where is the company based?&quot;</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;chinese companies&quot;</span><span class="p">,</span> <span class="s2">&quot;china&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;companies based in france&quot;</span><span class="p">,</span> <span class="s2">&quot;france&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;LaMaple was based in france, italy&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;france&quot;</span><span class="p">,</span> <span class="s2">&quot;italy&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;italy&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">foundation_date</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;foundation_date&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Foundation date of the company&quot;</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;companies founded in 2023&quot;</span><span class="p">,</span> <span class="s2">&quot;2023&quot;</span><span class="p">)],</span>
+<span class="p">)</span>
+
+<span class="n">attribute_filter</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;attribute_filter&quot;</span><span class="p">,</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;Filter by a value of an attribute using a binary expression. Specify the&quot;</span>
+        <span class="s2">&quot; attribute&#39;s name, an operator (&gt;, &lt;, =, !=, &gt;=, &lt;=, in, not in) and a value.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;Companies with revenue &gt; 100&quot;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;revenue&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;100&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;number of employees between 50 and 1000&quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;employees&quot;</span><span class="p">,</span> <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;50&quot;</span><span class="p">,</span> <span class="s2">&quot;1000&quot;</span><span class="p">]},</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;blue or green color&quot;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;companies that do not sell in california&quot;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;geography-sales&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;not in&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;california&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">sales_geography</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;geography_sales&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;where is the company doing sales? Please use a single country name.&quot;</span><span class="p">,</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;companies with sales in france&quot;</span><span class="p">,</span> <span class="s2">&quot;france&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;companies that sell their products in germany&quot;</span><span class="p">,</span> <span class="s2">&quot;germany&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;france, italy&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">attribute_selection_block</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;attribute_selection&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Asking to see the value of one or more attributes&quot;</span><span class="p">,</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;What is the revenue of tech companies?&quot;</span><span class="p">,</span> <span class="s2">&quot;revenue&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;market cap of apple?&quot;</span><span class="p">,</span> <span class="s2">&quot;market cap&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;number of employees of largest company&quot;</span><span class="p">,</span> <span class="s2">&quot;number of employees&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;what are the revenue and market cap of apple&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;revenue&quot;</span><span class="p">,</span> <span class="s2">&quot;market cap&quot;</span><span class="p">]),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;share price and number of shares of indian companies&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="s2">&quot;share price&quot;</span><span class="p">,</span> <span class="s2">&quot;number of shares&quot;</span><span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">sort_by_attribute_block</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;sort_block&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;Use to request to sort the results by a particular attribute. &quot;</span>
+        <span class="s2">&quot;Can specify the direction&quot;</span>
+    <span class="p">),</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Text</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The direction of the sort&quot;</span><span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;attribute&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The sort attribute&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;Largest by market-cap tech companies&quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;descending&quot;</span><span class="p">,</span> <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;market-cap&quot;</span><span class="p">},</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;sort by companies with smallest revenue &quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;ascending&quot;</span><span class="p">,</span> <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;revenue&quot;</span><span class="p">},</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;search_for_companies&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Search for companies matching the following criteria.&quot;</span><span class="p">,</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">company_name</span><span class="p">,</span>
+        <span class="n">geography_name</span><span class="p">,</span>
+        <span class="n">foundation_date</span><span class="p">,</span>
+        <span class="n">industry_name</span><span class="p">,</span>
+        <span class="n">sales_geography</span><span class="p">,</span>
+        <span class="n">attribute_filter</span><span class="p">,</span>
+        <span class="n">attribute_selection_block</span><span class="p">,</span>
+        <span class="n">sort_by_attribute_block</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>ATTENTION</strong> Some of the queries below fail. One common reason is that more examples could be useful to show the model how to group objects together. Pay attention to failures!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Confirm that we’re not getting <strong>false</strong> positives</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;Today Alice MacDonald is turning sixty days old. She had blue eyes. &quot;</span>
+    <span class="s2">&quot;Bob is turning 10 years old. His eyes were bright red.&quot;</span>
+<span class="p">)</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;revenue, eps of indian companies that have market cap of over 1 million, and&quot;</span>
+    <span class="s2">&quot; and between 20-50 employees&quot;</span>
+<span class="p">)</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;search_for_companies&#39;: {&#39;geography_name&#39;: &#39;india&#39;,
+  &#39;attribute_filter&#39;: [{&#39;attribute&#39;: &#39;market cap&#39;,
+    &#39;op&#39;: &#39;&gt;&#39;,
+    &#39;value&#39;: &#39;1000000&#39;},
+   {&#39;attribute&#39;: &#39;employees&#39;, &#39;op&#39;: &#39;in&#39;, &#39;value&#39;: [&#39;20&#39;, &#39;50&#39;]}],
+  &#39;attribute_selection&#39;: [&#39;revenue&#39;, &#39;eps&#39;]}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;companies that own red and blue buildings&quot;</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;search_for_companies&#39;: {&#39;attribute_filter&#39;: [{&#39;attribute&#39;: &#39;building color&#39;,
+    &#39;op&#39;: &#39;in&#39;,
+    &#39;value&#39;: [&#39;red&#39;, &#39;blue&#39;]}]}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;revenue of largest german companies sorted by number of employees&quot;</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;search_for_companies&#39;: {&#39;geography_name&#39;: &#39;germany&#39;,
+  &#39;attribute_selection&#39;: [&#39;revenue&#39;],
+  &#39;sort_block&#39;: {&#39;direction&#39;: &#39;descending&#39;,
+   &#39;attribute&#39;: &#39;number of employees&#39;}}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;revenue, eps of indian companies that have market cap of over 1 million, &quot;</span>
+    <span class="s2">&quot;that own red and blue buildings&quot;</span>
+<span class="p">)</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;search_for_companies&#39;: {&#39;geography_name&#39;: &#39;india&#39;,
+  &#39;attribute_filter&#39;: [{&#39;attribute&#39;: &#39;market cap&#39;,
+    &#39;op&#39;: &#39;&gt;&#39;,
+    &#39;value&#39;: &#39;1 million&#39;},
+   {&#39;attribute&#39;: &#39;buildings&#39;, &#39;op&#39;: &#39;in&#39;, &#39;value&#39;: [&#39;red&#39;, &#39;blue&#39;]}],
+  &#39;attribute_selection&#39;: [&#39;revenue&#39;, &#39;eps&#39;]}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">get_prompts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="s2">&quot;[user_input]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your goal is to extract structured information from the user&#39;s input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.
+
+```TypeScript
+
+search_for_companies: { // Search for companies matching the following criteria.
+ company_name: Array&lt;string&gt; // what is the name of the company you want to find
+ geography_name: string // where is the company based?
+ foundation_date: string // Foundation date of the company
+ industry_name: Array&lt;string&gt; // what is the name of the company&#39;s industry
+ geography_sales: Array&lt;string&gt; // where is the company doing sales? Please use a single country name.
+ attribute_filter: Array&lt;{ // Filter by a value of an attribute using a binary expression. Specify the attribute&#39;s name, an operator (&gt;, &lt;, =, !=, &gt;=, &lt;=, in, not in) and a value.
+ }&gt;
+ attribute_selection: Array&lt;string&gt; // Asking to see the value of one or more attributes
+ sort_block: { // Use to request to sort the results by a particular attribute. Can specify the direction
+  direction: string // The direction of the sort
+  attribute: string // The sort attribute
+ }
+}
+```
+
+
+Please output the extracted information in JSON format. Do not output anything except for the extracted information. Do not add any clarifying information. Do not add any fields that are not in the schema. If the text contains attributes that do not appear in the schema, please ignore them. All output must be in JSON format and follow the schema specified above. Wrap the JSON in &lt;json&gt; tags.
+
+
+
+Input: Apple inc
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;company_name&quot;: [&quot;Apple inc&quot;]}}&lt;/json&gt;
+Input: largest 10 banks in the world
+Output: &lt;json&gt;{}&lt;/json&gt;
+Input: microsoft and apple
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;company_name&quot;: [&quot;microsoft,apple&quot;]}}&lt;/json&gt;
+Input: chinese companies
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;geography_name&quot;: &quot;china&quot;}}&lt;/json&gt;
+Input: companies based in france
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;geography_name&quot;: &quot;france&quot;}}&lt;/json&gt;
+Input: LaMaple was based in france, italy
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;geography_name&quot;: [&quot;france&quot;, &quot;italy&quot;]}}&lt;/json&gt;
+Input: italy
+Output: &lt;json&gt;{}&lt;/json&gt;
+Input: companies founded in 2023
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;foundation_date&quot;: &quot;2023&quot;}}&lt;/json&gt;
+Input: companies in the steel manufacturing industry
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;industry_name&quot;: [&quot;steel manufacturing&quot;]}}&lt;/json&gt;
+Input: large banks
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;industry_name&quot;: [&quot;banking&quot;]}}&lt;/json&gt;
+Input: military companies
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;industry_name&quot;: [&quot;defense&quot;]}}&lt;/json&gt;
+Input: chinese companies
+Output: &lt;json&gt;{}&lt;/json&gt;
+Input: companies that cell cigars
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;industry_name&quot;: [&quot;cigars&quot;]}}&lt;/json&gt;
+Input: companies with sales in france
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;geography_sales&quot;: [&quot;france&quot;]}}&lt;/json&gt;
+Input: companies that sell their products in germany
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;geography_sales&quot;: [&quot;germany&quot;]}}&lt;/json&gt;
+Input: france, italy
+Output: &lt;json&gt;{}&lt;/json&gt;
+Input: Companies with revenue &gt; 100
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_filter&quot;: [{&quot;attribute&quot;: &quot;revenue&quot;, &quot;op&quot;: &quot;&gt;&quot;, &quot;value&quot;: &quot;100&quot;}]}}&lt;/json&gt;
+Input: number of employees between 50 and 1000
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_filter&quot;: [{&quot;attribute&quot;: &quot;employees&quot;, &quot;op&quot;: &quot;in&quot;, &quot;value&quot;: [&quot;50&quot;, &quot;1000&quot;]}]}}&lt;/json&gt;
+Input: blue or green color
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_filter&quot;: [{&quot;attribute&quot;: &quot;color&quot;, &quot;op&quot;: &quot;in&quot;, &quot;value&quot;: [&quot;blue&quot;, &quot;green&quot;]}]}}&lt;/json&gt;
+Input: companies that do not sell in california
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_filter&quot;: [{&quot;attribute&quot;: &quot;geography-sales&quot;, &quot;op&quot;: &quot;not in&quot;, &quot;value&quot;: &quot;california&quot;}]}}&lt;/json&gt;
+Input: What is the revenue of tech companies?
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_selection&quot;: [&quot;revenue&quot;]}}&lt;/json&gt;
+Input: market cap of apple?
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_selection&quot;: [&quot;market cap&quot;]}}&lt;/json&gt;
+Input: number of employees of largest company
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_selection&quot;: [&quot;number of employees&quot;]}}&lt;/json&gt;
+Input: what are the revenue and market cap of apple
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_selection&quot;: [&quot;revenue&quot;, &quot;market cap&quot;]}}&lt;/json&gt;
+Input: share price and number of shares of indian companies
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;attribute_selection&quot;: [&quot;share price&quot;, &quot;number of shares&quot;]}}&lt;/json&gt;
+Input: Largest by market-cap tech companies
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;sort_block&quot;: {&quot;direction&quot;: &quot;descending&quot;, &quot;attribute&quot;: &quot;market-cap&quot;}}}&lt;/json&gt;
+Input: sort by companies with smallest revenue 
+Output: &lt;json&gt;{&quot;search_for_companies&quot;: {&quot;sort_block&quot;: {&quot;direction&quot;: &quot;ascending&quot;, &quot;attribute&quot;: &quot;revenue&quot;}}}&lt;/json&gt;
+Input: [user_input]
+Output:
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="untyped_objects.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Untyped Obects  🤷</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="validation.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Validation with Pydantic</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

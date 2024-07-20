@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kor.extraction.api &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for kor.extraction.api</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Kor API for extraction related functionality.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">BaseLanguageModel</span>
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers</span> <span class="kn">import</span> <span class="n">StrOutputParser</span>
+<span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span>
+
+<span class="kn">from</span> <span class="nn">kor.encoders</span> <span class="kn">import</span> <span class="n">Encoder</span><span class="p">,</span> <span class="n">InputFormatter</span><span class="p">,</span> <span class="n">initialize_encoder</span>
+<span class="kn">from</span> <span class="nn">kor.extraction.parser</span> <span class="kn">import</span> <span class="n">KorParser</span>
+<span class="kn">from</span> <span class="nn">kor.extraction.typedefs</span> <span class="kn">import</span> <span class="n">DocumentExtraction</span><span class="p">,</span> <span class="n">Extraction</span>
+<span class="kn">from</span> <span class="nn">kor.nodes</span> <span class="kn">import</span> <span class="n">Object</span>
+<span class="kn">from</span> <span class="nn">kor.prompts</span> <span class="kn">import</span> <span class="n">create_langchain_prompt</span>
+<span class="kn">from</span> <span class="nn">kor.type_descriptors</span> <span class="kn">import</span> <span class="n">TypeDescriptor</span><span class="p">,</span> <span class="n">initialize_type_descriptors</span>
+<span class="kn">from</span> <span class="nn">kor.validators</span> <span class="kn">import</span> <span class="n">Validator</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">_extract_from_document_with_semaphore</span><span class="p">(</span>
+    <span class="n">semaphore</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">,</span>
+    <span class="n">chain</span><span class="p">:</span> <span class="n">Runnable</span><span class="p">,</span>
+    <span class="n">document</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span>
+    <span class="n">uid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">source_uid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DocumentExtraction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract from document with a semaphore to limit concurrency.&quot;&quot;&quot;</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">semaphore</span><span class="p">:</span>
+        <span class="n">extraction_result</span><span class="p">:</span> <span class="n">Extraction</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+            <span class="n">Extraction</span><span class="p">,</span> <span class="k">await</span> <span class="n">chain</span><span class="o">.</span><span class="n">ainvoke</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;uid&quot;</span><span class="p">:</span> <span class="n">uid</span><span class="p">,</span>
+            <span class="s2">&quot;source_uid&quot;</span><span class="p">:</span> <span class="n">source_uid</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">extraction_result</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;raw&quot;</span><span class="p">:</span> <span class="n">extraction_result</span><span class="p">[</span><span class="s2">&quot;raw&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;validated_data&quot;</span><span class="p">:</span> <span class="n">extraction_result</span><span class="p">[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="n">extraction_result</span><span class="p">[</span><span class="s2">&quot;errors&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+
+
+<span class="c1"># PUBLIC API</span>
+
+
+<div class="viewcode-block" id="create_extraction_chain"><a class="viewcode-back" href="../../../generated/kor.extraction.html#kor.create_extraction_chain">[docs]</a><span class="k">def</span> <span class="nf">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">:</span> <span class="n">BaseLanguageModel</span><span class="p">,</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">encoder_or_encoder_class</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Encoder</span><span class="p">],</span> <span class="n">Encoder</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+    <span class="n">type_descriptor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TypeDescriptor</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;typescript&quot;</span><span class="p">,</span>
+    <span class="n">validator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Validator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">input_formatter</span><span class="p">:</span> <span class="n">InputFormatter</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">instruction_template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PromptTemplate</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">encoder_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Runnable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an extraction chain.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        llm: the language model used for extraction</span>
+<span class="sd">        node: the schematic description of what to extract from text</span>
+<span class="sd">        encoder_or_encoder_class: Either an encoder instance, an encoder class</span>
+<span class="sd">                                  or a string representing the encoder class</span>
+<span class="sd">        type_descriptor: either a TypeDescriptor or a string representing the type \</span>
+<span class="sd">                         descriptor name</span>
+<span class="sd">        validator: optional validator to use for validation</span>
+<span class="sd">        input_formatter: the formatter to use for encoding the input. Used for \</span>
+<span class="sd">                         both input examples and the text to be analyzed.</span>
+<span class="sd">            * `None`: use for single sentences or single paragraph, no formatting</span>
+<span class="sd">            * `triple_quotes`: for long text, surround input with \&quot;\&quot;\&quot;</span>
+<span class="sd">            * `text_prefix`: for long text, triple_quote with `TEXT: ` prefix</span>
+<span class="sd">            * `Callable`: user provided function</span>
+<span class="sd">        instruction_template: optional prompt template to use, use to over-ride prompt</span>
+<span class="sd">             used for generating the instruction section of the prompt.</span>
+<span class="sd">             It accepts 2 optional input variables:</span>
+<span class="sd">             * &quot;type_description&quot;: type description of the node (from TypeDescriptor)</span>
+<span class="sd">             * &quot;format_instructions&quot;: information on how to format the output</span>
+<span class="sd">               (from Encoder)</span>
+<span class="sd">        verbose: Deprecated, use langchain_core.globals.set_verbose and</span>
+<span class="sd">            langchain_core.globals.set_debug instead.</span>
+<span class="sd">            Please reference this guide for more information:</span>
+<span class="sd">            https://python.langchain.com/v0.2/docs/how_to/debugging</span>
+<span class="sd">        encoder_kwargs: Keyword arguments to pass to the encoder class</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A langchain chain</span>
+<span class="sd">        </span>
+<span class="sd">    Examples:</span>
+<span class="sd">    </span>
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">  </span>
+<span class="sd">        # For CSV encoding</span>
+<span class="sd">        chain = create_extraction_chain(llm, node, encoder_or_encoder_class=&quot;csv&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">        # For JSON encoding</span>
+<span class="sd">        chain = create_extraction_chain(llm, node, encoder_or_encoder_class=&quot;JSON&quot;,</span>
+<span class="sd">                                        input_formatter=&quot;triple_quotes&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">verbose</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;The verbose argument is no longer supported. Instead if you want to see &quot;</span>
+            <span class="s2">&quot;verbose output, please reference this guide for more information: &quot;</span>
+            <span class="s2">&quot;https://python.langchain.com/v0.2/docs/how_to/debugging &quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Object</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node must be an Object got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">encoder</span> <span class="o">=</span> <span class="n">initialize_encoder</span><span class="p">(</span><span class="n">encoder_or_encoder_class</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="o">**</span><span class="n">encoder_kwargs</span><span class="p">)</span>
+    <span class="n">type_descriptor_to_use</span> <span class="o">=</span> <span class="n">initialize_type_descriptors</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">)</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">create_langchain_prompt</span><span class="p">(</span>
+        <span class="n">node</span><span class="p">,</span>
+        <span class="n">encoder</span><span class="p">,</span>
+        <span class="n">type_descriptor_to_use</span><span class="p">,</span>
+        <span class="n">validator</span><span class="o">=</span><span class="n">validator</span><span class="p">,</span>
+        <span class="n">instruction_template</span><span class="o">=</span><span class="n">instruction_template</span><span class="p">,</span>
+        <span class="n">input_formatter</span><span class="o">=</span><span class="n">input_formatter</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">chain</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">prompt</span>
+        <span class="o">|</span> <span class="n">llm</span>
+        <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
+        <span class="o">|</span> <span class="n">KorParser</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">encoder</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span><span class="p">,</span> <span class="n">schema_</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">chain</span></div>
+
+
+<div class="viewcode-block" id="extract_from_documents"><a class="viewcode-back" href="../../../generated/kor.extraction.html#kor.extract_from_documents">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">extract_from_documents</span><span class="p">(</span>
+    <span class="n">chain</span><span class="p">:</span> <span class="n">Runnable</span><span class="p">,</span>
+    <span class="n">documents</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_concurrency</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">use_uid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">extraction_uid_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Document</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_exceptions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">DocumentExtraction</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run extraction through all the given documents.</span>
+
+<span class="sd">    Attention: When using this function with a large number of documents, mind the bill</span>
+<span class="sd">               since this can use a lot of tokens!</span>
+
+<span class="sd">    Concurrency is currently limited using a semaphore. This is a temporary</span>
+<span class="sd">    and can be changed to a queue implementation to support a non-materialized stream</span>
+<span class="sd">    of documents.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chain: the extraction chain to use for extraction</span>
+<span class="sd">        documents: the documents to run extraction on</span>
+<span class="sd">        max_concurrency: the maximum number of concurrent requests to make,</span>
+<span class="sd">                         uses a semaphore to limit concurrency</span>
+<span class="sd">        use_uid: If True, will use a uid attribute in metadata if it exists</span>
+<span class="sd">                          will raise error if attribute does not exist.</span>
+<span class="sd">                 If False, will use the index of the document in the list as the uid</span>
+<span class="sd">        extraction_uid_function: Optional function to use to generate the uid for</span>
+<span class="sd">             a given DocumentExtraction. If not provided, will use the uid</span>
+<span class="sd">             of the document.</span>
+<span class="sd">        return_exceptions: named argument passed to asyncio.gather</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of extraction results</span>
+<span class="sd">        if return_exceptions = True, the exceptions may be returned as well.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">semaphore</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">max_concurrency</span><span class="p">)</span>
+
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">documents</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">use_uid</span><span class="p">:</span>
+            <span class="n">source_uid</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;uid&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">source_uid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;uid not found in document metadata for document </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># C</span>
+            <span class="n">source_uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_uid</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source_uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+        <span class="n">extraction_uid</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">extraction_uid_function</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">if</span> <span class="n">extraction_uid_function</span> <span class="k">else</span> <span class="n">source_uid</span>
+        <span class="p">)</span>
+
+        <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span>
+                <span class="n">_extract_from_document_with_semaphore</span><span class="p">(</span>
+                    <span class="n">semaphore</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">extraction_uid</span><span class="p">,</span> <span class="n">source_uid</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="n">return_exceptions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

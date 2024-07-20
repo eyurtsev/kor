@@ -1,0 +1,428 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "4b3a0584-b52c-4873-abb8-8382e13ff5c0",
+   "metadata": {},
+   "source": [
+    "# Working With Objects\n",
+    "\n",
+    "Kor attempts to make it easy to extract objects from text."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0b4597b2-2a43-4491-8830-bf9f79428074",
+   "metadata": {
+    "nbsphinx": "hidden",
+    "tags": [
+     "remove-cell"
+    ]
+   },
+   "outputs": [],
+   "source": [
+    "%load_ext autoreload\n",
+    "%autoreload 2\n",
+    "\n",
+    "import sys\n",
+    "\n",
+    "sys.path.insert(0, \"../../\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "718c66a7-6186-4ed8-87e9-5ed28e3f209e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from kor.extraction import create_extraction_chain\n",
+    "from kor.nodes import Object, Text, Number\n",
+    "from langchain_openai import ChatOpenAI, OpenAI"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "9bc98f35-ea5f-4b74-a32e-a300a22c0c89",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "llm = ChatOpenAI(\n",
+    "    model_name=\"gpt-4o\",\n",
+    "    temperature=0,\n",
+    "    max_tokens=2000,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5d3beab3-6dea-4301-8c59-ae1685830afa",
+   "metadata": {},
+   "source": [
+    "## Object Schema\n",
+    "\n",
+    "Kor the familiar idea of an `Object` type to specify how to extract an object from text."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "3bb910e9-43c4-42dd-83dd-546b7df6e805",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "schema = Object(\n",
+    "    id=\"personal_info\",\n",
+    "    description=\"Personal information about a given person.\",\n",
+    "    attributes=[\n",
+    "        Text(\n",
+    "            id=\"first_name\",\n",
+    "            description=\"The first name of the person\",\n",
+    "            examples=[(\"John Smith went to the store\", \"John\")],\n",
+    "        ),\n",
+    "        Text(\n",
+    "            id=\"last_name\",\n",
+    "            description=\"The last name of the person\",\n",
+    "            examples=[(\"John Smith went to the store\", \"Smith\")],\n",
+    "        ),\n",
+    "        Number(\n",
+    "            id=\"age\",\n",
+    "            description=\"The age of the person in years.\",\n",
+    "            examples=[(\"23 years old\", \"23\"), (\"I turned three on sunday\", \"3\")],\n",
+    "        ),\n",
+    "    ],\n",
+    "    examples=[\n",
+    "        (\n",
+    "            \"John Smith was 23 years old. He was very tall. He knew Jane Doe. She was 5 years old.\",\n",
+    "            [\n",
+    "                {\"first_name\": \"John\", \"last_name\": \"Smith\", \"age\": 23},\n",
+    "                {\"first_name\": \"Jane\", \"last_name\": \"Doe\", \"age\": 5},\n",
+    "            ],\n",
+    "        )\n",
+    "    ],\n",
+    "    many=True,\n",
+    ")\n",
+    "\n",
+    "\n",
+    "chain = create_extraction_chain(llm, schema)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "ab82c5b9-37a5-46f2-8bfc-88e6fe6fc36b",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Your goal is to extract structured information from the user's input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.\n",
+      "\n",
+      "```TypeScript\n",
+      "\n",
+      "personal_info: Array<{ // Personal information about a given person.\n",
+      " first_name: string // The first name of the person\n",
+      " last_name: string // The last name of the person\n",
+      " age: number // The age of the person in years.\n",
+      "}>\n",
+      "```\n",
+      "\n",
+      "\n",
+      "Please output the extracted information in CSV format in Excel dialect. Please use a | as the delimiter. \n",
+      " Do NOT add any clarifying information. Output MUST follow the schema above. Do NOT add any additional columns that do not appear in the schema.\n",
+      "\n",
+      "\n",
+      "\n",
+      "Input: John Smith was 23 years old. He was very tall. He knew Jane Doe. She was 5 years old.\n",
+      "Output: first_name|last_name|age\n",
+      "John|Smith|23\n",
+      "Jane|Doe|5\n",
+      "\n",
+      "Input: John Smith went to the store\n",
+      "Output: first_name|last_name|age\n",
+      "John||\n",
+      "\n",
+      "Input: John Smith went to the store\n",
+      "Output: first_name|last_name|age\n",
+      "|Smith|\n",
+      "\n",
+      "Input: 23 years old\n",
+      "Output: first_name|last_name|age\n",
+      "||23\n",
+      "\n",
+      "Input: I turned three on sunday\n",
+      "Output: first_name|last_name|age\n",
+      "||3\n",
+      "\n",
+      "Input: [user input]\n",
+      "Output:\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(chain.get_prompts()[0].format_prompt(text=\"[user input]\").to_string())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d4899820-fc53-40aa-b38e-a4e8f7aa8a92",
+   "metadata": {},
+   "source": [
+    "Please note above that examples were specified on a per attribute level.\n",
+    "\n",
+    "When this works it allows one to more easily compose attributes; however, to improve\n",
+    "performance generally examples will need to be provided at the object level (as we'll do below), as it\n",
+    "helps the model determine how to associate attributes together."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "40d549b0-f676-4fa2-8d50-9e20f3f2d05f",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'personal_info': [{'first_name': 'Eugene', 'last_name': '', 'age': '18'}]}"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke(\"Eugene was 18 years old a long time ago.\")[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "a875d378-2481-43ad-a8f6-673d17596175",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'personal_info': [{'first_name': 'Bob', 'last_name': 'Alice', 'age': ''}, {'first_name': 'Moana', 'last_name': 'Sunrise', 'age': '10'}]}\n"
+     ]
+    }
+   ],
+   "source": [
+    "chain = create_extraction_chain(llm, schema)\n",
+    "print(\n",
+    "    chain.invoke(\n",
+    "        \"My name is Bob Alice and my phone number is (123)-444-9999. I found my true love one\"\n",
+    "        \" on a blue sunday. Her number was (333)1232832. Her name was Moana Sunrise and she was 10 years old.\"\n",
+    "    )[\"data\"]\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d3a8a3c6-b7cf-40f1-b287-ae78141e6502",
+   "metadata": {},
+   "source": [
+    "And **nothing** should be extracted from the text below."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "8be30aa6-a095-4506-8ec9-bde84dd107d3",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'personal_info': []}"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke(\n",
+    "    \"My phone number is (123)-444-9999. I found my true love one on a blue sunday.\"\n",
+    "    \" Her number was (333)1232832\"\n",
+    ")[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ea520ab9-38ae-4fc2-ab95-468df85f200e",
+   "metadata": {},
+   "source": [
+    "### Handling Hallucinations\n",
+    "\n",
+    "LLMs that don't understand instructions well will need more examples to perform well on extraction tasks.\n",
+    "\n",
+    "Let's comment some of the examples from the previous schema to see the outputs."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "9a300e76-2f26-4914-b160-1d90548714a0",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "schema = Object(\n",
+    "    id=\"personal_info\",\n",
+    "    description=\"Personal information about a given person.\",\n",
+    "    attributes=[\n",
+    "        Text(\n",
+    "            id=\"first_name\",\n",
+    "            description=\"The first name of the person\",\n",
+    "            # examples=[(\"John Smith went to the store\", \"John\")]\n",
+    "        ),\n",
+    "        Text(\n",
+    "            id=\"last_name\",\n",
+    "            description=\"The last name of the person\",\n",
+    "            # examples=[(\"John Smith went to the store\", \"Smith\")],\n",
+    "        ),\n",
+    "        Number(\n",
+    "            id=\"age\",\n",
+    "            description=\"The age of the person in years.\",\n",
+    "            # examples=[(\"23 years old\", \"23\"), (\"I turned three on sunday\", \"3\")]\n",
+    "        ),\n",
+    "    ],\n",
+    "    examples=[\n",
+    "        (\n",
+    "            \"John Smith was 23 years old. He was very tall. He knew Jane Doe. She was 5 years old.\",\n",
+    "            [\n",
+    "                {\"first_name\": \"John\", \"last_name\": \"Smith\", \"age\": 23},\n",
+    "                {\"first_name\": \"Jane\", \"last_name\": \"Doe\", \"age\": 5},\n",
+    "            ],\n",
+    "        )\n",
+    "    ],\n",
+    "    many=True,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "5c694d79-e72c-4712-b891-111bc0279032",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'personal_info': [{'first_name': 'Moana',\n",
+       "   'last_name': 'Sunrise',\n",
+       "   'age': '20'}]}"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain = create_extraction_chain(llm, schema)\n",
+    "chain.invoke(\n",
+    "    \"My name is Bob Alice and my phone number is (123)-444-9999. I found my true love one\"\n",
+    "    \" on a blue sunday. Her number was (333)1232832. Her name was Moana Sunrise and she was 20 years old.\"\n",
+    ")[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8d5e4bcc-1fe5-4bdd-b1e2-00e0c7577cbb",
+   "metadata": {},
+   "source": [
+    "### What's the actual prompt?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "a2944e8c-4630-4b29-b505-b2ca6fceba01",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Your goal is to extract structured information from the user's input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.\n",
+      "\n",
+      "```TypeScript\n",
+      "\n",
+      "personal_info: Array<{ // Personal information about a given person.\n",
+      " first_name: string // The first name of the person\n",
+      " last_name: string // The last name of the person\n",
+      " age: number // The age of the person in years.\n",
+      "}>\n",
+      "```\n",
+      "\n",
+      "\n",
+      "Please output the extracted information in CSV format in Excel dialect. Please use a | as the delimiter. \n",
+      " Do NOT add any clarifying information. Output MUST follow the schema above. Do NOT add any additional columns that do not appear in the schema.\n",
+      "\n",
+      "\n",
+      "\n",
+      "Input: John Smith was 23 years old. He was very tall. He knew Jane Doe. She was 5 years old.\n",
+      "Output: first_name|last_name|age\n",
+      "John|Smith|23\n",
+      "Jane|Doe|5\n",
+      "\n",
+      "Input: [user input]\n",
+      "Output:\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(chain.get_prompts()[0].format_prompt(text=\"[user input]\").to_string())"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

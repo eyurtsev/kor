@@ -1,0 +1,394 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "6fcfbb4c-e91d-46aa-8653-38f094146c0c",
+   "metadata": {},
+   "source": [
+    "# Introduction\n",
+    "\n",
+    "**Kor** is a thin wrapper on top of LLMs that helps to extract structured data using LLMs. \n",
+    "\n",
+    "To use Kor, specify the schema of what should be extracted and provide some extraction examples.\n",
+    "\n",
+    "As you're looking through this tutorial, examine 👀 the outputs carefully to understand what errors are being made.\n",
+    "\n",
+    "Extraction isn't perfect! Understand the limitations before adopting it for your use case."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "5419b2f8-1c28-497d-9bf0-a046d21a93d9",
+   "metadata": {
+    "nbsphinx": "hidden",
+    "tags": [
+     "remove-cell"
+    ]
+   },
+   "outputs": [],
+   "source": [
+    "%load_ext autoreload\n",
+    "%autoreload 2\n",
+    "\n",
+    "import sys\n",
+    "import pprint\n",
+    "\n",
+    "sys.path.insert(0, \"../../\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "718c66a7-6186-4ed8-87e9-5ed28e3f209e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from kor.extraction import create_extraction_chain\n",
+    "from kor.nodes import Object, Text, Number\n",
+    "from langchain_openai import ChatOpenAI"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6645f896-c969-444d-b9f2-85318abb79d6",
+   "metadata": {},
+   "source": [
+    "## Schema\n",
+    "\n",
+    "Kor requires that you specify the `schema` of what you want parsed with some optional examples.\n",
+    "\n",
+    "We'll start off by specifying a **very simple** schema. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "cfb6e83c-ed20-470a-9316-b5919416d6b1",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "schema = Object(\n",
+    "    id=\"person\",\n",
+    "    description=\"Personal information\",\n",
+    "    examples=[\n",
+    "        (\"Alice and Bob are friends\", [{\"first_name\": \"Alice\"}, {\"first_name\": \"Bob\"}])\n",
+    "    ],\n",
+    "    attributes=[\n",
+    "        Text(\n",
+    "            id=\"first_name\",\n",
+    "            description=\"The first name of a person.\",\n",
+    "        )\n",
+    "    ],\n",
+    "    many=True,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "35a8348b-6bed-4506-9bac-843137261b5f",
+   "metadata": {},
+   "source": [
+    "The schema above consists of a single object node which contains a single text attribute called **first_name**.\n",
+    "\n",
+    "The object can be repeated many times, so if the text contains many multiple first names, multiple objects will be extracted.\n",
+    "\n",
+    "As part of the schema, we specified a `description` of what we're extracting, as well as 2 examples.\n",
+    "\n",
+    "Including both a `description` and `examples` will likely improve performance."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "65de393b-838e-4bf5-a3b7-a14a394bb4d9",
+   "metadata": {},
+   "source": [
+    "## Langchain\n",
+    "\n",
+    "Instantiate a langchain LLM and create a chain.\n",
+    "\n",
+    "https://langchain.readthedocs.io/en/latest/modules/llms.html"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "a655001e-8268-478b-b841-48ee8fa30ec1",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from langchain_openai import OpenAI"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "faafb3d1-cc7c-4a24-9578-a2a997d42868",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "llm = ChatOpenAI(\n",
+    "    model_name=\"gpt-4o\",\n",
+    "    temperature=0,\n",
+    "    max_tokens=2000,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "a1ffd515-d035-4965-8661-ac0b58fb0215",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "chain = create_extraction_chain(llm, schema)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a6849441-f9ae-468d-9003-b26bfa0253dd",
+   "metadata": {
+    "tags": []
+   },
+   "source": [
+    "## Extract\n",
+    "\n",
+    "With a `chain` and a `schema` defined, we're ready to extract data."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "a8c66cd5-05d3-4f61-b06c-38b27ee79c33",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'person': [{'first_name': 'Bobby'}, {'first_name': 'Joe'}]}"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke((\"My name is Bobby. My brother's name Joe.\"))[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "16611e52-735c-45a8-b495-1fa1adf0ce9f",
+   "metadata": {},
+   "source": [
+    "We got back a list of people (under the `person` key)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "684bcda8-b110-4362-8cea-dd2a7213e71d",
+   "metadata": {},
+   "source": [
+    "### The Full Response\n",
+    "\n",
+    "The full response contains the raw output from the LLM, and a list of errors of any errors that occurred while\n",
+    "parsing the LLM result."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "1d7c4f21-4770-4d48-a4ad-0e58b82a8fa6",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'data': {'person': [{'first_name': 'Bobby'}, {'first_name': 'Joe'}]},\n",
+       " 'raw': 'first_name\\nBobby\\nJoe',\n",
+       " 'errors': [],\n",
+       " 'validated_data': {}}"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke((\"My name is Bobby. My brother's name Joe.\"))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "65773928-027c-4340-a635-969b41f73de2",
+   "metadata": {},
+   "source": [
+    "## The Prompt\n",
+    "\n",
+    "And here's the actual prompt that was sent to the LLM."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "3c8a9239-6b00-4b53-865a-c9cb76834095",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Your goal is to extract structured information from the user's input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.\n",
+      "\n",
+      "```TypeScript\n",
+      "\n",
+      "person: Array<{ // Personal information\n",
+      " first_name: string // The first name of a person.\n",
+      "}>\n",
+      "```\n",
+      "\n",
+      "\n",
+      "Please output the extracted information in CSV format in Excel dialect. Please use a | as the delimiter. \n",
+      " Do NOT add any clarifying information. Output MUST follow the schema above. Do NOT add any additional columns that do not appear in the schema.\n",
+      "\n",
+      "\n",
+      "\n",
+      "Input: Alice and Bob are friends\n",
+      "Output: first_name\n",
+      "Alice\n",
+      "Bob\n",
+      "\n",
+      "Input: [user input]\n",
+      "Output:\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(chain.get_prompts()[0].format_prompt(text=\"[user input]\").to_string())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "eb0a7aa0-e12b-4b14-b7f3-e8809e37508e",
+   "metadata": {
+    "tags": []
+   },
+   "source": [
+    "## With pydantic"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "955d56c6-4d99-4bae-bdb2-8e80303229ec",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from kor import from_pydantic\n",
+    "from typing import List, Optional\n",
+    "from pydantic import BaseModel, Field"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "88ca1a62-5fe8-4c08-b73f-e568806dbe1a",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "class Person(BaseModel):\n",
+    "    first_name: str = Field(description=\"The first name of a person\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "c69deb96-84bd-457a-9203-3b20b8ee4ac3",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "schema, validator = from_pydantic(\n",
+    "    Person,\n",
+    "    description=\"Personal Information\",  # <-- Description\n",
+    "    examples=[  # <-- Object level examples\n",
+    "        (\"Alice and Bob are friends\", [{\"first_name\": \"Alice\"}, {\"first_name\": \"Bob\"}])\n",
+    "    ],\n",
+    "    many=True,  # <-- Note Many = True\n",
+    ")\n",
+    "\n",
+    "chain = create_extraction_chain(llm, schema, validator=validator)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "6724520e-9f09-4d5e-a054-7179a7d8e3ca",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'data': {'person': [{'first_name': 'Bobby'}, {'first_name': 'Joe'}]},\n",
+       " 'raw': 'first_name\\nBobby\\nJoe',\n",
+       " 'errors': [],\n",
+       " 'validated_data': [Person(first_name='Bobby'), Person(first_name='Joe')]}"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke((\"My name is Bobby. My brother's name Joe.\"))"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

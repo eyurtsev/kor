@@ -1,0 +1,1013 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Validation with Pydantic &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Document Extraction" href="document_extraction.html" />
+    <link rel="prev" title="Natural Language Based APIs" href="apis.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/validation.ipynb.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validation-in-action">
+   Validation in Action
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-valid-data">
+     No valid data!
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validating-collections">
+   Validating Collections
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#csv-encoder">
+     CSV Encoder
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#complex-structure">
+   Complex Structure
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Validation with Pydantic</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validation-in-action">
+   Validation in Action
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-valid-data">
+     No valid data!
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validating-collections">
+   Validating Collections
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#csv-encoder">
+     CSV Encoder
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#complex-structure">
+   Complex Structure
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="validation-with-pydantic">
+<h1>Validation with Pydantic<a class="headerlink" href="#validation-with-pydantic" title="Permalink to this headline">#</a></h1>
+<p>Here, we’ll see how to use pydantic to specify the schema and validate the results.</p>
+<p><strong>ATTENTION</strong> Validation does <em>NOT</em> imply that extraction was correct. Validation only implies that the
+data was returned in the correct shape and meets all validation criteria. This doesn’t mean
+that the LLM didn’t make some up information!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">create_extraction_chain</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Number</span>
+<span class="kn">import</span> <span class="nn">pydantic</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">from_pydantic</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s returning to our hypothetical music player API:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Action</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">play</span> <span class="o">=</span> <span class="s2">&quot;play&quot;</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;stop&quot;</span>
+    <span class="n">previous</span> <span class="o">=</span> <span class="s2">&quot;previous&quot;</span>
+    <span class="n">next_</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">MusicRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">song</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The song(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">album</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The album(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">artist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The artist(s) whose music the user would like to hear.&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Songs by paul simon&quot;</span><span class="p">,</span> <span class="s2">&quot;paul simon&quot;</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="n">action</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Action</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The action that should be taken; one of `play`, `stop`, `next`, `previous`&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;Please stop the music&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play something&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play a song&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;next song&quot;</span><span class="p">,</span> <span class="s2">&quot;next&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span><span class="n">MusicRequest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>ATTENTION</strong> Use the JSON encoder here rather than the default CSV encoder as it supports nested lists</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s test it out</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">get_prompts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;[user input]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your goal is to extract structured information from the user&#39;s input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.
+
+```TypeScript
+
+musicrequest: { // 
+ song: Array&lt;string&gt; // The song(s) that the user would like to be played.
+ album: Array&lt;string&gt; // The album(s) that the user would like to be played.
+ artist: Array&lt;string&gt; // The artist(s) whose music the user would like to hear.
+ action: &quot;play&quot; | &quot;stop&quot; | &quot;previous&quot; | &quot;next&quot; // The action that should be taken; one of `play`, `stop`, `next`, `previous`
+}
+```
+
+
+Please output the extracted information in JSON format. Do not output anything except for the extracted information. Do not add any clarifying information. Do not add any fields that are not in the schema. If the text contains attributes that do not appear in the schema, please ignore them. All output must be in JSON format and follow the schema specified above. Wrap the JSON in &lt;json&gt; tags.
+
+
+
+Input: Songs by paul simon
+Output: &lt;json&gt;{&quot;musicrequest&quot;: {&quot;artist&quot;: [&quot;paul simon&quot;]}}&lt;/json&gt;
+Input: Please stop the music
+Output: &lt;json&gt;{&quot;musicrequest&quot;: {&quot;action&quot;: &quot;stop&quot;}}&lt;/json&gt;
+Input: play something
+Output: &lt;json&gt;{&quot;musicrequest&quot;: {&quot;action&quot;: &quot;play&quot;}}&lt;/json&gt;
+Input: play a song
+Output: &lt;json&gt;{&quot;musicrequest&quot;: {&quot;action&quot;: &quot;play&quot;}}&lt;/json&gt;
+Input: next song
+Output: &lt;json&gt;{&quot;musicrequest&quot;: {&quot;action&quot;: &quot;next&quot;}}&lt;/json&gt;
+Input: [user input]
+Output:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;stop the music now&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=None, album=None, artist=None, action=&lt;Action.stop: &#39;stop&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;i want to hear yellow submarine by the beatles&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=[&#39;yellow submarine&#39;], album=None, artist=[&#39;the beatles&#39;], action=&lt;Action.play: &#39;play&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;play goliath by smith&amp;thell&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=[&#39;goliath&#39;], album=None, artist=[&#39;smith&amp;thell&#39;], action=&lt;Action.play: &#39;play&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;can you play the lion king soundtrack&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=None, album=[&#39;the lion king soundtrack&#39;], artist=None, action=&lt;Action.play: &#39;play&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;play songs by paul simon and led zeppelin and the doors&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=None, album=None, artist=[&#39;paul simon&#39;, &#39;led zeppelin&#39;, &#39;the doors&#39;], action=&lt;Action.play: &#39;play&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;could you play the previous song again?&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=None, album=None, artist=None, action=&lt;Action.previous: &#39;previous&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;previous&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=None, album=None, artist=None, action=&lt;Action.previous: &#39;previous&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;play the song before&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MusicRequest(song=None, album=None, artist=None, action=&lt;Action.previous: &#39;previous&#39;&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="validation-in-action">
+<h2>Validation in Action<a class="headerlink" href="#validation-in-action" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Player</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">song</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The song(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>  <span class="c1"># &lt;-- Note this is NOT Optional</span>
+    <span class="n">album</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The album(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">artist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The artist(s) whose music the user would like to hear.&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Songs by paul simon&quot;</span><span class="p">,</span> <span class="s2">&quot;paul simon&quot;</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="n">action</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Action</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The action that should be taken; one of `play`, `stop`, `next`, `previous`&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;Please stop the music&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play something&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play a song&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;next song&quot;</span><span class="p">,</span> <span class="s2">&quot;next&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span><span class="n">Player</span><span class="p">)</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the schema expects that a list of songs parsed out in the query.</p>
+<section id="no-valid-data">
+<h3>No valid data!<a class="headerlink" href="#no-valid-data" title="Permalink to this headline">#</a></h3>
+<p>We made <em>SONG</em> a required attribute in the pydantic schema above! Let’s see what happens now!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;stop the music now&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;data&#39;: {&#39;player&#39;: {&#39;action&#39;: &#39;stop&#39;}},
+ &#39;raw&#39;: &#39;&lt;json&gt;{&quot;player&quot;: {&quot;action&quot;: &quot;stop&quot;}}&lt;/json&gt;&#39;,
+ &#39;errors&#39;: [1 validation error for Player
+  song
+    Field required [type=missing, input_value={&#39;action&#39;: &#39;stop&#39;}, input_type=dict]
+      For further information visit https://errors.pydantic.dev/2.8/v/missing],
+ &#39;validated_data&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;i want to hear yellow submarine by the beatles&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Player(song=[&#39;yellow submarine&#39;], album=None, artist=[&#39;the beatles&#39;], action=None)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="validating-collections">
+<h2>Validating Collections<a class="headerlink" href="#validating-collections" title="Permalink to this headline">#</a></h2>
+<p>Currently, there are a few gotchyas when modeling collections that depend on the encoder.</p>
+<section id="csv-encoder">
+<h3>CSV Encoder<a class="headerlink" href="#csv-encoder" title="Permalink to this headline">#</a></h3>
+<p>A CSV encoder is expected to work best when encoding a list of records.</p>
+<p>At the moment, the CSV encoder doesn’t handle embedded lists or objects.</p>
+<p>(This works with either JSON or CSV.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The person&#39;s name&quot;</span><span class="p">)</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The age of the person&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span>
+    <span class="n">Person</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Personal information&quot;</span><span class="p">,</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Joe is 10 years old&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Joe&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">})],</span>
+<span class="p">)</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">get_prompts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;[user input]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your goal is to extract structured information from the user&#39;s input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.
+
+```TypeScript
+
+person: Array&lt;{ // Personal information
+ name: string // The person&#39;s name
+ age: number // The age of the person
+}&gt;
+```
+
+
+Please output the extracted information in CSV format in Excel dialect. Please use a | as the delimiter. 
+ Do NOT add any clarifying information. Output MUST follow the schema above. Do NOT add any additional columns that do not appear in the schema.
+
+
+
+Input: Joe is 10 years old
+Output: name|age
+Joe|10
+
+Input: [user input]
+Output:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;john is 13 years old. maria is 24 years old&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Person(name=&#39;john&#39;, age=13), Person(name=&#39;maria&#39;, age=24)]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="complex-structure">
+<h2>Complex Structure<a class="headerlink" href="#complex-structure" title="Permalink to this headline">#</a></h2>
+<p>To serialize more complex structures, use the JSON encoder.</p>
+<p>So for the example, above the following alternative works:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The person&#39;s name&quot;</span><span class="p">)</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The age of the person&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Root</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">people</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Person</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Personal information&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;John was 23 years old&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">})],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>** NOTE ** Using a Root container and <code class="docutils literal notranslate"><span class="pre">many</span></code> = <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span><span class="n">Root</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Personal information&quot;</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+    <span class="s2">&quot;My name is tom and i am 23 years old. Her name is Jessica and she is 75 years old.&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;data&#39;: {&#39;root&#39;: {&#39;people&#39;: [{&#39;name&#39;: &#39;tom&#39;, &#39;age&#39;: 23},
+    {&#39;name&#39;: &#39;Jessica&#39;, &#39;age&#39;: 75}]}},
+ &#39;raw&#39;: &#39;&lt;json&gt;{&quot;root&quot;: {&quot;people&quot;: [{&quot;name&quot;: &quot;tom&quot;, &quot;age&quot;: 23}, {&quot;name&quot;: &quot;Jessica&quot;, &quot;age&quot;: 75}]}}&lt;/json&gt;&#39;,
+ &#39;errors&#39;: [],
+ &#39;validated_data&#39;: Root(people=[Person(name=&#39;tom&#39;, age=23), Person(name=&#39;Jessica&#39;, age=75)])}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">get_prompts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;[user input]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your goal is to extract structured information from the user&#39;s input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.
+
+```TypeScript
+
+root: { // Personal information
+ people: Array&lt;{ // Personal information
+  name: string // The person&#39;s name
+  age: number // The age of the person
+ }&gt;
+}
+```
+
+
+Please output the extracted information in JSON format. Do not output anything except for the extracted information. Do not add any clarifying information. Do not add any fields that are not in the schema. If the text contains attributes that do not appear in the schema, please ignore them. All output must be in JSON format and follow the schema specified above. Wrap the JSON in &lt;json&gt; tags.
+
+
+
+Input: John was 23 years old
+Output: &lt;json&gt;{&quot;root&quot;: {&quot;people&quot;: [{&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 23}]}}&lt;/json&gt;
+Input: [user input]
+Output:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pet</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;the name of the pet&quot;</span><span class="p">)</span>
+    <span class="n">species</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The species of the pet; e.g., dog or cat&quot;</span>
+    <span class="p">)</span>
+    <span class="n">age</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The number of the age; e.g.,&quot;</span><span class="p">)</span>
+    <span class="n">age_unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The unit of the age; e.g., days or weeks&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The person&#39;s name&quot;</span><span class="p">)</span>
+    <span class="n">age</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The age of the person&quot;</span><span class="p">)</span>
+    <span class="n">pets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Pet</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The pets owned by the person&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;he had a dog by the name of charles that was 5 days old&quot;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;age_unit&quot;</span><span class="p">:</span> <span class="s2">&quot;days&quot;</span><span class="p">},</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Root</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">people</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Person</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Personal information&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;John was 23 years old&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">})],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span>
+    <span class="n">Root</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Personal information for multiple people&quot;</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">get_prompts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;[user input]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Your goal is to extract structured information from the user&#39;s input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.
+
+```TypeScript
+
+root: { // Personal information for multiple people
+ people: Array&lt;{ // Personal information
+  name: string // The person&#39;s name
+  age: number // The age of the person
+  pets: Array&lt;{ // The pets owned by the person
+   name: string // the name of the pet
+   species: string // The species of the pet; e.g., dog or cat
+   age: number // The number of the age; e.g.,
+   age_unit: string // The unit of the age; e.g., days or weeks
+  }&gt;
+ }&gt;
+}
+```
+
+
+Please output the extracted information in JSON format. Do not output anything except for the extracted information. Do not add any clarifying information. Do not add any fields that are not in the schema. If the text contains attributes that do not appear in the schema, please ignore them. All output must be in JSON format and follow the schema specified above. Wrap the JSON in &lt;json&gt; tags.
+
+
+
+Input: John was 23 years old
+Output: &lt;json&gt;{&quot;root&quot;: {&quot;people&quot;: [{&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 23}]}}&lt;/json&gt;
+Input: he had a dog by the name of charles that was 5 days old
+Output: &lt;json&gt;{&quot;root&quot;: {&quot;people&quot;: [{&quot;pets&quot;: [{&quot;name&quot;: &quot;dog&quot;, &quot;species&quot;: &quot;dog&quot;, &quot;age&quot;: &quot;5&quot;, &quot;age_unit&quot;: &quot;days&quot;}]}]}}&lt;/json&gt;
+Input: [user input]
+Output:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+    <span class="s2">&quot;Neo had a dog by the name of Tom and a cat by the name of Weeby. Weeby was 23 days old. Julia owned a horse. The horses name was Wind&quot;</span>
+<span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Root(people=[Person(name=&#39;Neo&#39;, age=None, pets=[Pet(name=&#39;Tom&#39;, species=&#39;dog&#39;, age=0, age_unit=&#39;days&#39;), Pet(name=&#39;Weeby&#39;, species=&#39;cat&#39;, age=23, age_unit=&#39;days&#39;)]), Person(name=&#39;Julia&#39;, age=None, pets=[Pet(name=&#39;Wind&#39;, species=&#39;horse&#39;, age=0, age_unit=&#39;days&#39;)])])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="apis.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Natural Language Based APIs</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="document_extraction.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Document Extraction</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

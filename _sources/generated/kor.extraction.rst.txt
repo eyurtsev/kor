@@ -1,0 +1,37 @@
+kor.extraction package
+======================
+
+Submodules
+----------
+
+kor.extraction.api module
+-------------------------
+
+.. automodule:: kor.extraction.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.extraction.parser module
+----------------------------
+
+.. automodule:: kor.extraction.parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kor.extraction.typedefs module
+------------------------------
+
+.. automodule:: kor.extraction.typedefs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: kor.extraction
+   :members:
+   :undoc-members:
+   :show-inheritance:

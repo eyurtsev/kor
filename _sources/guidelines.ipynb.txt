@@ -1,0 +1,57 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "c8f6fd5d-980b-4a1f-97cf-e5eff784f8f2",
+   "metadata": {},
+   "source": [
+    "# Guidelines\n",
+    "\n",
+    "`Kor` is a wrapper around LLMs to help with information extraction.\n",
+    "\n",
+    "*Kor* is best used with LLMs that do **NOT** natively support function calling.\n",
+    "\n",
+    "If you're working with a chat model that **does** support native function calling, please read through\n",
+    "this guide first (https://python.langchain.com/v0.2/docs/how_to/tool_calling/).\n",
+    "\n",
+    "The quality of the results depends on a lot of factors. \n",
+    "\n",
+    "Here are a few things to experiment with to improve quality:\n",
+    "\n",
+    "* Add more examples. Diverse examples can help, including examples where nothing should be extracted.\n",
+    "* Improve the descriptions of the attributes.\n",
+    "* If working with multi-paragraph text, specify an `input_formatter` of `\"triple_quotes\"` when creating the chain.\n",
+    "* Try a better model.\n",
+    "* Break the schema into a few smaller schemas, run separate extractions, and merge the results.\n",
+    "* If possible to flatten the schema, and use a CSV encoding instead of a JSON encoding.\n",
+    "* Add verification/correction steps (ask an LLM to correct or verify the results of the extraction).\n",
+    "\n",
+    "## Keep in mind! 😶‍🌫️\n",
+    "\n",
+    "* If you're extracting information from a **single** **structured** source (e.g., linkedin), using an LLM is not a good idea -- traditional web-scraping will be much cheaper and reliable.\n",
+    "* If perfect quality is needed, then even with all the hacks above, you'll need to plan on having a human in the loop as even the best LLMs will make mistakes with complex extraction tasks."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

@@ -1,0 +1,863 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>kor.extraction package &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/generated/kor.extraction.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction.api">
+   kor.extraction.api module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction.parser">
+   kor.extraction.parser module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction.typedefs">
+   kor.extraction.typedefs module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>kor.extraction package</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction.api">
+   kor.extraction.api module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction.parser">
+   kor.extraction.parser module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction.typedefs">
+   kor.extraction.typedefs module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.extraction">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="kor-extraction-package">
+<h1>kor.extraction package<a class="headerlink" href="#kor-extraction-package" title="Permalink to this headline">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="module-kor.extraction.api">
+<span id="kor-extraction-api-module"></span><h2>kor.extraction.api module<a class="headerlink" href="#module-kor.extraction.api" title="Permalink to this headline">#</a></h2>
+<p>Kor API for extraction related functionality.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.extraction.api.create_extraction_chain">
+<span class="sig-prename descclassname"><span class="pre">kor.extraction.api.</span></span><span class="sig-name descname"><span class="pre">create_extraction_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">langchain_core.language_models.base.BaseLanguageModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.Object" title="kor.nodes.Object"><span class="pre">kor.nodes.Object</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_or_encoder_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.type_descriptors.TypeDescriptor" title="kor.type_descriptors.TypeDescriptor"><span class="pre">kor.type_descriptors.TypeDescriptor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'typescript'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.validators.Validator" title="kor.validators.Validator"><span class="pre">kor.validators.Validator</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'text_prefix'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'triple_quotes'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">langchain_core.prompts.prompt.PromptTemplate</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">encoder_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">langchain_core.runnables.base.Runnable</span></span></span><a class="reference internal" href="../_modules/kor/extraction/api.html#create_extraction_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.api.create_extraction_chain" title="Permalink to this definition">#</a></dt>
+<dd><p>Create an extraction chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>llm</strong> – the language model used for extraction</p></li>
+<li><p><strong>node</strong> – the schematic description of what to extract from text</p></li>
+<li><p><strong>encoder_or_encoder_class</strong> – Either an encoder instance, an encoder class
+or a string representing the encoder class</p></li>
+<li><p><strong>type_descriptor</strong> – either a TypeDescriptor or a string representing the type                          descriptor name</p></li>
+<li><p><strong>validator</strong> – optional validator to use for validation</p></li>
+<li><p><strong>input_formatter</strong> – the formatter to use for encoding the input. Used for                          both input examples and the text to be analyzed.
+* <cite>None</cite>: use for single sentences or single paragraph, no formatting
+* <cite>triple_quotes</cite>: for long text, surround input with “””
+* <cite>text_prefix</cite>: for long text, triple_quote with <cite>TEXT: ` prefix
+* `Callable</cite>: user provided function</p></li>
+<li><p><strong>instruction_template</strong> – <p>optional prompt template to use, use to over-ride prompt
+used for generating the instruction section of the prompt.
+It accepts 2 optional input variables:
+* “type_description”: type description of the node (from TypeDescriptor)
+* “format_instructions”: information on how to format the output</p>
+<blockquote>
+<div><p>(from Encoder)</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>verbose</strong> – Deprecated, use langchain_core.globals.set_verbose and
+langchain_core.globals.set_debug instead.
+Please reference this guide for more information:
+<a class="reference external" href="https://python.langchain.com/v0.2/docs/how_to/debugging">https://python.langchain.com/v0.2/docs/how_to/debugging</a></p></li>
+<li><p><strong>encoder_kwargs</strong> – Keyword arguments to pass to the encoder class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A langchain chain</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For CSV encoding</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># For JSON encoding</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;JSON&quot;</span><span class="p">,</span>
+                                <span class="n">input_formatter</span><span class="o">=</span><span class="s2">&quot;triple_quotes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.extraction.api.extract_from_documents">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.api.</span></span><span class="sig-name descname"><span class="pre">extract_from_documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">langchain_core.runnables.base.Runnable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">langchain_core.documents.base.Document</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraction_uid_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">langchain_core.documents.base.Document</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_exceptions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#kor.extraction.typedefs.DocumentExtraction" title="kor.extraction.typedefs.DocumentExtraction"><span class="pre">kor.extraction.typedefs.DocumentExtraction</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/extraction/api.html#extract_from_documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.api.extract_from_documents" title="Permalink to this definition">#</a></dt>
+<dd><p>Run extraction through all the given documents.</p>
+<dl class="simple">
+<dt>Attention: When using this function with a large number of documents, mind the bill</dt><dd><p>since this can use a lot of tokens!</p>
+</dd>
+</dl>
+<p>Concurrency is currently limited using a semaphore. This is a temporary
+and can be changed to a queue implementation to support a non-materialized stream
+of documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chain</strong> – the extraction chain to use for extraction</p></li>
+<li><p><strong>documents</strong> – the documents to run extraction on</p></li>
+<li><p><strong>max_concurrency</strong> – the maximum number of concurrent requests to make,
+uses a semaphore to limit concurrency</p></li>
+<li><p><strong>use_uid</strong> – <dl class="simple">
+<dt>If True, will use a uid attribute in metadata if it exists</dt><dd><p>will raise error if attribute does not exist.</p>
+</dd>
+</dl>
+<p>If False, will use the index of the document in the list as the uid</p>
+</p></li>
+<li><p><strong>extraction_uid_function</strong> – Optional function to use to generate the uid for
+a given DocumentExtraction. If not provided, will use the uid
+of the document.</p></li>
+<li><p><strong>return_exceptions</strong> – named argument passed to asyncio.gather</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of extraction results
+if return_exceptions = True, the exceptions may be returned as well.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-kor.extraction.parser">
+<span id="kor-extraction-parser-module"></span><h2>kor.extraction.parser module<a class="headerlink" href="#module-kor.extraction.parser" title="Permalink to this headline">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.parser.</span></span><span class="sig-name descname"><span class="pre">KorParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.Object" title="kor.nodes.Object"><span class="pre">kor.nodes.Object</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.validators.Validator" title="kor.validators.Validator"><span class="pre">kor.validators.Validator</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/extraction/parser.html#KorParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.parser.KorParser" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">langchain_core.output_parsers.base.BaseOutputParser</span></code>[<a class="reference internal" href="#kor.extraction.typedefs.Extraction" title="kor.extraction.typedefs.Extraction"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.extraction.typedefs.Extraction</span></code></a>]</p>
+<p>A Kor langchain parser integration.</p>
+<p>This parser can use any of Kor’s encoders to support encoding/decoding
+different data formats.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="../_modules/kor/extraction/parser.html#KorParser.Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.parser.KorParser.Config" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration for this pydantic object.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.Config.arbitrary_types_allowed">
+<span class="sig-name descname"><span class="pre">arbitrary_types_allowed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#kor.extraction.parser.KorParser.Config.arbitrary_types_allowed" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.Config.extra">
+<span class="sig-name descname"><span class="pre">extra</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'forbid'</span></em><a class="headerlink" href="#kor.extraction.parser.KorParser.Config.extra" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.encoder">
+<span class="sig-name descname"><span class="pre">encoder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">Encoder</span></a></em><a class="headerlink" href="#kor.extraction.parser.KorParser.encoder" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#kor.extraction.typedefs.Extraction" title="kor.extraction.typedefs.Extraction"><span class="pre">kor.extraction.typedefs.Extraction</span></a></span></span><a class="reference internal" href="../_modules/kor/extraction/parser.html#KorParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.parser.KorParser.parse" title="Permalink to this definition">#</a></dt>
+<dd><p>Parse the text.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.schema_">
+<span class="sig-name descname"><span class="pre">schema_</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kor.html#kor.nodes.Object" title="kor.nodes.Object"><span class="pre">Object</span></a></em><a class="headerlink" href="#kor.extraction.parser.KorParser.schema_" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.parser.KorParser.validator">
+<span class="sig-name descname"><span class="pre">validator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.validators.Validator" title="kor.validators.Validator"><span class="pre">Validator</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.parser.KorParser.validator" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-kor.extraction.typedefs">
+<span id="kor-extraction-typedefs-module"></span><h2>kor.extraction.typedefs module<a class="headerlink" href="#module-kor.extraction.typedefs" title="Permalink to this headline">#</a></h2>
+<p>Type definitions for the extraction package.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.typedefs.</span></span><span class="sig-name descname"><span class="pre">DocumentExtraction</span></span><a class="reference internal" href="../_modules/kor/extraction/typedefs.html#DocumentExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.extraction.typedefs.Extraction" title="kor.extraction.typedefs.Extraction"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.extraction.typedefs.Extraction</span></code></a></p>
+<p>Type-definition for a document extraction result.</p>
+<p>The original extraction typedefs together with the unique identifiers for the result
+itself as well as the source document.</p>
+<p>Identifiers are included to make it easier to link the extraction result
+to the source content.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction.data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction.errors" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction.raw">
+<span class="sig-name descname"><span class="pre">raw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction.raw" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction.source_uid">
+<span class="sig-name descname"><span class="pre">source_uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction.source_uid" title="Permalink to this definition">#</a></dt>
+<dd><p>The source uid of the document from which data was extracted.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction.uid" title="Permalink to this definition">#</a></dt>
+<dd><p>The uid of the extraction result.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.DocumentExtraction.validated_data">
+<span class="sig-name descname"><span class="pre">validated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.typedefs.DocumentExtraction.validated_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.Extraction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.typedefs.</span></span><span class="sig-name descname"><span class="pre">Extraction</span></span><a class="reference internal" href="../_modules/kor/extraction/typedefs.html#Extraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.typedefs.Extraction" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">typing_extensions.TypedDict</span></code></p>
+<p>Type-definition for an extraction result.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.Extraction.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.typedefs.Extraction.data" title="Permalink to this definition">#</a></dt>
+<dd><p>The decoding of the raw output from the LLM without any further processing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.Extraction.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.typedefs.Extraction.errors" title="Permalink to this definition">#</a></dt>
+<dd><p>Any errors encountered during decoding or validation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.Extraction.raw">
+<span class="sig-name descname"><span class="pre">raw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.typedefs.Extraction.raw" title="Permalink to this definition">#</a></dt>
+<dd><p>The raw output from the LLM.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.typedefs.Extraction.validated_data">
+<span class="sig-name descname"><span class="pre">validated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.typedefs.Extraction.validated_data" title="Permalink to this definition">#</a></dt>
+<dd><p>The validated data if a validator was provided.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-kor.extraction">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kor.extraction" title="Permalink to this headline">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.</span></span><span class="sig-name descname"><span class="pre">DocumentExtraction</span></span><a class="reference internal" href="../_modules/kor/extraction/typedefs.html#DocumentExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.DocumentExtraction" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.extraction.typedefs.Extraction" title="kor.extraction.typedefs.Extraction"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.extraction.typedefs.Extraction</span></code></a></p>
+<p>Type-definition for a document extraction result.</p>
+<p>The original extraction typedefs together with the unique identifiers for the result
+itself as well as the source document.</p>
+<p>Identifiers are included to make it easier to link the extraction result
+to the source content.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.DocumentExtraction.data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.DocumentExtraction.errors" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction.raw">
+<span class="sig-name descname"><span class="pre">raw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.DocumentExtraction.raw" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction.source_uid">
+<span class="sig-name descname"><span class="pre">source_uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.DocumentExtraction.source_uid" title="Permalink to this definition">#</a></dt>
+<dd><p>The source uid of the document from which data was extracted.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.DocumentExtraction.uid" title="Permalink to this definition">#</a></dt>
+<dd><p>The uid of the extraction result.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.DocumentExtraction.validated_data">
+<span class="sig-name descname"><span class="pre">validated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.DocumentExtraction.validated_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.Extraction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.</span></span><span class="sig-name descname"><span class="pre">Extraction</span></span><a class="reference internal" href="../_modules/kor/extraction/typedefs.html#Extraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.Extraction" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">typing_extensions.TypedDict</span></code></p>
+<p>Type-definition for an extraction result.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.Extraction.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.Extraction.data" title="Permalink to this definition">#</a></dt>
+<dd><p>The decoding of the raw output from the LLM without any further processing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.Extraction.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.Extraction.errors" title="Permalink to this definition">#</a></dt>
+<dd><p>Any errors encountered during decoding or validation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.Extraction.raw">
+<span class="sig-name descname"><span class="pre">raw</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#kor.extraction.Extraction.raw" title="Permalink to this definition">#</a></dt>
+<dd><p>The raw output from the LLM.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.Extraction.validated_data">
+<span class="sig-name descname"><span class="pre">validated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.Extraction.validated_data" title="Permalink to this definition">#</a></dt>
+<dd><p>The validated data if a validator was provided.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.KorParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.</span></span><span class="sig-name descname"><span class="pre">KorParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.Object" title="kor.nodes.Object"><span class="pre">kor.nodes.Object</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.validators.Validator" title="kor.validators.Validator"><span class="pre">kor.validators.Validator</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/extraction/parser.html#KorParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.KorParser" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">langchain_core.output_parsers.base.BaseOutputParser</span></code>[<a class="reference internal" href="#kor.extraction.typedefs.Extraction" title="kor.extraction.typedefs.Extraction"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.extraction.typedefs.Extraction</span></code></a>]</p>
+<p>A Kor langchain parser integration.</p>
+<p>This parser can use any of Kor’s encoders to support encoding/decoding
+different data formats.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="../_modules/kor/extraction/parser.html#KorParser.Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.KorParser.Config" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration for this pydantic object.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.Config.arbitrary_types_allowed">
+<span class="sig-name descname"><span class="pre">arbitrary_types_allowed</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#kor.extraction.KorParser.Config.arbitrary_types_allowed" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.Config.extra">
+<span class="sig-name descname"><span class="pre">extra</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'forbid'</span></em><a class="headerlink" href="#kor.extraction.KorParser.Config.extra" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.encoder">
+<span class="sig-name descname"><span class="pre">encoder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">Encoder</span></a></em><a class="headerlink" href="#kor.extraction.KorParser.encoder" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#kor.extraction.typedefs.Extraction" title="kor.extraction.typedefs.Extraction"><span class="pre">kor.extraction.typedefs.Extraction</span></a></span></span><a class="reference internal" href="../_modules/kor/extraction/parser.html#KorParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.KorParser.parse" title="Permalink to this definition">#</a></dt>
+<dd><p>Parse the text.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.schema_">
+<span class="sig-name descname"><span class="pre">schema_</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kor.html#kor.nodes.Object" title="kor.nodes.Object"><span class="pre">Object</span></a></em><a class="headerlink" href="#kor.extraction.KorParser.schema_" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kor.extraction.KorParser.validator">
+<span class="sig-name descname"><span class="pre">validator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.validators.Validator" title="kor.validators.Validator"><span class="pre">Validator</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kor.extraction.KorParser.validator" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.extraction.create_extraction_chain">
+<span class="sig-prename descclassname"><span class="pre">kor.extraction.</span></span><span class="sig-name descname"><span class="pre">create_extraction_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">llm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">langchain_core.language_models.base.BaseLanguageModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.Object" title="kor.nodes.Object"><span class="pre">kor.nodes.Object</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_or_encoder_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="kor.encoders.html#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_descriptor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.type_descriptors.TypeDescriptor" title="kor.type_descriptors.TypeDescriptor"><span class="pre">kor.type_descriptors.TypeDescriptor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'typescript'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="kor.html#kor.validators.Validator" title="kor.validators.Validator"><span class="pre">kor.validators.Validator</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'text_prefix'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'triple_quotes'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">langchain_core.prompts.prompt.PromptTemplate</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">encoder_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">langchain_core.runnables.base.Runnable</span></span></span><a class="reference internal" href="../_modules/kor/extraction/api.html#create_extraction_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.create_extraction_chain" title="Permalink to this definition">#</a></dt>
+<dd><p>Create an extraction chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>llm</strong> – the language model used for extraction</p></li>
+<li><p><strong>node</strong> – the schematic description of what to extract from text</p></li>
+<li><p><strong>encoder_or_encoder_class</strong> – Either an encoder instance, an encoder class
+or a string representing the encoder class</p></li>
+<li><p><strong>type_descriptor</strong> – either a TypeDescriptor or a string representing the type                          descriptor name</p></li>
+<li><p><strong>validator</strong> – optional validator to use for validation</p></li>
+<li><p><strong>input_formatter</strong> – the formatter to use for encoding the input. Used for                          both input examples and the text to be analyzed.
+* <cite>None</cite>: use for single sentences or single paragraph, no formatting
+* <cite>triple_quotes</cite>: for long text, surround input with “””
+* <cite>text_prefix</cite>: for long text, triple_quote with <cite>TEXT: ` prefix
+* `Callable</cite>: user provided function</p></li>
+<li><p><strong>instruction_template</strong> – <p>optional prompt template to use, use to over-ride prompt
+used for generating the instruction section of the prompt.
+It accepts 2 optional input variables:
+* “type_description”: type description of the node (from TypeDescriptor)
+* “format_instructions”: information on how to format the output</p>
+<blockquote>
+<div><p>(from Encoder)</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>verbose</strong> – Deprecated, use langchain_core.globals.set_verbose and
+langchain_core.globals.set_debug instead.
+Please reference this guide for more information:
+<a class="reference external" href="https://python.langchain.com/v0.2/docs/how_to/debugging">https://python.langchain.com/v0.2/docs/how_to/debugging</a></p></li>
+<li><p><strong>encoder_kwargs</strong> – Keyword arguments to pass to the encoder class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A langchain chain</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For CSV encoding</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># For JSON encoding</span>
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;JSON&quot;</span><span class="p">,</span>
+                                <span class="n">input_formatter</span><span class="o">=</span><span class="s2">&quot;triple_quotes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.extraction.extract_from_documents">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.extraction.</span></span><span class="sig-name descname"><span class="pre">extract_from_documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">langchain_core.runnables.base.Runnable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">documents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">langchain_core.documents.base.Document</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_concurrency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extraction_uid_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">langchain_core.documents.base.Document</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_exceptions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#kor.extraction.typedefs.DocumentExtraction" title="kor.extraction.typedefs.DocumentExtraction"><span class="pre">kor.extraction.typedefs.DocumentExtraction</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/extraction/api.html#extract_from_documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.extraction.extract_from_documents" title="Permalink to this definition">#</a></dt>
+<dd><p>Run extraction through all the given documents.</p>
+<dl class="simple">
+<dt>Attention: When using this function with a large number of documents, mind the bill</dt><dd><p>since this can use a lot of tokens!</p>
+</dd>
+</dl>
+<p>Concurrency is currently limited using a semaphore. This is a temporary
+and can be changed to a queue implementation to support a non-materialized stream
+of documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chain</strong> – the extraction chain to use for extraction</p></li>
+<li><p><strong>documents</strong> – the documents to run extraction on</p></li>
+<li><p><strong>max_concurrency</strong> – the maximum number of concurrent requests to make,
+uses a semaphore to limit concurrency</p></li>
+<li><p><strong>use_uid</strong> – <dl class="simple">
+<dt>If True, will use a uid attribute in metadata if it exists</dt><dd><p>will raise error if attribute does not exist.</p>
+</dd>
+</dl>
+<p>If False, will use the index of the document in the list as the uid</p>
+</p></li>
+<li><p><strong>extraction_uid_function</strong> – Optional function to use to generate the uid for
+a given DocumentExtraction. If not provided, will use the uid
+of the document.</p></li>
+<li><p><strong>return_exceptions</strong> – named argument passed to asyncio.gather</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of extraction results
+if return_exceptions = True, the exceptions may be returned as well.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

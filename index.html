@@ -1,0 +1,766 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Kor &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction" href="tutorial.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="#">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/index.md.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kor-style-schema">
+   Kor style schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pydantic-style-schema">
+   Pydantic style schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compatibility">
+   Compatibility
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ideas">
+   💡 Ideas
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prototype">
+   🚧 Prototype
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-does-kor-excel-at">
+   ✨ What does Kor excel at?  🌟
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limitations">
+   Limitations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#got-ideas">
+   Got Ideas?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-the-name">
+   🎶 Why the name?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contributing">
+   Contributing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-packages">
+   Other packages
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Kor</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kor-style-schema">
+   Kor style schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pydantic-style-schema">
+   Pydantic style schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compatibility">
+   Compatibility
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ideas">
+   💡 Ideas
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prototype">
+   🚧 Prototype
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-does-kor-excel-at">
+   ✨ What does Kor excel at?  🌟
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limitations">
+   Limitations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#got-ideas">
+   Got Ideas?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-the-name">
+   🎶 Why the name?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#contributing">
+   Contributing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-packages">
+   Other packages
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="kor">
+<h1>Kor<a class="headerlink" href="#kor" title="Permalink to this headline">#</a></h1>
+<p>This is a half-baked prototype that “helps” you extract structured data from text using LLMs 🧩.</p>
+<p>Specify the schema of what should be extracted and provide some examples.</p>
+<p>Kor will generate a prompt, send it to the specified LLM and parse out the
+output.</p>
+<p>You might even get results back.</p>
+<p>So yes – it’s just another wrapper on top of LLMs with its own flavor of abstractions. 😸</p>
+<p>See <a class="reference external" href="https://eyurtsev.github.io/kor/">documentation</a>.</p>
+<p>Integrated with the <a class="reference external" href="https://python.langchain.com/en/latest/index.html">LangChain framework 😽💗 🦜🔗</a>.</p>
+<section id="kor-style-schema">
+<h2>Kor style schema<a class="headerlink" href="#kor-style-schema" title="Permalink to this headline">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.chat_models</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">create_extraction_chain</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Text</span> 
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;frequency_penalty&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;presence_penalty&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;top_p&#39;</span><span class="p">:</span><span class="mf">1.0</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;player&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;User is controlling a music player to select songs, pause or start them or play&quot;</span>
+        <span class="s2">&quot; music by a particular artist.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">attributes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;song&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;User wants to play this song&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;album&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;User wants to play this album&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;artist&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Music by the given artist&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Songs by paul simon&quot;</span><span class="p">,</span> <span class="s2">&quot;paul simon&quot;</span><span class="p">)],</span>
+            <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Text</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Action to take one of: `play`, `stop`, `next`, `previous`.&quot;</span><span class="p">,</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;Please stop the music&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;play something&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;play a song&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;next song&quot;</span><span class="p">,</span> <span class="s2">&quot;next&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;play songs by paul simon and led zeppelin and the doors&quot;</span><span class="p">)[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;player&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;artist&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;paul simon&#39;</span><span class="p">,</span> <span class="s1">&#39;led zeppelin&#39;</span><span class="p">,</span> <span class="s1">&#39;the doors&#39;</span><span class="p">]}}</span>
+</pre></div>
+</div>
+</section>
+<section id="pydantic-style-schema">
+<h2>Pydantic style schema<a class="headerlink" href="#pydantic-style-schema" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>See documentation here <a class="reference external" href="https://eyurtsev.github.io/kor/validation.html">pydantic</a>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Action</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">play</span> <span class="o">=</span> <span class="s2">&quot;play&quot;</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;stop&quot;</span>
+    <span class="n">previous</span> <span class="o">=</span> <span class="s2">&quot;previous&quot;</span>
+    <span class="n">next_</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">MusicRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">song</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The song(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">album</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The album(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">artist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The artist(s) whose music the user would like to hear.&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Songs by paul simon&quot;</span><span class="p">,</span> <span class="s2">&quot;paul simon&quot;</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="n">action</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Action</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The action that should be taken; one of `play`, `stop`, `next`, `previous`&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;Please stop the music&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play something&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play a song&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;next song&quot;</span><span class="p">,</span> <span class="s2">&quot;next&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    
+<span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span><span class="n">MusicRequest</span><span class="p">)</span>   
+<span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span>
+<span class="p">)</span>
+<span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;stop the music now&quot;</span><span class="p">)[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MusicRequest</span><span class="p">(</span><span class="n">song</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">album</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">artist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="o">=&lt;</span><span class="n">Action</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span> <span class="s1">&#39;stop&#39;</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="compatibility">
+<h2>Compatibility<a class="headerlink" href="#compatibility" title="Permalink to this headline">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Kor</span></code> is tested against python 3.8, 3.9, 3.10, 3.11.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h2>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>kor
+</pre></div>
+</div>
+</section>
+<section id="ideas">
+<h2>💡 Ideas<a class="headerlink" href="#ideas" title="Permalink to this headline">#</a></h2>
+<p>Ideas of some things that could be done with Kor.</p>
+<ul class="simple">
+<li><p>Extract data from text that matches an extraction schema.</p></li>
+<li><p>Power an AI assistant with skills by precisely understanding a user request.</p></li>
+<li><p>Provide natural language access to an existing API.</p></li>
+</ul>
+</section>
+<section id="prototype">
+<h2>🚧 Prototype<a class="headerlink" href="#prototype" title="Permalink to this headline">#</a></h2>
+<p>Prototype! So the API is not expected to be stable!</p>
+</section>
+<section id="what-does-kor-excel-at">
+<h2>✨ What does Kor excel at?  🌟<a class="headerlink" href="#what-does-kor-excel-at" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Making mistakes! Plenty of them!</p></li>
+<li><p>Slow! It uses large prompts with examples, and works best with the larger slower LLMs.</p></li>
+<li><p>Crashing for long enough pieces of text! Context length window could become
+limiting when working with large forms or long text inputs.</p></li>
+</ul>
+<p>The expectation is that as LLMs improve some of these issues will be mitigated.</p>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">#</a></h2>
+<p>Kor has no limitations. (Just kidding.)</p>
+<p>Take a look at the section above and at the compatibility section.</p>
+</section>
+<section id="got-ideas">
+<h2>Got Ideas?<a class="headerlink" href="#got-ideas" title="Permalink to this headline">#</a></h2>
+<p>Open an issue, and let’s discuss!</p>
+</section>
+<section id="why-the-name">
+<h2>🎶 Why the name?<a class="headerlink" href="#why-the-name" title="Permalink to this headline">#</a></h2>
+<p>Fast to type and sufficiently unique.</p>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">#</a></h2>
+<p>If you have any ideas or feature requests, please open an issue and share!</p>
+<p>See <a class="reference external" href="https://github.com/eyurtsev/kor/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> for more information.</p>
+</section>
+<section id="other-packages">
+<h2>Other packages<a class="headerlink" href="#other-packages" title="Permalink to this headline">#</a></h2>
+<p>Probabilistically speaking this package is unlikely to work for your use case.</p>
+<p>So here are some great alternatives:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/promptslab/Promptify">Promptify</a></p></li>
+<li><p><a class="reference external" href="https://srush.github.io/MiniChain/examples/stats/">MiniChain</a></p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#schema">Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#langchain">Langchain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#extract">Extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#the-prompt">The Prompt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#with-pydantic">With pydantic</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Working With Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#object-schema">Object Schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nested_objects.html">Nested Objects and Lists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nested_objects.html#nested-objects">Nested Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nested_objects.html#json-encoding">JSON encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nested_objects.html#nested-lists">Nested Lists</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="untyped_objects.html">Untyped Obects  🤷</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apis.html">Natural Language Based APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apis.html#control-music">Control Music</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apis.html#music-player">Music Player</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apis.html#ticket-ordering">Ticket ordering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apis.html#company-search">Company Search</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Validation with Pydantic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#validation-in-action">Validation in Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#validating-collections">Validating Collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#complex-structure">Complex Structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="document_extraction.html">Document Extraction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="document_extraction.html#llm">LLM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document_extraction.html#schema">Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document_extraction.html#download">Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document_extraction.html#extract">Extract</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="schema_serialization.html">Schema serialization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="schema_serialization.html#serialization">Serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema_serialization.html#deserialization">Deserialization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#keep-in-mind">Keep in mind! 😶‍🌫️</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prompt.html">Custom Prompt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prompt.html#create-a-template">Create a template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prompt.html#custom-encoder-and-typedescriptor">Custom Encoder and TypeDescriptor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="type_descriptors.html">Type Descriptors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="type_descriptors.html#let-s-define-a-schema">Let’s define a schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_descriptors.html#typescript">TypeScript</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_descriptors.html#bulletpoint">BulletPoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_descriptors.html#custom">Custom</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#schema">Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#encoders">Encoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#typedescriptors">TypeDescriptors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#index">Index</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='right-next' id="next-link" href="tutorial.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Introduction</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

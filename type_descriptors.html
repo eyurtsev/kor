@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Type Descriptors &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Custom Prompt" href="prompt.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/type_descriptors.ipynb.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-define-a-schema">
+   Let’s define a schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#typescript">
+   TypeScript
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bulletpoint">
+   BulletPoint
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom">
+   Custom
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Type Descriptors</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-define-a-schema">
+   Let’s define a schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#typescript">
+   TypeScript
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bulletpoint">
+   BulletPoint
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#custom">
+   Custom
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="type-descriptors">
+<h1>Type Descriptors<a class="headerlink" href="#type-descriptors" title="Permalink to this headline">#</a></h1>
+<p>Let’s explore type-descriptors for a bit.</p>
+<p>Many LLMs are somewhat finicky, and a slightly better phrased prompt may help improve results. So if you want
+to use your own type-descriptions, you can define a custom one and pass it as an argument when creating an extraction chain.</p>
+<p>At the moment, Kor only uses a very limited number of internal types. There’s no way to represent a <code class="docutils literal notranslate"><span class="pre">Union</span></code> or even a <code class="docutils literal notranslate"><span class="pre">Boolean</span></code>. For the time being use a <code class="docutils literal notranslate"><span class="pre">Text</span></code> node (or <code class="docutils literal notranslate"><span class="pre">str</span></code> in pydnatic) to capture more complex / missing types.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">from_pydantic</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="let-s-define-a-schema">
+<h2>Let’s define a schema<a class="headerlink" href="#let-s-define-a-schema" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Action</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">play</span> <span class="o">=</span> <span class="s2">&quot;play&quot;</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;stop&quot;</span>
+    <span class="n">previous</span> <span class="o">=</span> <span class="s2">&quot;previous&quot;</span>
+    <span class="n">next_</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">MusicRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">song</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The song(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">album</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The album(s) that the user would like to be played.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">artist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The artist(s) whose music the user would like to hear.&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Songs by paul simon&quot;</span><span class="p">,</span> <span class="s2">&quot;paul simon&quot;</span><span class="p">)],</span>
+    <span class="p">)</span>
+    <span class="n">action</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Action</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The action that should be taken; one of `play`, `stop`, `next`, `previous`&quot;</span><span class="p">,</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;Please stop the music&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play something&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;play a song&quot;</span><span class="p">,</span> <span class="s2">&quot;play&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;next song&quot;</span><span class="p">,</span> <span class="s2">&quot;next&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">volume</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Set the volume&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span><span class="p">,</span> <span class="n">validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span><span class="n">MusicRequest</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Music recorder&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="typescript">
+<h2>TypeScript<a class="headerlink" href="#typescript" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">TypeScriptDescriptor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">descriptor</span> <span class="o">=</span> <span class="n">TypeScriptDescriptor</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">descriptor</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">schema</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>```TypeScript
+
+musicrequest: { // Music recorder
+ song: Array&lt;string&gt; // The song(s) that the user would like to be played.
+ album: Array&lt;string&gt; // The album(s) that the user would like to be played.
+ artist: Array&lt;string&gt; // The artist(s) whose music the user would like to hear.
+ action: &quot;play&quot; | &quot;stop&quot; | &quot;previous&quot; | &quot;next&quot; // The action that should be taken; one of `play`, `stop`, `next`, `previous`
+ volume: number // Set the volume
+}
+```
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bulletpoint">
+<h2>BulletPoint<a class="headerlink" href="#bulletpoint" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">BulletPointDescriptor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">descriptor</span> <span class="o">=</span> <span class="n">BulletPointDescriptor</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">descriptor</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">schema</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>* musicrequest: Object # Music recorder
+*  song: Text # The song(s) that the user would like to be played.
+*  album: Text # The album(s) that the user would like to be played.
+*  artist: Text # The artist(s) whose music the user would like to hear.
+*  action: Selection # The action that should be taken; one of `play`, `stop`, `next`, `previous`
+*  volume: Number # Set the volume
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="custom">
+<h2>Custom<a class="headerlink" href="#custom" title="Permalink to this headline">#</a></h2>
+<p>Here’s an example on how to define your own type-description.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">TypeScriptDescriptor</span><span class="p">,</span> <span class="n">Object</span>
+<span class="kn">from</span> <span class="nn">kor.nodes</span> <span class="kn">import</span> <span class="n">AbstractSchemaNode</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MeowDescriptor</span><span class="p">(</span><span class="n">TypeScriptDescriptor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">visit_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="s2">&quot;AbstractSchemaNode&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Default action for a node.&quot;&quot;&quot;</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">depth</span> <span class="o">*</span> <span class="s2">&quot; ~(^._.)&quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">space</span><span class="si">}{</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> # </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">visit_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Visit an object node.&quot;&quot;&quot;</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span>
+        <span class="n">code_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visit_default</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+            <span class="n">code_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">code_lines</span>
+
+    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe the type of the given node.&quot;&quot;&quot;</span>
+        <span class="n">code_lines</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code_lines</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">MeowDescriptor</span><span class="p">()</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">schema</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  musicrequest: Object # Music recorder
+  ~(^._.) song: Text # The song(s) that the user would like to be played.
+  ~(^._.) album: Text # The album(s) that the user would like to be played.
+  ~(^._.) artist: Text # The artist(s) whose music the user would like to hear.
+  ~(^._.) action: Selection # The action that should be taken; one of `play`, `stop`, `next`, `previous`
+  ~(^._.) volume: Number # Set the volume
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="prompt.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Custom Prompt</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="api.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

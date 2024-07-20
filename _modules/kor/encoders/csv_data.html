@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kor.encoders.csv_data &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for kor.encoders.csv_data</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module that contains Kor flavored encoders/decoders for CSV data.</span>
+
+<span class="sd">The code will need to eventually support handling some form of nested objects,</span>
+<span class="sd">via either JSON encoded column values or by breaking down nested attributes</span>
+<span class="sd">into additional columns (likely both methods).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">kor.encoders.typedefs</span> <span class="kn">import</span> <span class="n">SchemaBasedEncoder</span>
+<span class="kn">from</span> <span class="nn">kor.encoders.utils</span> <span class="kn">import</span> <span class="n">unwrap_tag</span><span class="p">,</span> <span class="n">wrap_in_tag</span>
+<span class="kn">from</span> <span class="nn">kor.exceptions</span> <span class="kn">import</span> <span class="n">ParseError</span>
+<span class="kn">from</span> <span class="nn">kor.nodes</span> <span class="kn">import</span> <span class="n">AbstractSchemaNode</span><span class="p">,</span> <span class="n">Object</span>
+
+<span class="n">DELIMITER</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_top_level_fieldnames</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">AbstractSchemaNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Temporary schema description for CSV extraction.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Object</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">attributes</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">attributes</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">attributes</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+
+
+<span class="c1"># PUBLIC API</span>
+
+
+<div class="viewcode-block" id="CSVEncoder"><a class="viewcode-back" href="../../../generated/kor.encoders.html#kor.CSVEncoder">[docs]</a><span class="k">class</span> <span class="nc">CSVEncoder</span><span class="p">(</span><span class="n">SchemaBasedEncoder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;CSV encoder.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">AbstractSchemaNode</span><span class="p">,</span> <span class="n">use_tags</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach node to the encoder to allow the encoder to understand schema.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node: The schema node to attach to the encoder.</span>
+<span class="sd">            use_tags: Whether to wrap the output in tags. This may help identify</span>
+<span class="sd">                      the table content in cases when the model attempts to add</span>
+<span class="sd">                      clarifying explanations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_tags</span> <span class="o">=</span> <span class="n">use_tags</span>
+
+        <span class="c1"># Verify that if we have an Object then none of its attributes are lists</span>
+        <span class="c1"># or objects as that functionality is not yet supported.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Object</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">attribute</span><span class="o">.</span><span class="n">many</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">Object</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="s2">&quot;CSV Encoder does not yet support embedded lists or &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;objects (attribute `</span><span class="si">{</span><span class="n">attribute</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">`).&quot;</span>
+                    <span class="p">)</span>
+
+<div class="viewcode-block" id="CSVEncoder.encode"><a class="viewcode-back" href="../../../generated/kor.encoders.html#kor.CSVEncoder.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode the data.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Was expecting a dictionary got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">expected_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">id</span>
+
+        <span class="k">if</span> <span class="n">expected_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected a key: `</span><span class="si">{</span><span class="n">expected_key</span><span class="si">}</span><span class="s2"> to appear in data.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">Object</span><span class="p">):</span>
+            <span class="n">field_names</span> <span class="o">=</span> <span class="n">_extract_top_level_fieldnames</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+
+        <span class="n">data_to_output</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">expected_key</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_to_output</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># Should always output records for pd.Dataframe</span>
+            <span class="n">data_to_output</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_to_output</span><span class="p">]</span>
+        <span class="n">table_content</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_to_output</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">field_names</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+            <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">DELIMITER</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_tags</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">wrap_in_tag</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">table_content</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">table_content</span></div>
+
+<div class="viewcode-block" id="CSVEncoder.decode"><a class="viewcode-back" href="../../../generated/kor.encoders.html#kor.CSVEncoder.decode">[docs]</a>    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode the text.&quot;&quot;&quot;</span>
+        <span class="c1"># First get the content between the table tags</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_tags</span><span class="p">:</span>
+            <span class="n">table_str</span> <span class="o">=</span> <span class="n">unwrap_tag</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">table_str</span> <span class="o">=</span> <span class="n">text</span>
+
+        <span class="k">if</span> <span class="n">table_str</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">table_str</span><span class="p">)</span> <span class="k">as</span> <span class="n">buffer</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                        <span class="n">buffer</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">keep_default_na</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">sep</span><span class="o">=</span><span class="n">DELIMITER</span><span class="p">,</span>
+                        <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+            <span class="n">records</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">namespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">namespace</span><span class="p">:</span> <span class="n">records</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="CSVEncoder.get_instruction_segment"><a class="viewcode-back" href="../../../generated/kor.encoders.html#kor.CSVEncoder.get_instruction_segment">[docs]</a>    <span class="k">def</span> <span class="nf">get_instruction_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format instructions.&quot;&quot;&quot;</span>
+        <span class="n">instructions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Please output the extracted information in CSV format in Excel dialect.&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Please use a </span><span class="si">{</span><span class="n">DELIMITER</span><span class="si">}</span><span class="s2"> as the delimiter.&quot;</span>
+            <span class="c1"># TODO(Eugene): Add this when we start supporting embedded columns.</span>
+            <span class="c1"># &quot;If a column corresponds to an array or an object,</span>
+            <span class="c1"># use a JSON encoding to &quot;</span>
+            <span class="c1"># &quot;encode its value.&quot;,</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_tags</span><span class="p">:</span>
+            <span class="n">instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Please output a &lt;csv&gt; tag before and a closing &lt;/csv&gt; after the table.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">instructions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Do NOT add any clarifying information.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Output MUST follow the schema above.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Do NOT add any additional columns that do not appear in the schema.&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span></div></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

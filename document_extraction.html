@@ -1,0 +1,1309 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Document Extraction &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Schema serialization" href="schema_serialization.html" />
+    <link rel="prev" title="Validation with Pydantic" href="validation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/document_extraction.ipynb.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#llm">
+   LLM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#schema">
+   Schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#download">
+   Download
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract">
+   Extract
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Document Extraction</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#llm">
+   LLM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#schema">
+   Schema
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#download">
+   Download
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract">
+   Extract
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="document-extraction">
+<h1>Document Extraction<a class="headerlink" href="#document-extraction" title="Permalink to this headline">#</a></h1>
+<p>Here, we’ll be extracting content from a longer document.</p>
+<p>The basic workflow is the following:</p>
+<ol class="arabic simple">
+<li><p>Load the document</p></li>
+<li><p>Clean up the document (optional)</p></li>
+<li><p>Split the document into chunks</p></li>
+<li><p>Extract from <em>every</em> chunk of text</p></li>
+</ol>
+<hr class="docutils" />
+<p><strong>ATTENTION</strong> This is a <em>brute force</em> workflow – there will be an LLM call for every piece of text that is being analyzed.
+This can be <strong>expensive</strong> 💰💰💰, so use at your own risk and monitor your costs!</p>
+<hr class="docutils" />
+<p>Let’s apply this workflow to an HTML file.</p>
+<p>We’ll reduce HTML to markdown. This is a lossy step, which can sometimes improve extraction results, and sometimes make extraction worse.</p>
+<p>When scraping HTML, executing javascript may be necessary to get all HTML fully rendered.</p>
+<p>Here’s a piece of code that can execute javascript using playwright:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">a_download_html</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extra_sleep</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download an HTML from a URL.</span>
+<span class="sd">    </span>
+<span class="sd">    In some pathological cases, an extra sleep period may be needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">async_playwright</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">browser</span> <span class="o">=</span> <span class="k">await</span> <span class="n">p</span><span class="o">.</span><span class="n">chromium</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="k">await</span> <span class="n">browser</span><span class="o">.</span><span class="n">new_page</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">wait_until</span><span class="o">=</span><span class="s2">&quot;load&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">extra_sleep</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">extra_sleep</span><span class="p">)</span>
+        <span class="n">html_content</span> <span class="o">=</span> <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">content</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">browser</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">html_content</span>
+</pre></div>
+</div>
+<p>Another possibility is to use: https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/url.html#selenium-url-loader</p>
+<hr class="docutils" />
+<p>Again this can be <strong>expensive</strong> 💰💰💰, so use at your own risk and monitor your costs!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+<span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">extract_from_documents</span><span class="p">,</span> <span class="n">from_pydantic</span><span class="p">,</span> <span class="n">create_extraction_chain</span>
+<span class="kn">from</span> <span class="nn">kor.documents.html</span> <span class="kn">import</span> <span class="n">MarkdownifyHTMLProcessor</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_text_splitters</span> <span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
+<span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="llm">
+<h2>LLM<a class="headerlink" href="#llm" title="Permalink to this headline">#</a></h2>
+<p>Instantiate an LLM.</p>
+<p>Try experimenting with the cheaper davinci models or with gpt-4o before trying the more expensive davinci-003 or gpt 4.</p>
+<p>In some cases, providing a better prompt (with more examples) can help make up for using a smaller model.</p>
+<hr class="docutils" />
+<p>Quality can vary a <strong>lot</strong> depending on which LLM is used and how many examples are provided.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;gpt-4o&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ShowOrMovie</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name of the movie or tv show&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">season</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Season of TV show. Extract as a digit stripping Season prefix.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">year</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Year when the movie / tv show was released&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">latest_episode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Date when the latest episode was released&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">link</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Link to the movie / tv show.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># rating -- not included because rating on rottentomatoes is in the html elements</span>
+    <span class="c1"># you could try extracting it by using the raw HTML (rather than markdown)</span>
+    <span class="c1"># or you could try doing something similar on imdb</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">name_must_not_be_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Name must not be empty&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="n">schema</span><span class="p">,</span> <span class="n">extraction_validator</span> <span class="o">=</span> <span class="n">from_pydantic</span><span class="p">(</span>
+    <span class="n">ShowOrMovie</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Extract information about popular movies/tv shows including their name, year, link and rating.&quot;</span><span class="p">,</span>
+    <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;[Rain Dogs Latest Episode: Apr 03](/tv/rain_dogs)&quot;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Rain Dogs&quot;</span><span class="p">,</span> <span class="s2">&quot;latest_episode&quot;</span><span class="p">:</span> <span class="s2">&quot;Apr 03&quot;</span><span class="p">,</span> <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;/tv/rain_dogs&quot;</span><span class="p">},</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span> <span class="o">=</span> <span class="n">create_extraction_chain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="p">,</span>
+    <span class="n">schema</span><span class="p">,</span>
+    <span class="n">encoder_or_encoder_class</span><span class="o">=</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+    <span class="n">validator</span><span class="o">=</span><span class="n">extraction_validator</span><span class="p">,</span>
+    <span class="n">input_formatter</span><span class="o">=</span><span class="s2">&quot;triple_quotes&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="download">
+<h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">#</a></h2>
+<p>Let’s download a page containing movies from my favorite movie review site.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.rottentomatoes.com/browse/tv_series_browse/sort:popular&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c1"># Please see comment at top about using Selenium or</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Remember that in some cases you will need to execute javascript! Here’s a snippet</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.document_loaders</span> <span class="kn">import</span> <span class="n">SeleniumURLLoader</span>
+<span class="n">document</span> <span class="o">=</span> <span class="n">SeleniumURLLoader</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="extract">
+<h2>Extract<a class="headerlink" href="#extract" title="Permalink to this headline">#</a></h2>
+<p>Use langchain building blocks to assemble whatever pipeline you need for your own purposes.</p>
+<p>Create a langchain document with the HTML content.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Convert to markdown</p>
+<p><strong>ATTENTION</strong> This step is lossy and may end up removing information that’s relevant for extraction. You can always try pushing the raw HTML through if you’re not worried about cost.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">md</span> <span class="o">=</span> <span class="n">MarkdownifyHTMLProcessor</span><span class="p">()</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Break the document to chunks so it fits in context window</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">split_docs</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">()</span><span class="o">.</span><span class="n">split_documents</span><span class="p">([</span><span class="n">md</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">split_docs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Latest Episode: Jul 17](/tv/presumed_innocent)
+
+Watch the trailer for Sausage Party: Foodtopia
+
+[52%
+
+ 52%
+
+ Sausage Party: Foodtopia
+
+ Latest Episode: Jul 11](/tv/sausage_party_foodtopia)
+
+Watch the trailer for Exploding Kittens
+
+[69%
+
+ 80%
+
+ Exploding Kittens
+
+ Latest Episode: Jul 12](/tv/exploding_kittens)
+
+Watch the trailer for Kite Man: Hell Yeah!
+
+[86%
+
+ 100%
+
+ Kite Man: Hell Yeah!
+
+ Latest Episode: Jul 18](/tv/kite_man_hell_yeah)
+
+Watch the trailer for Vikings: Valhalla
+
+[96%
+
+ 60%
+
+ Vikings: Valhalla
+
+ Latest Episode: Jul 11](/tv/vikings_valhalla)
+
+Watch the trailer for Marvel&#39;s Hit-Monkey
+
+[82%
+
+ 93%
+
+ Marvel&#39;s Hit-Monkey
+
+ Latest Episode: Jul 15](/tv/marvels_hit_monkey)
+
+Watch the trailer for Snowpiercer
+
+[75%
+
+ 69%
+
+ Snowpiercer](/tv/snowpiercer)
+
+Watch the trailer for Shōgun
+
+[99%
+
+ 92%
+
+ Shōgun
+
+ Latest Episode: Apr 23](/tv/shogun_2024)
+
+Watch the trailer for True Detective
+
+[79%
+
+ 57%
+
+ True Detective](/tv/true_detective)
+
+Watch the trailer for Land of Women
+
+[89%
+
+ 36%
+
+ Land of Women
+
+ Latest Episode: Jul 17](/tv/land_of_women)
+
+Watch the trailer for Emperor of Ocean Park
+
+[50%
+
+ 75%
+
+ Emperor of Ocean Park
+
+ Latest Episode: Jul 14](/tv/emperor_of_ocean_park)
+
+[86%
+
+ 71%
+
+ A Good Girl&#39;s Guide to Murder
+
+ Latest Episode: Jul 01](/tv/a_good_girls_guide_to_murder)
+
+[75%
+
+ Desperate Lies
+
+ Latest Episode: Jul 05](/tv/desperate_lies)
+
+Watch the trailer for Simone Biles: Rising
+
+[100%
+
+ Simone Biles: Rising
+
+ Latest Episode: Jul 17](/tv/simone_biles_rising)
+
+Watch the trailer for Fool Me Once
+
+[69%
+
+ 45%
+
+ Fool Me Once](/tv/fool_me_once)
+
+Watch the trailer for Dear Child
+
+[100%
+
+ 84%
+
+ Dear Child](/tv/dear_child)
+
+Watch the trailer for Dark Matter
+
+[82%
+
+ 82%
+
+ Dark Matter
+
+ Latest Episode: Jun 26](/tv/dark_matter_2024)
+
+Watch the trailer for The Serpent Queen
+
+[100%
+
+ 92%
+
+ The Serpent Queen
+
+ Latest Episode: Jul 19](/tv/the_serpent_queen)
+
+ Load more
+
+Close video
+
+See Details
+
+See Details
+
+* [Help](/help_desk)
+* [About Rotten Tomatoes](/about)
+* [What&#39;s the Tomatometer®?](/about#whatisthetomatometer)
+* 
+
+* [Critic Submission](/critics/criteria)
+* [Licensing](/help_desk/licensing)
+* [Advertise With Us](https://together.nbcuni.com/advertise/?utm_source=rotten_tomatoes&amp;utm_medium=referral&amp;utm_campaign=property_ad_pages&amp;utm_content=footer)
+* [Careers](//www.fandango.com/careers)
+
+ Join the Newsletter
+
+Get the freshest reviews, news, and more delivered right to your inbox!
+
+ Join The Newsletter
+
+Join The Newsletter
+
+Follow Us
+
+Copyright © Fandango. All rights reserved.
+
+Join The Newsletter
+Join The Newsletter
+* [Privacy Policy](https://www.nbcuniversal.com/fandango-privacy-policy)
+* [Terms and Policies](/policies/terms-and-policies)
+* 
+* [California Notice](https://www.nbcuniversal.com/privacy/california-consumer-privacy-act)
+* [Ad Choices](https://www.nbcuniversal.com/privacy/cookies#accordionheader2)
+* 
+* [Accessibility](/faq#accessibility)
+
+* V3.1
+* [Privacy Policy](https://www.nbcuniversal.com/fandango-privacy-policy)
+* [Terms and Policies](/policies/terms-and-policies)
+* 
+* [California Notice](https://www.nbcuniversal.com/privacy/california-consumer-privacy-act)
+* [Ad Choices](https://www.nbcuniversal.com/privacy/cookies#accordionheader2)
+* [Accessibility](/faq#accessibility)
+
+Copyright © Fandango. All rights reserved.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">split_docs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run extraction</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_community.callbacks</span> <span class="kn">import</span> <span class="n">get_openai_callback</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">get_openai_callback</span><span class="p">()</span> <span class="k">as</span> <span class="n">cb</span><span class="p">:</span>
+    <span class="n">document_extraction_results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">extract_from_documents</span><span class="p">(</span>
+        <span class="n">chain</span><span class="p">,</span> <span class="n">split_docs</span><span class="p">,</span> <span class="n">max_concurrency</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">use_uid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total Tokens: </span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">total_tokens</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prompt Tokens: </span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">prompt_tokens</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completion Tokens: </span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">completion_tokens</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successful Requests: </span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">successful_requests</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total Cost (USD): $</span><span class="si">{</span><span class="n">cb</span><span class="o">.</span><span class="n">total_cost</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tokens: 6344
+Prompt Tokens: 5448
+Completion Tokens: 896
+Successful Requests: 4
+Total Cost (USD): $0.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">validated_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+    <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
+        <span class="n">extraction</span><span class="p">[</span><span class="s2">&quot;validated_data&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">extraction</span> <span class="ow">in</span> <span class="n">document_extraction_results</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">validated_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>47
+</pre></div>
+</div>
+</div>
+</div>
+<p>Extraction is not perfect, but you can use a better LLM or provide more examples!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">validated_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>season</th>
+      <th>year</th>
+      <th>latest_episode</th>
+      <th>link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Twisters</td>
+      <td></td>
+      <td></td>
+      <td>July 2024</td>
+      <td>/m/twisters</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Longlegs</td>
+      <td></td>
+      <td></td>
+      <td>July 2024</td>
+      <td>/m/longlegs</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>National Anthem</td>
+      <td></td>
+      <td></td>
+      <td>July 2024</td>
+      <td>/m/national_anthem</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Cobra Kai</td>
+      <td>6</td>
+      <td></td>
+      <td>July 2024</td>
+      <td>/tv/cobra_kai/s06</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cobra Kai</td>
+      <td>6</td>
+      <td></td>
+      <td></td>
+      <td>/tv/cobra_kai/s06</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Kite Man: Hell Yeah!</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/kite_man_hell_yeah/s01</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Simone Biles: Rising</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/simone_biles_rising/s01</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Lady in the Lake</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/lady_in_the_lake/s01</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Marvel's Hit-Monkey</td>
+      <td>2</td>
+      <td></td>
+      <td></td>
+      <td>/tv/marvels_hit_monkey/s02</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Those About to Die</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/those_about_to_die/s01</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Emperor of Ocean Park</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/emperor_of_ocean_park/s01</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Mafia Spies</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/mafia_spies/s01</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>The Ark</td>
+      <td>2</td>
+      <td></td>
+      <td></td>
+      <td>/tv/the_ark/s02</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Unprisoned</td>
+      <td>2</td>
+      <td></td>
+      <td></td>
+      <td>/tv/unprisoned/s02</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Star Wars: The Acolyte</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/star_wars_the_acolyte/s01</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>The Boys</td>
+      <td>4</td>
+      <td></td>
+      <td></td>
+      <td>/tv/the_boys_2019/s04</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Supacell</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/supacell/s01</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>The Bear</td>
+      <td>3</td>
+      <td></td>
+      <td></td>
+      <td>/tv/the_bear/s03</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Presumed Innocent</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/presumed_innocent/s01</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Sunny</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+      <td>/tv/sunny/s01</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Cobra Kai</td>
+      <td>6</td>
+      <td></td>
+      <td>Jul 18</td>
+      <td>https://editorial.rottentomatoes.com/article/c...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Star Wars: The Acolyte</td>
+      <td></td>
+      <td></td>
+      <td>Jul 16</td>
+      <td>/tv/star_wars_the_acolyte</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>The Boys</td>
+      <td></td>
+      <td></td>
+      <td>Jul 18</td>
+      <td>/tv/the_boys_2019</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Supacell</td>
+      <td></td>
+      <td></td>
+      <td>Jun 27</td>
+      <td>/tv/supacell</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Sunny</td>
+      <td></td>
+      <td></td>
+      <td>Jul 17</td>
+      <td>/tv/sunny</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Those About to Die</td>
+      <td></td>
+      <td></td>
+      <td>Jul 19</td>
+      <td>/tv/those_about_to_die</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Cobra Kai</td>
+      <td></td>
+      <td></td>
+      <td>Jul 18</td>
+      <td>/tv/cobra_kai</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>The Bear</td>
+      <td></td>
+      <td></td>
+      <td>Jun 26</td>
+      <td>/tv/the_bear</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>House of the Dragon</td>
+      <td></td>
+      <td></td>
+      <td>Jul 14</td>
+      <td>/tv/house_of_the_dragon</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>Lady in the Lake</td>
+      <td></td>
+      <td></td>
+      <td>Jul 19</td>
+      <td>/tv/lady_in_the_lake</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>My Lady Jane</td>
+      <td></td>
+      <td></td>
+      <td>Jun 27</td>
+      <td>/tv/my_lady_jane</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Presumed Innocent</td>
+      <td></td>
+      <td></td>
+      <td>Jul 17</td>
+      <td>/tv/presumed_innocent</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Sausage Party: Foodtopia</td>
+      <td></td>
+      <td></td>
+      <td>Jul 11</td>
+      <td>/tv/sausage_party_foodtopia</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Presumed Innocent</td>
+      <td></td>
+      <td></td>
+      <td>Jul 17</td>
+      <td>/tv/presumed_innocent</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>Sausage Party: Foodtopia</td>
+      <td></td>
+      <td></td>
+      <td>Jul 11</td>
+      <td>/tv/sausage_party_foodtopia</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Exploding Kittens</td>
+      <td></td>
+      <td></td>
+      <td>Jul 12</td>
+      <td>/tv/exploding_kittens</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Kite Man: Hell Yeah!</td>
+      <td></td>
+      <td></td>
+      <td>Jul 18</td>
+      <td>/tv/kite_man_hell_yeah</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Vikings: Valhalla</td>
+      <td></td>
+      <td></td>
+      <td>Jul 11</td>
+      <td>/tv/vikings_valhalla</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>Marvel's Hit-Monkey</td>
+      <td></td>
+      <td></td>
+      <td>Jul 15</td>
+      <td>/tv/marvels_hit_monkey</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Shōgun</td>
+      <td></td>
+      <td></td>
+      <td>Apr 23</td>
+      <td>/tv/shogun_2024</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Land of Women</td>
+      <td></td>
+      <td></td>
+      <td>Jul 17</td>
+      <td>/tv/land_of_women</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Emperor of Ocean Park</td>
+      <td></td>
+      <td></td>
+      <td>Jul 14</td>
+      <td>/tv/emperor_of_ocean_park</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>A Good Girl's Guide to Murder</td>
+      <td></td>
+      <td></td>
+      <td>Jul 01</td>
+      <td>/tv/a_good_girls_guide_to_murder</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Desperate Lies</td>
+      <td></td>
+      <td></td>
+      <td>Jul 05</td>
+      <td>/tv/desperate_lies</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Simone Biles: Rising</td>
+      <td></td>
+      <td></td>
+      <td>Jul 17</td>
+      <td>/tv/simone_biles_rising</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Dark Matter</td>
+      <td></td>
+      <td></td>
+      <td>Jun 26</td>
+      <td>/tv/dark_matter_2024</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>The Serpent Queen</td>
+      <td></td>
+      <td></td>
+      <td>Jul 19</td>
+      <td>/tv/the_serpent_queen</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="validation.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Validation with Pydantic</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="schema_serialization.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Schema serialization</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

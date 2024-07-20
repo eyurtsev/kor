@@ -1,0 +1,354 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "4b3a0584-b52c-4873-abb8-8382e13ff5c0",
+   "metadata": {},
+   "source": [
+    "# Nested Objects and Lists\n",
+    "\n",
+    "Kor attempts to make it easy to capture more complex structure during extraction.\n",
+    "\n",
+    "**ATTENTION** At the moment to use either nested objects or nested lists, one should use the `json` encoder."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0b4597b2-2a43-4491-8830-bf9f79428074",
+   "metadata": {
+    "nbsphinx": "hidden",
+    "tags": [
+     "remove-cell"
+    ]
+   },
+   "outputs": [],
+   "source": [
+    "%load_ext autoreload\n",
+    "%autoreload 2\n",
+    "\n",
+    "import sys\n",
+    "\n",
+    "sys.path.insert(0, \"../../\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "718c66a7-6186-4ed8-87e9-5ed28e3f209e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from kor.extraction import create_extraction_chain\n",
+    "from kor.nodes import Object, Text, Number\n",
+    "from langchain_openai import ChatOpenAI, OpenAI"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "9bc98f35-ea5f-4b74-a32e-a300a22c0c89",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "llm = ChatOpenAI(\n",
+    "    model_name=\"gpt-4o\",\n",
+    "    temperature=0,\n",
+    "    max_tokens=2000,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c7e128c2-83a1-4c8e-b9af-8af0521214b9",
+   "metadata": {},
+   "source": [
+    "## Nested Objects\n",
+    "\n",
+    "Here, we'll introduce an `Address` object which will be neste inside of the main schema."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "f75990e6-5973-4618-9f15-f3b60a14bfa5",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from_address = Object(\n",
+    "    id=\"from_address\",\n",
+    "    description=\"Person moved away from this address\",\n",
+    "    attributes=[\n",
+    "        Text(id=\"street\"),\n",
+    "        Text(id=\"city\"),\n",
+    "        Text(id=\"state\"),\n",
+    "        Text(id=\"zipcode\"),\n",
+    "        Text(id=\"country\", description=\"A country in the world; e.g., France.\"),\n",
+    "    ],\n",
+    "    examples=[\n",
+    "        (\n",
+    "            \"100 Main St, Boston, MA, 23232, USA\",\n",
+    "            {\n",
+    "                \"street\": \"100 Marlo St\",\n",
+    "                \"city\": \"Boston\",\n",
+    "                \"state\": \"MA\",\n",
+    "                \"zipcode\": \"23232\",\n",
+    "                \"country\": \"USA\",\n",
+    "            },\n",
+    "        )\n",
+    "    ],\n",
+    ")\n",
+    "\n",
+    "to_address = from_address.replace(\n",
+    "    id=\"to_address\", description=\"Address to which the person is moving\"\n",
+    ")\n",
+    "\n",
+    "schema = Object(\n",
+    "    id=\"information\",\n",
+    "    attributes=[\n",
+    "        Text(\n",
+    "            id=\"person_name\",\n",
+    "            description=\"The full name of the person or partial name\",\n",
+    "            examples=[(\"John Smith was here\", \"John Smith\")],\n",
+    "        ),\n",
+    "        from_address,\n",
+    "        to_address,\n",
+    "    ],\n",
+    "    many=True,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e010d0e7-504f-401c-9ac9-53bea91908bf",
+   "metadata": {},
+   "source": [
+    "## JSON encoding\n",
+    "\n",
+    "To use nested objects, at least for now we have to swap to the JSON encoder.\n",
+    "\n",
+    "Anecdotally, CSV encoding seems to produce more robust extraction results, so JSON encoding may perform worse even though it's more flexible."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "54a199a5-24b4-442c-8907-1449e437a880",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "chain = create_extraction_chain(\n",
+    "    llm, schema, encoder_or_encoder_class=\"json\", input_formatter=None\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "193e257b-df01-45ec-af77-076d2070533b",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'information': [{'person_name': 'Alice Doe',\n",
+       "   'from_address': {'city': 'New York', 'state': 'NY', 'country': 'USA'},\n",
+       "   'to_address': {'city': 'Boston', 'state': 'MA', 'country': 'USA'}},\n",
+       "  {'person_name': 'Bob Smith',\n",
+       "   'from_address': {'city': 'Boston', 'state': 'MA', 'country': 'USA'},\n",
+       "   'to_address': {'city': 'New York', 'state': 'NY', 'country': 'USA'}}]}"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke(\n",
+    "    \"Alice Doe moved from New York to Boston, MA while Bob Smith did the opposite.\"\n",
+    ")[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "c8295f36-f986-4db2-97bc-ef2e6cdbcc87",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'information': [{'person_name': 'Alice Doe',\n",
+       "   'from_address': {'city': 'New York', 'country': 'USA'},\n",
+       "   'to_address': {'city': 'Boston', 'country': 'USA'}},\n",
+       "  {'person_name': 'Bob Smith',\n",
+       "   'from_address': {'city': 'New York', 'country': 'USA'},\n",
+       "   'to_address': {'city': 'Boston', 'country': 'USA'}},\n",
+       "  {'person_name': 'Andrew',\n",
+       "   'to_address': {'city': 'Boston', 'country': 'USA'}},\n",
+       "  {'person_name': 'Joana', 'to_address': {'city': 'Boston', 'country': 'USA'}},\n",
+       "  {'person_name': 'Paul', 'to_address': {'city': 'Boston', 'country': 'USA'}}]}"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke(\n",
+    "    \"Alice Doe and Bob Smith moved from New York to Boston. Andrew was 12 years\"\n",
+    "    \" old. He also moved to Boston. So did Joana and Paul. Betty did the opposite.\"\n",
+    ")[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3cec5163-0081-461d-84c5-078661121bda",
+   "metadata": {},
+   "source": [
+    "## Nested Lists"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "68bcd9c3-7d8b-4bc3-b14a-b4b9f757c894",
+   "metadata": {},
+   "source": [
+    "Let's repeat the same schema as above, but let the address be a `many=True` field."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "e528f20c-46d3-40b6-b1ba-11024002deb8",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from_address = Object(\n",
+    "    id=\"from_address\",\n",
+    "    description=\"Person moved away from this address\",\n",
+    "    attributes=[\n",
+    "        Text(id=\"street\"),\n",
+    "        Text(id=\"city\"),\n",
+    "        Text(id=\"state\"),\n",
+    "        Text(id=\"zipcode\"),\n",
+    "        Text(id=\"country\", description=\"A country in the world; e.g., France.\"),\n",
+    "    ],\n",
+    "    examples=[\n",
+    "        (\n",
+    "            \"100 Main St, Boston,MA, 23232, USA\",\n",
+    "            {\n",
+    "                \"street\": \"100 Marlo St\",\n",
+    "                \"city\": \"Boston\",\n",
+    "                \"state\": \"MA\",\n",
+    "                \"zipcode\": \"23232\",\n",
+    "                \"country\": \"USA\",\n",
+    "            },\n",
+    "        )\n",
+    "    ],\n",
+    "    many=True,  # <-- PLEASE NOTE THIS CHANGE\n",
+    ")\n",
+    "\n",
+    "to_address = from_address.replace(\n",
+    "    id=\"to_address\", description=\"Address to which the person is moving\"\n",
+    ")\n",
+    "\n",
+    "schema = Object(\n",
+    "    id=\"information\",\n",
+    "    attributes=[\n",
+    "        Text(\n",
+    "            id=\"person_name\",\n",
+    "            description=\"The full name of the person or partial name\",\n",
+    "            examples=[(\"John Smith was here\", \"John Smith\")],\n",
+    "        ),\n",
+    "        from_address,\n",
+    "        to_address,\n",
+    "    ],\n",
+    "    many=True,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "23b81b06-118a-4ebe-9e20-5df1bf269ce3",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "chain = create_extraction_chain(llm, schema, encoder_or_encoder_class=\"json\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "29219fae-41cb-4235-92fa-07b16ded2296",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'information': [{'person_name': 'Alice Doe',\n",
+       "   'from_address': [{'city': 'New York', 'state': 'NY', 'country': 'USA'}],\n",
+       "   'to_address': [{'city': 'Boston', 'state': 'MA', 'country': 'USA'}]},\n",
+       "  {'person_name': 'Bob Smith',\n",
+       "   'from_address': [{'city': 'New York', 'state': 'NY', 'country': 'USA'}],\n",
+       "   'to_address': [{'city': 'Boston', 'state': 'MA', 'country': 'USA'}]},\n",
+       "  {'person_name': 'Bob Smith',\n",
+       "   'from_address': [{'city': 'Boston', 'state': 'MA', 'country': 'USA'}],\n",
+       "   'to_address': [{'city': 'LA', 'state': 'CA', 'country': 'USA'}]}]}"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke(\n",
+    "    \"Alice Doe and Bob Smith moved from New York to Boston. Bob later moved to LA.\"\n",
+    ")[\"data\"]"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

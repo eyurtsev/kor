@@ -1,0 +1,197 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "4b3a0584-b52c-4873-abb8-8382e13ff5c0",
+   "metadata": {},
+   "source": [
+    "## Untyped Obects  🤷\n",
+    "\n",
+    "It's possible to provide just examples without type information. It may be that the quality of results won't be affected significantly, if one adds sufficient examples to compensate for lack of information about the schema."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0b4597b2-2a43-4491-8830-bf9f79428074",
+   "metadata": {
+    "nbsphinx": "hidden",
+    "tags": [
+     "remove-cell"
+    ]
+   },
+   "outputs": [],
+   "source": [
+    "%load_ext autoreload\n",
+    "%autoreload 2\n",
+    "\n",
+    "import sys\n",
+    "\n",
+    "sys.path.insert(0, \"../../\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "718c66a7-6186-4ed8-87e9-5ed28e3f209e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "from kor.extraction import create_extraction_chain\n",
+    "from kor.nodes import Object, Text, Number\n",
+    "from langchain_openai import ChatOpenAI, OpenAI"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "9bc98f35-ea5f-4b74-a32e-a300a22c0c89",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "llm = ChatOpenAI(\n",
+    "    model_name=\"gpt-4o\",\n",
+    "    temperature=0,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "4325ac08-248f-4c57-bca9-478f8cab0436",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "schema = Object(\n",
+    "    id=\"information\",\n",
+    "    attributes=[],\n",
+    "    examples=[\n",
+    "        (\n",
+    "            \"John Smith moved to Boston from New York. Billy moved to LA.\",\n",
+    "            [\n",
+    "                {\n",
+    "                    \"person_name\": \"John Smith\",\n",
+    "                    \"from_address\": {\"city\": \"New York\"},\n",
+    "                    \"to_address\": {\"city\": \"Boston\"},\n",
+    "                },\n",
+    "                {\"person_name\": \"Billy\", \"to_address\": {\"city\": \"LA\"}},\n",
+    "            ],\n",
+    "        )\n",
+    "    ],\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "ea83896d-be3a-44fb-b74c-ccb2b96e2a7e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "chain = create_extraction_chain(llm, schema, encoder_or_encoder_class=\"json\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "82c52f44-657e-45fb-8dc0-80155ae63a86",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'information': [{'person_name': 'Alice Doe',\n",
+       "   'from_address': {'city': 'New York'},\n",
+       "   'to_address': {'city': 'Boston'}},\n",
+       "  {'person_name': 'Bob Smith',\n",
+       "   'from_address': {'city': 'New York'},\n",
+       "   'to_address': {'city': 'Boston'}},\n",
+       "  {'person_name': 'Andrew', 'to_address': {'city': 'Boston'}},\n",
+       "  {'person_name': 'Joana', 'to_address': {'city': 'Boston'}},\n",
+       "  {'person_name': 'Paul', 'to_address': {'city': 'Boston'}},\n",
+       "  {'person_name': 'Betty',\n",
+       "   'from_address': {'city': 'Boston'},\n",
+       "   'to_address': {'city': 'New York'}}]}"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "chain.invoke(\n",
+    "    \"Alice Doe and Bob Smith moved from New York to Boston. Andrew was 12 years\"\n",
+    "    \" old. He also moved to Boston. So did Joana and Paul. Betty did the opposite.\"\n",
+    ")[\"data\"]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "215eea94-148d-4955-8e17-c5f8d2030b4e",
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Your goal is to extract structured information from the user's input that matches the form described below. When extracting information please make sure it matches the type information exactly. Do not add any attributes that do not appear in the schema shown below.\n",
+      "\n",
+      "```TypeScript\n",
+      "\n",
+      "information: { // \n",
+      "}\n",
+      "```\n",
+      "\n",
+      "\n",
+      "Please output the extracted information in JSON format. Do not output anything except for the extracted information. Do not add any clarifying information. Do not add any fields that are not in the schema. If the text contains attributes that do not appear in the schema, please ignore them. All output must be in JSON format and follow the schema specified above. Wrap the JSON in <json> tags.\n",
+      "\n",
+      "\n",
+      "\n",
+      "Input: John Smith moved to Boston from New York. Billy moved to LA.\n",
+      "Output: <json>{\"information\": [{\"person_name\": \"John Smith\", \"from_address\": {\"city\": \"New York\"}, \"to_address\": {\"city\": \"Boston\"}}, {\"person_name\": \"Billy\", \"to_address\": {\"city\": \"LA\"}}]}</json>\n",
+      "Input: [user_input]\n",
+      "Output:\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(chain.get_prompts()[0].format_prompt(\"[user_input]\").to_string())"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

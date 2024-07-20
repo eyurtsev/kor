@@ -1,0 +1,954 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>kor.encoders package &#8212; 😼 Kor 2.0.0</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">😼 Kor 2.0.0</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Kor
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contents
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tutorial.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../objects.html">
+   Working With Objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../nested_objects.html">
+   Nested Objects and Lists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../untyped_objects.html">
+   Untyped Obects  🤷
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../apis.html">
+   Natural Language Based APIs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../validation.html">
+   Validation with Pydantic
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../document_extraction.html">
+   Document Extraction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../schema_serialization.html">
+   Schema serialization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../guidelines.html">
+   Guidelines
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../prompt.html">
+   Custom Prompt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../type_descriptors.html">
+   Type Descriptors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api.html">
+   API
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/eyurtsev/kor"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/generated/kor.encoders.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.csv_data">
+   kor.encoders.csv_data module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.encode">
+   kor.encoders.encode module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.json_data">
+   kor.encoders.json_data module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.typedefs">
+   kor.encoders.typedefs module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.utils">
+   kor.encoders.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.xml">
+   kor.encoders.xml module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>kor.encoders package</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.csv_data">
+   kor.encoders.csv_data module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.encode">
+   kor.encoders.encode module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.json_data">
+   kor.encoders.json_data module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.typedefs">
+   kor.encoders.typedefs module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.utils">
+   kor.encoders.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders.xml">
+   kor.encoders.xml module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-kor.encoders">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="kor-encoders-package">
+<h1>kor.encoders package<a class="headerlink" href="#kor-encoders-package" title="Permalink to this headline">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="module-kor.encoders.csv_data">
+<span id="kor-encoders-csv-data-module"></span><h2>kor.encoders.csv_data module<a class="headerlink" href="#module-kor.encoders.csv_data" title="Permalink to this headline">#</a></h2>
+<p>Module that contains Kor flavored encoders/decoders for CSV data.</p>
+<p>The code will need to eventually support handling some form of nested objects,
+via either JSON encoded column values or by breaking down nested attributes
+into additional columns (likely both methods).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.csv_data.CSVEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.csv_data.</span></span><span class="sig-name descname"><span class="pre">CSVEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.AbstractSchemaNode" title="kor.nodes.AbstractSchemaNode"><span class="pre">kor.nodes.AbstractSchemaNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.csv_data.CSVEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.SchemaBasedEncoder" title="kor.encoders.typedefs.SchemaBasedEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.SchemaBasedEncoder</span></code></a></p>
+<p>CSV encoder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.csv_data.CSVEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.csv_data.CSVEncoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.csv_data.CSVEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.csv_data.CSVEncoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.csv_data.CSVEncoder.get_instruction_segment">
+<span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.csv_data.CSVEncoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Format instructions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-kor.encoders.encode">
+<span id="kor-encoders-encode-module"></span><h2>kor.encoders.encode module<a class="headerlink" href="#module-kor.encoders.encode" title="Permalink to this headline">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.encode.encode_examples">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.encode.</span></span><span class="sig-name descname"><span class="pre">encode_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'text_prefix'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'triple_quotes'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/encode.html#encode_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.encode.encode_examples" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the output using the given encoder.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.encode.format_text">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.encode.</span></span><span class="sig-name descname"><span class="pre">format_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'text_prefix'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'triple_quotes'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/encode.html#format_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.encode.format_text" title="Permalink to this definition">#</a></dt>
+<dd><p>An encoder for the input text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> – the text to encode</p></li>
+<li><p><strong>input_formatter</strong> – the formatter to use for the input
+* None: use for single sentences or single paragraphs, no formatting
+* triple_quotes: surround input with “””, use for long text
+* text_prefix: same as triple_quote but with <a href="#id1"><span class="problematic" id="id2">`</span></a>TEXT: ` prefix
+* Callable: user provided function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The encoded text if it was encoded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.encode.initialize_encoder">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.encode.</span></span><span class="sig-name descname"><span class="pre">initialize_encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoder_or_encoder_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.AbstractSchemaNode" title="kor.nodes.AbstractSchemaNode"><span class="pre">kor.nodes.AbstractSchemaNode</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a></span></span><a class="reference internal" href="../_modules/kor/encoders/encode.html#initialize_encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.encode.initialize_encoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Flexible way to initialize an encoder, used only for top level API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>encoder_or_encoder_class</strong> – Either an encoder instance, an encoder class
+or a string representing the encoder class.</p></li>
+<li><p><strong>schema</strong> – The schema to use for the encoder.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the encoder class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An encoder instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-kor.encoders.json_data">
+<span id="kor-encoders-json-data-module"></span><h2>kor.encoders.json_data module<a class="headerlink" href="#module-kor.encoders.json_data" title="Permalink to this headline">#</a></h2>
+<p>JSON encoder and decoder.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.json_data.JSONEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.json_data.</span></span><span class="sig-name descname"><span class="pre">JSONEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_ascii</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.json_data.JSONEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.Encoder</span></code></a></p>
+<p>JSON encoder and decoder.</p>
+<p>The encoder by default adds additional &lt;json&gt; tags around the JSON output,</p>
+<p>Additional tags are added to the output to help identify the JSON content
+within the LLM response and extract it.</p>
+<p>The usage of &lt;json&gt; tags is similar to the usage of <code class="docutils literal notranslate"><span class="pre">`JSON</span> <span class="pre">and</span> <span class="pre">`</span></code> marks.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">JSONEncoder</span>
+
+<span class="n">json_encoder</span> <span class="o">=</span> <span class="n">JSONEncoder</span><span class="p">(</span><span class="n">use_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Café&quot;</span><span class="p">}</span>
+<span class="n">json_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># &#39;&lt;json&gt;{&quot;name&quot;: &quot;Café&quot;}&lt;/json&gt;&#39;</span>
+
+<span class="n">json_encoder</span> <span class="o">=</span> <span class="n">JSONEncoder</span><span class="p">(</span><span class="n">use_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Café&quot;</span><span class="p">}</span>
+<span class="n">json_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># &#39;&lt;json&gt;{&quot;name&quot;: &quot;Caf\u00e9&quot;}&lt;/json&gt;&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.json_data.JSONEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.json_data.JSONEncoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the text as JSON.</p>
+<p>If the encoder is using tags, the &lt;json&gt; content is identified within the text
+and then is decoded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> – the text to be decoded</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The decoded JSON data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.json_data.JSONEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.json_data.JSONEncoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the data as JSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – JSON serializable data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The JSON encoded data as a string optionally wrapped in &lt;json&gt; tags.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.json_data.JSONEncoder.get_instruction_segment">
+<span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.json_data.JSONEncoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the format instructions for the given decoder.</p>
+<p>This is a specification to the LLM that tells it how to shape its response
+so that the response can be structured properly using the given decoder.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-kor.encoders.typedefs">
+<span id="kor-encoders-typedefs-module"></span><h2>kor.encoders.typedefs module<a class="headerlink" href="#module-kor.encoders.typedefs" title="Permalink to this headline">#</a></h2>
+<p>Type-definitions for encoders.</p>
+<p>This file only contains the interface for encoders.</p>
+<ul class="simple">
+<li><p>Added a pre-built format instruction segment.</p></li>
+<li><p>May remove it at some point later or modify it if we discover that
+there are many ways of phrasing the format instructions.</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.typedefs.Encoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.typedefs.</span></span><span class="sig-name descname"><span class="pre">Encoder</span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.typedefs.Encoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract interface for an encoder.</p>
+<p>The encoder is responsible for encoding and decoding the Output
+portion of examples provided to the LLM.</p>
+<p>It must implement a method called get_instruction_segment that
+contains instructions for the LLM on how to format its output.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.typedefs.Encoder.decode">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.typedefs.Encoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.typedefs.Encoder.encode">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.typedefs.Encoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.typedefs.Encoder.get_instruction_segment">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.typedefs.Encoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the format instructions for the given decoder.</p>
+<p>Used to guide the LLM on how to format its output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.typedefs.SchemaBasedEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.typedefs.</span></span><span class="sig-name descname"><span class="pre">SchemaBasedEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.AbstractSchemaNode" title="kor.nodes.AbstractSchemaNode"><span class="pre">kor.nodes.AbstractSchemaNode</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#SchemaBasedEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.typedefs.SchemaBasedEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.Encoder</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract interface for an encoder that has the data schema.</p>
+<p>Inherit from this encoder if the encoder needs to know the schema
+of the data that’s being encoded.</p>
+</dd></dl>
+
+</section>
+<section id="module-kor.encoders.utils">
+<span id="kor-encoders-utils-module"></span><h2>kor.encoders.utils module<a class="headerlink" href="#module-kor.encoders.utils" title="Permalink to this headline">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.utils.unwrap_tag">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.utils.</span></span><span class="sig-name descname"><span class="pre">unwrap_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/utils.html#unwrap_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.utils.unwrap_tag" title="Permalink to this definition">#</a></dt>
+<dd><p>Extract content located inside a tag.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.utils.wrap_in_tag">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.utils.</span></span><span class="sig-name descname"><span class="pre">wrap_in_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/utils.html#wrap_in_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.utils.wrap_in_tag" title="Permalink to this definition">#</a></dt>
+<dd><p>Wrap the content in an HTML style tag.</p>
+</dd></dl>
+
+</section>
+<section id="module-kor.encoders.xml">
+<span id="kor-encoders-xml-module"></span><h2>kor.encoders.xml module<a class="headerlink" href="#module-kor.encoders.xml" title="Permalink to this headline">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.xml.TagParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.xml.</span></span><span class="sig-name descname"><span class="pre">TagParser</span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#TagParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.TagParser" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">html.parser.HTMLParser</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.xml.TagParser.handle_data">
+<span class="sig-name descname"><span class="pre">handle_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#TagParser.handle_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.TagParser.handle_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Hook when handling data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.xml.TagParser.handle_endtag">
+<span class="sig-name descname"><span class="pre">handle_endtag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#TagParser.handle_endtag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.TagParser.handle_endtag" title="Permalink to this definition">#</a></dt>
+<dd><p>Hook when a tag is closed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.xml.TagParser.handle_starttag">
+<span class="sig-name descname"><span class="pre">handle_starttag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#TagParser.handle_starttag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.TagParser.handle_starttag" title="Permalink to this definition">#</a></dt>
+<dd><p>Hook when a new tag is encountered.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.xml.XMLEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.xml.</span></span><span class="sig-name descname"><span class="pre">XMLEncoder</span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.XMLEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.Encoder</span></code></a></p>
+<p>Experimental XML encoder to encode and decode data.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This encoder is not recommended for usage, at least not without further
+benchmarking for your use-case.</p>
+</div>
+<p>The decoder re-interprets all data types as lists, which makes validating
+and using parser results more involved. It’s unclear whether the encoder
+offers more advantages over other encoders (e.g., JSON or CSV).</p>
+<p>The encoder would encode the following dictionary</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;6.1&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;3&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>As:</p>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;color&gt;</span>red<span class="nt">&lt;/color&gt;&lt;height&gt;</span>6.1<span class="nt">&lt;/height&gt;&lt;width&gt;</span>3<span class="nt">&lt;/width&gt;&lt;color&gt;</span>blue<span class="nt">&lt;/color&gt;</span>
+</pre></div>
+</div>
+<p>A tag be repeated multiple times to represent multiple list elements.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.xml.XMLEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.XMLEncoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the XML as an object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.xml.XMLEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.XMLEncoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the object as XML.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.xml.XMLEncoder.get_instruction_segment">
+<span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.xml.XMLEncoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Format the instructions segment.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-kor.encoders">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kor.encoders" title="Permalink to this headline">#</a></h2>
+<p>Declare public interface for encoders.</p>
+<p>An encoder follows the <cite>Encoder</cite> interface.</p>
+<p>It can encode, decode and contains instructions about the encoding format for an LLM.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.CSVEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">CSVEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.AbstractSchemaNode" title="kor.nodes.AbstractSchemaNode"><span class="pre">kor.nodes.AbstractSchemaNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.CSVEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.SchemaBasedEncoder" title="kor.encoders.typedefs.SchemaBasedEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.SchemaBasedEncoder</span></code></a></p>
+<p>CSV encoder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.CSVEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.CSVEncoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.CSVEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.CSVEncoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.CSVEncoder.get_instruction_segment">
+<span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/csv_data.html#CSVEncoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.CSVEncoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Format instructions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.Encoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">Encoder</span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.Encoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract interface for an encoder.</p>
+<p>The encoder is responsible for encoding and decoding the Output
+portion of examples provided to the LLM.</p>
+<p>It must implement a method called get_instruction_segment that
+contains instructions for the LLM on how to format its output.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.Encoder.decode">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.Encoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the text.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.Encoder.encode">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.Encoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.Encoder.get_instruction_segment">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#Encoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.Encoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the format instructions for the given decoder.</p>
+<p>Used to guide the LLM on how to format its output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.JSONEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">JSONEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_ascii</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.JSONEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.Encoder</span></code></a></p>
+<p>JSON encoder and decoder.</p>
+<p>The encoder by default adds additional &lt;json&gt; tags around the JSON output,</p>
+<p>Additional tags are added to the output to help identify the JSON content
+within the LLM response and extract it.</p>
+<p>The usage of &lt;json&gt; tags is similar to the usage of <code class="docutils literal notranslate"><span class="pre">`JSON</span> <span class="pre">and</span> <span class="pre">`</span></code> marks.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">kor</span> <span class="kn">import</span> <span class="n">JSONEncoder</span>
+
+<span class="n">json_encoder</span> <span class="o">=</span> <span class="n">JSONEncoder</span><span class="p">(</span><span class="n">use_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Café&quot;</span><span class="p">}</span>
+<span class="n">json_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># &#39;&lt;json&gt;{&quot;name&quot;: &quot;Café&quot;}&lt;/json&gt;&#39;</span>
+
+<span class="n">json_encoder</span> <span class="o">=</span> <span class="n">JSONEncoder</span><span class="p">(</span><span class="n">use_tags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Café&quot;</span><span class="p">}</span>
+<span class="n">json_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># &#39;&lt;json&gt;{&quot;name&quot;: &quot;Caf\u00e9&quot;}&lt;/json&gt;&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.JSONEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.JSONEncoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the text as JSON.</p>
+<p>If the encoder is using tags, the &lt;json&gt; content is identified within the text
+and then is decoded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> – the text to be decoded</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The decoded JSON data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.JSONEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.JSONEncoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the data as JSON.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – JSON serializable data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The JSON encoded data as a string optionally wrapped in &lt;json&gt; tags.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.JSONEncoder.get_instruction_segment">
+<span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/json_data.html#JSONEncoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.JSONEncoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the format instructions for the given decoder.</p>
+<p>This is a specification to the LLM that tells it how to shape its response
+so that the response can be structured properly using the given decoder.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.SchemaBasedEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">SchemaBasedEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.AbstractSchemaNode" title="kor.nodes.AbstractSchemaNode"><span class="pre">kor.nodes.AbstractSchemaNode</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kor/encoders/typedefs.html#SchemaBasedEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.SchemaBasedEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.Encoder</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract interface for an encoder that has the data schema.</p>
+<p>Inherit from this encoder if the encoder needs to know the schema
+of the data that’s being encoded.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kor.encoders.XMLEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">XMLEncoder</span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.XMLEncoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">kor.encoders.typedefs.Encoder</span></code></a></p>
+<p>Experimental XML encoder to encode and decode data.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This encoder is not recommended for usage, at least not without further
+benchmarking for your use-case.</p>
+</div>
+<p>The decoder re-interprets all data types as lists, which makes validating
+and using parser results more involved. It’s unclear whether the encoder
+offers more advantages over other encoders (e.g., JSON or CSV).</p>
+<p>The encoder would encode the following dictionary</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;6.1&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;3&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>As:</p>
+<div class="highlight-XML notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;color&gt;</span>red<span class="nt">&lt;/color&gt;&lt;height&gt;</span>6.1<span class="nt">&lt;/height&gt;&lt;width&gt;</span>3<span class="nt">&lt;/width&gt;&lt;color&gt;</span>blue<span class="nt">&lt;/color&gt;</span>
+</pre></div>
+</div>
+<p>A tag be repeated multiple times to represent multiple list elements.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.XMLEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.XMLEncoder.decode" title="Permalink to this definition">#</a></dt>
+<dd><p>Decode the XML as an object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.XMLEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.XMLEncoder.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the object as XML.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kor.encoders.XMLEncoder.get_instruction_segment">
+<span class="sig-name descname"><span class="pre">get_instruction_segment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/kor/encoders/xml.html#XMLEncoder.get_instruction_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.XMLEncoder.get_instruction_segment" title="Permalink to this definition">#</a></dt>
+<dd><p>Format the instructions segment.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.encode_examples">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">encode_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">examples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'text_prefix'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'triple_quotes'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kor/encoders/encode.html#encode_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.encode_examples" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the output using the given encoder.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kor.encoders.initialize_encoder">
+<span class="sig-prename descclassname"><span class="pre">kor.encoders.</span></span><span class="sig-name descname"><span class="pre">initialize_encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoder_or_encoder_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kor.html#kor.nodes.AbstractSchemaNode" title="kor.nodes.AbstractSchemaNode"><span class="pre">kor.nodes.AbstractSchemaNode</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#kor.encoders.typedefs.Encoder" title="kor.encoders.typedefs.Encoder"><span class="pre">kor.encoders.typedefs.Encoder</span></a></span></span><a class="reference internal" href="../_modules/kor/encoders/encode.html#initialize_encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kor.encoders.initialize_encoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Flexible way to initialize an encoder, used only for top level API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>encoder_or_encoder_class</strong> – Either an encoder instance, an encoder class
+or a string representing the encoder class.</p></li>
+<li><p><strong>schema</strong> – The schema to use for the encoder.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the encoder class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An encoder instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Eugene Yurtsev<br/>
+  
+      &copy; Copyright 2023, Eugene Yurtsev.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
