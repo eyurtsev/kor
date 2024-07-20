@@ -9,7 +9,7 @@ from langchain_core.documents import Document
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableSequence
+from langchain_core.runnables import Runnable
 
 from kor.encoders import Encoder, InputFormatter, initialize_encoder
 from kor.extraction.parser import KorParser
@@ -32,7 +32,7 @@ def set_verbose_context(verbose: bool):
 
 async def _extract_from_document_with_semaphore(
     semaphore: asyncio.Semaphore,
-    chain: RunnableSequence,
+    chain: Runnable,
     document: Document,
     uid: str,
     source_uid: str,
@@ -66,7 +66,7 @@ def create_extraction_chain(
     instruction_template: Optional[PromptTemplate] = None,
     verbose: Optional[bool] = None,
     **encoder_kwargs: Any,
-) -> RunnableSequence:
+) -> Runnable:
     """Create an extraction chain.
     
     Args:
@@ -132,7 +132,7 @@ def create_extraction_chain(
 
 
 async def extract_from_documents(
-    chain: RunnableSequence,
+    chain: Runnable,
     documents: Sequence[Document],
     *,
     max_concurrency: int = 1,

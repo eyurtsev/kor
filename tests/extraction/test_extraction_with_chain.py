@@ -4,7 +4,7 @@ from typing import Any, Mapping, Optional
 import pytest
 from langchain.globals import get_verbose
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableSequence
+from langchain_core.runnables import Runnable
 
 from kor.encoders import CSVEncoder, JSONEncoder
 from kor.extraction import create_extraction_chain
@@ -40,7 +40,7 @@ def test_create_extraction_chain(options: Mapping[str, Any]) -> None:
 
     for schema in [SIMPLE_OBJECT_SCHEMA]:
         chain = create_extraction_chain(chat_model, schema, **options)
-        assert isinstance(chain, RunnableSequence)
+        assert isinstance(chain, Runnable)
         # Try to run through predict and parse
         chain.invoke("some string")  # type: ignore
 
@@ -60,7 +60,7 @@ def test_create_extraction_chain_with_csv_encoder(options: Mapping[str, Any]) ->
     chat_model = ToyChatModel(response="hello")
 
     chain = create_extraction_chain(chat_model, **options)
-    assert isinstance(chain, RunnableSequence)
+    assert isinstance(chain, Runnable)
     # Try to run through predict and parse
     chain.invoke("some string")  # type: ignore
 
@@ -115,7 +115,7 @@ def test_instantiation_with_verbose_flag(verbose: Optional[bool]) -> None:
         encoder_or_encoder_class="json",
         verbose=verbose,
     )
-    assert isinstance(chain, RunnableSequence)
+    assert isinstance(chain, Runnable)
     expected_verbose = verbose if verbose is not None else get_verbose()
     assert chain.verbose == expected_verbose
 
