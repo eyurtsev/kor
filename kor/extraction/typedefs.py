@@ -1,5 +1,7 @@
 """Type definitions for the extraction package."""
-from typing import Any, Dict, List, TypedDict
+from typing import Any, Dict, List
+
+from typing_extensions import TypedDict
 
 
 class Extraction(TypedDict):

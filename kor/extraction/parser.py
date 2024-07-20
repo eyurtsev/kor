@@ -12,7 +12,7 @@ from kor.nodes import Object
 from kor.validators import Validator
 
 
-class KorParser(BaseOutputParser):
+class KorParser(BaseOutputParser[Extraction]):
     """A Kor langchain parser integration.
 
     This parser can use any of Kor's encoders to support encoding/decoding
