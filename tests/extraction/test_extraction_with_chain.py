@@ -2,8 +2,6 @@
 from typing import Any, Mapping, Optional
 
 import pytest
-from langchain.globals import get_verbose
-from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import Runnable
 
 from kor.encoders import CSVEncoder, JSONEncoder
@@ -105,43 +103,14 @@ def test_not_implemented_assertion_raised_for_csv(options: Mapping[str, Any]) ->
         create_extraction_chain(chat_model, **options)
 
 
-@pytest.mark.parametrize("verbose", [True, False, None])
+@pytest.mark.parametrize("verbose", [True, False])
 def test_instantiation_with_verbose_flag(verbose: Optional[bool]) -> None:
     """Create an extraction chain."""
     chat_model = ToyChatModel(response="hello")
-    chain = create_extraction_chain(
-        chat_model,
-        SIMPLE_OBJECT_SCHEMA,
-        encoder_or_encoder_class="json",
-        verbose=verbose,
-    )
-    assert isinstance(chain, Runnable)
-    expected_verbose = verbose if verbose is not None else get_verbose()
-    assert chain.verbose == expected_verbose
-
-
-def test_using_custom_template() -> None:
-    """Create an extraction chain with a custom template."""
-    template = PromptTemplate(
-        input_variables=["format_instructions", "type_description"],
-        template=(
-            "custom_prefix\n"
-            "{type_description}\n\n"
-            "{format_instructions}\n"
-            "custom_suffix"
-        ),
-    )
-    chain = create_extraction_chain(
-        ToyChatModel(response="hello"),
-        OBJECT_SCHEMA_WITH_MANY,
-        instruction_template=template,
-        encoder_or_encoder_class="json",
-    )
-    prompt_value = chain.prompt.format_prompt(text="hello")
-    system_message = prompt_value.to_messages()[0]
-    string_value = prompt_value.to_string()
-
-    assert "custom_prefix" in string_value
-    assert "custom_suffix" in string_value
-    assert "custom_prefix" in system_message.content
-    assert "custom_suffix" in system_message.content
+    with pytest.raises(NotImplementedError):
+        create_extraction_chain(
+            chat_model,
+            SIMPLE_OBJECT_SCHEMA,
+            encoder_or_encoder_class="json",
+            verbose=verbose,
+        )

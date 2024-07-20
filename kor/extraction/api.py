@@ -1,10 +1,8 @@
 """Kor API for extraction related functionality."""
 
 import asyncio
-from contextlib import contextmanager
 from typing import Any, Callable, List, Optional, Sequence, Type, Union, cast
 
-from langchain.globals import get_verbose, set_verbose
 from langchain_core.documents import Document
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.output_parsers import StrOutputParser
@@ -18,16 +16,6 @@ from kor.nodes import Object
 from kor.prompts import create_langchain_prompt
 from kor.type_descriptors import TypeDescriptor, initialize_type_descriptors
 from kor.validators import Validator
-
-
-@contextmanager
-def set_verbose_context(verbose: bool):
-    old_verbose = get_verbose()
-    set_verbose(verbose)
-    try:
-        yield
-    finally:
-        set_verbose(old_verbose)
 
 
 async def _extract_from_document_with_semaphore(
@@ -89,8 +77,10 @@ def create_extraction_chain(
              * "type_description": type description of the node (from TypeDescriptor)
              * "format_instructions": information on how to format the output
                (from Encoder)
-        verbose: if provided, sets the verbosity on the chain, otherwise default
-                 verbosity of the chain will be used
+        verbose: Deprecated, use langchain_core.globals.set_verbose and
+            langchain_core.globals.set_debug instead.
+            Please reference this guide for more information:
+            https://python.langchain.com/v0.2/docs/how_to/debugging
         encoder_kwargs: Keyword arguments to pass to the encoder class
 
     Returns:
@@ -107,27 +97,34 @@ def create_extraction_chain(
         chain = create_extraction_chain(llm, node, encoder_or_encoder_class="JSON",
                                         input_formatter="triple_quotes")
     """
+
+    if verbose is not None:
+        raise NotImplementedError(
+            "The verbose argument is no longer supported. Instead if you want to see "
+            "verbose output, please reference this guide for more information: "
+            "https://python.langchain.com/v0.2/docs/how_to/debugging "
+        )
+
     if not isinstance(node, Object):
         raise ValueError(f"node must be an Object got {type(node)}")
     encoder = initialize_encoder(encoder_or_encoder_class, node, **encoder_kwargs)
     type_descriptor_to_use = initialize_type_descriptors(type_descriptor)
 
-    with set_verbose_context(verbose if verbose is not None else False):
-        prompt = create_langchain_prompt(
-            node,
-            encoder,
-            type_descriptor_to_use,
-            validator=validator,
-            instruction_template=instruction_template,
-            input_formatter=input_formatter,
-        )
+    prompt = create_langchain_prompt(
+        node,
+        encoder,
+        type_descriptor_to_use,
+        validator=validator,
+        instruction_template=instruction_template,
+        input_formatter=input_formatter,
+    )
 
-        chain = (
-            prompt
-            | llm
-            | StrOutputParser()
-            | KorParser(encoder=encoder, validator=validator, schema_=node)
-        )
+    chain = (
+        prompt
+        | llm
+        | StrOutputParser()
+        | KorParser(encoder=encoder, validator=validator, schema_=node)
+    )
     return chain
 
 
