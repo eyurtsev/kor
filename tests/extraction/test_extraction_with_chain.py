@@ -114,3 +114,43 @@ def test_instantiation_with_verbose_flag(verbose: Optional[bool]) -> None:
             encoder_or_encoder_class="json",
             verbose=verbose,
         )
+
+
+def test_get_prompt() -> None:
+    """Create an extraction chain."""
+    chat_model = ToyChatModel(response="hello")
+    chain = create_extraction_chain(
+        chat_model,
+        SIMPLE_OBJECT_SCHEMA,
+        encoder_or_encoder_class="json",
+    )
+    prompts = chain.get_prompts()
+    prompt = prompts[0]
+    assert prompt.format_prompt(text="[text]").to_string() == (
+        "Your goal is to extract structured information from the user's input that "
+        "matches the form described below. When extracting information please make "
+        "sure it matches the type information exactly. Do not add any attributes that "
+        "do not appear in the schema shown below.\n"
+        "\n"
+        "```TypeScript\n"
+        "\n"
+        "obj: { // \n"
+        " text_node: string // Text Field\n"
+        "}\n"
+        "```\n"
+        "\n"
+        "\n"
+        "Please output the extracted information in JSON format. Do not output "
+        "anything except for the extracted information. Do not add any clarifying "
+        "information. Do not add any fields that are not in the schema. If the text "
+        "contains attributes that do not appear in the schema, please ignore them. "
+        "All output must be in JSON format and follow the schema specified above. "
+        "Wrap the JSON in <json> tags.\n"
+        "\n"
+        "\n"
+        "\n"
+        "Input: hello\n"
+        'Output: <json>{"obj": {"text_node": "goodbye"}}</json>\n'
+        "Input: [text]\n"
+        "Output:"
+    )
