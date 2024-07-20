@@ -1,10 +1,8 @@
 """Test that the extraction chain works as expected."""
 from typing import Any, Mapping, Optional
 
-import langchain
 import pytest
-from langchain.chains import LLMChain
-from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import Runnable
 
 from kor.encoders import CSVEncoder, JSONEncoder
 from kor.extraction import create_extraction_chain
@@ -40,7 +38,7 @@ def test_create_extraction_chain(options: Mapping[str, Any]) -> None:
 
     for schema in [SIMPLE_OBJECT_SCHEMA]:
         chain = create_extraction_chain(chat_model, schema, **options)
-        assert isinstance(chain, LLMChain)
+        assert isinstance(chain, Runnable)
         # Try to run through predict and parse
         chain.invoke("some string")  # type: ignore
 
@@ -60,7 +58,7 @@ def test_create_extraction_chain_with_csv_encoder(options: Mapping[str, Any]) ->
     chat_model = ToyChatModel(response="hello")
 
     chain = create_extraction_chain(chat_model, **options)
-    assert isinstance(chain, LLMChain)
+    assert isinstance(chain, Runnable)
     # Try to run through predict and parse
     chain.invoke("some string")  # type: ignore
 
@@ -105,46 +103,14 @@ def test_not_implemented_assertion_raised_for_csv(options: Mapping[str, Any]) ->
         create_extraction_chain(chat_model, **options)
 
 
-@pytest.mark.parametrize("verbose", [True, False, None])
+@pytest.mark.parametrize("verbose", [True, False])
 def test_instantiation_with_verbose_flag(verbose: Optional[bool]) -> None:
     """Create an extraction chain."""
     chat_model = ToyChatModel(response="hello")
-    chain = create_extraction_chain(
-        chat_model,
-        SIMPLE_OBJECT_SCHEMA,
-        encoder_or_encoder_class="json",
-        verbose=verbose,
-    )
-    assert isinstance(chain, LLMChain)
-    if verbose is None:
-        expected_verbose = langchain.verbose
-    else:
-        expected_verbose = verbose
-    assert chain.verbose == expected_verbose
-
-
-def test_using_custom_template() -> None:
-    """Create an extraction chain with a custom template."""
-    template = PromptTemplate(
-        input_variables=["format_instructions", "type_description"],
-        template=(
-            "custom_prefix\n"
-            "{type_description}\n\n"
-            "{format_instructions}\n"
-            "custom_suffix"
-        ),
-    )
-    chain = create_extraction_chain(
-        ToyChatModel(response="hello"),
-        OBJECT_SCHEMA_WITH_MANY,
-        instruction_template=template,
-        encoder_or_encoder_class="json",
-    )
-    prompt_value = chain.prompt.format_prompt(text="hello")
-    system_message = prompt_value.to_messages()[0]
-    string_value = prompt_value.to_string()
-
-    assert "custom_prefix" in string_value
-    assert "custom_suffix" in string_value
-    assert "custom_prefix" in system_message.content
-    assert "custom_suffix" in system_message.content
+    with pytest.raises(NotImplementedError):
+        create_extraction_chain(
+            chat_model,
+            SIMPLE_OBJECT_SCHEMA,
+            encoder_or_encoder_class="json",
+            verbose=verbose,
+        )
