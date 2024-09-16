@@ -6,6 +6,7 @@ from typing import Any, List, Optional, Tuple
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 from langchain_core.prompt_values import PromptValue
 from langchain_core.prompts import BasePromptTemplate, PromptTemplate
+from pydantic import ConfigDict
 
 from kor.encoders import Encoder
 from kor.encoders.encode import InputFormatter, encode_examples, format_text
@@ -13,12 +14,6 @@ from kor.examples import generate_examples
 from kor.extraction.parser import KorParser
 from kor.nodes import Object
 from kor.type_descriptors import TypeDescriptor
-
-try:
-    # Use pydantic v1 namespace since working with langchain
-    from pydantic.v1 import Extra  # type: ignore[assignment]
-except ImportError:
-    from pydantic import Extra  # type: ignore[assignment]
 
 from .validators import Validator
 
@@ -41,11 +36,10 @@ class ExtractionPromptValue(PromptValue):
     string: str
     messages: List[BaseMessage]
 
-    class Config:
-        """Configuration for this pydantic object."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        extra="forbid",
+        arbitrary_types_allowed=True,
+    )
 
     def to_string(self) -> str:
         """Format the prompt to a string."""
@@ -65,11 +59,10 @@ class ExtractionPromptTemplate(BasePromptTemplate):
     input_formatter: InputFormatter
     instruction_template: PromptTemplate
 
-    class Config:
-        """Configuration for this pydantic object."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        extra="forbid",
+        arbitrary_types_allowed=True,
+    )
 
     def format_prompt(  # type: ignore[override]
         self,

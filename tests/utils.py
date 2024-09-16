@@ -7,23 +7,16 @@ from langchain_core.callbacks import (
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
-
-from kor._pydantic import PYDANTIC_MAJOR_VERSION
-
-if PYDANTIC_MAJOR_VERSION == 1:
-    from pydantic import Extra  # type: ignore[assignment]
-else:
-    from pydantic.v1 import Extra  # type: ignore[assignment,no-redef]
+from pydantic import ConfigDict
 
 
 class ToyChatModel(BaseChatModel):
     response: str
 
-    class Config:
-        """Configuration for this pydantic object."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        extra="forbid",
+        arbitrary_types_allowed=True,
+    )
 
     def _generate(
         self,
