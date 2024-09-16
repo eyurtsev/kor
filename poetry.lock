@@ -3339,19 +3339,17 @@ test = ["flake8", "mypy", "pytest"]
 
 [[package]]
 name = "sphinxcontrib-devhelp"
-version = "2.0.0"
-description = "sphinxcontrib-devhelp is a sphinx extension which outputs Devhelp documents"
+version = "1.0.0"
+description = ""
 optional = false
-python-versions = ">=3.9"
+python-versions = "*"
 files = [
-    {file = "sphinxcontrib_devhelp-2.0.0-py3-none-any.whl", hash = "sha256:aefb8b83854e4b0998877524d1029fd3e6879210422ee3780459e28a1f03a8a2"},
-    {file = "sphinxcontrib_devhelp-2.0.0.tar.gz", hash = "sha256:411f5d96d445d1d73bb5d52133377b4248ec79db5c793ce7dbe59e074b4dd1ad"},
+    {file = "sphinxcontrib-devhelp-1.0.0.tar.gz", hash = "sha256:73db07dcd2ecdc94797269932214eeec3c30d97f392aa811f4a2e1306fcf7c59"},
+    {file = "sphinxcontrib_devhelp-1.0.0-py2.py3-none-any.whl", hash = "sha256:b89c68cb88a3c22e39f08f3a3ec96e8216547c31313e0c4b6464384a2563a56a"},
 ]
 
 [package.extras]
-lint = ["mypy", "ruff (==0.5.5)", "types-docutils"]
-standalone = ["Sphinx (>=5)"]
-test = ["pytest"]
+test = ["flake8", "mypy", "pytest"]
 
 [[package]]
 name = "sphinxcontrib-htmlhelp"
@@ -3926,4 +3924,4 @@ html = ["markdownify"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "ea01b9e420bdb95104a2121c5e29759ba9db8333ac458b9d078a03d99dafd315"
+content-hash = "60582dc084782f390468488b8793f7e0d3f4fa47fd1c501d9d92f9a256f8d042"

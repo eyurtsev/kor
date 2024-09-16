@@ -14,6 +14,7 @@ markdownify = {version = "^0.11.6", optional = false}
 pydantic = "^2"
 langchain-core = "^0.3"
 sphinxcontrib-applehelp = "1.0.0"
+sphinxcontrib-devhelp = "1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^3"
