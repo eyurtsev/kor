@@ -3325,19 +3325,17 @@ dev = ["livereload", "sphinx"]
 
 [[package]]
 name = "sphinxcontrib-applehelp"
-version = "2.0.0"
-description = "sphinxcontrib-applehelp is a Sphinx extension which outputs Apple help books"
+version = "1.0.0"
+description = ""
 optional = false
-python-versions = ">=3.9"
+python-versions = "*"
 files = [
-    {file = "sphinxcontrib_applehelp-2.0.0-py3-none-any.whl", hash = "sha256:4cd3f0ec4ac5dd9c17ec65e9ab272c9b867ea77425228e68ecf08d6b28ddbdb5"},
-    {file = "sphinxcontrib_applehelp-2.0.0.tar.gz", hash = "sha256:2f29ef331735ce958efa4734873f084941970894c6090408b079c61b2e1c06d1"},
+    {file = "sphinxcontrib-applehelp-1.0.0.tar.gz", hash = "sha256:ba7f8f6d2737958cf7dbb94344706815ca8243d3893276ee736906a4a3f3a39a"},
+    {file = "sphinxcontrib_applehelp-1.0.0-py2.py3-none-any.whl", hash = "sha256:0d7c946681539cc4999d5d16de91689221a79a5032a448267b11492d1d407dcf"},
 ]
 
 [package.extras]
-lint = ["mypy", "ruff (==0.5.5)", "types-docutils"]
-standalone = ["Sphinx (>=5)"]
-test = ["pytest"]
+test = ["flake8", "mypy", "pytest"]
 
 [[package]]
 name = "sphinxcontrib-devhelp"
@@ -3928,4 +3926,4 @@ html = ["markdownify"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "a430bd64d625a5214216b7276a08b4e489477f8a03e36bb279a8bc6af40e9034"
+content-hash = "ea01b9e420bdb95104a2121c5e29759ba9db8333ac458b9d078a03d99dafd315"
