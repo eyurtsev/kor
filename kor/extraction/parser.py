@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import List, Optional
 
 from langchain_core.output_parsers import BaseOutputParser
-from pydantic import Extra
+from pydantic import ConfigDict
 
 from kor.encoders import Encoder
 from kor.exceptions import ParseError
@@ -22,6 +22,7 @@ class KorParser(BaseOutputParser[Extraction]):
     encoder: Encoder
     schema_: Object
     validator: Optional[Validator] = None
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @property
     def _type(self) -> str:
@@ -66,8 +67,7 @@ class KorParser(BaseOutputParser[Extraction]):
             "validated_data": validated_data,
         }
 
-    class Config:
-        """Configuration for this pydantic object."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        extra="forbid",
+        arbitrary_types_allowed=True,
+    )
