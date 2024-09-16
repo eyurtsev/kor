@@ -23,7 +23,6 @@ black = { version="^23.1.0", extras=["jupyter"] }
 poethepoet = "^0.18.1"
 ruff = "^0.1.4"
 pytest-cov = "^4.0.0"
-langchain-openai = "^0.0.5"
 
 [tool.poetry.group.docs.dependencies]
 nbsphinx = "^0.8.9"
