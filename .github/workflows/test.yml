@@ -43,10 +43,3 @@ jobs:
       - name: Run unit tests
         run: |
           poetry run poe test
-
-  pydantic-compatibility:
-    uses:
-      ./.github/workflows/_pydantic_compatibility.yml
-    with:
-      working-directory: .
-    secrets: inherit
