@@ -3924,4 +3924,4 @@ html = ["markdownify"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "60582dc084782f390468488b8793f7e0d3f4fa47fd1c501d9d92f9a256f8d042"
+content-hash = "f66a39469075e540c6199da96257c6d5e30b11068cc6af899f40c20a980825d0"
