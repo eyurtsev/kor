@@ -5,6 +5,15 @@
 [![Open Issues](https://img.shields.io/github/issues-raw/eyurtsev/kor)](https://github.com/eyurtsev/kor/issues)
 [![](https://dcbadge.vercel.app/api/server/6adMQxSpJS?compact=true&style=flat)](https://discord.com/channels/1038097195422978059/1170024642245832774)
 
+> [!WARNING]
+> If you're using a chat model that supports a tool calling API, you should probably be using the chat models' tool calling API instead of Kor!
+>
+> Kor is best suited for old style LLMs that did not have a chat interface and did not support tool calling.
+> 
+> Read the [tool calling guide](https://python.langchain.com/docs/concepts/tool_calling/) in LangChain for more details.
+>
+> Please refer to the [chat model integration table](https://python.langchain.com/docs/integrations/chat/#featured-providers) for a list of chat models that support native tool calling.
+
 
 # Kor
 
