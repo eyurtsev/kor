@@ -105,7 +105,7 @@ class ExtractionPromptTemplate(BasePromptTemplate):
         """Format the template to chat messages."""
         instruction_segment = self.format_instruction_segment(self.node)
 
-        messages: List[BaseMessage] = [SystemMessage(content=instruction_segment)]
+        messages: List[BaseMessage] = [SystemMessage(content=instruction_segment, additional_kwargs={"__openai_role__": "developer"})]
         encoded_examples = self.generate_encoded_examples(self.node)
 
         for example_input, example_output in encoded_examples:
